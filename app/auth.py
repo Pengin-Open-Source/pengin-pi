@@ -63,3 +63,12 @@ def logout():
     return redirect(url_for('main.index'))
 
 
+# TODO finish profile editing feature / test that it works
+@auth.route('/edit_profile')
+def edit_profile():
+    return render_template('edit_profile.html')
+
+@auth.route('/edit_profile', methods=['POST'])
+def edit_profile_post():
+    pass
+    # TODO take information from form and update the user's fields accordingly
