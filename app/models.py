@@ -13,5 +13,5 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
     title = db.Column(db.String(100), unique=True)
     date_posted = db.Column(db.DateTime(timezone=True), server_default=func.utcnow())
-    content = db.Column(db.String(10000))
+    content = db.Column(db.Text)
     author = db.Column(db.String(100))
