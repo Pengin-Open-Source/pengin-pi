@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request, abort
 from flask_login import login_required, current_user
 from . import db
-# todo from models import Post
-# todo from forms import postForm
+from models import Post
+from forms import PostForm
 
 
 blogPosts = Blueprint('blogPosts', __name__)
@@ -26,7 +26,7 @@ def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
-    form = postForm()
+    form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data

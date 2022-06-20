@@ -1,7 +1,10 @@
 #import modules
+from tkinter import Widget
+from wsgiref.validate import validator
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, EqualTo 
+from wtforms.widgets import TextArea
 
 #we will write python classes that will be representative of our form, and then they will be converted into html format
 #Create a registration form class 
@@ -41,5 +44,12 @@ class LoginForm(FlaskForm):
     #keeps the user logged in for a while using a secure cookie. 
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators = [DataRequired()])
+    content = StringField('Content', validators = [DataRequired()], widget = TextArea() )
+    author = StringField('Author', validators = [DataRequired()])
+    submit = StringField('Submit', validators = [DataRequired()])
 
     
