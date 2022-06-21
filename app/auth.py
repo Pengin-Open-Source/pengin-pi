@@ -61,14 +61,3 @@ def signup_post():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-
-# TODO finish profile editing feature / test that it works
-
-@auth.route('/edit_profile')
-def edit_profile():
-    return render_template('edit_profile.html')
-
-@auth.route('/edit_profile', methods=['POST'])
-def edit_profile_post():
-    return redirect(url_for('main.profile')) # TODO fix

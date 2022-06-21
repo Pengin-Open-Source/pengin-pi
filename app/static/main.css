@@ -84,3 +84,9 @@ h1{
   .account-heading {
     font-size: 2.5rem;
   }
+
+  .divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}

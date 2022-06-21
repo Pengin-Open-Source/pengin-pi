@@ -69,7 +69,7 @@ this template is the parent, while home/about are the children-->
     <div class="row">
       <div class="col-md-8">
         {%with messages = get_flashed_messages(with_categories = true) %}
-          {% if messages%}
+          {% if messages %}
             {% for category, message in messages%}
             <div class = "alert alert-{{category}}">
              {{ message }} 
@@ -79,8 +79,10 @@ this template is the parent, while home/about are the children-->
         {% endwith %}
         {% block content %}{% endblock %}
       </div>
+
       <div class="col-md-4">
         <div class="content-section">
+          {% if not ("profile" in request.path or "password" in request.path) %}
           <h3>Important Information!</h3>
           <p class='text-muted'>Welcome to Tobu Pengin LLC.
           <ul class="list-group">
@@ -90,6 +92,19 @@ this template is the parent, while home/about are the children-->
             <li class="list-group-item list-group-item-light">Tickets</li>
           </ul>
           </p>
+
+          <!-- Profile-related information -->
+          {% else %}
+          <h3>Profile</h3>
+          <p class='text-muted'>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-light">Personal Info</li>
+            <li class="list-group-item list-group-item-light">Password</li>
+            <li class="list-group-item list-group-item-light">Company Info</li>
+          </ul>
+          </p>
+          {% endif %}
+
         </div>
       </div>
     </div>

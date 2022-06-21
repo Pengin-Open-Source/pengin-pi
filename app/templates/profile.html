@@ -12,7 +12,7 @@
   </h1>
   <div class="box">
 
-    <form method="GET" action="/edit_profile">
+    <form method="GET">
       <h2>Profile Information</h2>
         <table class="table table-bordered">
           <tr>
@@ -21,17 +21,16 @@
             <td>{{ name }}</td>
           </tr>
           <tr>
-            <th width="30%">Username</th>
-            <td width="2%">:</td>
-            <td>{{ username }}</td>
-          </tr>
-          <tr>
             <th width="30%">Email</th>
             <td width="2%">:</td>
             <td>{{ email }}</td>
           </tr>
         </table>
-      <button class="button is-block is-info is-medium">Update</button>
+        <div class="buttons">
+          <button class="button is-block is-info is-medium" formaction="/edit_profile">Edit Profile</button>
+          <!-- for testing purposes: -->
+          <button class="button is-block is-info is-medium" formaction="/edit_password">Edit Password</button> 
+        </div>
     </form>
     
   </div>
