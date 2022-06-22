@@ -1,0 +1,2 @@
+# do not push .sqlite files to GitHub
+**/*.sqlite
