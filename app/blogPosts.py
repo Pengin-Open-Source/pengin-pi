@@ -7,7 +7,27 @@ from .models import BlogPost
 
 blogPosts = Blueprint('blogPosts', __name__)
 
-@blogPosts.route('/post/new', methods=['GET', 'POST'])
+# little helper to generate blog post links (inspired by tobuwebflask)
+def get_links():
+    return BlogPost.query.all()
+
+# Logan Kiser:
+# render all blog posts, potentially just their links
+# not sure how the front-end folks would like to organize this, tobuwebflask
+# goes with a list of links in a left-hand pane
+@blogPosts.route("/blog")
+def all_posts():
+    all_posts = BlogPost.query.limit(15)
+    return render_template('blog_main.html', posts=all_posts, links=get_links())
+
+
+@blogPosts.route("/blog/<int:post_id>")
+def post(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    return render_template('blog/post.html', post=post, links=get_links())
+
+
+@blogPosts.route('/blog/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
     # handle POST method
@@ -21,35 +41,33 @@ def new_post():
         # insert post into database via BlogPost object
         db.session.add(new_post)
         db.session.commit()
+        # render main blog page
+        return redirect(url_for("blog"))
     # handle GET method
     return render_template('create_post.html')
 
-@blogPosts.route("/post/<int:post_id>")
-def post(post_id):
-    post = BlogPost.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
 
-@blogPosts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@blogPosts.route("/blog/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    if post.author != current_user:
-        abort(403)
-    form = BlogPostForm()
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
+    if request.method == 'POST':
+        # first retrieve object from DB
+        updated_post = BlogPost.query.get(post_id)
+        # update appropriate fields
+        # this assumes all fields are passed via request
+        updated_post.title = request.form.get('title')
+        updated_post.title = request.form.get('content')
+        updated_post.title = request.form.get('tags')
         db.session.commit()
         flash('Your post has been updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
-    elif request.method == 'GET':
-        form.title.data = post.title
-        form.content.data = post.content
+    # TODO
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
 
 
-@blogPosts.route("/post/<int:post_id>/delete", methods=['POST'])
+@blogPosts.route("/blog/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
