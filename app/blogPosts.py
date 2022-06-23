@@ -24,10 +24,10 @@ def all_posts():
 @blogPosts.route("/blog/<int:post_id>")
 def post(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    return render_template('blog/post.html', post=post, links=get_links())
+    return render_template('blog/view.html', post=post, links=get_links())
 
 
-@blogPosts.route('/blog/new', methods=['GET', 'POST'])
+@blogPosts.route('/blog/create', methods=['GET', 'POST'])
 @login_required
 def new_post():
     # handle POST method
@@ -44,7 +44,7 @@ def new_post():
         # render main blog page
         return redirect(url_for("blog"))
     # handle GET method
-    return render_template('create_post.html')
+    return render_template('blog/create.html', newPost=1, links=get_links())
 
 
 @blogPosts.route("/blog/<int:post_id>/update", methods=['GET', 'POST'])
@@ -63,8 +63,7 @@ def update_post(post_id):
         flash('Your post has been updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
     # TODO
-    return render_template('create_post.html', title='Update Post',
-                           form=form, legend='Update Post')
+    return render_template('blog/update.html', post=post, legend='Update Post')
 
 
 @blogPosts.route("/blog/<int:post_id>/delete", methods=['POST'])
