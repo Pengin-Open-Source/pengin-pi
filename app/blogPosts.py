@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request, abort
 from flask_login import login_required, current_user
 from . import db
-# todo from models import Post
-# todo from forms import postForm
+from datetime import datetime
+from .models import BlogPost
 
 
 blogPosts = Blueprint('blogPosts', __name__)
@@ -10,23 +10,32 @@ blogPosts = Blueprint('blogPosts', __name__)
 @blogPosts.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
+    # handle POST method
+    if request.method == 'POST':
+        # process request data into convenient object vessel 
+        title = request.form.get('title')
+        user = current_user.id
+        content = request.form.get('content')
+        tags = request.form.get('tags')
+        new_post = BlogPost(title=title, user=user, content=content, tags=tags)
+        # insert post into database via BlogPost object
+        db.session.add(new_post)
+        db.session.commit()
+    # handle GET method
     return render_template('create_post.html')
-
-# todo create "postForm" in forms.py
-# todo create "Post" class in models.py that will contain id, title, author, date_posted, and content.  
 
 @blogPosts.route("/post/<int:post_id>")
 def post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = BlogPost.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
 @blogPosts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = BlogPost.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
-    form = postForm()
+    form = BlogPostForm()
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
@@ -43,7 +52,7 @@ def update_post(post_id):
 @blogPosts.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = BlogPost.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
     db.session.delete(post)
