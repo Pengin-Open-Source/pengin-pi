@@ -1,7 +1,40 @@
-{% extends "/blog_main.html" %}
+{% extends "blog_main.html" %}
+
 {% block blogContent %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
-    <a class="btn btn-secondary" href="/blog/{{ post.id }}/update">Update</a>
-    <a class="btn btn-secondary" href="/blog/{{ post.id }}/delete">Delete</a>
-{% endblock blogContent %}
+<div class="column">
+    <div class="box">
+        <form method="POST" action="/blog/update">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                class="form-control"
+                type="text"
+                name="title"
+                id="title"
+                placeholder="{{ post.title }}"
+                value="{{ post.title }}">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea
+                class="form-control"
+                name="content"
+                id="content"
+                placeholder="{{post.content}}"
+                value="{{ post.content }}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="tags" class="form-label">Tags</label>
+                <input
+                class="form-control"
+                type="text"
+                name="tags"
+                id="tags"
+                placeholder="{{ post.tags }}"
+                value="{{ post.tags }}">
+            </div>
+            <button class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

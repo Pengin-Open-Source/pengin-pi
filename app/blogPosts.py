@@ -42,7 +42,7 @@ def new_post():
         db.session.add(new_post)
         db.session.commit()
         # render main blog page
-        return redirect(url_for("blog"))
+        return redirect(url_for("blogPosts.all_posts"))
     # handle GET method
     return render_template('blog/create.html', newPost=1, links=get_links())
 
@@ -61,9 +61,9 @@ def update_post(post_id):
         updated_post.title = request.form.get('tags')
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('post', post_id=post.id))
-    # TODO
-    return render_template('blog/update.html', post=post, legend='Update Post')
+        return redirect(url_for('blogPosts.post', post_id=post.id))
+    # populate form with existing data and allow user to alter blog post
+    return render_template('blog/update.html', post=post, links=get_links())
 
 
 @blogPosts.route("/blog/<int:post_id>/delete", methods=['POST'])
@@ -75,4 +75,4 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Your post has been deleted!', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('blogPosts.all_posts'))
