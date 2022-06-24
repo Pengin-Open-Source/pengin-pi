@@ -25,8 +25,8 @@ def create_app():
     ######
     # logan kiser: troubleshooting db issues, will delete before submitting
     #              pull request.
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+        # db.create_all()
     ######
 
     @login_manager.user_loader

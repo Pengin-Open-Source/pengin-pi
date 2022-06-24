@@ -1,6 +1,7 @@
 {% extends "/blog_main.html" %}
 {% block blogContent %}
     <h1>{{ post.title }}</h1>
+    <p>{{ post.date.strftime("%Y/%m/%d") }}</p>
     <p>{{ post.content }}</p>
     <a class="btn btn-secondary" href="/blog/{{ post.id }}/update">Update</a>
     <a class="btn btn-danger" href="/blog/{{ post.id }}/delete">Delete</a>

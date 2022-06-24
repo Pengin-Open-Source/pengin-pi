@@ -3,7 +3,7 @@
 {% block blogContent %}
 <div class="column">
     <div class="box">
-        <form method="POST" action="/blog/update">
+        <form method="POST" action="/blog/{{ post.id }}/update">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input
