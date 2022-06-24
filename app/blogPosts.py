@@ -23,6 +23,8 @@ def display_blog_home():
 
 @blogPosts.route("/blog/<int:post_id>")
 def display_post(post_id):
+    # Logan Kiser: Kabir uses get_or_404() instead of try-except block, we can
+    #              change this if we prefer the latter
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links())
 
