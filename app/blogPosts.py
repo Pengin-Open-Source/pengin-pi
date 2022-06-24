@@ -16,20 +16,20 @@ def get_links():
 # not sure how the front-end folks would like to organize this, tobuwebflask
 # goes with a list of links in a left-hand pane
 @blogPosts.route("/blog")
-def all_posts():
+def display_blog_home():
     all_posts = BlogPost.query.limit(15)
     return render_template('blog_main.html', posts=all_posts, links=get_links())
 
 
 @blogPosts.route("/blog/<int:post_id>")
-def post(post_id):
+def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
 @login_required
-def new_post():
+def create_post():
     # handle POST method
     if request.method == 'POST':
         # process request data into convenient object vessel 
@@ -42,7 +42,7 @@ def new_post():
         db.session.add(new_post)
         db.session.commit()
         # render main blog page
-        return redirect(url_for("blogPosts.all_posts"))
+        return redirect(url_for("blogPosts.display_blog_home"))
     # handle GET method
     return render_template('blog/create.html', newPost=1, links=get_links())
 
@@ -61,7 +61,7 @@ def update_post(post_id):
         updated_post.title = request.form.get('tags')
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('blogPosts.post', post_id=post.id))
+        return redirect(url_for('blogPosts.display_post', post_id=post.id))
     # populate form with existing data and allow user to alter blog post
     return render_template('blog/update.html', post=post, links=get_links())
 
