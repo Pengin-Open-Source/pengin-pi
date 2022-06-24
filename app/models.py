@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from sqlalchemy import func
 from . import db
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -14,6 +15,7 @@ class BlogPost(db.Model):
     __tablename__ = "blogpost"
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
     title = db.Column(db.String(100), unique=True)
-    user = db.Column(db.Integer)
+    date = db.Column(datetime(timezone=True), server_default=func.utcnow())
     content = db.Column(db.String(10000))
     tags = db.Column(db.String(1000))
+    user = db.Column(db.Integer)
