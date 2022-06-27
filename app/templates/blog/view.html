@@ -1,0 +1,7 @@
+{% extends "/blog_main.html" %}
+
+{% block blogContent %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.date.strftime("%Y/%m/%d") }}</p>
+    <p>{{ post.content }}</p>
+{% endblock blogContent %}

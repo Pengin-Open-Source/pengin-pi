@@ -10,14 +10,24 @@ def create_app():
 
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    # adding to suppress warning, will delete later
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
     db.init_app(app)
+
     
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     from .models import User
+
+    #####
+    # logan kiser: troubleshooting db issues, will delete before submitting
+    #              pull request.
+    # with app.app_context():
+    #     db.create_all()
+    #####
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -28,6 +38,10 @@ def create_app():
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    # blueprint for blogpost routes in app
+    from .blogPosts import blogPosts as blogPosts_blueprint
+    app.register_blueprint(blogPosts_blueprint)
 
     # blueprint for non-auth parts of app
     from .routes import main as main_blueprint

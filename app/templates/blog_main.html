@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>This is all skeleton code</h1>
+<div class="row">
+    <div class="col-md-4 p-1 border border-secondary border-2 rounded">
+        <h3>links</h3>
+        {% for link in links %}
+            <li>
+                <a
+                class="font-weight-bold text-info"
+                href="/blog/{{ link.id }}">
+                    {{ link.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </div>
+    <div class="col-md-8 p-1 border border-secondary border-2 rounded">
+        {% block blogContent %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

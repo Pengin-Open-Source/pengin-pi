@@ -43,11 +43,19 @@ this template is the parent, while home/about are the children-->
             <a class="nav-item nav-link" href="/about">About Us </a>
             <a class="nav-item nav-link" href="/products">Products</a>
             <a class="nav-item nav-link" href="/forums">Forums</a>
+            <a class="nav-item nav-link" href="/blog">Blog</a>
           </div>
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/login">Login</a>
-            <a class="nav-item nav-link" href="/signup">Sign Up</a>
+            {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="/blog/create">New Blog</a>
+              <a class="nav-item nav-link" href="/profile">Profile</a>
+              <a class="nav-item nav-link" href="/logout">Logout</a>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="/login">Login</a>
+              <a class="nav-item nav-link" href="/signup">Sign Up</a>
+            {% endif %}
           </div>
         </div>
       </div>
