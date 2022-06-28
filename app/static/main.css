@@ -12,7 +12,6 @@ h1{
     color: #444444;
   }
 
-  
   .bg-steel {
     background-color: #1a6b99;
   }
@@ -83,4 +82,22 @@ h1{
   
   .account-heading {
     font-size: 2.5rem;
+  }
+
+  .leftcontent {
+    float: left;
+    width: 67%;
+    display: inline;
+  }
+
+  .rightcontent {
+    float: right;
+    width: 33%;
+    display: inline;
+
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
   }
