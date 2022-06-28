@@ -1,10 +1,13 @@
       
 {% extends "layout.html" %}
-{% include "right_window/important_info.html" %}
 
 {% block content %}
 
     <h1>Welcome To Tobu Pengin</h1>
     <p> For all your tech needs</p>
     
+{% endblock %}
+
+{% block rightblock %}
+    {% include "right_window/important_info.html" %}
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-{% include "right_window/profile_info.html" %}
 
 {% block content %}
 
@@ -30,4 +29,8 @@
   
 </div>
   
+{% endblock %}
+
+{% block rightblock %}
+  {% include "right_window/profile_info.html" %}
 {% endblock %}
