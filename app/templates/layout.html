@@ -46,13 +46,26 @@ this template is the parent, while home/about are the children-->
           </div>
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('main.profile') }}" class="nav-item nav-link">
+                Profile
+            </a>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
             <a class="nav-item nav-link" href="/login">Login</a>
             <a class="nav-item nav-link" href="/signup">Sign Up</a>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('auth.logout') }}" class="nav-item nav-link">
+                Logout
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>
     </nav>
   </header>
+
   <main role="main" class="container">
     {%with messages = get_flashed_messages(with_categories = true) %}
       {% if messages%}
@@ -64,10 +77,15 @@ this template is the parent, while home/about are the children-->
       {% endif%}
     {% endwith %}
 
+
+    <!-- The page's main content should go on the left (66%) side -->
     <div class="leftcontent">
       {% block content %}{% endblock %}
     </div>
 
+    <!-- Each page can have a window on the right side for different options (e.g. important info) -->
+    <!-- Jasmine: I tried to wrap this in the rightcontent tag, but it adds an extra shape; 
+          for now, the .html file it loads has its content wrapped in the rightcontent tag-->
     <!-- <div class="rightcontent"> -->
       {% block rightblock %}{% endblock %}
     <!-- </div> -->
