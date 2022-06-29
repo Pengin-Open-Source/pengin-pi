@@ -88,26 +88,32 @@ h1{
     font-size: 2.5rem;
   }
 
+  /* wraps left and right content of main content block*/
+  .contentWrapper {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
   /* The page's main content */
   .leftcontent {
-    float: left;
+    /* float: left;
     width: 67%;
-    display: inline;
-    margin-top: 30px;
+    display: inline; */
+    /* margin-top: 30px; */
   }
 
   /* The content found on the right side window */
   .rightcontent {
-    float: right;
+    /* float: right;
     width: 33%;
-    display: inline;
+    display: inline; */
 
     background: #ffffff;
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 3px;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    /* margin-bottom: 20px;
+    margin-top: 30px; */
   }
 
   .profile-info {
