@@ -79,19 +79,20 @@ this template is the parent, while home/about are the children-->
 
 
     <!-- The page's main content should go on the left (66%) side -->
-    <div class="leftcontent">
-      {% block content %}{% endblock %}
+    <div class="contentWrapper row flex-wrap-reverse">
+      <div class="leftcontent col-md-8">
+        {% block content %}{% endblock %}
+      </div>
+
+      <!-- Each page can have a window on the right side for different options (e.g. important info) -->
+      <!-- Jasmine: I tried to wrap this in the rightcontent tag, but it adds an extra shape; 
+            for now, the .html file it loads has its content wrapped in the rightcontent tag-->
+      <!-- Andy: The rightblock should be wrapped in the rightcontent tag now. 
+        I think the extra shape was caused by the extends statement in the important_info.html rendering duplicate html -->
+      <div class="rightcontent col-md-4">
+          {% block rightblock %}{% endblock %}
+      </div>
     </div>
-
-    <!-- Each page can have a window on the right side for different options (e.g. important info) -->
-    <!-- Jasmine: I tried to wrap this in the rightcontent tag, but it adds an extra shape; 
-          for now, the .html file it loads has its content wrapped in the rightcontent tag-->
-    <!-- Andy: The rightblock should be wrapped in the rightcontent tag now. 
-      I think the extra shape was caused by the extends statement in the important_info.html rendering duplicate html -->
-  <div class="rightcontent">
-      {% block rightblock %}{% endblock %}
-  </div>
-
   </main>
 
 
