@@ -14,9 +14,9 @@ this template is the parent, while home/about are the children-->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 
   <!--If a title is provided then use that if not use the default -->
   {% if title %}
@@ -61,36 +61,34 @@ this template is the parent, while home/about are the children-->
       </div>
     </nav>
   </header>
+
   <main role="main" class="container">
-    <div class="row">
-      <div class="col-md-8">
-        {%with messages = get_flashed_messages(with_categories = true) %}
-          {% if messages%}
-            {% for category, message in messages%}
-            <div class = "alert alert-{{category}}">
-             {{ message }} 
-            </div>
-            {%endfor%}
-          {% endif%}
-        {% endwith %}
-        {% block content %}{% endblock %}
-      </div>
-      <div class="col-md-4">
-        <div class="content-section">
-          <h3>Important Information!</h3>
-          <p class='text-muted'>Welcome to Tobu Pengin LLC.
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-light">Latest News</li>
-            <li class="list-group-item list-group-item-light">Announcements</li>
-            <li class="list-group-item list-group-item-light">Calendars</li>
-            <li class="list-group-item list-group-item-light">Tickets</li>
-          </ul>
-          </p>
+    {%with messages = get_flashed_messages(with_categories = true) %}
+      {% if messages%}
+        {% for category, message in messages%}
+        <div class = "alert alert-{{category}}">
+          {{ message }} 
         </div>
-      </div>
+        {%endfor%}
+      {% endif%}
+    {% endwith %}
+
+
+    <!-- The page's main content should go on the left (66%) side -->
+    <div class="leftcontent">
+      {% block content %}{% endblock %}
     </div>
-  </main>
+
+    <!-- Each page can have a window on the right side for different options (e.g. important info) -->
+    <!-- Jasmine: I tried to wrap this in the rightcontent tag, but it adds an extra shape; 
+          for now, the .html file it loads has its content wrapped in the rightcontent tag-->
+    <!-- Andy: The rightblock should be wrapped in the rightcontent tag now. 
+      I think the extra shape was caused by the extends statement in the important_info.html rendering duplicate html -->
+  <div class="rightcontent">
+      {% block rightblock %}{% endblock %}
   </div>
+
+  </main>
 
 
 
