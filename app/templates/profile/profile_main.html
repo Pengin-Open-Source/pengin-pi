@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <div class="profile-info">
+    {% block profilecontent %}{% endblock %}
+  </div>
+
+{% endblock %}
+
+{% block rightblock %}
+  <div class="profile-side-info">
+    {% block profileSideContent %}{% endblock %}
+  </div>
+{% endblock %}
