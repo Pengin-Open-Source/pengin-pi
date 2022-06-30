@@ -1,10 +1,6 @@
-<!-- Logan Kiser: this is no longer called in the view, see profile/profile.html -->
+{% extends "profile/profile_main.html" %}
 
-{% extends "layout.html" %}
-
-{% block content %}
-
-<div class="profile-info">
+{% block profilecontent %}
 
   <form method="GET">
     <h2>Profile Information: Welcome, {{name}}!</h2>
@@ -27,12 +23,8 @@
       </div>
   </form>
 
-  {% block profilecontent %}{% endblock %}
-  
-</div>
-  
 {% endblock %}
 
-{% block rightblock %}
+{% block profileSideContent %}
   {% include "right_window/profile_info.html" %}
 {% endblock %}
