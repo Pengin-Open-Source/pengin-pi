@@ -93,7 +93,7 @@ h1{
     float: left;
     width: 67%;
     display: inline;
-    margin-top: 30px;
+    /* margin-top: 30px; */
   }
 
   /* The content found on the right side window */
@@ -135,4 +135,68 @@ h1{
     border-radius: 3px;
     margin-bottom: 20px;
     margin-top: 30px;
+  }
+
+  .blog-content {
+    background-color: #242526;
+    margin-top: 30px;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 3px;
+    
+  }
+
+  .blog-content h3 {
+    color: #e4e6eb;
+    font-weight: bold
+  }
+
+  .new-blog-post-h3 {
+    color: #e4e6eb;
+    font-weight: bold;
+    padding-left: 1.25rem;
+  }
+
+  .blog-content .column {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+
+  .blog-content .column .box {
+    background-color: #242526;
+    color: #b0b3b8;
+    border: 0px;
+    box-shadow: none;
+    padding-top: .5rem;
+  }
+
+  .blog-content input {
+    background-color: #3a3b3c;
+    border: 0px;
+  }
+
+  .blog-content textarea {
+    background-color: #3a3b3c;
+    border: 0px;
+  }
+
+  .blog-content p {
+    color: #b0b3b8;
+  }
+
+  .blog-links {
+    background-color: #242526;
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 3px;
+  }
+
+  .blog-links h3 {
+    color: #e4e6eb;
+    font-weight: bold;
+  }
+
+  .blog-link-item a{
+    color: #b0b3b8;
+    font-weight: lighter;
   }

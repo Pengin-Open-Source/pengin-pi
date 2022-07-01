@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="blog-content">
+        {% block blogContent %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block rightblock %}
+    <div class="blog-links">
+        <h3>links</h3>
+        {% for link in links %}
+        <div class="blog-link-item">
+            <a href="/blog/{{ link.id }}">
+                {{ link.title }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
