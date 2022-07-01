@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="two-div-content row">
+    <!-- Logan Kiser: "col-md-8" will assign 2/3 of the content container to the
+                 left div, since the right div is "col-md-4" ** 2/3 = 8 / (8 + 4) ** -->
+    <div class="leftcontent col-md-8">{% block leftblock %}{% endblock %}</div>
+    <div class="rightcontent col-md-4">{% block rightblock %}{% endblock %}</div>
+</div>
+{% endblock %}

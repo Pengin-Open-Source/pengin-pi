@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+<div class="three-div-content row">
+    <!-- Logan Kiser: all three divs given the same weight -->
+    <div class="leftcontent col-md-4">{% block leftblock %}{% endblock %}</div>
+    <div class="middlecontent col-md-4">{% block middleblock %}{% endblock %}</div>
+    <div class="rightcontent col-md-4">{% block rightblock %}{% endblock %}</div>
+</div>
+{% endblock %}
