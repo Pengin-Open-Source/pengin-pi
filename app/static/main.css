@@ -12,11 +12,6 @@ h1{
     color: #444444;
   }
 
-  .container{
-    display: flex;
-    align-items: center;
-  }
-
   .title {
     color: #ffffff;
   }
@@ -104,7 +99,6 @@ h1{
     flex-direction: column;
     flex: 66%;
     margin-top: 30px;
-    border:solid;
   }
 
   /* The content found on the right side window */
@@ -113,7 +107,6 @@ h1{
     flex-direction: column;
     flex: 33%;
     margin-top: 30px;
-    border: solid;
 
     /* background: #ffffff;
     padding: 10px 20px;
