@@ -12,6 +12,11 @@ h1{
     color: #444444;
   }
 
+  .container{
+    display: flex;
+    align-items: center;
+  }
+
   .title {
     color: #ffffff;
   }
@@ -88,19 +93,27 @@ h1{
     font-size: 2.5rem;
   }
 
+  main{
+    display:flex;
+    flex-wrap: wrap;
+  }
+
   /* The page's main content */
   .leftcontent {
-    float: left;
-    width: 67%;
-    display: inline;
+    display:flex;
+    flex-direction: column;
+    flex: 66%;
     margin-top: 30px;
+    border:solid;
   }
 
   /* The content found on the right side window */
   .rightcontent {
-    float: right;
-    width: 33%;
-    display: inline;
+    display:flex;
+    flex-direction: column;
+    flex: 33%;
+    margin-top: 30px;
+    border: solid;
 
     /* background: #ffffff;
     padding: 10px 20px;
@@ -135,4 +148,10 @@ h1{
     border-radius: 3px;
     margin-bottom: 20px;
     margin-top: 30px;
+  }
+
+  @media (max-width: 1000px) {
+    .leftcontent, .rightcontent{
+      flex: 100%;
+    }
   }
