@@ -1,15 +1,16 @@
-{% extends "layout.html" %}
+{% extends "twoAndOneThirdDivs.html" %}
 
-{% block content %}
-
+{% block twoThirdContent %}
   <div class="profile-info">
     {% block profilecontent %}{% endblock %}
   </div>
-
 {% endblock %}
 
-{% block rightblock %}
+{% block oneThirdContent %}
+
   <div class="profile-side-info">
     {% block profileSideContent %}{% endblock %}
   </div>
+
 {% endblock %}
+

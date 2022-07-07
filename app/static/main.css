@@ -91,30 +91,9 @@ h1{
   main{
     display:flex;
     flex-wrap: wrap;
+    padding-top: 30px;
   }
 
-  /* The page's main content */
-  .leftcontent {
-    display:flex;
-    flex-direction: column;
-    flex: 66%;
-    margin-top: 30px;
-  }
-
-  /* The content found on the right side window */
-  .rightcontent {
-    display:flex;
-    flex-direction: column;
-    flex: 33%;
-    margin-top: 30px;
-
-    /* background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    margin-top: 30px; */
-  }
 
   .profile-info {
     background: #ffffff;
@@ -131,7 +110,6 @@ h1{
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
-    margin-top: 30px;
   }
 
   .important-info-card {
@@ -148,9 +126,21 @@ h1{
     flex-direction: column;
   }
 
+  .oneThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 33%;
+  }
+
+  .twoThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 66%;
+  }
+
   @media (max-width: 1000px) {
-    .leftcontent, .rightcontent{
-      flex: 100%;
+    .oneThirdDiv, .twoThirdDiv{
+      flex: 100%
     }
   }
 
