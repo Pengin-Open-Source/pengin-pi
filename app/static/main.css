@@ -143,8 +143,14 @@ h1{
     margin-top: 30px;
   }
 
+  .oneDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
   @media (max-width: 1000px) {
     .leftcontent, .rightcontent{
       flex: 100%;
     }
   }
+
