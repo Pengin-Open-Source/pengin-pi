@@ -125,7 +125,7 @@ h1{
     padding-top: 30px;
 
   }
-
+/*
   .oneDiv {
     display: flex;
     flex-direction: column;
@@ -161,6 +161,7 @@ h1{
     justify-content: center;
     align-items: center;
   }
+*/
 
   footer {
     display: flex;
@@ -171,10 +172,3 @@ h1{
     color:#ffffff;
     margin: 15px;
   }
-
-  @media (max-width: 1000px) {
-    .oneThirdDiv, .twoThirdDiv{
-      flex: 100%
-    }
-  }
-
