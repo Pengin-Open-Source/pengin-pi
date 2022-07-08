@@ -1,4 +1,7 @@
 body {
+    height: 100%;
+    display:flex;
+    flex-direction: column;
     min-height: 1000px;
     background: linear-gradient(#535252,#d1cccc );
     margin-top: 5rem;
@@ -90,8 +93,10 @@ h1{
 
   main{
     display:flex;
+    flex: 1 0 auto;
     flex-wrap: wrap;
     padding-top: 30px;
+
   }
 
 
@@ -155,6 +160,16 @@ h1{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  footer {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+  footer p {
+    color:#ffffff;
+    margin: 15px;
   }
 
   @media (max-width: 1000px) {
