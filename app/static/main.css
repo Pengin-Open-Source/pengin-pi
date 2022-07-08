@@ -138,6 +138,25 @@ h1{
     flex: 66%;
   }
 
+  .mainDiv {
+    width: 100vw;
+    padding: 2em;
+
+  }
+
+  .oneHalfDiv {
+    display:flex;
+    flex-direction: column;
+    flex: 50%;
+  }
+
+  .midArticleDiv {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media (max-width: 1000px) {
     .oneThirdDiv, .twoThirdDiv{
       flex: 100%
