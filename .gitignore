@@ -1,0 +1,4 @@
+# do not push .sqlite files to GitHub
+**/*.sqlite
+__pycache__/
+*.py[cod]
