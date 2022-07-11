@@ -31,8 +31,7 @@ this template is the parent, while home/about are the children-->
 <body>
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-      <div class="container">
-        <a class="navbar-brand mr-4" href="/">Tobu Pengin</a>
+        <a class="navbar-brand d-flex align-items-center mr-5" href="/">Tobu Pengin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
           aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -62,7 +61,6 @@ this template is the parent, while home/about are the children-->
             {% endif %}
           </div>
         </div>
-      </div>
     </nav>
   </header>
 
@@ -76,23 +74,14 @@ this template is the parent, while home/about are the children-->
         {%endfor%}
       {% endif%}
     {% endwith %}
-
-
-    <!-- The page's main content should go on the left (66%) side -->
-    <div class="leftcontent">
-      {% block content %}{% endblock %}
-    </div>
-
-    <!-- Each page can have a window on the right side for different options (e.g. important info) -->
-    <!-- Jasmine: I tried to wrap this in the rightcontent tag, but it adds an extra shape; 
-          for now, the .html file it loads has its content wrapped in the rightcontent tag-->
-    <!-- Andy: The rightblock should be wrapped in the rightcontent tag now. 
-      I think the extra shape was caused by the extends statement in the important_info.html rendering duplicate html -->
-  <div class="rightcontent">
-      {% block rightblock %}{% endblock %}
-  </div>
-
+    
+    {% block content %}{% endblock %}
+    
   </main>
+
+  <footer class="bg-steel">
+    <p>Tobu Pengin 2022</p>
+  </footer>
 
 
 

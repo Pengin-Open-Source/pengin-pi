@@ -1,4 +1,7 @@
 body {
+    height: 100%;
+    display:flex;
+    flex-direction: column;
     min-height: 1000px;
     background: linear-gradient(#535252,#d1cccc );
     margin-top: 5rem;
@@ -88,28 +91,6 @@ h1{
     font-size: 2.5rem;
   }
 
-  /* The page's main content */
-  .leftcontent {
-    float: left;
-    width: 67%;
-    display: inline;
-    margin-top: 30px;
-  }
-
-  /* The content found on the right side window */
-  .rightcontent {
-    float: right;
-    width: 33%;
-    display: inline;
-
-    /* background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    margin-top: 30px; */
-  }
-
   .profile-info {
     background: #ffffff;
     padding: 20px 20px;
@@ -125,7 +106,6 @@ h1{
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
-    margin-top: 30px;
   }
 
   .important-info-card {
@@ -135,4 +115,60 @@ h1{
     border-radius: 3px;
     margin-bottom: 20px;
     margin-top: 30px;
+  }
+
+  /* Divs */
+
+  main{
+    display:flex;
+    flex-wrap: wrap;
+    padding-top: 30px;
+
+  }
+/*
+  .oneDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .oneThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 33%;
+  }
+
+  .twoThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 66%;
+  }
+
+  .mainDiv {
+    width: 100vw;
+    padding: 2em;
+
+  }
+
+  .oneHalfDiv {
+    display:flex;
+    flex-direction: column;
+    flex: 50%;
+  }
+
+  .midArticleDiv {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+*/
+
+  footer {
+    display: flex;
+    margin-top: auto;
+    justify-content: center;
+  }
+  footer p {
+    color:#ffffff;
+    margin: 15px;
   }
