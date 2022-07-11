@@ -1,6 +1,6 @@
       
-{% extends "layout.html" %}
-{% block content %}
+{% extends "oneDiv.html" %}
+{% block oneDivContent %}
     <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
     <!--for loop to loop through the list of posts -->
     {% for post in posts %}
@@ -16,4 +16,4 @@
       </article>
     <!--closing a code block -->
     {% endfor %}
-{% endblock content %}
+{% endblock %}
