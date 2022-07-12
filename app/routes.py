@@ -60,7 +60,7 @@ def forums():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.name, email=current_user.email)
+    return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 
 # TODO finish profile editing feature / test that it works
@@ -80,3 +80,4 @@ def edit_password():
 @main.route('/edit_password', methods=['POST'])
 def edit_password_post():
     return redirect(url_for('main.profile'))
+    
