@@ -3,13 +3,16 @@ from flask_login import login_required, current_user
 from . import db
 from .models import BlogPost
 from datetime import datetime
+from flask_principal import Permission, RoleNeed
 
 
 blogPosts = Blueprint('blogPosts', __name__)
+admin_permission = Permission(RoleNeed('admin'))
 
 # little helper to generate blog post links (inspired by tobuwebflask)
 def get_links():
     return BlogPost.query.all()
+
 
 
 # Logan Kiser: render all blog posts, potentially just their links not sure how
@@ -30,6 +33,8 @@ def display_post(post_id):
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
 # Logan Kiser: hang tight on requiring credentials for flask-principal branch
 # @login_required
 def create_post():

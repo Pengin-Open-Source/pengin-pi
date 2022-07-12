@@ -26,6 +26,7 @@ class UserRoles(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+
 # copy/paste job from tobuwebflask per issue #39
 class BlogPost(db.Model):
     __tablename__ = "blogpost"
