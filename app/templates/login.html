@@ -6,12 +6,12 @@
         <h1 class="title">Login</h3>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="notification is-danger">
+            <div class="alert alert-danger">
                 {{ messages[0] }}
             </div>
         {% endif %}
         {% endwith %}
-        <form class="loginForm" method="POST" action="/login">
+        <form class="authForm" method="POST" action="/login">
             <div class="form-group">
                 <label>Email address</label>
                 <input class="form-control" type="email" name="email" placeholder="Your Email" autofocus="">

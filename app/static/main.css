@@ -14,6 +14,7 @@ h1{
 
   .title {
     color: #ffffff;
+    font-size:30px
   }
 
   .bg-steel {
@@ -168,7 +169,6 @@ h1{
     margin: 15px;
   }
 
-
-  .loginForm {
+  .authForm {
     max-width: 500px;
   }
