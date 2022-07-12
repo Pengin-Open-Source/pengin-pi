@@ -8,15 +8,13 @@ body {
   }
 
 h1{
-    color: #f0eeee;
-  } 
-  
- h2, h3, h4, h5, h6 {
-    color: #444444;
-  }
+  color: #f0eeee;
+  margin-top: 20px;
+} 
 
   .title {
     color: #ffffff;
+    font-size:30px
   }
 
   .bg-steel {
@@ -122,8 +120,6 @@ h1{
   main{
     display:flex;
     flex-wrap: wrap;
-    padding-top: 30px;
-
   }
 /*
   .oneDiv {
@@ -171,4 +167,8 @@ h1{
   footer p {
     color:#ffffff;
     margin: 15px;
+  }
+
+  .authForm {
+    max-width: 500px;
   }
