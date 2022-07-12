@@ -1,4 +1,7 @@
 body {
+    height: 100%;
+    display:flex;
+    flex-direction: column;
     min-height: 1000px;
     background: linear-gradient(#535252,#d1cccc );
     margin-top: 5rem;
@@ -12,7 +15,10 @@ h1{
     color: #444444;
   }
 
-  
+  .title {
+    color: #ffffff;
+  }
+
   .bg-steel {
     background-color: #1a6b99;
   }
@@ -83,4 +89,86 @@ h1{
   
   .account-heading {
     font-size: 2.5rem;
+  }
+
+  .profile-info {
+    background: #ffffff;
+    padding: 20px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    margin-right: 30px;
+  }
+
+  .profile-side-info {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .important-info-card {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+
+  /* Divs */
+
+  main{
+    display:flex;
+    flex-wrap: wrap;
+    padding-top: 30px;
+
+  }
+/*
+  .oneDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .oneThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 33%;
+  }
+
+  .twoThirdDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 66%;
+  }
+
+  .mainDiv {
+    width: 100vw;
+    padding: 2em;
+
+  }
+
+  .oneHalfDiv {
+    display:flex;
+    flex-direction: column;
+    flex: 50%;
+  }
+
+  .midArticleDiv {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+*/
+
+  footer {
+    display: flex;
+    margin-top: auto;
+    justify-content: center;
+  }
+  footer p {
+    color:#ffffff;
+    margin: 15px;
   }

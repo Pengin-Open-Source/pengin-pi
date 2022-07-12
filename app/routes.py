@@ -60,4 +60,4 @@ def forums():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.name)
+    return render_template('profile/profile.html', name=current_user.name, email=current_user.email)

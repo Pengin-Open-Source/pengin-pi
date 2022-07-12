@@ -14,9 +14,9 @@ this template is the parent, while home/about are the children-->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 
   <!--If a title is provided then use that if not use the default -->
   {% if title %}
@@ -31,8 +31,7 @@ this template is the parent, while home/about are the children-->
 <body>
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-      <div class="container">
-        <a class="navbar-brand mr-4" href="/">Tobu Pengin</a>
+        <a class="navbar-brand d-flex align-items-center mr-5" href="/">Tobu Pengin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
           aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -43,46 +42,42 @@ this template is the parent, while home/about are the children-->
             <a class="nav-item nav-link" href="/about">About Us </a>
             <a class="nav-item nav-link" href="/products">Products</a>
             <a class="nav-item nav-link" href="/forums">Forums</a>
+            <a class="nav-item nav-link" href="/blog">Blog</a>
           </div>
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/login">Login</a>
-            <a class="nav-item nav-link" href="/signup">Sign Up</a>
+            {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="/blog/create">New Blog</a>
+              <a class="nav-item nav-link" href="/profile">Profile</a>
+              <a class="nav-item nav-link" href="/logout">Logout</a>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="/login">Login</a>
+              <a class="nav-item nav-link" href="/signup">Sign Up</a>
+            {% endif %}
           </div>
         </div>
-      </div>
     </nav>
   </header>
+
   <main role="main" class="container">
-    <div class="row">
-      <div class="col-md-8">
-        {%with messages = get_flashed_messages(with_categories = true) %}
-          {% if messages%}
-            {% for category, message in messages%}
-            <div class = "alert alert-{{category}}">
-             {{ message }} 
-            </div>
-            {%endfor%}
-          {% endif%}
-        {% endwith %}
-        {% block content %}{% endblock %}
-      </div>
-      <div class="col-md-4">
-        <div class="content-section">
-          <h3>Important Information!</h3>
-          <p class='text-muted'>Welcome to Tobu Pengin LLC.
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-light">Latest News</li>
-            <li class="list-group-item list-group-item-light">Announcements</li>
-            <li class="list-group-item list-group-item-light">Calendars</li>
-            <li class="list-group-item list-group-item-light">Tickets</li>
-          </ul>
-          </p>
+    {%with messages = get_flashed_messages(with_categories = true) %}
+      {% if messages%}
+        {% for category, message in messages%}
+        <div class = "alert alert-{{category}}">
+          {{ message }} 
         </div>
-      </div>
-    </div>
+        {%endfor%}
+      {% endif%}
+    {% endwith %}
+    
+    {% block content %}{% endblock %}
+    
   </main>
-  </div>
+
+  <footer class="bg-steel">
+    <p>Tobu Pengin 2022</p>
+  </footer>
 
 
 
