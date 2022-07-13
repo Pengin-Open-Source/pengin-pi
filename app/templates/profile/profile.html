@@ -1,27 +1,42 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
+    <script>
+      function toggle_edit_profile(){
+        document.getElementById("edit_profile_form").classList.toggle("hidden")
+        document.getElementById("profile_info").classList.toggle("hidden")
+      }
+    </script>
 
-  <form method="GET">
     <h2>Profile Information: Welcome, {{name}}!</h2>
-      <table class="table table-bordered">
-        <tr>
-          <th width="30%">Name</th>
-          <td width="2%">:</td>
-          <td>{{ name }}</td>
-        </tr>
-        <tr>
-          <th width="30%">Email</th>
-          <td width="2%">:</td>
-          <td>{{ email }}</td>
-        </tr>
-      </table>
-      <div class="buttons">
-        <button class="btn btn-primary btn-md" formaction="/edit_profile">Edit Profile</button>
-        <!-- for testing purposes: -->
-        <button class="btn btn-primary btn-md" formaction="/edit_password">Edit Password</button> 
+      <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="name" name="name" placeholder="Your Name">
+        </div>
+    
+        <button class="btn btn-primary btn-md" type="button">Save</button>
+        <button class="btn btn-primary btn-md"  type="button" onclick="toggle_edit_profile()">Cancel</button>
+      </form>
+      <div id="profile_info">
+        <table class="table table-bordered">
+          <tr>
+            <th width="30%">Name</th>
+            <td width="2%">:</td>
+            <td>{{ name }}</td>
+          </tr>
+          <tr>
+            <th width="30%">Email</th>
+            <td width="2%">:</td>
+            <td>{{ email }}</td>
+          </tr>
+        </table>
+        <div class="buttons">
+          <button class="btn btn-primary btn-md" type="button" onclick="toggle_edit_profile()">Edit Profile</a>
+          <!-- for testing purposes: -->
+          <button class="btn btn-primary btn-md" formaction="/edit_password">Edit Password</button> 
+        </div>
       </div>
-  </form>
 
 {% endblock %}
 

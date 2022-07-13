@@ -62,6 +62,12 @@ def forums():
 def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
+#edit profile info
+@main.route('/profile#edit_profile')
+@login_required
+def edit_profile_link():
+    return render_template('profile/edit_profile.html', name=current_user.name, email=current_user.email)
+
 
 # TODO finish profile editing feature / test that it works
 
