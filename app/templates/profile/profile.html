@@ -10,12 +10,13 @@
 
     <h2>Profile Information: Welcome, {{name}}!</h2>
       <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
+        <input type="hidden" name="email" value="{{email}}"> 
         <div class="form-group">
             <label>Name</label>
-            <input class="form-control" type="name" name="name" placeholder="Your Name">
+            <input class="form-control" type="name" name="name" value="{{ name }}" placeholder="Your new name">
         </div>
     
-        <button class="btn btn-primary btn-md" type="button">Save</button>
+        <button class="btn btn-primary btn-md" type="submit">Save</button>
         <button class="btn btn-primary btn-md"  type="button" onclick="toggle_edit_profile()">Cancel</button>
       </form>
       <div id="profile_info">
