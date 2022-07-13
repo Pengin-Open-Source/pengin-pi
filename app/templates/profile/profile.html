@@ -19,9 +19,10 @@
           <label>Email</label>
           <input class="form-control" type="email" name="email" value="{{ email }}" placeholder="Your new email">
         </div>
-
-          <button class="btn btn-primary btn-md mr-1" type="submit">Save</button>
-          <button class="btn btn-primary btn-md mr-1"  type="button" onclick="toggle_edit_profile()">Cancel</button>
+        <div class="container d-flex justify-content-between px-0">
+          <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_profile()">Cancel</button>
+          <button class="btn btn-success btn-md" type="submit">Save</button>
+        </div>
       </form>
       <div id="profile_info">
         <h1 class="header">Profile Information: Welcome, {{name}}!</h1>
