@@ -69,14 +69,15 @@ def profile():
 @main.route('/profile/edit_profile', methods=['POST'])
 @login_required
 def edit_profile_post():
-    email = request.form.get('email')
+    old_email = request.form.get('old_email')
     name = request.form.get('name')
-
+    email = request.form.get('email')
     # find user
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=old_email).first()
 
     # update name
     user.name = name
+    user.email = email
     db.session.commit()
     
     # reload profile page
