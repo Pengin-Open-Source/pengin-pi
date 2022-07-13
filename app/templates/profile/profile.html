@@ -8,8 +8,8 @@
       }
     </script>
 
-    <h2>Profile Information: Welcome, {{name}}!</h2>
       <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
+        <h1 class="header">Edit Profile</h1>
         <input type="hidden" name="old_email" value="{{email}}">
         <div class="form-group">
             <label>Name</label>
@@ -24,6 +24,7 @@
           <button class="btn btn-primary btn-md mr-1"  type="button" onclick="toggle_edit_profile()">Cancel</button>
       </form>
       <div id="profile_info">
+        <h1 class="header">Profile Information: Welcome, {{name}}!</h1>
         <table class="table table-bordered">
           <tr>
             <th width="30%">Name</th>

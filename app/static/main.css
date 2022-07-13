@@ -7,10 +7,9 @@ body {
     margin-top: 5rem;
   }
 
-h1{
+  h1{
   color: #f0eeee;
-  margin-top: 20px;
-} 
+  } 
 
   .title {
     color: #ffffff;
@@ -138,3 +137,8 @@ h1{
     display: none;
   }
 
+  .header {
+    color: black;
+    margin-top: 0;
+    font-size: 36px;
+  }
