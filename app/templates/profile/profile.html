@@ -15,9 +15,8 @@
             <label>Name</label>
             <input class="form-control" type="name" name="name" value="{{ name }}" placeholder="Your new name">
         </div>
-    
-        <button class="btn btn-primary btn-md" type="submit">Save</button>
-        <button class="btn btn-primary btn-md"  type="button" onclick="toggle_edit_profile()">Cancel</button>
+          <button class="btn btn-primary btn-md mr-1" type="submit">Save</button>
+          <button class="btn btn-primary btn-md mr-1"  type="button" onclick="toggle_edit_profile()">Cancel</button>
       </form>
       <div id="profile_info">
         <table class="table table-bordered">
@@ -32,11 +31,9 @@
             <td>{{ email }}</td>
           </tr>
         </table>
-        <div class="buttons">
-          <button class="btn btn-primary btn-md" type="button" onclick="toggle_edit_profile()">Edit Profile</a>
+          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_profile()">Edit Profile</a>
           <!-- for testing purposes: -->
-          <button class="btn btn-primary btn-md" formaction="/edit_password">Edit Password</button> 
-        </div>
+          <button class="btn btn-primary btn-md mr-1" formaction="/edit_password">Edit Password</button> 
       </div>
 
 {% endblock %}
