@@ -21,7 +21,7 @@ def get_links():
 @blogPosts.route("/blog")
 def display_blog_home():
     posts = BlogPost.query.limit(15)
-    return render_template('blog/blog.html', posts=posts, links=get_links())
+    return render_template('blog/blog.html', posts=posts, links=get_links(), roles=current_user.roles)
 
 
 @blogPosts.route("/blog/<int:post_id>")
@@ -29,7 +29,7 @@ def display_post(post_id):
     # Logan Kiser: Kabir uses get_or_404() instead of try-except block, we can
     #              change this if we prefer the latter
     post = BlogPost.query.get_or_404(post_id)
-    return render_template('blog/view.html', post=post, links=get_links())
+    return render_template('blog/view.html', post=post, links=get_links(), roles=current_user.roles)
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])

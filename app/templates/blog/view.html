@@ -1,7 +1,14 @@
 {% extends "blog/blog_main.html" %}
 
 {% block blogContent %}
-    <h3>{{ post.title }}</h3>
-    <!-- <p>{{ post.date.strftime("%Y/%m/%d") }}</p> -->
-    <p>{{ post.content }}</p>
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#"></a>
+        <small class="text-muted">{{post.date}}</small>
+      </div>
+      <h2><a class="article-title" href="#">{{post.title}}</a></h2>
+      <p class="article-content">{{post.content}}</p>
+    </div>
+  </article>
 {% endblock blogContent %}

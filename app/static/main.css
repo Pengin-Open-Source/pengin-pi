@@ -142,3 +142,40 @@ body {
     margin-top: 0;
     font-size: 36px;
   }
+
+  article.media a {
+    color: #ffffff;
+    text-decoration:none;
+    background-color: transparent;
+  }
+
+  article.content-section {
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    background-color: #1a6b99;
+  }
+
+  article.media p {
+    color: #ffffff;
+  }
+
+
+  .text-muted {
+    color: #ffffff !important;
+  }
+
+  .col-md-4 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    /* margin-block: 10px; */
+  }
+
+  .col-md-4 p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: white;
+  }
