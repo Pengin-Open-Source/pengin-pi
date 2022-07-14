@@ -1,7 +1,8 @@
 #import flask module
-from flask import Blueprint, render_template, redirect, flash, url_for
+from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 from . import db
+from .models import User
 
 main = Blueprint('main', __name__)
 
@@ -64,13 +65,22 @@ def profile():
 
 
 # TODO finish profile editing feature / test that it works
-
-@main.route('/edit_profile')
-def edit_profile():
-    return render_template('edit_profile.html', name=current_user.name)
-
-@main.route('/edit_profile', methods=['POST'])
+#edit profile info post
+@main.route('/profile/edit_profile', methods=['POST'])
+@login_required
 def edit_profile_post():
+    old_email = request.form.get('old_email')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    # find user
+    user = User.query.filter_by(email=old_email).first()
+
+    # update name
+    user.name = name
+    user.email = email
+    db.session.commit()
+    
+    # reload profile page
     return redirect(url_for('main.profile'))
 
 @main.route('/edit_password')

@@ -7,10 +7,9 @@ body {
     margin-top: 5rem;
   }
 
-h1{
+  h1{
   color: #f0eeee;
-  margin-top: 20px;
-} 
+  } 
 
   .title {
     color: #ffffff;
@@ -115,49 +114,10 @@ h1{
     margin-top: 30px;
   }
 
-  /* Divs */
-
-  main{
-    display:flex;
+  main {
+    display: flex;
     flex-wrap: wrap;
   }
-/*
-  .oneDiv {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .oneThirdDiv {
-    display: flex;
-    flex-direction: column;
-    flex: 33%;
-  }
-
-  .twoThirdDiv {
-    display: flex;
-    flex-direction: column;
-    flex: 66%;
-  }
-
-  .mainDiv {
-    width: 100vw;
-    padding: 2em;
-
-  }
-
-  .oneHalfDiv {
-    display:flex;
-    flex-direction: column;
-    flex: 50%;
-  }
-
-  .midArticleDiv {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-*/
 
   footer {
     display: flex;
@@ -171,4 +131,14 @@ h1{
 
   .authForm {
     max-width: 500px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .header {
+    color: black;
+    margin-top: 0;
+    font-size: 36px;
   }
