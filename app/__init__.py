@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
@@ -12,7 +12,7 @@ principals = Principal()
 login_manager = LoginManager()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
@@ -54,7 +54,10 @@ def create_app():
                 for role in current_user.roles:
                     identity.provides.add(RoleNeed(role.name))
 
-
+    @app.route('/robots.txt')
+    @app.route('/sitemap.xml')
+    def static_from_root():
+        return send_from_directory(app.static_folder, request.path[1:])
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
