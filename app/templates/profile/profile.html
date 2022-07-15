@@ -6,6 +6,11 @@
         document.getElementById("edit_profile_form").classList.toggle("hidden")
         document.getElementById("profile_info").classList.toggle("hidden")
       }
+
+      function toggle_edit_password(){
+        document.getElementById("edit_password_form").classList.toggle("hidden")
+        document.getElementById("profile_info").classList.toggle("hidden")
+      }
     </script>
 
       <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
@@ -24,6 +29,28 @@
           <button class="btn btn-success btn-md" type="submit">Save</button>
         </div>
       </form>
+
+      <form id="edit_password_form" class="hidden" method="POST" action="profile/edit_password">
+        <h1 class="header">Edit Password</h1>
+        <input type="hidden" name="old_email" value="{{email}}">
+        <div class="form-group">
+          <label>Old Password</label>
+          <input class="form-control" type="password" name="old_password" value="" placeholder="Your old password">
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input class="form-control" type="password" name="new_password" value="" placeholder="Your new password">
+        </div>
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input class="form-control" type="password" name="confirm_new_password" value="" placeholder="Confirm your new password">
+        </div>
+        <div class="container d-flex justify-content-between px-0">
+          <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_password()">Cancel</button>
+          <button class="btn btn-success btn-md" type="submit">Save</button>
+        </div>
+      </form>
+
       <div id="profile_info">
         <h1 class="header">Profile Information: Welcome, {{name}}!</h1>
         <table class="table table-bordered">
@@ -38,9 +65,9 @@
             <td>{{ email }}</td>
           </tr>
         </table>
-          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_profile()">Edit Profile</a>
+          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_profile()">Edit Profile</button>
           <!-- for testing purposes: -->
-          <button class="btn btn-primary btn-md mr-1" formaction="/edit_password">Edit Password</button> 
+          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_password()">Edit Password</button> 
       </div>
 
 {% endblock %}
