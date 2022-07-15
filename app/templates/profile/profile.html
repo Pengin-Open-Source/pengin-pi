@@ -13,7 +13,6 @@
             {% set ns.editing_password = true %}
             {% set message = "New password and confirmation password do not match, please try again" %}
           {% endif %}
-
           {% if message %}
             <div class="alert alert-danger">
                 {{ message }}
