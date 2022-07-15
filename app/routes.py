@@ -84,6 +84,8 @@ def edit_profile_post():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 #edit password post
+#TODO: Password validation and requirements and check for empty inputs
+
 @main.route('/profile/edit_password', methods=['POST'])
 @login_required
 def edit_password_post():
