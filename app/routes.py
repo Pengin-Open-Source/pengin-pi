@@ -97,13 +97,16 @@ def edit_password_post():
 
     # Check if curr password is correct
     if not check_password_hash(user.password, curr_password):
+        # Flash error
         flash('curr_password_error')
     
     # Check if new password and confirmation new password are the same
     if new_password == confirm_new_password:
+        # Hash and save new password
         user.password = generate_password_hash(new_password, method='sha256')
         db.session.commit()
     else:
+        # Flash error
         flash('new_password_confirm_error')
-    return redirect(url_for('main.profile')) # if new_password and confirm_new_password are not the same, reload the page
+    return redirect(url_for('main.profile')) # reload the page
     
