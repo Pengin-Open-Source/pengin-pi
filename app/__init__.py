@@ -2,6 +2,7 @@ from flask import Flask, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
+from flask_admin import Admin
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
@@ -10,10 +11,12 @@ db = SQLAlchemy()
 principals = Principal()
 # init login manager so we can use it later
 login_manager = LoginManager()
+#flask admin
+
+admin = Admin()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
@@ -22,19 +25,10 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app) #login manager
     principals.init_app(app) #principals
-    
-    #login_manager = LoginManager()
+    admin.init_app(app)
     login_manager.login_view = 'auth.login'
-    #login_manager.init_app(app)
-
+    
     from .models import User
-
-    #####
-    # logan kiser: troubleshooting db issues, will delete before submitting
-    #              pull request.
-    # with app.app_context():
-    #     db.create_all()
-    #####
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -70,5 +64,9 @@ def create_app():
     # blueprint for non-auth parts of app
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    
+     # blueprint for admin
+    from .admin import admin_bpt as admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
     return app

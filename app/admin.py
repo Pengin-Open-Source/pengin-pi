@@ -1,0 +1,23 @@
+from flask import Blueprint
+from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
+from flask_principal import Permission, RoleNeed
+from . import admin
+from . import models
+from . import db
+
+#Admin blueprint
+admin_bpt = Blueprint('admin_bpt', __name__)
+
+admin_permission = Permission(RoleNeed('admin'))
+
+class SecureModelView(ModelView):
+    @admin_permission.require()
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+#add DB model views into flask admin
+admin.add_view(SecureModelView(models.User, db.session))
+admin.add_view(SecureModelView(models.Role, db.session))
+admin.add_view(SecureModelView(models.UserRoles, db.session))
+   

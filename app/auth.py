@@ -7,15 +7,6 @@ from . import db
 
 auth = Blueprint('auth', __name__)
 
-'''  
-TODO:
-admin_permission = Permission(RoleNeed('admin'))
-@auth.route('/admin')
-@admin_permission.require()
-def do_admin_index():
-    return render_template('admin.html')
-'''      
-
 @auth.route('/login')
 def login():
     return render_template('login.html')

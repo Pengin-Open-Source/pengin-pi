@@ -3,6 +3,7 @@ jinja2
 flask-sqlalchemy
 flask-login
 flask-principal
+flask-admin
 sqlalchemy
 markupsafe
 mysqlclient
