@@ -1,6 +1,8 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
+
+<!--Get flashed messages, if an editing password error message is in the messages, show editing password form and display error.-->
       {% set ns = namespace(editing_password = false) %}
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -48,6 +50,7 @@
         </div>
       </form>
 
+<!-- if editing_password, caused by error when editing password, show edit_password_form-->
       {% if ns.editing_password %}
         <form id="edit_password_form" method="POST" action="profile/edit_password">
       {% else %}
@@ -73,6 +76,7 @@
         </div>
       </form>
 
+<!-- if editing_password, caused by error when editing password, hide profile_info-->
       {% if ns.editing_password %}
       <div id="profile_info" class="hidden">
       {% else %}
