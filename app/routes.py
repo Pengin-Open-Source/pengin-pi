@@ -1,6 +1,7 @@
 #import flask module
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User
 
@@ -64,7 +65,6 @@ def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 
-# TODO finish profile editing feature / test that it works
 #edit profile info post
 @main.route('/profile/edit_profile', methods=['POST'])
 @login_required
@@ -72,22 +72,38 @@ def edit_profile_post():
     old_email = request.form.get('old_email')
     name = request.form.get('name')
     email = request.form.get('email')
-    # find user
+    # Find user
     user = User.query.filter_by(email=old_email).first()
 
-    # update name
+    # Update name
     user.name = name
     user.email = email
     db.session.commit()
     
-    # reload profile page
-    return redirect(url_for('main.profile'))
+    # Reload profile page
+    return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
-@main.route('/edit_password')
-def edit_password():
-    return render_template('edit_password.html')
-
-@main.route('/edit_password', methods=['POST'])
+#edit password post
+@main.route('/profile/edit_password', methods=['POST'])
+@login_required
 def edit_password_post():
-    return redirect(url_for('main.profile'))
+    email = request.form.get('email')
+    curr_password = request.form.get('curr_password')
+    new_password = request.form.get('new_password')
+    confirm_new_password = request.form.get('confirm_new_password')
+
+    # Find user
+    user = User.query.filter_by(email=email).first()
+
+    # Check if curr password is correct
+    if not check_password_hash(user.password, curr_password):
+        flash('curr_password_error')
+    
+    # Check if new password and confirmation new password are the same
+    if new_password == confirm_new_password:
+        user.password = generate_password_hash(new_password, method='sha256')
+        db.session.commit()
+    else:
+        flash('new_password_confirm_error')
+    return redirect(url_for('main.profile')) # if new_password and confirm_new_password are not the same, reload the page
     

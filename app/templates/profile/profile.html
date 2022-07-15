@@ -1,17 +1,35 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-    <script>
-      function toggle_edit_profile(){
-        document.getElementById("edit_profile_form").classList.toggle("hidden")
-        document.getElementById("profile_info").classList.toggle("hidden")
-      }
+      {% set ns = namespace(editing_password = false) %}
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          {% if "curr_password_error" in messages %}
+            {% set ns.editing_password = true %}
+            {% set message = "Please check your current password and try again." %}
+          {% elif 'new_password_confirm_error' in messages %}
+            {% set ns.editing_password = true %}
+            {% set message = "New password and confirmation password do not match, please try again" %}
+          {% endif %}
 
-      function toggle_edit_password(){
-        document.getElementById("edit_password_form").classList.toggle("hidden")
-        document.getElementById("profile_info").classList.toggle("hidden")
-      }
-    </script>
+          {% if message %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+          {% endif %}
+      {% endif %}
+      {% endwith %}
+      <script>
+        function toggle_edit_profile(){
+          document.getElementById("edit_profile_form").classList.toggle("hidden")
+          document.getElementById("profile_info").classList.toggle("hidden")
+        }
+  
+        function toggle_edit_password(){
+          document.getElementById("edit_password_form").classList.toggle("hidden")
+          document.getElementById("profile_info").classList.toggle("hidden")
+        }
+      </script>
 
       <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
         <h1 class="header">Edit Profile</h1>
@@ -30,12 +48,16 @@
         </div>
       </form>
 
-      <form id="edit_password_form" class="hidden" method="POST" action="profile/edit_password">
+      {% if ns.editing_password %}
+        <form id="edit_password_form" method="POST" action="profile/edit_password">
+      {% else %}
+        <form id="edit_password_form" class="hidden" method="POST" action="profile/edit_password">
+      {% endif %}
         <h1 class="header">Edit Password</h1>
-        <input type="hidden" name="old_email" value="{{email}}">
+        <input type="hidden" name="email" value="{{email}}">
         <div class="form-group">
-          <label>Old Password</label>
-          <input class="form-control" type="password" name="old_password" value="" placeholder="Your old password">
+          <label>Current Password</label>
+          <input class="form-control" type="password" name="curr_password" value="" placeholder="Your old password">
         </div>
         <div class="form-group">
           <label>New Password</label>
@@ -51,6 +73,11 @@
         </div>
       </form>
 
+      {% if ns.editing_password %}
+      <div id="profile_info" class="hidden">
+      {% else %}
+      <div id="profile_info">
+      {% endif %}
       <div id="profile_info">
         <h1 class="header">Profile Information: Welcome, {{name}}!</h1>
         <table class="table table-bordered">
