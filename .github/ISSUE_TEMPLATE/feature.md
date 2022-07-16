@@ -1,14 +1,14 @@
 ---
 name: Feature
-about: Summarize the feature request
+about: Summarize the feature
 title: "[FEATURE]"
 labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the feature is and who needs to build it.  This is likely to be broken up into child tasks with milestones.
+**A clear and concise description of what the feature is and who needs to build it.**
+ This is the official feature form.  This is likely to be broken up into child tasks with milestones.
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
