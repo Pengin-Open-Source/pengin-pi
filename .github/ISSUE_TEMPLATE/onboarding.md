@@ -10,6 +10,7 @@ assignees: ''
 ## Pre-Setup
 - [ ] Sign offer letter and contracts and follow filing instructions
 - [ ] Request access to team share drives
+- [ ] Request access to team calendar
 - [ ] Request access to git repos and accept invites
 - [ ] Request access to team Discord servers and accept invites
 
@@ -28,7 +29,15 @@ assignees: ''
 - [ ] [Run Flask App in Docker](https://blog.logrocket.com/build-deploy-flask-app-using-docker/)
 - [ ] [Run Flask App in NginX+Docker](https://github.com/tiangolo/uwsgi-nginx-flask-docker)
 
-##Additional Training
+## Additional Training
 - [ ] [Flask](https://www.youtube.com/watch?v=7M1MaAPWnYg&list=PLB5jA40tNf3vX6Ue_ud64DDRVSryHHr1h)
 - [ ] [Lightsail](https://github.com/Pengin-Open-Source/pengin-pie/issues/13)
 - [ ] [DynamoDB](https://github.com/Pengin-Open-Source/pengin-pie/issues/24)
+
+## Optional Content
+- [ ] [Get DB Browser](https://sqlitebrowser.org/)
+- [ ] [CDK Workshop](https://cdkworkshop.com/30-python.html)
+- [ ] [Preorder Traversal](https://www.hackerrank.com/challenges/tree-preorder-traversal/problem)
+- [ ] [Meta](https://www.w3schools.com/tags/tag_meta.asp)
+- [ ] [Python - Humorous](https://www.youtube.com/watch?v=HBxCHonP6Ro&list=PL6gx4Cwl9DGAcbMi1sH6oAMk4JHw91mC_)
+- [ ] [Python - In depth](https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU)
