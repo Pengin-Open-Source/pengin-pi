@@ -1,6 +1,6 @@
 ---
 name: Feature
-about: Summarize the feature
+about: A task tracker for building out a feature.
 title: "[FEATURE]"
 labels: enhancement
 assignees: ''
