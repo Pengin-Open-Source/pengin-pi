@@ -1,0 +1,151 @@
+{% extends "company_info/company_info_main.html" %}
+
+{% block companycontent %}
+    <script>
+      function toggle_edit_company_info(){
+        document.getElementById("edit_company_info_form").classList.toggle("hidden")
+        document.getElementById("company_info").classList.toggle("hidden")
+      }
+    </script>
+
+     <!-- The company info for the user to edit -->
+      <form id="edit_company_info_form" class="hidden" method="POST" action="company_info/edit_company_info">
+
+        <h1 class="header">Edit Company Information</h1>
+
+        <input type="hidden" name="old_email" value="{{email}}">
+
+        <div class="form-group">
+            <label>Company ID</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Company Info">
+        </div>
+
+        <div class="form-group">
+          <label>Company Name</label>
+          <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Company Name">
+        </div>
+
+        <div class="form-group">
+            <label>Address 1</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Address 1">
+          </div>
+
+        <div class="form-group">
+            <label>Address 2</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Address 2">
+        </div>
+
+        <div class="form-group">
+            <label>City</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="City">
+        </div>
+
+        <div class="form-group">
+          <label>State</label>
+          <input class="form-control" type="name" name="name" value="{{  }}" placeholder="State">
+        </div>
+
+        <div class="form-group">
+            <label>ZIP</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="ZIP">
+          </div>
+
+        <div class="form-group">
+            <label>Country</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Country">
+        </div>
+
+        <div class="form-group">
+            <label>Phone</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Phone">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+            <label>Members</label>
+            <input class="form-control" type="name" name="name" value="{{  }}" placeholder="Members">
+          </div>
+
+
+
+        <div class="container d-flex justify-content-between px-0">
+          <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_company_info()">Cancel</button>
+          <button class="btn btn-success btn-md" type="submit">Save</button>
+        </div>
+      </form>
+
+      <!-- The company info table for the user to read -->
+
+      <!-- Jasmine TODO need to make company_info style -->
+      <div id="company_info">
+        <h1 class="header">Company Information</h1>
+        <table class="table table-bordered">
+
+
+        <!-- The actual info cells -->
+
+          <tr>
+            <th>Company ID</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Company Name</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Address 1</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Address 2</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>City</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>State</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>ZIP Code</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Country</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Phone Number</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Email</th>
+            <td>{{  }}</td>
+          </tr>
+
+          <tr>
+            <th>Members</th>
+            <td>{{  }}</td>
+          </tr>
+
+
+        </table>
+          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_company_info()">Edit Company Information</a>
+      </div>
+
+{% endblock %}
