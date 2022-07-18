@@ -64,7 +64,6 @@ def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 
-# TODO finish profile editing feature / test that it works
 #edit profile info post
 @main.route('/profile/edit_profile', methods=['POST'])
 @login_required
@@ -91,3 +90,19 @@ def edit_password():
 def edit_password_post():
     return redirect(url_for('main.profile'))
     
+
+# company info
+@main.route('/company_info')
+@login_required
+def company_info():
+    return render_template('company_info/company_info.html')
+    ## TODO add parameters based on company info
+
+
+@main.route('/company_info/edit_company_info', methods=['POST'])
+@login_required
+def edit_company_info_post():
+
+    # TODO reflect changes
+
+    return redirect(url_for('main.company_info'))
