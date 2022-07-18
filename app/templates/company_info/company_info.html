@@ -1,7 +1,6 @@
 {% extends "company_info/company_info_main.html" %}
 
 
-<!-- TODO fill in values based on company info -->
 
 {% block companycontent %}
     <script>
@@ -16,29 +15,29 @@
 
         <h1 class="header">Edit Company Information</h1>
 
-        <div class="form-group">
-            <label>Company ID</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Company Info">
-        </div>
+        <!-- <div class="form-group">
+            <label>ID</label>
+            <input class="form-control" type="name" name="name" value="{{ id }}" placeholder="Company Info">
+        </div> -->
 
         <div class="form-group">
           <label>Company Name</label>
-          <input class="form-control" type="name" name="name" value="" placeholder="Company Name">
+          <input class="form-control" type="name" name="name" value="{{ name }}" placeholder="Company Name">
         </div>
 
         <div class="form-group">
             <label>Address 1</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Address 1">
+            <input class="form-control" type="name" name="name" value="{{ address1 }}" placeholder="Address 1">
           </div>
 
         <div class="form-group">
             <label>Address 2</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Address 2">
+            <input class="form-control" type="name" name="name" value="{{ address2 }}" placeholder="Address 2">
         </div>
 
         <div class="form-group">
             <label>City</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="City">
+            <input class="form-control" type="name" name="name" value="{{ city }}" placeholder="City">
         </div>
 
         <div class="form-group">
@@ -105,29 +104,28 @@
 
         <div class="form-group">
             <label>ZIP</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="ZIP">
+            <input class="form-control" type="name" name="name" value="{{ zipcode }}" placeholder="ZIP">
           </div>
 
         <div class="form-group">
             <label>Country</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Country">
+            <input class="form-control" type="name" name="name" value="{{ country }}" placeholder="Country">
         </div>
 
         <div class="form-group">
             <label>Phone</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Phone">
+            <input class="form-control" type="name" name="name" value="{{ phone }}" placeholder="Phone">
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <input class="form-control" type="name" name="name" value="" placeholder="Email">
+          <input class="form-control" type="name" name="name" value="{{ email }}" placeholder="Email">
         </div>
 
         <div class="form-group">
             <label>Members</label>
             <input class="form-control" type="name" name="name" value="" placeholder="Members">
           </div>
-
 
 
         <div class="container d-flex justify-content-between px-0">
