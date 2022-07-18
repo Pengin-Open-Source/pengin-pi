@@ -103,7 +103,7 @@ def edit_password_post():
         flash('curr_password_error')
     
     # Check if new password and confirmation new password are the same
-    if new_password == confirm_new_password:
+    elif new_password == confirm_new_password:
         # Hash and save new password
         user.password = generate_password_hash(new_password, method='sha256')
         db.session.commit()
