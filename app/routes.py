@@ -103,6 +103,19 @@ def company_info():
 @login_required
 def edit_company_info_post():
 
+    # Get new information
+
+    name = request.form.get('name')
+    address1 = request.form.get('address1')
+    address1 = request.form.get('address2')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    zipcode = request.form.get('zipcode')
+    country = request.form.get('country')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    members = request.form.get('members')
+
     # TODO reflect changes
 
     return redirect(url_for('main.company_info'))
