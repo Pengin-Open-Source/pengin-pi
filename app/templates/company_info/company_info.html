@@ -124,7 +124,7 @@
 
         <div class="form-group">
             <label>Members</label>
-            <input class="form-control" type="name" name="name" value="" placeholder="Members">
+            <input class="form-control" type="name" name="name" value="{{ members }}" placeholder="Members">
         </div>
 
         <!-- Buttons  -->
@@ -139,66 +139,66 @@
 
       <!-- Jasmine TODO need to make company_info style -->
     <div id="company-info-table">
-        
+
         <h1 class="header">Company Information</h1>
 
         <table class="table table-bordered">
 
         <!-- The actual info cells -->
 
-          <tr>
+          <!-- <tr>
             <th>Company ID</th>
             <td></td>
-          </tr>
+          </tr> -->
 
           <tr>
             <th>Company Name</th>
-            <td></td>
+            <td>{{ name }}</td>
           </tr>
 
           <tr>
             <th>Address 1</th>
-            <td></td>
+            <td>{{ address1 }}</td>
           </tr>
 
           <tr>
             <th>Address 2</th>
-            <td></td>
+            <td>{{ address2 }}</td>
           </tr>
 
           <tr>
             <th>City</th>
-            <td></td>
+            <td>{{ city }}</td>
           </tr>
 
           <tr>
             <th>State</th>
-            <td></td>
+            <td>{{ state }}</td>
           </tr>
 
           <tr>
             <th>ZIP Code</th>
-            <td></td>
+            <td>{{ zipcode }}</td>
           </tr>
 
           <tr>
             <th>Country</th>
-            <td></td>
+            <td>{{ country }}</td>
           </tr>
 
           <tr>
             <th>Phone Number</th>
-            <td></td>
+            <td>{{ phone }}</td>
           </tr>
 
           <tr>
             <th>Email</th>
-            <td></td>
+            <td>{{ email }}</td>
           </tr>
 
           <tr>
             <th>Members</th>
-            <td></td>
+            <td>{{ members }}</td>
           </tr>
 
         </table>
