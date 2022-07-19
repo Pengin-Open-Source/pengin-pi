@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
+    company = db.relationship('Company', secondary='members_company')
 
 
 # Define the Role data-model
@@ -40,3 +41,22 @@ class BlogPost(db.Model):
     # user = db.Column(db.Integer)
     # TODO
     # Logan Kiser: might be nice to include a convenient __init__ method or two
+
+class Company(db.Model):
+    __tablename__ = "company"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    address1 = db.Column(db.String())
+    address2 = db.Column(db.String())
+    city = db.Column(db.String())
+    state = db.Column(db.String())
+    zip = db.Column(db.Integer())
+    country = db.Column(db.String())
+    phone = db.Column(db.String(50), unique=True) 
+    email = db.Column(db.String(50), unique=True)
+    
+class Members_Company(db.Model):
+    __tablename__ = "members_company"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id= db.Column(db.Integer(), db.ForeignKey('User.id', ondelete='CASCADE'))
+    company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
