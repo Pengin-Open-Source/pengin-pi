@@ -2,17 +2,20 @@
 name: Feature request
 about: A request for your project idea, a nice to have, that you wish to present to
   management.
-title: "[REQUEST]"
+title: "[FEATURE REQUEST]"
 labels: enhancement
 assignees: ''
 
 ---
 
-**A clear and concise description of what the feature you are proposing is.**
-This is a request form for proposing features that are a "nice to have".  The more details you submit, the easier it is to process the request.  Management will take a look at your request and determine if it is feasible to build out.
+**Expanation**
+This is a request form for proposing features that are a "nice to have".  The more details you submit, the easier it is to process the request.  Management will take a look at your request and determine if it is feasible to build out.  Remove this section before you create the ticket.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Brief**
+Give a brief summary of what your request is and who creates it
+
+**Outline**
+A clear outline detailing your solution
 
 **Assign Issue**
 Assign this issue to the appropriate team lead or project lead

@@ -2,16 +2,16 @@
 name: Task
 about: Briefly Describe the task being worked on for a parent feature
 title: "[TASK]"
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
 
-**Describe **
+**Description**
 A clear and concise description of the task and who does it.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Details**
+A clear and detailed explanation, with steps, of what you want to happen.
 
 **Parent Issue**
 Add any parent issues to this issue
