@@ -28,6 +28,15 @@ posts = [
             'date_posted': 'February 13th, 2022'
         }
 
+]
+
+allowedPosts = [          
+        {
+            'author': 'Andy Chen', 
+            'title': 'New Tech',
+            'content': 'So excited!', 
+            'date_posted': 'July 20th, 2022'
+        }
 
 ]
 
@@ -56,7 +65,11 @@ def products():
 
 @main.route("/forums")
 def forums():
-    return render_template('forums.html', title ='forums', posts = posts)
+    if current_user.is_authenticated: 
+        return render_template('forums.html', title ='forums', posts = posts + allowedPosts )
+    elif current_user.is_anonymous:
+        return render_template('forums.html', title ='forums', posts = posts)
+
 
 @main.route('/profile')
 @login_required
