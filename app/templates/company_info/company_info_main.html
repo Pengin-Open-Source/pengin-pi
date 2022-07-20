@@ -1,9 +1,26 @@
-{% extends "oneDiv.html" %}
+{% extends "twoAndOneThirdDivs.html" %}
 
-{% block oneDivContent %}
+{% block twoThirdContent %}
 
     <!-- Jasmine: using the profile-info style for now, maybe could rename the style to something more broad? -->
   <div class="profile-info">
     {% block companycontent %}{% endblock %}
   </div>
 {% endblock %}
+
+{% block oneThirdContent %}
+
+    <!-- Jasmine: using the blog-links style for now, maybe could rename the style to something more broad? -->
+  <div class="blog-links">
+
+    <h1>Companies</h1>
+    {% for company in companies %}
+    <div class="blog-link-item">
+      <a href="/companies/{{ company.id }}">
+          {{ company.name }}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endblock %}
