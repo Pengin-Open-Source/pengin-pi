@@ -34,7 +34,7 @@ allowedPosts = [
         {
             'author': 'Andy Chen', 
             'title': 'New Tech',
-            'content': 'So excited!', 
+            'content': 'Cool!', 
             'date_posted': 'July 20th, 2022'
         }
 
@@ -67,7 +67,7 @@ def products():
 def forums():
     if current_user.is_authenticated: 
         return render_template('forums.html', title ='forums', posts = posts + allowedPosts )
-    elif current_user.is_anonymous:
+    else:
         return render_template('forums.html', title ='forums', posts = posts)
 
 
