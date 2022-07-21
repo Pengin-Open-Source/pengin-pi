@@ -179,3 +179,18 @@ body {
     margin-bottom: 1rem;
     color: white;
   }
+
+  .comment-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 0.75em;
+    color: white;
+  }
+
+  .textbox {
+    display: block;
+    background-color: white;
+    width: 20em;
+    height: 10em;
+  }
