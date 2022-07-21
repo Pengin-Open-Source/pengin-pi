@@ -1,9 +1,20 @@
       
 {% extends "oneDiv.html" %}
 {% block oneDivContent %}
+    <script>
+      const toggleForumComment = (e) => {
+        let postID = e.target.id;
+        const commentForum = document.getElementById('commentForum' + postID);
+        const commentBtn = document.getElementById(postID);
+
+        commentBtn.classList.toggle('hidden');
+        commentForum.classList.toggle('hidden');
+      }
+    </script>
     <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
     <!--for loop to loop through the list of posts -->
     {% for post in posts %}
+
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
@@ -12,6 +23,19 @@
           </div>
           <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
           <p class="article-content">{{ post.content }}</p>
+
+          <div class = "article-comment"></div>
+
+          {% if current_user.is_authenticated %}
+            <button id = "{{post.id}}" class = "comment-btn" onclick = "toggleForumComment(event)">Comment</button>
+            <form id = "commentForum{{post.id}}" method = "POST" action = "forums" class = "hidden">
+              <textarea type = "text" id = "textBox{{post.id}}" name = "comment" class = "textbox" required></textarea>
+              <button id = "{{post.id}}" class = 'btn btn-danger' type = 'button' onclick = "toggleForumComment(event)">Cancel</button>
+              <button id = "{{post.id}}"class = 'btn btn-success' type = 'submit'>Submit</button>
+            </form>
+          {% else %}
+            Sign in to comment on a post.
+          {% endif %}
         </div>
       </article>
     <!--closing a code block -->
