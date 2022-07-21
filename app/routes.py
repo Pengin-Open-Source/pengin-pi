@@ -12,20 +12,23 @@ posts = [
             'author': 'Sergey Astvatsaturov', 
             'title': 'Single life!',
             'content': 'I rock', 
-            'date_posted': 'February 10th, 2022'
+            'date_posted': 'February 10th, 2022',
+            'id': 1,
         },
 
         {
             'author': 'Stuart Anderson', 
             'title': 'Life in Japan',
             'content': "Can't wait to get back to the states", 
-            'date_posted': 'February 11th, 2022'
+            'date_posted': 'February 11th, 2022',
+            'id': 2,
         },
           {
             'author': 'Dante Samuels', 
             'title': 'Kid 2',
             'content': 'So excited!', 
-            'date_posted': 'February 13th, 2022'
+            'date_posted': 'February 13th, 2022',
+            'id': 3,
         }
 
 
@@ -56,6 +59,7 @@ def products():
 
 @main.route("/forums")
 def forums():
+
     return render_template('forums.html', title ='forums', posts = posts)
 
 @main.route('/profile')
