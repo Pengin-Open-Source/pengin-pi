@@ -13,7 +13,7 @@ posts = [
             'author': 'Admin', 
             'title': 'This is the home folder',
             'content': 'Rules', 
-            'thread': "Home",
+            'thread': "home",
             'tags': '',
             'date': 'July 21st, 2022'
         },
@@ -22,7 +22,7 @@ posts = [
             'author': 'Sergey Astvatsaturov', 
             'title': 'Single life!',
             'content': 'I rock', 
-            'thread': "Vlog",
+            'thread': "vlog",
             'tags': '',
             'date': 'February 10th, 2022'
         },
@@ -32,7 +32,7 @@ posts = [
             'author': 'Stuart Anderson', 
             'title': 'Life in Japan',
             'content': "Can't wait to get back to the states", 
-            'thread': "Vlog",
+            'thread': "vlog",
             'tags': '',
             'date': 'February 11th, 2022'
         },
@@ -41,7 +41,7 @@ posts = [
             'author': 'Dante Samuels', 
             'title': 'Kid 2',
             'content': 'So excited!', 
-            'thread': "Vlog",
+            'thread': "vlog",
             'tags': '',
             'date': 'February 13th, 2022'
         }
@@ -50,13 +50,13 @@ posts = [
 
 threads = [
     {
-        "name" :"Home",
+        "name" :"home",
         "parent" : ""
 
     },
     {
-        "name" :"Vlog",
-        "parent" : "Home"
+        "name" :"vlog",
+        "parent" : "home"
 
     },
 
@@ -88,10 +88,14 @@ def products():
     return render_template('products.html', title ='products')
 
 @main.route("/forums")
-def forums():
-    home_folders = [thread for thread in threads if thread["parent"] == "Home"]
-    home_posts = [post for post in posts if post["thread"] == "Home"]
-    return render_template('forums.html', title ='forums', posts = home_posts, folders = home_folders)
+def forums_home():
+    return redirect(url_for('main.forums', folder = "home"))
+
+@main.route("/forums/<folder>")
+def forums(folder):
+    render_folders = [thread for thread in threads if thread["parent"] == folder]
+    render_posts = [post for post in posts if post["thread"] == folder]
+    return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders)
 
 @main.route('/profile')
 @login_required
