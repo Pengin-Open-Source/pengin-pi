@@ -2,21 +2,23 @@
 {% extends "oneDiv.html" %}
 {% block oneDivContent %}
     <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
-    <!--for loop to loop through the list of posts -->
-
+    <!--for loop to loop through the list of folders -->
     {% for folder in folders %}
     <article class="media content-section">
       <div class="media-body">
         <div class="article-metadata">
+          <!--Link to folder-->
           <a class="mr-2" href="/forums/{{folder.name}}">{{ folder.name }}</a>
           <small class="text-muted"></small>
         </div>
+         <!--Link to folder-->
         <h2><a class="article-title" href="/forums/{{folder.name}}"> FOLDER </a></h2>
         <p class="article-content">Parent = {{ folder.parent }}</p>
       </div>
     </article>
     {% endfor %}
 
+    <!--for loop to loop through the list of posts -->
     {% for post in posts %}
     <article class="media content-section">
         <div class="media-body">

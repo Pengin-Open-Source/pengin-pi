@@ -47,7 +47,7 @@ posts = [
         }
         
 ]
-
+# dummy variable list for threads
 threads = [
     {
         "name" :"home",
@@ -87,12 +87,14 @@ def about():
 def products():
     return render_template('products.html', title ='products')
 
+
 @main.route("/forums")
 def forums_home():
-    return redirect(url_for('main.forums', folder = "home"))
+    return redirect(url_for('main.forums', folder = "home")) # redirect to home thread
 
 @main.route("/forums/<folder>")
-def forums(folder):
+def forums(folder): 
+    # Only render folders and posts with parent == folder
     render_folders = [thread for thread in threads if thread["parent"] == folder]
     render_posts = [post for post in posts if post["thread"] == folder]
     return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders)
