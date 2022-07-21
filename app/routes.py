@@ -53,6 +53,10 @@ def about():
 def products():
     return render_template('products.html', title ='products')
 
+@main.route("/forums") #redirect to default forum
+def forums_redirect():
+    return redirect(url_for('main.forums', id = 1))
+
 @main.route("/forums/<id>") #id designates which forum, could use a string or int
 def forums(id):
     return render_template('forums.html', title ='forums', posts = posts, id=id)
