@@ -27,9 +27,8 @@ posts = [
             'content': 'So excited!', 
             'date_posted': 'February 13th, 2022'
         }
-
-
 ]
+
 
 #Routes are what you type into your browser to go to different webpages
 #use route decorators 
@@ -54,9 +53,9 @@ def about():
 def products():
     return render_template('products.html', title ='products')
 
-@main.route("/forums")
-def forums():
-    return render_template('forums.html', title ='forums', posts = posts)
+@main.route("/forums/<id>") #id designates which forum, could use a string or int
+def forums(id):
+    return render_template('forums.html', title ='forums', posts = posts, id=id)
 
 @main.route('/profile')
 @login_required
