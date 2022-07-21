@@ -91,31 +91,5 @@ def edit_password_post():
     return redirect(url_for('main.profile'))
     
 
-# company info
-@main.route('/company_info')
-@login_required
-def company_info():
-    return render_template('company_info/company_info.html')
-    ## TODO add parameters based on company info
 
 
-@main.route('/company_info/edit_company_info', methods=['POST'])
-@login_required
-def edit_company_info_post():
-
-    # Get new information
-
-    name = request.form.get('name')
-    address1 = request.form.get('address1')
-    address1 = request.form.get('address2')
-    city = request.form.get('city')
-    state = request.form.get('state')
-    zipcode = request.form.get('zipcode')
-    country = request.form.get('country')
-    phone = request.form.get('phone')
-    email = request.form.get('email')
-    members = request.form.get('members')
-
-    # TODO reflect changes
-
-    return redirect(url_for('main.company_info'))
