@@ -8,28 +8,61 @@ main = Blueprint('main', __name__)
 
 #dummy variable list of dictionaries 
 posts = [
-        {
+        {   
+            'id' : 0,
+            'author': 'Admin', 
+            'title': 'This is the home folder',
+            'content': 'Rules', 
+            'thread': "Home",
+            'tags': '',
+            'date': 'July 21st, 2022'
+        },
+        {   
+            'id' : 1,
             'author': 'Sergey Astvatsaturov', 
             'title': 'Single life!',
             'content': 'I rock', 
-            'date_posted': 'February 10th, 2022'
+            'thread': "Vlog",
+            'tags': '',
+            'date': 'February 10th, 2022'
         },
 
         {
+            'id' : 2,
             'author': 'Stuart Anderson', 
             'title': 'Life in Japan',
             'content': "Can't wait to get back to the states", 
-            'date_posted': 'February 11th, 2022'
+            'thread': "Vlog",
+            'tags': '',
+            'date': 'February 11th, 2022'
         },
-          {
+        {
+            "id" : 3,
             'author': 'Dante Samuels', 
             'title': 'Kid 2',
             'content': 'So excited!', 
-            'date_posted': 'February 13th, 2022'
+            'thread': "Vlog",
+            'tags': '',
+            'date': 'February 13th, 2022'
         }
+        
+]
 
+threads = [
+    {
+        "name" :"Home",
+        "parent" : ""
+
+    },
+    {
+        "name" :"Vlog",
+        "parent" : "Home"
+
+    },
 
 ]
+
+
 
 #Routes are what you type into your browser to go to different webpages
 #use route decorators 
@@ -56,7 +89,9 @@ def products():
 
 @main.route("/forums")
 def forums():
-    return render_template('forums.html', title ='forums', posts = posts)
+    home_folders = [thread for thread in threads if thread["parent"] == "Home"]
+    home_posts = [post for post in posts if post["thread"] == "Home"]
+    return render_template('forums.html', title ='forums', posts = home_posts, folders = home_folders)
 
 @main.route('/profile')
 @login_required
