@@ -129,10 +129,6 @@ body {
     margin: 15px;
   }
 
-  .authForm {
-    max-width: 500px;
-  }
-
   .hidden {
     display: none;
   }
@@ -178,4 +174,14 @@ body {
     margin-top: 0;
     margin-bottom: 1rem;
     color: white;
+  }
+
+  /* Login and Signup form */
+  .authForm {
+    max-width: 500px;
+  }
+
+  /* Forum forms */
+  .forumForm {
+    max-width: 500px
   }
