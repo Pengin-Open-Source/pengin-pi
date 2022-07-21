@@ -58,5 +58,5 @@ class Company(db.Model):
 class Members_Company(db.Model):
     __tablename__ = "members_company"
     id = db.Column(db.Integer(), primary_key=True)
-    user_id= db.Column(db.Integer(), db.ForeignKey('User.id', ondelete='CASCADE'))
+    user_id= db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
