@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request, abort
 from flask_login import login_required, current_user
 from . import db
-from .models import Company
+from .models import User, Company, Members_Company
 from datetime import datetime
 from flask_principal import Permission, RoleNeed
 
@@ -82,6 +82,9 @@ def create_company():
         ## TODO members?
 
         new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
+        #add to the company membership table
+        new_members_company = Members_Company(id = new_company.id , user_id = current_user.id)
+        db.session.add(new_members_company)
         db.session.add(new_company)
         db.session.commit()
         return redirect(url_for("company_info.display_company", company_id=new_company.id))
