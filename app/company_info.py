@@ -6,8 +6,6 @@ from datetime import datetime
 from flask_principal import Permission, RoleNeed
 
 
-#app = Flask(__name__) you cannot do this
-
 company_info = Blueprint('company_info', __name__, url_prefix='/companies')
 admin_permission = Permission(RoleNeed('admin'))
 
@@ -72,5 +70,3 @@ def edit_company_info_post():
 
     return redirect(url_for('company_info.display_company_info'))
 
-
-app.register_blueprint(company_info)
