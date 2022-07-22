@@ -1,6 +1,7 @@
 #import flask module
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, Company
 
@@ -57,4 +58,3 @@ def products():
 @main.route("/forums")
 def forums():
     return render_template('forums.html', title ='forums', posts = posts)
-
