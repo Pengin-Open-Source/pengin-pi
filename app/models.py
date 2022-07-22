@@ -40,3 +40,24 @@ class BlogPost(db.Model):
     # user = db.Column(db.Integer)
     # TODO
     # Logan Kiser: might be nice to include a convenient __init__ method or two
+
+
+class Company(db.Model):
+    __tablename__ = "company"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    phone = db.Column(db.String())
+    city = db.Column(db.String())
+    state = db.Column(db.String())
+    country = db.Column(db.String())
+    zipcode = db.Column(db.String())
+    email = db.Column(db.String(100), unique=True)
+    address1 = db.Column(db.String() )
+    address2 = db.Column(db.String() )
+    member = db.relationship('Members_Company', secondary='members_company')
+    
+class Members_Company(db.Model):
+    __tablename__ = "members_company"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id= db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
