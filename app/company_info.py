@@ -6,7 +6,7 @@ from datetime import datetime
 from flask_principal import Permission, RoleNeed
 
 
-app = Flask(__name__)
+#app = Flask(__name__) you cannot do this
 
 company_info = Blueprint('company_info', __name__, url_prefix='/companies')
 admin_permission = Permission(RoleNeed('admin'))
