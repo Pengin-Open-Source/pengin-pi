@@ -68,5 +68,8 @@ def create_app():
      # blueprint for admin
     from .admin import admin_bpt as admin_blueprint
     app.register_blueprint(admin_blueprint)
+    
+    from .profiles import profiles as profile_blueprint
+    app.register_blueprint(profile_blueprint)
 
     return app
