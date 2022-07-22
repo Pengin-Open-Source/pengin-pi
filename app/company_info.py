@@ -42,6 +42,9 @@ def create_company():
         ## TODO members?
 
         new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
+        #add to the company membership table
+        new_members_company = Members_Company(id = new_company.id , user_id = current_user.id)
+        db.session.add(new_members_company)
         db.session.add(new_company)
         db.session.commit()
         return redirect(url_for("company_info.display_company", company_id=new_company.id))
