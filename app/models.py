@@ -1,8 +1,6 @@
-from email import contentmanager
 from flask_login import UserMixin
 from sqlalchemy import func
 from . import db
-from datetime import datetime
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -11,7 +9,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
-    member = db.relationship('Members_Company', secondary='members_company')
+    
 
 
 # Define the Role data-model
@@ -55,10 +53,10 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String() )
     address2 = db.Column(db.String() )
-    member = db.relationship('Members_Company', secondary='members_company')
+    members = db.relationship('User', secondary='company_members')
     
-class Members_Company(db.Model):
-    __tablename__ = "members_company"
+class CompanyMembers(db.Model):
+    __tablename__ = "company_members"
     id = db.Column(db.Integer(), primary_key=True)
-    user_id= db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
