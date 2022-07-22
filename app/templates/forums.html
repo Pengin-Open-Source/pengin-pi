@@ -7,7 +7,7 @@
     {% if current_user.is_authenticated %}
       <form class="forumForm mb-3" method="POST" action="/forum/create_post">
         <!--Inherited forum id-->  
-        <input type="hidden" name="forum" value="{{id}}">
+        <input type="hidden" name="thread" value="{{thread}}">
         <!--Title input-->
         <div class="form-group">
             <label>Title</label>
@@ -15,8 +15,8 @@
         </div>
         <!--Body textarea input-->
         <div class="form-group">
-            <label>Body</label>
-            <textarea class="form-control" rows="5" type="body" name="body" placeholder="Enter your text here"></textarea>
+            <label>Content</label>
+            <textarea class="form-control" rows="5" type="content" name="content" placeholder="Enter your text here"></textarea>
         </div>
         <!--Submit button-->
         <button class="btn btn-primary btn-md" type="submit">Post</button>
