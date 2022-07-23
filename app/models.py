@@ -45,8 +45,8 @@ class Company(db.Model):
     country = db.Column(db.String())
     zipcode = db.Column(db.String())
     email = db.Column(db.String(100), unique=True)
-    address1 = db.Column(db.String() )
-    address2 = db.Column(db.String() )
+    address1 = db.Column(db.String())
+    address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
     
 class CompanyMembers(db.Model):
