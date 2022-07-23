@@ -28,4 +28,7 @@ class FixView(SecureModelView):
 admin.add_view(SecureModelView(models.User, db.session))
 admin.add_view(SecureModelView(models.Role, db.session))
 admin.add_view(FixView(models.UserRoles, db.session))
+admin.add_view(SecureModelView(models.Company, db.session))
+admin.add_view(SecureModelView(models.BlogPost, db.session))
+admin.add_view(FixView(models.CompanyMembers, db.session))
    

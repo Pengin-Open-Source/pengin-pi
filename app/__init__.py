@@ -65,8 +65,14 @@ def create_app():
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
     
-     # blueprint for admin
+    # blueprint for admin
     from .admin import admin_bpt as admin_blueprint
     app.register_blueprint(admin_blueprint)
+
+    from .profiles import profiles as profile_blueprint
+    app.register_blueprint(profile_blueprint)
+    
+    from .profiles import company_info as company_blueprint
+    app.register_blueprint(company_blueprint)
 
     return app

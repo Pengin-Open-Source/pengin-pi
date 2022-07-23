@@ -46,10 +46,10 @@ this template is the parent, while home/about are the children-->
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
             {% if current_user.is_authenticated %}
-              {% for role in roles  %}
-              {% if role.name == "admin" %}
-              <a class="nav-item nav-link" href="/blog/create">New Blog</a>
-              {% endif %}
+              {% for role in current_user.roles  %}
+                {% if role.name == "admin" %}
+                  <a class="nav-item nav-link" href="/blog/create">New Blog</a>
+                {% endif %}
               {% endfor %}
               <a class="nav-item nav-link" href="/profile">Profile</a>
               <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
@@ -64,6 +64,9 @@ this template is the parent, while home/about are the children-->
   </header>
 
   <main role="main" class="container">
+  
+  <!-- Andy: Commented out alerts in layout.html. I'm currently putting alerts in the children templates. -->
+  {#
     {%with messages = get_flashed_messages(with_categories = true) %}
       {% if messages%}
         {% for category, message in messages%}
@@ -73,6 +76,7 @@ this template is the parent, while home/about are the children-->
         {%endfor%}
       {% endif%}
     {% endwith %}
+  #}
     
     {% block content %}{% endblock %}
     

@@ -31,7 +31,7 @@ def login_post():
 
     # change the identity of the user
     identity_changed.send(current_app._get_current_object(),identity=Identity(user.id))
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('profiles.profile'))
 
 
 @auth.route('/signup')
