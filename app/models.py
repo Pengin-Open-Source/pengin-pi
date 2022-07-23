@@ -11,7 +11,6 @@ class User(UserMixin, db.Model):
     roles = db.relationship('Role', secondary='user_roles')
     
 
-
 # Define the Role data-model
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -34,11 +33,6 @@ class BlogPost(db.Model):
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     content = db.Column(db.String(10000))
     tags = db.Column(db.String(1000))
-    # Logan Kiser: hold off on user/group field - something will be added when
-    #              we incorporate flask-principal
-    # user = db.Column(db.Integer)
-    # TODO
-    # Logan Kiser: might be nice to include a convenient __init__ method or two
 
 
 class Company(db.Model):

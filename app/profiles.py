@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request, abort
 from flask_login import login_required, current_user
 from . import db
-from .models import User, Company, Members_Company
-from datetime import datetime
-from flask_principal import Permission, RoleNeed
+from .models import User, Company, CompanyMembers
+
 
 
 ## user profile routes
@@ -32,7 +31,7 @@ def edit_profile_post():
     db.session.commit()
     
     # reload profile page
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('profiles.profile'))
 
 @profiles.route('/edit_password')
 def edit_password():
@@ -40,7 +39,7 @@ def edit_password():
 
 @profiles.route('/edit_password', methods=['POST'])
 def edit_password_post():
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('profiles.profile'))
     
 
 
@@ -83,7 +82,7 @@ def create_company():
 
         new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
         #add to the company membership table
-        new_members_company = Members_Company(id = new_company.id , user_id = current_user.id)
+        new_members_company = CompanyMembers(id = new_company.id , user_id = current_user.id)
         db.session.add(new_members_company)
         db.session.add(new_company)
         db.session.commit()
