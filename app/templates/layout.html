@@ -46,10 +46,10 @@ this template is the parent, while home/about are the children-->
           <!-- Navbar Right Side -->
           <div class="navbar-nav">
             {% if current_user.is_authenticated %}
-              {% for role in roles  %}
-              {% if role.name == "admin" %}
-              <a class="nav-item nav-link" href="/blog/create">New Blog</a>
-              {% endif %}
+              {% for role in current_user.roles  %}
+                {% if role.name == "admin" %}
+                  <a class="nav-item nav-link" href="/blog/create">New Blog</a>
+                {% endif %}
               {% endfor %}
               <a class="nav-item nav-link" href="/profile">Profile</a>
               <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
