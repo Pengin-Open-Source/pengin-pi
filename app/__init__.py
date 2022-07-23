@@ -71,5 +71,8 @@ def create_app():
     '''
     from .profiles import profiles as profile_blueprint
     app.register_blueprint(profile_blueprint)
+    
+    from .profiles import company_info as company_blueprint
+    app.register_blueprint(company_blueprint)
 
     return app

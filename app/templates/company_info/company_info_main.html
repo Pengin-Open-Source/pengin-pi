@@ -14,10 +14,10 @@
   <div class="blog-links">
 
     <h1>Companies</h1>
-    {% if not companies %}
+    <!--{% if not companies %}
       <p>You're not currently a member of any companies.</p>
       <p>Feel free to create one.</p>
-    {% else %}
+    {% else %}-->
       {% for company in companies %}
       <div class="blog-link-item">
         <a href="/companies/{{ company.id }}">
@@ -25,8 +25,8 @@
         </a>
       </div>
       {% endfor %}
-    {% endif %}
-    <button class="btn btn-primary btn-md mr-1" type="button" method="GET" action="company_info/create_company">Create New Company</button>
-  </div>
+ <!-- {% endif %} -->
+ <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+</div>
 
-  {% endblock %}
+{% endblock %} 

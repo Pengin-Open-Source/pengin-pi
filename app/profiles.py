@@ -1,22 +1,20 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, request, abort
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 from . import db
 from .models import User, Company, CompanyMembers
-
-
 
 ## user profile routes
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
-@profiles.route('/profile')
+@profiles.route('/')
 @login_required
 def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 
 #edit profile info post
-@profiles.route('/profile/edit_profile', methods=['POST'])
+@profiles.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile_post():
     old_email = request.form.get('old_email')
@@ -78,25 +76,25 @@ def create_company():
         country = request.form.get('country')
         phone = request.form.get('phone')
         email = request.form.get('email')
-        ## TODO members?
 
         new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
         #add to the company membership table
-        new_members_company = CompanyMembers(id = new_company.id , user_id = current_user.id)
-        db.session.add(new_members_company)
         db.session.add(new_company)
         db.session.commit()
-        return redirect(url_for("company_info.display_company", company_id=new_company.id))
+        new_members_company = CompanyMembers(id = new_company.id , user_id = current_user.id)
+        db.session.add(new_members_company)
+        db.session.commit()
+        return redirect(url_for("company_info.display_company_info", company_id=new_company.id))
     # handle GET method
     return render_template('company_info/company_info_create.html', companies=get_companies())
 
 
 @company_info.route('/edit_company_info/<int:company_id>', methods=['POST'])
 @login_required
-def edit_company_info_post():
+def edit_company_info_post(company_id):
 
     # find company
-    company = Company.query.filter_by(id=id).first()
+    company = Company.query.filter_by(id=company_id).first()
 
     # update information
     company.name = request.form.get('name')

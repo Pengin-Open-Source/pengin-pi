@@ -3,7 +3,7 @@
 {% block companycontent %}
 
 <!-- The company info for the user to enter -->
-<form id="edit_company_info_form" class="hidden" method="POST" action="company_info/create_company">
+<form id="create_company_info_form" method="POST" action="/companies/create">
 
     <h1 class="header">Edit Company Information</h1>
 
@@ -29,7 +29,7 @@
 
     <div class="form-group">
         <label>State*</label>
-        <input class="form-control" type="text" name="state" value="{{ company.state }}" placeholder="State">
+        <input class="form-control" type="text" name="state" placeholder="State">
       </div>
 
     <div class="form-group">
@@ -59,7 +59,6 @@
 
     <!-- Buttons  -->
     <div class="container d-flex justify-content-between px-0">
-      <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_company_info()">Cancel</button>
       <button class="btn btn-success btn-md" type="submit">Save</button>
     </div>
 
