@@ -13,7 +13,7 @@ principals = Principal()
 login_manager = LoginManager()
 #flask admin
 
-#admin = Admin()
+admin = Admin()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
@@ -25,7 +25,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app) #login manager
     principals.init_app(app) #principals
-    #admin.init_app(app)
+    admin.init_app(app)
     login_manager.login_view = 'auth.login'
     
     from .models import User
@@ -65,10 +65,10 @@ def create_app():
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
     
-    ''' # blueprint for admin
+    # blueprint for admin
     from .admin import admin_bpt as admin_blueprint
     app.register_blueprint(admin_blueprint)
-    '''
+
     from .profiles import profiles as profile_blueprint
     app.register_blueprint(profile_blueprint)
     
