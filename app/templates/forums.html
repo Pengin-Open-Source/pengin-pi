@@ -11,9 +11,13 @@ Forums
           <h1 class="ml-2"><a href="/forums/{{folder.name}}"> {{folder.name}} </a></h1>
       </div>
       <div>
+        <ul>
+        {% for post in folders_posts[folder.name] %}
         <li>
-          post
+          <a href="/forums/{{folder.name}}/{{post.id}}">{{post.title}} - {{post.author}}</a>
         </li>
+        {% endfor %}
+      </ul>
       </div>
     </div>
     {% endfor %}

@@ -186,3 +186,11 @@ body {
     background : white;
     border-radius: 5px;
   }
+
+  .forum-folder a{
+    color : black;
+  }
+
+  .forum-folder a:hover{
+    color : #1a6b99;
+  }

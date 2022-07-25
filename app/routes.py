@@ -1,4 +1,5 @@
 #import flask module
+from collections import defaultdict
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 from . import db
@@ -96,8 +97,19 @@ def forums_home():
 def forums(folder): 
     # Only render folders and posts with parent == folder
     render_folders = [thread for thread in threads if thread["parent"] == folder]
+    folders_posts = {}
+    for post in posts:
+        thread_name = post["thread"]
+        for thread in render_folders:
+            if thread_name == thread['name']:
+                if thread_name in folders_posts:
+                    folders_posts[thread_name].append(post)
+                else:
+                    folders_posts[thread_name] = [post]
+                break
+        print("HELLO",folders_posts)
     render_posts = [post for post in posts if post["thread"] == folder]
-    return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders)
+    return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders, folders_posts=folders_posts)
 
 @main.route('/profile')
 @login_required
