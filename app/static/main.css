@@ -179,3 +179,10 @@ body {
     margin-bottom: 1rem;
     color: white;
   }
+
+  /* Forum Posts */
+
+  .forum-folder {
+    background : white;
+    border-radius: 5px;
+  }
