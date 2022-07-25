@@ -13,7 +13,7 @@
     <!-- The company info for the user to edit -->
     <form id="edit_company_info_form" class="hidden" method="POST" action="/companies/edit_company_info/{{company.id}}">
 
-        <h1 class="header">Edit Company Information</h1>
+        <h1 class="header">Edit Company Information for {{ company.name }}</h1>
 
         <input type="hidden" name="id" value="{{company.id}}">
 
@@ -27,10 +27,10 @@
             <input class="form-control" type="text" name="address1" value="{{ company.address1 }}" placeholder="Address 1" required>
           </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Address 2</label>
             <input class="form-control" type="text" name="address2" value="{{ company.address2 }}" placeholder="Address 2">
-        </div>
+        </div> -->
 
         <div class="form-group">
             <label>City*</label>
@@ -75,7 +75,7 @@
       <!-- Jasmine TODO need to make company_info style -->
     <div id="company-info-table">
 
-        <h1 class="header">Company Information</h1>
+        <h1 class="header">Company Information for {{ company.name }}</h1>
 
         <table class="table table-bordered">
 
@@ -91,10 +91,10 @@
             <td>{{ company.address1 }}</td>
           </tr>
 
-          <tr>
+          <!-- <tr>
             <th>Address 2</th>
             <td>{{ company.address2 }}</td>
-          </tr>
+          </tr> -->
 
           <tr>
             <th>City</th>
@@ -133,7 +133,10 @@
 
         </table>
 
-          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_company_info()">Edit Company Information</a>
+          <div class="buttons">
+            <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_company_info()">Edit Company Information</a></button>
+            <a href="/companies"><button class="btn btn-secondary btn-md mr-1" type="button">Back to My Companies</button></a>
+          </div>
     </div>
 
 {% endblock %}

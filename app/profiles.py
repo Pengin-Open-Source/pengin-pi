@@ -5,16 +5,16 @@ from .models import User, Company, CompanyMembers
 
 ## user profile routes
 
-profiles = Blueprint('profiles', __name__, url_prefix="/profile")
+profiles = Blueprint('profiles', __name__)
 
-@profiles.route('/')
+@profiles.route('/profile')
 @login_required
 def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
 
 #edit profile info post
-@profiles.route('/edit_profile', methods=['POST'])
+@profiles.route('/profile/edit_profile', methods=['POST'])
 @login_required
 def edit_profile_post():
     old_email = request.form.get('old_email')
@@ -31,11 +31,11 @@ def edit_profile_post():
     # reload profile page
     return redirect(url_for('profiles.profile'))
 
-@profiles.route('/edit_password')
+@profiles.route('/profile/edit_password')
 def edit_password():
     return render_template('edit_password.html')
 
-@profiles.route('/edit_password', methods=['POST'])
+@profiles.route('/profile/edit_password', methods=['POST'])
 def edit_password_post():
     return redirect(url_for('profiles.profile'))
     
@@ -69,7 +69,7 @@ def create_company():
     if request.method == 'POST':
         name = request.form.get('name')
         address1 = request.form.get('address1')
-        address2 = request.form.get('address2')
+        # address2 = request.form.get('address2')
         city = request.form.get('city')
         state = request.form.get('state')
         zipcode = request.form.get('zipcode')
@@ -77,7 +77,7 @@ def create_company():
         phone = request.form.get('phone')
         email = request.form.get('email')
 
-        new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
+        new_company = Company(name=name, address1=address1, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
         #add to the company membership table
         db.session.add(new_company)
         db.session.commit()
@@ -99,7 +99,7 @@ def edit_company_info_post(company_id):
     # update information
     company.name = request.form.get('name')
     company.address1 = request.form.get('address1')
-    company.address2 = request.form.get('address2')
+    # company.address2 = request.form.get('address2')
     company.city = request.form.get('city')
     company.state = request.form.get('state')
     company.zipcode = request.form.get('zipcode')

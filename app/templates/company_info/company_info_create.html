@@ -5,7 +5,7 @@
 <!-- The company info for the user to enter -->
 <form id="create_company_info_form" method="POST" action="/companies/create">
 
-    <h1 class="header">Edit Company Information</h1>
+    <h1 class="header">Create Company</h1>
 
     <div class="form-group">
         <label>Company Name*</label>
@@ -54,7 +54,8 @@
 
     <!-- Buttons  -->
     <div class="container d-flex justify-content-between px-0">
-      <button class="btn btn-success btn-md" type="submit">Save</button>
+        <a href="/companies"><button class="btn btn-danger btn-md"  type="button">Cancel</button></a>
+        <button class="btn btn-success btn-md" type="submit">Save</button>
     </div>
 
 </form>
