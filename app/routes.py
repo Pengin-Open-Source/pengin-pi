@@ -23,7 +23,7 @@ posts = [
             'author': 'Sergey Astvatsaturov', 
             'title': 'Single life!',
             'content': 'I rock', 
-            'thread': "vlog",
+            'thread': "life",
             'tags': '',
             'date': 'February 10th, 2022'
         },
@@ -33,7 +33,7 @@ posts = [
             'author': 'Stuart Anderson', 
             'title': 'Life in Japan',
             'content': "Can't wait to get back to the states", 
-            'thread': "vlog",
+            'thread': "life",
             'tags': '',
             'date': 'February 11th, 2022'
         },
@@ -42,7 +42,7 @@ posts = [
             'author': 'Dante Samuels', 
             'title': 'Kid 2',
             'content': 'So excited!', 
-            'thread': "vlog",
+            'thread': "life",
             'tags': '',
             'date': 'February 13th, 2022'
         }
@@ -56,7 +56,7 @@ threads = [
 
     },
     {
-        "name" :"vlog",
+        "name" :"life",
         "parent" : "home"
 
     },
