@@ -60,7 +60,14 @@ threads = [
         "parent" : "home"
 
     },
-
+    {
+        "name" :"life 2",
+        "parent" : "life"
+    },
+    {
+        "name" :"folder",
+        "parent" : "home"
+    },
 ]
 
 

@@ -189,11 +189,11 @@ body {
 
 
   .forum-folder a{
-    color : black;
+    color: #007EA7
   }
 
-  .forum-folder a:hover{
-    color : #428bca;
+  .forum-folder-list-posts a{
+    color: black;
   }
 
   .forum-post{
@@ -203,11 +203,7 @@ body {
   }
 
   .article-author{
-    color: black;
-  }
-
-  .article-author:hover{
-    color: #428bca;
+    color: #007EA7
   }
 
   .article-date{

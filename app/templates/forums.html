@@ -1,8 +1,9 @@
       
 {% extends "oneDiv.html" %}
-Forums
+
 {% block oneDivContent %}
     <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
+    <h1 class="page-title"> Forums</h1>
     <!--for loop to loop through the list of folders -->
     {% for folder in folders %}
     <div class="forum-folder mb-2 p-2">
@@ -10,7 +11,7 @@ Forums
           <img src="{{ url_for('static', filename='images/folder.svg') }}" />
           <h1 class="ml-2"><a href="/forums/{{folder.name}}"> {{folder.name}} </a></h1>
       </div>
-      <div>
+      <div class="forum-folder-list-posts">
         <ul>
         {% for post in folders_posts[folder.name] %}
         <li>
