@@ -1,0 +1,29 @@
+<!-- This could just be a temporary file for now.
+    The contents could later be integrated into the 
+    actual forum form file. -->
+
+<!-- commentcontent block does not exist in any other files yet
+could eventually just paste the HTML code itself into the forum form -->
+{% block commentcontent %}
+
+    <!-- Loop through the stored comments -->
+    {% for comment in comments %} <!-- post.comments? -->
+        
+        <li>
+            <div class="comment">
+
+                <!-- Display the comment content, comment author, date of submission -->
+                <!-- (see Forum_Comment in models.py)-->
+
+                <!-- Jasmine: TODO: change tags to improve styling -->
+                <p>{{ comment.author }} - {{ comment.date }}</p> 
+                <p>{{ comment.content }}</p>
+
+            </div>
+        </li>
+
+
+    {% endfor %}
+
+
+{% endblock %}
