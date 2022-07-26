@@ -6,6 +6,19 @@
 could eventually just paste the HTML code itself into the forum form -->
 {% block commentcontent %}
 
+    <h4>Comments</h4>
+
+    <!-- Let the user choose how they would like to sort the comments 
+        (i.e. ascending or descending by date).-->
+    <select name="comments_order" id="comments_order">
+        <option value="newest_first">Newest First</option>
+        <option value="oldest_first">Oldest First</option>
+    </select>
+
+    <!-- Before looping through the comments to display them,
+        sort them by the user's chosen order -->
+
+
     <!-- Loop through the stored comments -->
     {% for comment in comments %} <!-- post.comments? -->
         
@@ -24,6 +37,5 @@ could eventually just paste the HTML code itself into the forum form -->
 
 
     {% endfor %}
-
 
 {% endblock %}
