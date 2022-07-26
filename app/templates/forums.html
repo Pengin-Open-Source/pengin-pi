@@ -3,11 +3,12 @@
 
 {% block oneDivContent %}
     <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
-    <h1 class="page-title"> Forums</h1>
+    <h1> Forums</h1>
+    <h2> forums/{{thread}} </h2>
     <!--for loop to loop through the list of folders -->
     {% for folder in folders %}
     <div class="forum-folder mb-2 p-2">
-      <div class="article-metadata d-flex flex-row">
+      <div class="forum-name">
           <img src="{{ url_for('static', filename='images/folder.svg') }}" />
           <h1 class="ml-2"><a href="/forums/{{folder.name}}"> {{folder.name}} </a></h1>
       </div>

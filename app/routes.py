@@ -13,7 +13,7 @@ posts = [
             'id' : 0,
             'author': 'Admin', 
             'title': 'This is the home folder',
-            'content': 'Rules', 
+            'content': 'Rules: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 
             'thread': "home",
             'tags': '',
             'date': 'July 21st, 2022'
@@ -116,7 +116,7 @@ def forums(folder):
                 break
     
     render_posts = [post for post in posts if post["thread"] == folder]
-    return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders, folders_posts=folders_posts)
+    return render_template('forums.html', title ='forums', thread=folder, posts = render_posts, folders = render_folders, folders_posts=folders_posts)
 
 @main.route('/profile')
 @login_required

@@ -61,6 +61,8 @@ body {
   }
   
   .article-metadata {
+    display: flex;
+    justify-content: space-between;
     padding-bottom: 1px;
     margin-bottom: 4px;
     border-bottom: 1px solid #e3e3e3
@@ -180,16 +182,23 @@ body {
     color: white;
   }
 
-  /* Forum Posts */
+  /* Forum */
+
+  .forum-name {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
 
   .forum-folder {
     background : white;
     border-radius: 5px;
   }
 
-
   .forum-folder a{
-    color: #007EA7
+    color: black
   }
 
   .forum-folder-list-posts a{
@@ -203,7 +212,7 @@ body {
   }
 
   .article-author{
-    color: #007EA7
+    color: black;
   }
 
   .article-date{
