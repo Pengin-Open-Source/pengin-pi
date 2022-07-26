@@ -6,7 +6,7 @@ Forums
     <!--for loop to loop through the list of folders -->
     {% for folder in folders %}
     <div class="forum-folder mb-2 p-2">
-      <div class="d-flex flex-row align-items-center">
+      <div class="article-metadata d-flex flex-row">
           <img src="{{ url_for('static', filename='images/folder.svg') }}" />
           <h1 class="ml-2"><a href="/forums/{{folder.name}}"> {{folder.name}} </a></h1>
       </div>
@@ -24,16 +24,16 @@ Forums
 
     <!--for loop to loop through the list of posts -->
     {% for post in posts %}
-    <article class="media content-section">
+    <div class="forum-post mb-2 p-2">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="#">{{ post.author }}</a>
-            <small class="text-muted">{{ post.date }}</small>
+            <a class="article-author mr-2" href="#">{{ post.author }}</a>
+            <small class="article-date"> {{ post.date }}</small>
           </div>
           <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
           <p class="article-content">{{ post.content }}</p>
         </div>
-      </article>
+      </div>
     <!--closing a code block -->
     {% endfor %}
 {% endblock %}

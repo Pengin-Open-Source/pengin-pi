@@ -107,7 +107,7 @@ def forums(folder):
                 else:
                     folders_posts[thread_name] = [post]
                 break
-        print("HELLO",folders_posts)
+    
     render_posts = [post for post in posts if post["thread"] == folder]
     return render_template('forums.html', title ='forums', posts = render_posts, folders = render_folders, folders_posts=folders_posts)
 

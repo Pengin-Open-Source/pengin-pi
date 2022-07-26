@@ -187,10 +187,29 @@ body {
     border-radius: 5px;
   }
 
+
   .forum-folder a{
     color : black;
   }
 
   .forum-folder a:hover{
-    color : #1a6b99;
+    color : #428bca;
+  }
+
+  .forum-post{
+    background : white;
+    border-radius: 5px;
+    color: black;
+  }
+
+  .article-author{
+    color: black;
+  }
+
+  .article-author:hover{
+    color: #428bca;
+  }
+
+  .article-date{
+    color: #898E91
   }
