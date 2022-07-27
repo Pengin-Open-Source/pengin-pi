@@ -1,4 +1,11 @@
 <!-- This is a temporary file to store the button described in issue #98.  -->
 
 
-<button type="button" class="btn btn-outline-danger" onclick="delete_comment(post, comment)">Delete Comment</button>
+<!--    Add this into the for loop when displaying all comments for a 
+        forum post.
+        The button will only show up if the current user is logged in, 
+        is the original author of the comment, or has admin privileges. -->
+
+{% if current_user.is_authenticated and (current_user == comment.author or "admin" in current_user.roles) %}
+    <button type="button" class="btn btn-outline-danger" onclick="delete_comment(post, comment)">Delete Comment</button>
+{% endif %}
