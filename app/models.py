@@ -74,13 +74,14 @@ class Members_Company(db.Model):
 class Forum_Post(db.Model):
     __tablename__ = 'forum_post'
     id = db.Column(db.Integer(), primary_key=True)
-    title = db.Column(db.String(), unique=True)
+    title = db.Column(db.String())
     content = db.Column(db.String())
     thread = db.Column(db.String())
     author = db.Column(db.String())
-    tags = db.Column(db.String(), unique=True)
+    tags = db.Column(db.String())
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    comment = db.relationship('Forum_Comment', secondary='forum_comment')
+    # Andy: There is a sqlalchemy error with the comment, I'm commenting it out for now.
+    #comment = db.relationship('Forum_Comment', secondary='forum_comment')
 
 
 class Forum_Comment(db.Model):

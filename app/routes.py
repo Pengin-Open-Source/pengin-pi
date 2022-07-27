@@ -39,7 +39,7 @@ def forums_redirect():
 @main.route("/forums/<thread>") #<thread> designates the id of which thread user is currently in
 def forums(thread):
     # Query db for posts
-    posts = []
+    posts = Forum_Post.query.all()
     return render_template('forums.html', title ='forums', posts = posts, thread=thread)
 
 #Forum create post POST request
@@ -49,20 +49,17 @@ def forums_create_post():
     # Get request data
     thread = request.form.get('thread')
     title = request.form.get('title')
-    content = request.form.get('body')
-    
-    # Get date
-    date = date.today()
+    content = request.form.get('content')
 
-    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_post = Forum_Post(thread=thread, title=title, content=content, date=date, author = current_user.name)
+    # create new post
+    new_post = Forum_Post(thread=thread, title=title, content=content, author = current_user.name)
 
     # add the new post to the database
     db.session.add(new_post)
     db.session.commit()
 
     # reload profile page
-    return redirect(url_for('main.forum', thread = thread))
+    return redirect(url_for('main.forums', thread = thread))
 
 @main.route('/profile')
 @login_required
