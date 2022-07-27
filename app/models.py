@@ -60,3 +60,13 @@ class Members_Company(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id= db.Column(db.Integer(), db.ForeignKey('User.id', ondelete='CASCADE'))
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
+
+class Forum_Post(db.Model):
+    __tablename__ = "forum_post"
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(), unique=True)
+    content = db.Column(db.String())
+    thread = db.Column(db.String())
+    author = db.Column(db.String())
+    tags = db.Column(db.String(), unique=True)
+    date = db.Column(db.Integer(), unique=True)
