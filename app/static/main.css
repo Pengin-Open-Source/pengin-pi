@@ -5,6 +5,9 @@ body {
     min-height: 1000px;
     background: linear-gradient(#535252,#d1cccc );
     margin-top: 5rem;
+
+    align-items: space-around;
+    justify-content: space-evenly;
   }
 
   h1{

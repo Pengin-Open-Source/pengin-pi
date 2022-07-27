@@ -3,30 +3,30 @@
 {% block profilecontent %}
 
   <!-- Jasmine: using the blog-links style for now, maybe could rename the style to something more broad? -->
-  <div class="blog-links">
 
-    {% block companycontent %}
+  {% block companycontent %}
+  
+    <div class="blog-links">
 
-    <h1 class="header">Companies</h1>
+      <h1 class="header">Companies</h1>
 
-    {% if not companies %}
-      <p>You're not currently a member of any companies.</p>
-      <p>Feel free to create one.</p>
-    {% else %}
-      {% for company in companies %}
-      <div class="blog-link-item">
-        <a href="/companies/{{ company.id }}">
-            {{ company.name }}
-        </a>
-      </div>
-      {% endfor %}
-    {% endif %}
+      {% if not companies %}
+        <p>You're not currently a member of any companies.</p>
+        <p>Feel free to create one.</p>
+      {% else %}
+        {% for company in companies %}
+        <div class="blog-link-item">
+          <a href="/companies/{{ company.id }}">
+              {{ company.name }}
+          </a>
+        </div>
+        {% endfor %}
+      {% endif %}
 
-    <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+      <a href="/companies/create" class="btn btn-primary" >Create New Company</a>
 
     </div>
-
+    
   {% endblock %}
-
 
 {% endblock %}
