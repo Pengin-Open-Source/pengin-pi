@@ -69,9 +69,8 @@ def delete_comment(post, comment):
     post.comments.remove(comment)
     db.session.commit()
 
-    # TODO: After the comment is deleted, render the template for the forum post
-    # return redirect(url_for()) ## how is the URL built?
-    return
+    # After the comment is deleted, redirect to the original post
+    return redirect(url_for("/forums/post/<post.id>")) ## Is this the correct way to do it?
 
 
 @main.route('/profile')
