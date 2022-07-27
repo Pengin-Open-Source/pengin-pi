@@ -14,10 +14,8 @@ forums = Blueprint('forums', __name__)
 
 @forums.route("/forums")
 def forum_posts():
-    forum_posts = Forum_Post.query.order_by(Forum_Post.date
-    )
+    forum_posts = Forum_Post.query.order_by(Forum_Post.date)
     return render_template('forums.html', title ='forums', posts = forum_posts)
-
 
 
 
@@ -25,7 +23,7 @@ def forum_posts():
 @forums.route("/forums/delete/<int:id>")
 def delete_forum(id):
     forum_post_to_delete = Forum_Post.query.get_or_404(id)
-    if current_user == Forum_Post.author:
+    if current_user == forum_post_to_delete.author:
         try:
             db.session.delete(forum_post_to_delete)
             db.session.commit()
