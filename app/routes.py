@@ -38,8 +38,8 @@ def forums_redirect():
 
 @main.route("/forums/<thread>") #<thread> designates the id of which thread user is currently in
 def forums(thread):
-    # Query db for posts
-    posts = Forum_Post.query.all()
+    # Query db for posts by descending order by date to show most recent posts first
+    posts = Forum_Post.query.order_by(Forum_Post.date.desc())
     return render_template('forums.html', title ='forums', posts = posts, thread=thread)
 
 #Forum create post POST request
