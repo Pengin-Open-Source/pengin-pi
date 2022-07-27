@@ -65,14 +65,6 @@ def forums():
 ## Helper function for issue #98
 def delete_comment(post, comment):
 
-    # Ensure that the author of the comment is the same as the current user
-    # or if the user is admin
-
-    if (current_user != comment.author) and ('admin' not in current_user.roles):
-        ## This user is not allowed to delete this comment.
-        ## Throw an error?
-        return
-
     # Delete the comment
     post.comments.remove(comment)
     db.session.commit()
