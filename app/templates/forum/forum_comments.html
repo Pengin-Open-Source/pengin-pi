@@ -17,6 +17,26 @@ could eventually just paste the HTML code itself into the forum form -->
 
     <!-- Before looping through the comments to display them,
         sort them by the user's chosen order -->
+    <script>
+        var usingNewestFirst = true;
+
+        // by default, sort by newest first
+        comments.sort((a,b)=>a.getTime()-b.getTime());
+
+        var sel = document.getElementById('comments_order');
+        sel.onchange = function(){
+            
+            if (!usingNewestFirst) {
+                // sort by newest first
+                comments.sort((a,b)=>a.getTime()-b.getTime());
+            } else {
+                // sort by oldest first
+                comments.sort((a,b)=>b.getTime()-a.getTime());
+                usingNewestFirst = false;
+            }
+
+        };
+    </script>
 
 
     <!-- Loop through the stored comments -->
