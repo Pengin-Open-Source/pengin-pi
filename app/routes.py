@@ -2,34 +2,11 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 from . import db
-from .models import User
+from .models import Forum_Comment, Forum_Post, User
+from datetime import date
 
 main = Blueprint('main', __name__)
 
-#dummy variable list of dictionaries 
-posts = [
-        {
-            'author': 'Sergey Astvatsaturov', 
-            'title': 'Single life!',
-            'content': 'I rock', 
-            'date_posted': 'February 10th, 2022'
-        },
-
-        {
-            'author': 'Stuart Anderson', 
-            'title': 'Life in Japan',
-            'content': "Can't wait to get back to the states", 
-            'date_posted': 'February 11th, 2022'
-        },
-          {
-            'author': 'Dante Samuels', 
-            'title': 'Kid 2',
-            'content': 'So excited!', 
-            'date_posted': 'February 13th, 2022'
-        }
-
-
-]
 
 #Routes are what you type into your browser to go to different webpages
 #use route decorators 
@@ -54,9 +31,38 @@ def about():
 def products():
     return render_template('products.html', title ='products')
 
-@main.route("/forums")
-def forums():
-    return render_template('forums.html', title ='forums', posts = posts)
+# Forum routes
+@main.route("/forums") #redirect to default forum
+def forums_redirect():
+    return redirect(url_for('main.forums', thread = 1))
+
+@main.route("/forums/<thread>") #<thread> designates the id of which thread user is currently in
+def forums(thread):
+    # Query db for posts
+    posts = []
+    return render_template('forums.html', title ='forums', posts = posts, thread=thread)
+
+#Forum create post POST request
+@main.route('/forums/create_post', methods=['POST'])
+@login_required
+def forums_create_post():
+    # Get request data
+    thread = request.form.get('thread')
+    title = request.form.get('title')
+    content = request.form.get('body')
+    
+    # Get date
+    date = date.today()
+
+    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+    new_post = Forum_Post(thread=thread, title=title, content=content, date=date, author = current_user.name)
+
+    # add the new post to the database
+    db.session.add(new_post)
+    db.session.commit()
+
+    # reload profile page
+    return redirect(url_for('main.forum', thread = thread))
 
 @main.route('/profile')
 @login_required
