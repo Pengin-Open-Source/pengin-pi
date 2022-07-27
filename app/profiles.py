@@ -69,7 +69,7 @@ def create_company():
     if request.method == 'POST':
         name = request.form.get('name')
         address1 = request.form.get('address1')
-        # address2 = request.form.get('address2')
+        address2 = request.form.get('address2')
         city = request.form.get('city')
         state = request.form.get('state')
         zipcode = request.form.get('zipcode')
@@ -77,7 +77,7 @@ def create_company():
         phone = request.form.get('phone')
         email = request.form.get('email')
 
-        new_company = Company(name=name, address1=address1, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
+        new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
         #add to the company membership table
         db.session.add(new_company)
         db.session.commit()
@@ -99,7 +99,7 @@ def edit_company_info_post(company_id):
     # update information
     company.name = request.form.get('name')
     company.address1 = request.form.get('address1')
-    # company.address2 = request.form.get('address2')
+    company.address2 = request.form.get('address2')
     company.city = request.form.get('city')
     company.state = request.form.get('state')
     company.zipcode = request.form.get('zipcode')
