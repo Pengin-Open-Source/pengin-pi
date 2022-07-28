@@ -91,3 +91,15 @@ def create_forum_post():
     # handle GET method
     return render_template('forums', post=get_forum_posts())
     # TODO need a porper url somehwere to show/handle new post
+
+
+@login_required
+@forums.route("/forums/delete/")
+def delete_forum():
+    for post in posts:
+        creator = posts[post]['author']
+        if current_user == creator:
+            db.session.delete(post)
+            db.session.commit()
+
+        return render_template('forums.html', title='forums', posts=posts)
