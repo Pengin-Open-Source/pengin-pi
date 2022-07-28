@@ -86,15 +86,17 @@ def create_forum_post():
         db.session.add(new_post)
         db.session.commit()
 
-        return redirect(url_for("forums", forum_id=new_post.id))
+        return redirect(url_for("forums.html", forum_id=new_post.id))
         # TODO need a proper URL
     # handle GET method
-    return render_template('forums', post=get_forum_posts())
+    return render_template('forums.html', post=get_forum_posts())
     # TODO need a porper url somehwere to show/handle new post
 
+# from kartik's code
 
-@login_required
+
 @forums.route("/forums/delete/")
+@login_required
 def delete_forum():
     for post in posts:
         creator = posts[post]['author']
@@ -102,4 +104,4 @@ def delete_forum():
             db.session.delete(post)
             db.session.commit()
 
-        return render_template('forums.html', title='forums', posts=posts)
+        return redirect(url_for("/forums", title='forums', posts=posts))
