@@ -92,7 +92,7 @@ def create_forum_post():
     return render_template('forums', post=get_forum_posts())
     # TODO need a porper url somehwere to show/handle new post
 
-
+#from kartik's code
 @login_required
 @forums.route("/forums/delete/")
 def delete_forum():
