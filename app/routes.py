@@ -2,11 +2,9 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 from . import db
-from .models import Forum_Comment, Forum_Post, User
-from datetime import date
+from .models import User
 
 main = Blueprint('main', __name__)
-
 
 #Routes are what you type into your browser to go to different webpages
 #use route decorators 
@@ -31,35 +29,6 @@ def about():
 def products():
     return render_template('products.html', title ='products')
 
-# Forum routes
-@main.route("/forums") #redirect to default forum
-def forums_redirect():
-    return redirect(url_for('main.forums', thread = 1))
-
-@main.route("/forums/<thread>") #<thread> designates the id of which thread user is currently in
-def forums(thread):
-    # Query db for posts by descending order by date to show most recent posts first
-    posts = Forum_Post.query.order_by(Forum_Post.date.desc())
-    return render_template('forums.html', title ='forums', posts = posts, thread=thread)
-
-#Forum create post POST request
-@main.route('/forums/create_post', methods=['POST'])
-@login_required
-def forums_create_post():
-    # Get request data
-    thread = request.form.get('thread')
-    title = request.form.get('title')
-    content = request.form.get('content')
-
-    # create new post
-    new_post = Forum_Post(thread=thread, title=title, content=content, author = current_user.name)
-
-    # add the new post to the database
-    db.session.add(new_post)
-    db.session.commit()
-
-    # reload profile page
-    return redirect(url_for('main.forums', thread = thread))
 
 @main.route('/profile')
 @login_required

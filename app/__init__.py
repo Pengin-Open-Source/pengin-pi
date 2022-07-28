@@ -61,6 +61,10 @@ def create_app():
     from .blogPosts import blogPosts as blogPosts_blueprint
     app.register_blueprint(blogPosts_blueprint)
 
+    # blueprint for forums routes in app
+    from .forums import forums as forums_blueprint
+    app.register_blueprint(forums_blueprint)
+
     # blueprint for non-auth parts of app
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
