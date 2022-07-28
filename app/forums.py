@@ -30,9 +30,10 @@ def forums_create_post():
     thread = request.form.get('thread')
     title = request.form.get('title')
     content = request.form.get('content')
+    tags = request.form.get('tags')
 
     # create new post
-    new_post = Forum_Post(thread=thread, title=title, content=content, author = current_user.name)
+    new_post = Forum_Post(thread=thread, title=title, content=content, tags=tags, author = current_user.name)
 
     # add the new post to the database
     db.session.add(new_post)

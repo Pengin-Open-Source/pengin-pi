@@ -3,7 +3,7 @@
     {% block forums_create_post_form %}
         <!--Create Forum Post Form-->
         {% if current_user.is_authenticated %}
-        <form class="forumForm mb-3" method="POST" action="/forums/create_post">
+        <form class="forumForm mb-3 p-3" method="POST" action="/forums/create_post">
             <!--Inherited forum id-->  
             <input type="hidden" name="thread" value="{{thread}}">
             <!--Title input-->
@@ -15,6 +15,11 @@
             <div class="form-group">
                 <label>Content</label>
                 <textarea class="form-control" rows="5" type="content" name="content" placeholder="Enter your text here"></textarea>
+            </div>
+            <!-- Tags input -->
+            <div class="form-group">
+                <label>Tags</label>
+                <input class="form-control" type="tags" name="tags" placeholder="Comma separated tags">
             </div>
             <!--Submit button-->
             <button class="btn btn-primary btn-md" type="submit">Post</button>

@@ -182,3 +182,7 @@ body {
   }
 
   /* Forum forms */
+  .forumForm {
+    background: white;
+    border-radius: 5px;
+  }
