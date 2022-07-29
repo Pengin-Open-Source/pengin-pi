@@ -50,6 +50,7 @@ class Company(db.Model):
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
+    customer=db.relationship('User', secondary='customer')
     
     
 class CompanyMembers(db.Model):
@@ -65,9 +66,9 @@ class Customer(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(),db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
+    order_id=db.column(db.Integer())
     #order_id = db.Column(db.Integer(), db.ForeignKey('order.id', ondelete='CASCADE')) 
     # order table will be created later
     date = db.Column(db.DateTime(timezone=True),server_default=func.now())
     service_date = db.Column(db.DateTime(255), nullable=True) 
     expiration_date = db.Column(db.DateTime(255), nullable=True)
-    customers= db.relationship('User', backref='customer')
