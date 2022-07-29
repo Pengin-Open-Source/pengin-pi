@@ -192,7 +192,7 @@ body {
     display: flex;
     background: white;
     border-radius: 5px;
-    max-height: 500px;
+    height: 700px
   }
 
   .scroll{
