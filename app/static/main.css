@@ -186,3 +186,17 @@ body {
     background: white;
     border-radius: 5px;
   }
+
+  /* Forum container holds post titles and folders */
+  .forum-container{
+    display: flex;
+    background: white;
+    border-radius: 5px;
+    max-height: 500px;
+  }
+
+  .scroll{
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
