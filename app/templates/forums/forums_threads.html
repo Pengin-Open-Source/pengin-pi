@@ -2,7 +2,7 @@
 
 <!--for loop to loop through the list of posts -->
 {% if not threads %}
-    No threads found. Why don't you create your own?
+    No threads found.
 {% endif %}
 {% for thread, posts in threads.items() %}
     {{ mac.forum_thread(thread, posts) }}

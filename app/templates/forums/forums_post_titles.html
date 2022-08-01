@@ -1,6 +1,9 @@
 {% import 'forums/macros.html' as mac %}
 
 <!--for loop to loop through the list of posts -->
+{% if not posts %}
+    No posts found.
+{% endif %}
 {% for post in posts %}
     {{ mac.forum_post_title(post) }}
 {% endfor %}
