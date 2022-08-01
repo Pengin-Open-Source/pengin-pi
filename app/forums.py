@@ -10,11 +10,26 @@ forums = Blueprint('forums', __name__)
 def forums_redirect():
     return redirect(url_for('forums.forums_page', thread = 1))
 
+# Helper to get the posts of a thread
+def get_thread_posts(posts, limit):
+    threads = {}
+    for post in posts:
+        print(post.thread)
+        if post.thread not in threads:
+            threads[post.thread] = [post]
+        elif len(threads[post.thread]) > limit:
+            continue
+        else:
+            threads[post.thread].append(post)
+    return threads
+
 @forums.route("/forums/<thread>") #<thread> designates the id of which thread user is currently in
 def forums_page(thread):
     # Query db for posts by descending order by date to show most recent posts first
     posts = Forum_Post.query.order_by(Forum_Post.date.desc())
-    return render_template('/forums/forums.html', title ='forums', posts = posts, thread=thread)
+    # Get threads
+    threads = get_thread_posts(posts, 10)
+    return render_template('/forums/forums.html', title ='forums', posts = posts, threads=threads, thread=thread)
 
 #Forum create post form GET request
 @forums.route('/forums/<thread>/create_post', methods=['GET'])

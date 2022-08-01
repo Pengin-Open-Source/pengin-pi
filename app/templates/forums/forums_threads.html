@@ -1,0 +1,7 @@
+{% import 'forums/macros.html' as mac %}
+
+<!--for loop to loop through the list of posts -->
+{% for thread, posts in threads.items() %}
+    {{ mac.forum_thread(thread, posts) }}
+{% endfor %}
+

@@ -11,3 +11,23 @@
     </div>
   </article>
 {% endmacro %}
+
+{# Forum thread view #}
+{% macro forum_thread(thread, posts) %}
+  <article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="forums/{{thread}}">{{ thread }}</a>
+        </div>
+        <ul>
+            {% for post in posts %}
+            <li>
+                <a href="forums/post/{{post.id}}"> 
+                    {{ post.title}} - {{ post.author }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </article>
+{% endmacro %}
