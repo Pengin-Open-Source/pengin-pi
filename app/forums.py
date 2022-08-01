@@ -10,8 +10,8 @@ def get_thread_posts(posts, limit):
     threads = {}
     for post in posts:
         # Ignore thread if home thread
-        if post.thread == 'home':
-            continue
+        # if post.thread == 'home':
+        #     continue
         if post.thread not in threads:
             threads[post.thread] = [post]
         elif len(threads[post.thread]) > limit:
