@@ -13,49 +13,10 @@ def get_forum_posts():
     return Forum_Post.query.all()
 
 
-# Nothing is DB so pulled into here
-posts = [
-    {
-        'author': 'Sergey Astvatsaturov',
-        'title': 'Single life!',
-        'content': 'I rock',
-        'date_posted': 'February 10th, 2022'
-    },
-
-    {
-        'author': 'Stuart Anderson',
-        'title': 'Life in Japan',
-        'content': "Can't wait to get back to the states",
-        'date_posted': 'February 11th, 2022'
-    },
-    {
-        'author': 'Dante Samuels',
-        'title': 'Kid 2',
-        'content': 'So excited!',
-        'date_posted': 'February 13th, 2022'
-    }
-]
-
-
-allowedPosts = [
-    {
-        'author': 'Andys Friend',
-        'title': 'New Tech',
-        'content': 'Cool!',
-        'date_posted': 'July 20th, 2022'
-    }
-
-]
-
-# From andy's code
-
-
 @forums.route("/forums")
-def display_forum_home():
+def forum_posts():
     if current_user.is_authenticated:
-        return render_template('forums.html', title='forums', posts=posts + allowedPosts)
-    else:
-        return render_template('forums.html', title='forums', posts=posts)
+        return render_template('forums.html', title='forums', posts=forum_posts)
 
 
 # Lokesh - not quite sure how to go about creating a way for
@@ -92,16 +53,23 @@ def create_forum_post():
     return render_template('forums.html', post=get_forum_posts())
     # TODO need a porper url somehwere to show/handle new post
 
-# from kartik's code
 
-
-@forums.route("/forums/delete/")
+# Kartik's Code
 @login_required
-def delete_forum():
-    for post in posts:
-        creator = posts[post]['author']
-        if current_user == creator:
-            db.session.delete(post)
+@forums.route("/forums/delete/<int:id>")
+def delete_forum(id):
+    forum_post_to_delete = Forum_Post.query.get_or_404(id)
+    if current_user == forum_post_to_delete.author:
+        try:
+            db.session.delete(forum_post_to_delete)
             db.session.commit()
+            flash("Forum Post was deleted")
 
-        return redirect(url_for("/forums", title='forums', posts=posts))
+            posts = Forum_Post.query.order_by(Forum_Post.date)
+            return render_template('forums.html', title='forums', posts=forum_posts)
+
+        except:
+            flash("Sorry, there was a problem deleting the post ")
+
+            posts = Forum_Post.query.order_by(Forum_Post.date)
+            return render_template('forums.html', title='forums', posts=forum_posts)
