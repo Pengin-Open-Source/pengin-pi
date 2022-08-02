@@ -50,7 +50,8 @@ class Company(db.Model):
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
-    
+    customer = db.relationship('User', secondary='customer')
+
     
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
