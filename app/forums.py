@@ -48,10 +48,8 @@ def create_forum_post():
         db.session.commit()
 
         return redirect(url_for("forums.html", forum_id=new_post.id))
-        # TODO need a proper URL
     # handle GET method
     return render_template('forums.html', post=get_forum_posts())
-    # TODO need a porper url somehwere to show/handle new post
 
 
 # Kartik's Code
