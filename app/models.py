@@ -50,7 +50,8 @@ class Company(db.Model):
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
-    
+    customer = db.relationship('User', secondary='customer')
+
     
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
@@ -59,3 +60,65 @@ class CompanyMembers(db.Model):
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+class Customer(db.Model):
+    __tablename__ = "customer"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(),db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
+    order_id= db.Column(db.Integer(),db.ForeignKey('order.id', ondelete='CASCADE'))
+    ticket_id= db.Column(db.Integer(),db.ForeignKey('ticket.id', ondelete='CASCADE'))
+    date = db.Column(db.DateTime(timezone=True),server_default=func.now())
+    service_date = db.Column(db.DateTime(255), nullable=True) 
+    expiration_date = db.Column(db.DateTime(255), nullable=True)
+
+
+class Contracts(db.Model):
+     __tablename__ = 'contracts'
+     id = db.Column(db.Integer(), primary_key=True)
+     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+     contract_type = db.Column(db.String())
+     expiration_date = db.Column(db.DateTime(255), nullable=True)
+
+class Ticket(db.Model):
+     __tablename__ = 'ticket'
+     id = db.Column(db.Integer(), primary_key=True)
+     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+     forum_post_id = db.column(db.Integer(),db.ForeignKey('forum_post.id',ondelete='CASCADE'))
+     thread_id = db.column(db.Integer())
+
+class Order(db.Model):
+     __tablename__ = 'order'
+     id = db.Column(db.Integer(), primary_key=True)
+     product_id = db.Column(db.Integer(),db.ForeignKey('product.id', ondelete='CASCADE')) 
+     order_date = db.Column(db.DateTime(255), nullable=True) 
+     service_date = db.Column(db.DateTime(255), nullable=True) 
+     expiration_date = db.Column(db.DateTime(255), nullable=True)
+     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+     shipping_address_id=db.Column(db.Integer(),db.ForeignKey('shipping_address.id', ondelete='CASCADE'))
+
+class ShippingAddress(db.Model):
+     __tablename__ = 'shipping_address'
+     id = db.Column(db.Integer(), primary_key=True)
+     address1 = db.Column(db.String())
+     address2 = db.Column(db.String())
+     city = db.Column(db.String())
+     state = db.Column(db.String())
+     country = db.Column(db.String())
+     zipcode = db.Column(db.Integer())
+
+class Product(db.Model):
+     id = db.Column(db.Integer(), primary_key=True)
+     description = db.Column(db.String())
+     price = db.Column(db.Integer())
+
+#adding forum_post from #112
+class Forum_Post(db.Model):
+     __tablename__ = 'forum_post'
+     id = db.Column(db.Integer(), primary_key=True)
+     title = db.Column(db.String())
+     content = db.Column(db.String())
+     thread = db.Column(db.String())
+     author = db.Column(db.String())
+     tags = db.Column(db.String())
+     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+     comments = db.relationship('Forum_Comment', secondary='forum_comment')
