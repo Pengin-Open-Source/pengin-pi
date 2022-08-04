@@ -1,6 +1,7 @@
 from flask_login import UserMixin
-from sqlalchemy import func
+from sqlalchemy import ForeignKey, func
 from . import db
+from sqlalchemy.orm import with_polymorphic
 
 
 class User(UserMixin, db.Model):
@@ -73,52 +74,74 @@ class Customer(db.Model):
 
 
 class Contracts(db.Model):
-     __tablename__ = 'contracts'
-     id = db.Column(db.Integer(), primary_key=True)
-     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
-     contract_type = db.Column(db.String())
-     expiration_date = db.Column(db.DateTime(255), nullable=True)
+    __tablename__ = 'contracts'
+    id = db.Column(db.Integer(), primary_key=True)
+    customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+    contract_type = db.Column(db.String())
+    expiration_date = db.Column(db.DateTime(255), nullable=True)
 
 class Ticket(db.Model):
-     __tablename__ = 'ticket'
-     id = db.Column(db.Integer(), primary_key=True)
-     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
-     forum_post_id = db.column(db.Integer(),db.ForeignKey('forum_post.id',ondelete='CASCADE'))
-     thread_id = db.column(db.Integer())
+    __tablename__ = 'ticket'
+    id = db.Column(db.Integer(), primary_key=True)
+    customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+    forum_post_id = db.column(db.Integer(),db.ForeignKey('forum_post.id',ondelete='CASCADE'))
+    thread_id = db.column(db.Integer())
 
 class Order(db.Model):
-     __tablename__ = 'order'
-     id = db.Column(db.Integer(), primary_key=True)
-     product_id = db.Column(db.Integer(),db.ForeignKey('product.id', ondelete='CASCADE')) 
-     order_date = db.Column(db.DateTime(255), nullable=True) 
-     service_date = db.Column(db.DateTime(255), nullable=True) 
-     expiration_date = db.Column(db.DateTime(255), nullable=True)
-     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
-     shipping_address_id=db.Column(db.Integer(),db.ForeignKey('shipping_address.id', ondelete='CASCADE'))
+    __tablename__ = 'order'
+    id = db.Column(db.Integer(), primary_key=True)
+    product_id = db.Column(db.Integer(),db.ForeignKey('product.id', ondelete='CASCADE')) 
+    order_date = db.Column(db.DateTime(255), nullable=True) 
+    service_date = db.Column(db.DateTime(255), nullable=True) 
+    expiration_date = db.Column(db.DateTime(255), nullable=True)
+    customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+    shipping_address_id=db.Column(db.Integer(),db.ForeignKey('shipping_address.id', ondelete='CASCADE'))
 
 class ShippingAddress(db.Model):
-     __tablename__ = 'shipping_address'
-     id = db.Column(db.Integer(), primary_key=True)
-     address1 = db.Column(db.String())
-     address2 = db.Column(db.String())
-     city = db.Column(db.String())
-     state = db.Column(db.String())
-     country = db.Column(db.String())
-     zipcode = db.Column(db.Integer())
+    __tablename__ = 'shipping_address'
+    id = db.Column(db.Integer(), primary_key=True)
+    address1 = db.Column(db.String())
+    address2 = db.Column(db.String())
+    city = db.Column(db.String())
+    state = db.Column(db.String())
+    country = db.Column(db.String())
+    zipcode = db.Column(db.Integer())
 
 class Product(db.Model):
-     id = db.Column(db.Integer(), primary_key=True)
-     description = db.Column(db.String())
-     price = db.Column(db.Integer())
+    id = db.Column(db.Integer(), primary_key=True)
+    description = db.Column(db.String())
+    price = db.Column(db.Integer())
 
 #adding forum_post from #112
 class Forum_Post(db.Model):
-     __tablename__ = 'forum_post'
-     id = db.Column(db.Integer(), primary_key=True)
-     title = db.Column(db.String())
-     content = db.Column(db.String())
-     thread = db.Column(db.String())
-     author = db.Column(db.String())
-     tags = db.Column(db.String())
-     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
-     comments = db.relationship('Forum_Comment', secondary='forum_comment')
+    __tablename__ = 'forum_post'
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String())
+    content = db.Column(db.String())
+    thread = db.Column(db.String())
+    author = db.Column(db.String())
+    tags = db.Column(db.String())
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+   # comments = db.relationship('Forum_Comment', secondary='ticket_forum')
+       
+class TicketForum(db.Model):
+    __tablename__ = 'ticket_forum'
+    id = db.Column(db.Integer(),primary_key=True)
+    customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
+    summary = db.Column(db.String())
+    content = db.Column(db.String())
+    tags = db.Column(db.String())
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    resolution_id = db.Column(db.Integer(),db.ForeignKey('resolution.id', ondelete='CASCADE'))
+    resolution_date = db.Column(db.Integer(),db.ForeignKey('resolution.date', ondelete='CASCADE'))
+
+class Resolution(db.Model):
+    __tablename__='resolution'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String())
+    date= db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+
+
+
+
