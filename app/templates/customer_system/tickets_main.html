@@ -1,0 +1,36 @@
+<!-- This is the main view for the ticket forum.
+Support will be able to see all tickets (just like how an authenticated user
+can see most blog posts or threads.) CustomerID will restrict who can see
+a particular thread. Members of that customer ID, support team, or admin 
+can see all existing customer threads. The customer will see all of their 
+own tickets. -->
+
+
+{% extends "oneDiv.html" %}
+
+
+{% block oneDivContent %}
+
+<h1>Tickets</h1> 
+
+<!-- Display each ticket that is accessible by the current user -->
+{% block ticket %}
+
+    {% for ticket in tickets %}
+
+    <!-- TODO properly style the ticket preview -->
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ ticket.summary }}</a>
+            </div>
+            <a class="article-title indent" href="forums/{{post.id}}">{{ ticket.customerid }} - {{ ticket.date }}</a><br>
+            </div>
+    </article>
+    {% endfor %}
+
+{% endblock %}
+
+<!-- TODO: add form/button to create a ticket -->
+
+{% endblock %}
