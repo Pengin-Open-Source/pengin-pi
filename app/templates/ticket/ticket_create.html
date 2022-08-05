@@ -1,0 +1,30 @@
+{% extends '/ticket/ticket_main.html' %}
+
+    {% block ticketCreationView %}
+        <!--Create Ticket (identical to forum post) -->
+        {% if current_user.is_authenticated %}
+        <form class="forumForm mb-3 p-3" method="POST" action="/ticket/create_ticket">
+            <!--Inherited forum id-->  
+            <input type="hidden" name="thread" value="{{thread}}">
+            <!--Title input-->
+            <div class="form-group">
+                <label>Title</label>
+                <input class="form-control" type="title" name="title" placeholder="Title" autofocus="">
+            </div>
+            <!--Body textarea input-->
+            <div class="form-group">
+                <label>Content</label>
+                <textarea class="form-control" rows="5" type="content" name="content" placeholder="Enter your text here"></textarea>
+            </div>
+            <!-- Tags input -->
+            <div class="form-group">
+                <label>Tags</label>
+                <input class="form-control" type="tags" name="tags" placeholder="Comma separated tags">
+            </div>
+            <!--Submit button-->
+            <button class="btn btn-primary btn-md" type="submit">Post</button>
+        </form>
+        {% else %}
+        Please sign in to create a ticket.
+        {% endif %}
+    {% endblock %}
