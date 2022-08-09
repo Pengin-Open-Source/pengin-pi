@@ -111,14 +111,14 @@ class Product(db.Model):
      description = db.Column(db.String())
      price = db.Column(db.Integer())
 
-#adding forum_post from #112
-class Forum_Post(db.Model):
-     __tablename__ = 'forum_post'
-     id = db.Column(db.Integer(), primary_key=True)
-     title = db.Column(db.String())
-     content = db.Column(db.String())
-     thread = db.Column(db.String())
-     author = db.Column(db.String())
-     tags = db.Column(db.String())
-     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
-     comments = db.relationship('Forum_Comment', secondary='forum_comment')
+# #adding forum_post from #112
+# class Forum_Post(db.Model):
+#      __tablename__ = 'forum_post'
+#      id = db.Column(db.Integer(), primary_key=True)
+#      title = db.Column(db.String())
+#      content = db.Column(db.String())
+#      thread = db.Column(db.String())
+#      author = db.Column(db.String())
+#      tags = db.Column(db.String())
+#      date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+#      comments = db.relationship('Forum_Comment', secondary='forum_comment')

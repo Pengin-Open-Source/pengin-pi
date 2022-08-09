@@ -54,3 +54,10 @@ def products():
 @main.route("/forums")
 def forums():
     return render_template('forums.html', title ='forums', posts = posts)
+
+
+## TODO: move the ticket routes to the proper file (e.g. forums.py?)
+
+@main.route("/tickets")
+def tickets():
+    return render_template('ticket/ticket_main.html')
