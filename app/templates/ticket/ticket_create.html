@@ -13,8 +13,9 @@
                 class="form-control" 
                 type="title" name="title" 
                 placeholder="Title"
-                value="{% block postEditTitle %} {% endblock %}" 
-                autofocus="">
+                value="{% block postEditTitle %}{% endblock %}" 
+                autofocus=""
+                >
             </div>
             <!--Body textarea input-->
             <div class="form-group">
@@ -25,8 +26,7 @@
                     type="content"
                     name="content"
                     placeholder="Enter your text here" 
-                    value="{% block postEditContent %} {% endblock %}">
-                </textarea>
+                    >{% block postEditContent %}{% endblock %}</textarea>
             </div>
             <!-- Tags input -->
             <div class="form-group">
