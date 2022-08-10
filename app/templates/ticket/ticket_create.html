@@ -9,12 +9,24 @@
             <!--Title input-->
             <div class="form-group">
                 <label>Title</label>
-                <input class="form-control" type="title" name="title" placeholder="Title" autofocus="">
+                <input 
+                class="form-control" 
+                type="title" name="title" 
+                placeholder="Title"
+                value="{% block postEditTitle %} {% endblock %}" 
+                autofocus="">
             </div>
             <!--Body textarea input-->
             <div class="form-group">
                 <label>Content</label>
-                <textarea class="form-control" rows="5" type="content" name="content" placeholder="Enter your text here"></textarea>
+                <textarea 
+                    class="form-control"
+                    rows="5"
+                    type="content"
+                    name="content"
+                    placeholder="Enter your text here" 
+                    value="{% block postEditContent %} {% endblock %}">
+                </textarea>
             </div>
             <!-- Tags input -->
             <div class="form-group">
@@ -22,7 +34,7 @@
                 <input class="form-control" type="tags" name="tags" placeholder="Comma separated tags">
             </div>
             <!--Submit button-->
-            <button class="btn btn-primary btn-md" type="submit">Post</button>
+            <button class="btn btn-primary btn-md" type="submit">{% block buttonText %}Post{% endblock %}</button>
         </form>
         {% else %}
         Please sign in to create a ticket.

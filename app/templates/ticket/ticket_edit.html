@@ -1,0 +1,13 @@
+{% extends "ticket/ticket_create.html" %}
+
+{% block postTitleContent }
+{{ ticket.title }}
+{% endblock %}
+
+{% block postEditContent }
+{{ ticket.content }}
+{% endblock %}
+
+{% block buttonText %}
+Update
+{% endblock %}
