@@ -65,3 +65,9 @@ def tickets():
 @main.route("/tickets/create_ticket", methods=['GET'])
 def create_ticket_view():
     return render_template('ticket/ticket_create.html')
+
+@main.route("/tickets/<int:ticket>/edit_ticket", methods=['GET'])
+def edit_ticket_view(ticket):
+    # temp ticket var
+    ticket = {'title':"HELLO", 'content':'WORLD'}
+    return render_template('ticket/ticket_edit.html', ticket=ticket)
