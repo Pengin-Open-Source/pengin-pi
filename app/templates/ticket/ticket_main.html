@@ -24,7 +24,7 @@ own tickets. -->
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ ticket.summary }}</a>
             </div>
-            <a class="article-title indent" href="forums/{{post.id}}">{{ ticket.customerid }} - {{ ticket.date }}</a><br>
+            <a class="article-title indent" href="tickets/{{post.id}}">{{ ticket.customerid }} - {{ ticket.date }}</a><br>
             </div>
     </article>
     {% endfor %}
@@ -32,12 +32,13 @@ own tickets. -->
 {% endblock %}
 
 <!-- TODO: add form to create a ticket -->
+<!-- This is covered by this issue: https://github.com/Pengin-Open-Source/pengin-pie/issues/131 -->
 
 {% block ticketCreationView %} {% endblock %}
 
 {% block ticketCreation %}
 
-    <a href="/ticket/create_ticket">
+    <a href="/tickets/create_ticket">
         <button class="btn btn-primary btn-md mb-3 ml-3">Create Ticket</button>
     </a>
 
