@@ -86,6 +86,7 @@ class Ticket(db.Model):
      forum_post_id = db.Column(db.Integer(),db.ForeignKey('forum_post.id',ondelete='CASCADE'))
      thread_id = db.Column(db.Integer())
 
+
 class Order(db.Model):
      __tablename__ = 'order'
      id = db.Column(db.Integer(), primary_key=True)
