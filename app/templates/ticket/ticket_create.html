@@ -3,7 +3,7 @@
     {% block ticketCreationView %}
         <!--Create Ticket (identical to forum post) -->
         {% if current_user.is_authenticated %}
-        <form class="forumForm mb-3 p-3" method="POST" action="/ticket/create_ticket">
+        <form class="forumForm mb-3 p-3" method="POST" action="/tickets/create_ticket">
             <!--Inherited forum id-->  
             <input type="hidden" name="thread" value="{{thread}}">
             <!--Title input-->
@@ -42,5 +42,5 @@
     {% endblock %}
 
     {% block ticketCreation %}
-    
+
     {% endblock %}
