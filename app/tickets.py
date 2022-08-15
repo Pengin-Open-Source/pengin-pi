@@ -29,7 +29,7 @@ def create_ticket():
     tags = request.form.get('tags')
 
 
-    new_ticket_forum = TicketForum(customer_id=customer.id, summary=summary, content=content, tags=tags, author=current_user.name)
+    new_ticket_forum = TicketForum(customer_id=customer.id, summary=summary, content=content, tags=tags)
     
     # add the new ticket forum to the database
     db.session.add(new_ticket_forum)
