@@ -44,7 +44,7 @@ def create_ticket():
     db.session.add(new_ticket)
     db.session.commit()
 
-    return redirect(url_for('main.tickets'))
+    return redirect(url_for('tickets.tickets'))
     
 
 # Edit ticket view
