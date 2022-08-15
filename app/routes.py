@@ -55,19 +55,3 @@ def products():
 def forums():
     return render_template('forums.html', title ='forums', posts = posts)
 
-
-## TODO: move the ticket routes to the proper file (e.g. forums.py?)
-
-@main.route("/tickets")
-def tickets():
-    return render_template('ticket/ticket_main.html')
-
-@main.route("/tickets/create_ticket", methods=['GET'])
-def create_ticket_view():
-    return render_template('ticket/ticket_create.html')
-
-@main.route("/tickets/<int:ticket>/edit_ticket", methods=['GET'])
-def edit_ticket_view(ticket):
-    # temp ticket var
-    ticket = {'title':"HELLO", 'content':'WORLD'}
-    return render_template('ticket/ticket_edit.html', ticket=ticket)
