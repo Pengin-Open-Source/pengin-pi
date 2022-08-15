@@ -6,8 +6,9 @@ from .models import Ticket, TicketForum, Customer
 tickets = Blueprint('tickets', __name__)
 
 @tickets.route("/tickets")
-def tickets():
-    return render_template('ticket/ticket_main.html')
+def tickets_view():
+    tickets = TicketForum.query.order_by(TicketForum.date.desc()).all()
+    return render_template('ticket/ticket_main.html', tickets=tickets)
 
 # Create ticket view
 @tickets.route("/tickets/create_ticket", methods=['GET'])
