@@ -13,9 +13,17 @@ own tickets. -->
 
 <h1>Tickets</h1> 
 
+{% with messages = get_flashed_messages() %}
+      {% if messages %}
+            <div class="alert alert-danger">
+                {{ messages[0] }}
+            </div>
+      {% endif %}
+{% endwith %}
+
 <!-- Display each ticket that is accessible by the current user -->
 {% block ticket %}
-
+    
     {% for ticket in tickets %}
 
     <!-- TODO properly style the ticket preview -->

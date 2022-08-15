@@ -19,10 +19,10 @@ def create_ticket_view():
 @tickets.route("/tickets/create_ticket", methods=['POST'])
 def create_ticket():
     # Check if user is a customer
-    customer = Customer.query.filter_by(user_id=current_user.id)
+    customer = Customer.query.filter_by(user_id=current_user.id).first()
     if not customer:
         flash("Sorry, you're currently not a customer and only customers can submit a ticket.")
-        return redirect(url_for('tickets.tickets')) # if not customer return to tickets
+        return redirect(url_for('tickets.tickets_view')) # if not customer return to tickets
     # Get form data
     summary = request.form.get('summary')
     content = request.form.get('content')
