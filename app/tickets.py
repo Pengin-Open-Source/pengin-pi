@@ -23,11 +23,13 @@ def create_ticket():
         flash("Sorry, you're currently not a customer and only customers can submit a ticket.")
         return redirect(url_for('tickets.tickets')) # if not customer return to tickets
     # Get form data
+    customer_id = customer.id
     summary = request.form.get('summary')
     content = request.form.get('content')
     tags = request.form.get('tags')
 
-    new_ticket = Ticket(summary=summary, content=content, tags=tags)
+
+    new_ticket = Ticket(customer_id=customer_id, summary=summary, content=content, tags=tags)
 
     # add the new ticket to the database
     db.session.add(new_ticket)
