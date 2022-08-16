@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: mysql-client
+Version: 0.0.1
+Summary: A modern mysql client driver for modern python
+Home-page: https://github.com/fried/mysql-client
+Author: Jason Fried
+Author-email: me@jasonfried.info
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Database
+Classifier: Topic :: Database :: Database Engines/Servers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# mysql-client
+Modern Mysql Client for Modern Python
+
+

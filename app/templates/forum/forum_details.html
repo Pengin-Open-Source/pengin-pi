@@ -1,0 +1,50 @@
+{% extends "oneDiv.html" %}
+{% block oneDivContent %}
+<!--Main Post Start-->
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+            <a class="mr-2" href="#" style="font-size: 22px">{{ forum_post.author }}</a>
+            <small class="text-muted">{{ forum_post.date_posted }}</small>
+            </div>
+
+            <h1 style="font-size: 26px; text-align: center; border-bottom: 1px solid white; padding: 15px;">{{forum_post.title}}</h1>
+            <h4 style="padding-left: 20px; color: white">{{forum_post.content}}</h4>
+        </div>
+    </article>
+<!--Main Post End-->
+
+    <div class="media content-section" style="display: flex; flex-direction: column;">
+        <h1 style="width: 100%; font-size: 26px; text-align: center">Comments</h1>
+        {% for comment in comments %}
+        <!--Comment Section Start-->
+        <div style="width: 100%; background-color: #1a6b99; padding: 15px; gap: 10px; border: 1px solid white;">
+            <h3 style="color: white;">{{comment.author}}</h3>
+            <small style="color: white">{{comment.date_posted}}</small>
+            <h4 style="color: white">{{comment.content}}</h4>
+            <div style="width: 100%; background-color: white; display: flex; flex-direction: column; margin-top: 10px;">
+                {% for subc in subcomments %}
+                    {% if subc.parent_comment == comment.id %}
+                        <!--Sub Comment Start-->
+                        <div style="width: 100% display: flex; flex-direction: column; border-bottom: 1px solid black;">
+                            <div style="display: flex; flex-direction: column; padding: 10px; color: white; background-color: #1f125d;">
+                                <h5 href="#">{{subc.author}}</h5>
+                                <h5 style="font-size: 12px">{{subc.date_posted}}</h5>
+                            </div>
+                            <p style="padding: 10px;">{{subc.content}}</p>
+                        </div>
+                        <!--Sub Comment End-->
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!--Button Start-->
+            <div style="width: 100%; gap: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 20px">
+                <input type="text" placeholder="Add a Comment..." style="width: 70%; border-radius: 10px; padding: 5px;">
+                <button>Add Comment</button>
+            </div>
+            <!--Button End-->
+        </div>
+        <!--Comment Section End-->
+        {% endfor %}
+    </div>
+{% endblock %}

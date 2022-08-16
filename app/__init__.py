@@ -75,4 +75,7 @@ def create_app():
     from .profiles import company_info as company_blueprint
     app.register_blueprint(company_blueprint)
 
+    from .fourm import forum as forum_blueprint
+    app.register_blueprint(forum_blueprint)
+
     return app

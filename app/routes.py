@@ -6,6 +6,7 @@ main = Blueprint('main', __name__)
 #dummy variable list of dictionaries 
 posts = [
         {
+            'id': 1,
             'author': 'Sergey Astvatsaturov', 
             'title': 'Single life!',
             'content': 'I rock', 
@@ -13,12 +14,14 @@ posts = [
         },
 
         {
+            'id': 2,
             'author': 'Stuart Anderson', 
             'title': 'Life in Japan',
             'content': "Can't wait to get back to the states", 
             'date_posted': 'February 11th, 2022'
         },
           {
+            'id': 3,
             'author': 'Dante Samuels', 
             'title': 'Kid 2',
             'content': 'So excited!', 
@@ -54,6 +57,3 @@ def products():
 @main.route("/forums")
 def forums():
     return render_template('forums.html', title ='forums', posts = posts)
-
-
-# Testing out pushing to branch.
