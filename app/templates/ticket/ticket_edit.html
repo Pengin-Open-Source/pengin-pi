@@ -1,15 +1,19 @@
 {% extends "ticket/ticket_create.html" %}
 
+{% block ticketFormAction %}
+/tickets/edit_ticket/{{ticket_id}}
+{% endblock %}
+
 {% block postEditTitle %}
-{{ ticket.title }}
+{{ summary }}
 {% endblock %}
 
 {% block postEditContent %}
-{{ ticket.content }}
+{{ content }}
 {% endblock %}
 
 {% block postEditTags %}
-{{ ticket.tags }}
+{{ tags }}
 {% endblock %}
 
 {% block buttonText %}
