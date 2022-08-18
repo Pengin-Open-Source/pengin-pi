@@ -29,10 +29,11 @@ own tickets. -->
     <!-- TODO properly style the ticket preview -->
     <article class="media content-section">
         <div class="media-body">
-            <div class="article-metadata">
+            <div class="article-metadata d-flex justify-content-between">
                 <a class="mr-2" href="#">{{ ticket.summary }}</a>
+                <a href="tickets/edit_ticket/{{ticket.id}}">Edit</a>
             </div>
-            <a class="article-title indent" href="tickets/{{ticket.id}}">{{ ticket.customerid }} - {{ ticket.date }}</a><br>
+            <a class="article-title indent" href="tickets/{{ticket.id}}">{{ ticket.customerid }} - {{ ticket.date }}</a>
             </div>
     </article>
     {% endfor %}
