@@ -179,3 +179,8 @@ body {
     margin-bottom: 1rem;
     color: white;
   }
+
+  form {
+    background: white;
+    border-radius: 5px;
+  }

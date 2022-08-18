@@ -54,3 +54,4 @@ def products():
 @main.route("/forums")
 def forums():
     return render_template('forums.html', title ='forums', posts = posts)
+
