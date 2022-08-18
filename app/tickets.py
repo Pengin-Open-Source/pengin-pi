@@ -55,7 +55,23 @@ def create_ticket():
 @tickets.route("/tickets/<int:ticket>/edit_ticket", methods=['GET'])
 @login_required
 def edit_ticket_view(ticket):
-    return render_template('ticket/ticket_edit.html', ticket=ticket)
+    # Get ticket from database
+    ticket_obj = Ticket.query.filter_by(id=ticket).first()
+
+    # Check ticket exists
+    if not ticket_obj:
+        flash("Sorry, this ticket doesn't exist")
+        return redirect(url_for('tickets.tickets_view')) # if ticket doesn't exist return to tickets
+
+    # Get ticket forum post
+    ticket_forum = TicketForum.query.filter_by(id=ticket_obj.ticket_forum_post).first()
+
+    if not ticket_forum:
+        flash("Sorry, this ticket doesn't have a forum post.")
+        return redirect(url_for('tickets.tickets_view')) # if ticket forum doesn't exist
+
+    # Render edit ticket view with summary, content, and tags filled
+    return render_template('ticket/ticket_edit.html', summary=ticket_forum.summary, content=ticket_forum.content, tags=ticket_forum.tags)
 
 @tickets.route("/tickets/<int:ticket>/edit_ticket", methods=['POST'])
 @login_required
@@ -67,10 +83,10 @@ def edit_ticket(ticket):
         return redirect(url_for('main.home')) # if not customer return to home
     
     # Get ticket to be edited from database
-    ticketObj = Ticket.query.filter_by(id=ticket).first()
+    ticket_obj = Ticket.query.filter_by(id=ticket).first()
 
     # Check ticket exists
-    if not ticketObj:
+    if not ticket_obj:
         flash("Sorry, this ticket doesn't exist")
         return redirect(url_for('tickets.tickets_view')) # if ticket doesn't exist return to tickets
     
@@ -85,8 +101,9 @@ def edit_ticket(ticket):
     tags = request.form.get('tags')
 
     # Get ticket forum post
-    ticket_forum = TicketForum.query.filter_by(ticketObj.forum_post_id).first()
+    ticket_forum = TicketForum.query.filter_by(ticket_obj.forum_post_id).first()
     
+    # Check ticket forum post exists
     if not ticket_forum:
         flash("Sorry, this ticket doesn't have a forum post.")
         return redirect(url_for('tickets.tickets_view')) # if ticket forum doesn't exist

@@ -31,7 +31,12 @@
             <!-- Tags input -->
             <div class="form-group">
                 <label>Tags</label>
-                <input class="form-control" type="tags" name="tags" placeholder="Comma separated tags">
+                <input 
+                class="form-control" 
+                type="tags" name="tags" 
+                placeholder="Comma separated tags"
+                value="{% block postEditTags %}{% endblock %}" 
+                >
             </div>
             <!--Submit button-->
             <button class="btn btn-primary btn-md" type="submit">{% block buttonText %}Post{% endblock %}</button>
