@@ -6,6 +6,7 @@ from .models import Ticket, TicketForum, Customer
 tickets = Blueprint('tickets', __name__)
 
 @tickets.route("/tickets")
+
 @login_required
 def tickets_view():
     tickets = TicketForum.query.order_by(TicketForum.date.desc()).all()
@@ -14,6 +15,7 @@ def tickets_view():
 # Create ticket view
 @tickets.route("/tickets/create_ticket", methods=['GET'])
 @login_required
+
 def create_ticket_view():
     return render_template('ticket/ticket_create.html')
 
@@ -26,6 +28,7 @@ def create_ticket():
     if not customer:
         flash("Sorry, you're currently not a customer and only customers can submit a ticket.")
         return redirect(url_for('main.home')) # if not customer return to home
+
 
     # Get form data
     summary = request.form.get('summary')
