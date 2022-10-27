@@ -3,7 +3,6 @@ from sqlalchemy import ForeignKey, func
 from . import db
 from sqlalchemy.orm import with_polymorphic
 
-
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
@@ -12,13 +11,11 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
 
-
 # Define the Role data-model
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
-
 
 # Define the UserRoles association table
 class UserRoles(db.Model):
@@ -26,7 +23,6 @@ class UserRoles(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
-
 
 # copy/paste job from tobuwebflask per issue #39
 class BlogPost(db.Model):
@@ -37,7 +33,6 @@ class BlogPost(db.Model):
     content = db.Column(db.String(10000))
     tags = db.Column(db.String(1000))
    
-
 class Company(db.Model):
     __tablename__ = "company"
     id = db.Column(db.Integer(), primary_key=True)
@@ -53,7 +48,6 @@ class Company(db.Model):
     members = db.relationship('User', secondary='company_members')
     customer = db.relationship('User', secondary='customer')
 
-    
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
     id = db.Column(db.Integer(), primary_key=True)
@@ -71,7 +65,6 @@ class Customer(db.Model):
     date = db.Column(db.DateTime(timezone=True),server_default=func.now())
     service_date = db.Column(db.DateTime(255), nullable=True) 
     expiration_date = db.Column(db.DateTime(255), nullable=True)
-
 
 class Contracts(db.Model):
     __tablename__ = 'contracts'
@@ -140,8 +133,3 @@ class Resolution(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String())
     date= db.Column(db.DateTime(timezone=True), server_default=func.now())
-
-
-
-
-
