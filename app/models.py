@@ -67,7 +67,7 @@ class Members_Company(db.Model):
     __tablename__ = "members_company"
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey(
-        'User.id', ondelete='CASCADE'))
+        'user.id', ondelete='CASCADE'))
     company_id = db.Column(db.Integer(), db.ForeignKey(
         'company.id', ondelete='CASCADE'))
 
@@ -81,14 +81,14 @@ class Forum_Post(db.Model):
     author = db.Column(db.String())
     tags = db.Column(db.String(), unique=True)
     date = db.Column(db.Integer(), unique=True)
-    comment = db.relationship('Forum_Comment', secondary='forum_post_comment')
+    comment = db.relationship('Forum_Comment')
 
 
 class Forum_Comment(db.Model):
     __tablename__ = "forum_comment"
     id = db.Column(db.Integer(), primary_key=True)
     post_id = db.Column(db.Integer(), db.ForeignKey(
-        'Forum_Post.id', ondelete='CASCADE'))
+        'forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
     date = db.Column(db.Integer(), unique=True)
