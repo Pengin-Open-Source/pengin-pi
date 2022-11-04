@@ -5,6 +5,7 @@ from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, Anon
 from .models import User, db
 from .admin import admin_blueprint, admin
 
+from .routes.forums import forums_blueprint
 from .routes.auth import auth as auth_blueprint
 from .routes.blogPosts import blogPosts as blogPosts_blueprint
 from .routes.main import main as main_blueprint
@@ -54,5 +55,6 @@ def create_app():
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(profile_blueprint)
     app.register_blueprint(company_blueprint)
+    app.register_blueprint(forums_blueprint)
 
     return app
