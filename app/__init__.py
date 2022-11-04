@@ -1,10 +1,10 @@
 from flask import Flask, request, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 from flask_admin import Admin
 
 from .models import User
+from .models import db
 
 from .routes.auth import auth as auth_blueprint
 from .routes.blogPosts import blogPosts as blogPosts_blueprint
@@ -13,7 +13,6 @@ from .admin import admin_bpt as admin_blueprint
 from .routes.profiles import profiles as profile_blueprint
 from .routes.profiles import company_info as company_blueprint
 
-db = SQLAlchemy()
 principals = Principal()
 login_manager = LoginManager()
 admin = Admin()
