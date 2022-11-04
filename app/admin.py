@@ -2,9 +2,12 @@ from flask import Blueprint
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask_principal import Permission, RoleNeed
-from . import admin
+from flask_admin import Admin
+
 from . import models
-from . import db
+from .models import db
+
+admin = Admin()
 
 #Admin blueprint
 admin_bpt = Blueprint('admin_bpt', __name__)

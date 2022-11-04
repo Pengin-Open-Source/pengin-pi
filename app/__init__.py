@@ -1,7 +1,7 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
-from flask_admin import Admin
+
 
 from .models import User
 from .models import db
@@ -15,7 +15,7 @@ from .routes.profiles import company_info as company_blueprint
 
 principals = Principal()
 login_manager = LoginManager()
-admin = Admin()
+
 
 def create_app():
     app = Flask(__name__, static_folder='static')
