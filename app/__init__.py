@@ -54,25 +54,25 @@ def create_app():
         return send_from_directory(app.static_folder, request.path[1:])
 
     # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
+    from .routes.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
     # blueprint for blogpost routes in app
-    from .blogPosts import blogPosts as blogPosts_blueprint
+    from .routes.blogPosts import blogPosts as blogPosts_blueprint
     app.register_blueprint(blogPosts_blueprint)
 
     # blueprint for non-auth parts of app
-    from .routes import main as main_blueprint
+    from .routes.routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
     
     # blueprint for admin
     from .admin import admin_bpt as admin_blueprint
     app.register_blueprint(admin_blueprint)
 
-    from .profiles import profiles as profile_blueprint
+    from .routes.profiles import profiles as profile_blueprint
     app.register_blueprint(profile_blueprint)
     
-    from .profiles import company_info as company_blueprint
+    from .routes.profiles import company_info as company_blueprint
     app.register_blueprint(company_blueprint)
 
     return app
