@@ -2,9 +2,7 @@ from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 
-from .models import User
-from .models import db
-
+from .models import User, db
 from .admin import admin_blueprint, admin
 
 from .routes.auth import auth as auth_blueprint
@@ -58,4 +56,3 @@ def create_app():
     app.register_blueprint(company_blueprint)
 
     return app
-    
