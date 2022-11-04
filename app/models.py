@@ -1,13 +1,9 @@
-from email import contentmanager
 from flask_login import UserMixin
 from sqlalchemy import func
 from . import db
-from datetime import datetime
-
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    # primary keys are required by SQLAlchemy
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
@@ -16,13 +12,10 @@ class User(UserMixin, db.Model):
     company = db.relationship('Company', secondary='members_company')
 
 
-# Define the Role data-model
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
-
-# Define the UserRoles association table
 
 
 class UserRoles(db.Model):
@@ -34,7 +27,6 @@ class UserRoles(db.Model):
         'roles.id', ondelete='CASCADE'))
 
 
-# copy/paste job from tobuwebflask per issue #39
 class BlogPost(db.Model):
     __tablename__ = "blogpost"
     id = db.Column(db.Integer, primary_key=True)
