@@ -57,6 +57,7 @@ class CompanyMembers(db.Model):
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+
 class ForumPost(db.Model):
     __tablename__ = "forum_post"
     id = db.Column(db.Integer(), primary_key=True)
