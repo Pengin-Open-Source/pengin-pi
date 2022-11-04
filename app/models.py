@@ -63,7 +63,7 @@ class Company(db.Model):
     email = db.Column(db.String(50), unique=True)
 
 
-class Members_Company(db.Model):
+class MembersCompany(db.Model):
     __tablename__ = "members_company"
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey(
@@ -72,7 +72,7 @@ class Members_Company(db.Model):
         'company.id', ondelete='CASCADE'))
 
 
-class Forum_Post(db.Model):
+class ForumPost(db.Model):
     __tablename__ = "forum_post"
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(), unique=True)
@@ -81,10 +81,10 @@ class Forum_Post(db.Model):
     author = db.Column(db.String())
     tags = db.Column(db.String(), unique=True)
     date = db.Column(db.Integer(), unique=True)
-    comment = db.relationship('Forum_Comment')
+    comment = db.relationship('ForumComment')
 
 
-class Forum_Comment(db.Model):
+class ForumComment(db.Model):
     __tablename__ = "forum_comment"
     id = db.Column(db.Integer(), primary_key=True)
     post_id = db.Column(db.Integer(), db.ForeignKey(
