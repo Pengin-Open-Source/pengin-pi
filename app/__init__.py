@@ -2,14 +2,14 @@ from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 
-
 from .models import User
 from .models import db
+
+from .admin import admin_blueprint, admin
 
 from .routes.auth import auth as auth_blueprint
 from .routes.blogPosts import blogPosts as blogPosts_blueprint
 from .routes.main import main as main_blueprint
-from .admin import admin_bpt as admin_blueprint
 from .routes.profiles import profiles as profile_blueprint
 from .routes.profiles import company_info as company_blueprint
 
