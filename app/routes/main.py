@@ -1,4 +1,3 @@
-#import flask module
 from flask import Blueprint, render_template
 
 main = Blueprint('main', __name__)
@@ -24,29 +23,18 @@ posts = [
             'content': 'So excited!', 
             'date_posted': 'February 13th, 2022'
         }
-
-
 ]
 
-#Routes are what you type into your browser to go to different webpages
-#use route decorators 
-#the "/" is the homepage
+#one function handles two separate routes
 @main.route("/")
-#also alows you to go to home page
-#one function handles two seperate routes
 @main.route("/home")
 def home():
-    #use render_template to return the home.html file 
-    # posts = posts gives you access to the data in that variable in your template
     return render_template('home.html')
 
-
-#create about page
 @main.route("/about")
 def about():
     return render_template('about.html', title ='about')
 
-#create products page
 @main.route("/products")
 def products():
     return render_template('products.html', title ='products')
