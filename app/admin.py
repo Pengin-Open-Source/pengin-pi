@@ -9,7 +9,7 @@ from .models import db
 
 admin = Admin()
 
-admin_bpt = Blueprint('admin_blueprint', __name__)
+admin_blueprint = Blueprint('admin_blueprint', __name__)
 
 admin_permission = Permission(RoleNeed('admin'))
 
