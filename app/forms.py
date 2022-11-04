@@ -1,4 +1,3 @@
-#import modules
 from tkinter import Widget
 from wsgiref.validate import validator
 from flask_wtf import FlaskForm
@@ -6,15 +5,10 @@ from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, EqualTo 
 from wtforms.widgets import TextArea
 
-#we will write python classes that will be representative of our form, and then they will be converted into html format
-#Create a registration form class 
-#It will inherit from the FlaskForm Class
-
 class RegistrationForm(FlaskForm):
-    #First arguement is going to be the "username"
     username = StringField('Username', 
                             validators=[DataRequired(), 
-                            Length(min=5,max = 15)])#Usernames must be between 5 and 15 characters (data required validators)
+                            Length(min=5,max = 15)])
     
     email = StringField('Email',
                         validators=[DataRequired(), 
@@ -22,7 +16,7 @@ class RegistrationForm(FlaskForm):
 
     password = PasswordField('Password', 
                         validators=[DataRequired(), 
-                        Length(min=5,max = 20)])#password must be between 5 and 15 characters (data required validators)
+                        Length(min=5,max = 20)])
 
     password_confirm = PasswordField('Confirm Password', 
                         validators=[DataRequired(), 
@@ -30,26 +24,20 @@ class RegistrationForm(FlaskForm):
     
     submit = SubmitField('Sign Up')
 
-
 class LoginForm(FlaskForm):
-    #login with your email
     email = StringField('Email', 
                         validators=[DataRequired(), 
                         Email()])
-    #login password
     password = PasswordField('Password', 
                         validators=[DataRequired(), 
-                        Length(min=5,max = 20)])#password must be between 5 and 15 characters (data required validators)
+                        Length(min=5,max = 20)])
 
     #keeps the user logged in for a while using a secure cookie. 
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
-
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators = [DataRequired()])
     content = StringField('Content', validators = [DataRequired()], widget = TextArea() )
     author = StringField('Author', validators = [DataRequired()])
     submit = StringField('Submit')
-
-    
