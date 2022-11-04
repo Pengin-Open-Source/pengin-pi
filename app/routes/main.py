@@ -2,7 +2,6 @@ from flask import Blueprint, render_template
 
 main = Blueprint('main', __name__)
 
-#one function handles two separate routes
 @main.route("/")
 @main.route("/home")
 def home():
