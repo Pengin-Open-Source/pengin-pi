@@ -55,7 +55,7 @@ class Company(db.Model):
     email = db.Column(db.String(50), unique=True)
 
 
-class MembersCompany(db.Model):
+class CompanyMembers(db.Model):
     __tablename__ = "members_company"
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey(
