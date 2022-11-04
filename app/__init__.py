@@ -16,7 +16,6 @@ from .routes.profiles import company_info as company_blueprint
 principals = Principal()
 login_manager = LoginManager()
 
-
 def create_app():
     app = Flask(__name__, static_folder='static')
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
@@ -59,3 +58,4 @@ def create_app():
     app.register_blueprint(company_blueprint)
 
     return app
+    
