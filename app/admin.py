@@ -8,9 +8,7 @@ from . import models
 from .models import db
 
 admin = Admin()
-
 admin_blueprint = Blueprint('admin_blueprint', __name__)
-
 admin_permission = Permission(RoleNeed('admin'))
 
 class SecureModelView(ModelView):
@@ -23,6 +21,7 @@ class FixView(SecureModelView):
     column_display_pk = True # optional, but I like to see the IDs in the list
     column_hide_backrefs = False
     column_list = ('id', 'user_id', 'role_id')
+
 
 admin.add_view(SecureModelView(models.User, db.session))
 admin.add_view(SecureModelView(models.Role, db.session))
