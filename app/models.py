@@ -76,4 +76,4 @@ class ForumComment(db.Model):
     post_id = db.Column(db.Integer(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
-    date = db.Column(db.Integer(), unique=True)
+    date = db.Column(db.Integer())
