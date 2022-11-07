@@ -61,7 +61,7 @@ class CompanyMembers(db.Model):
 class ForumPost(db.Model):
     __tablename__ = "forum_post"
     id = db.Column(db.Integer(), primary_key=True)
-    title = db.Column(db.String(), unique=True)
+    title = db.Column(db.String())
     content = db.Column(db.String())
     thread = db.Column(db.String())
     author = db.Column(db.String())
