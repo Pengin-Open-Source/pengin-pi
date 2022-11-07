@@ -65,8 +65,8 @@ class ForumPost(db.Model):
     content = db.Column(db.String())
     thread = db.Column(db.String())
     author = db.Column(db.String())
-    tags = db.Column(db.String(), unique=True)
-    date = db.Column(db.Integer(), unique=True)
+    tags = db.Column(db.String())
+    date = db.Column(db.Integer())
     comment = db.relationship('ForumComment')
 
 
