@@ -12,13 +12,12 @@ def forums():
 
 @forums_blueprint.route("/<thread>")
 def thread(thread):
-  print(thread)
   posts = ForumPost.query.filter_by(thread=thread).all()  
 
-  return render_template('forums/thread.html', title =thread, posts = posts)
+  return render_template('forums/thread.html', thread=thread, title = thread, posts = posts)
 
 @forums_blueprint.route("/<thread>/<post>")
-def post(post):
-  display_post = ForumPost.query.filter_by(post=post)
+def post(post, thread):
+  display_post = ForumPost.query.filter_by(title=post)
 
-  return render_template('forums/post.html', title = display_post.title, post = display_post)
+  return render_template('forums/post.html', title = post, display_post = display_post)
