@@ -6,7 +6,8 @@ forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
 
 @forums_blueprint.route("/")
 def forums():
-  threads = ["Thread 1", "Thread 2", "Thread 3", "Thread 4", "Thread 5"]
+  query = ForumPost.query.with_entities(ForumPost.thread).distinct().all() # returns list of tuples with 1 element.
+  threads = [row[0] for row in query]
 
   return render_template('forums/threads.html', title ='forum', threads = threads)
 
