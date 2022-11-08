@@ -15,7 +15,7 @@ def forums():
 def thread(thread):
   posts = ForumPost.query.filter_by(thread=thread).all()  
 
-  return render_template('forums/thread.html', thread=thread, title = thread, posts = posts)
+  return render_template('forums/thread.html', thread = thread, title = thread, posts = posts)
 
 @forums_blueprint.route("/<thread>/<post_title>")
 def post(post_title, thread):
