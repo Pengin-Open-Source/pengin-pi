@@ -1,4 +1,6 @@
 {% extends "oneDiv.html" %}
 {% block oneDivContent %}
-
+  {% for thread in threads %}
+    <h1><a href="/forums/{{thread}}">{{ thread }}</a></h1>
+  {% endfor %}
 {% endblock %}
