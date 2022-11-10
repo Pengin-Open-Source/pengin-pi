@@ -6,6 +6,6 @@
 {% endblock %}
 {% block tableContent %}
   {% for comment in comments %}
-  <tr><td>{{comment.content}}</td></tr>
+  <tr><td>{{comment.content}} by {{comment.author}} at {{comment.date}}</td></tr>
   {% endfor %}
 {% endblock %}
