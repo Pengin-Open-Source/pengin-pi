@@ -1,6 +1,6 @@
 from datetime import date
 import sqlite3
-from app import db, create_app, models
+from app import db, create_app
 
 db.create_all(app=create_app())
 
