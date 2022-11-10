@@ -1,5 +1,10 @@
-{% extends "oneDiv.html" %}
-{% block oneDivContent %}
+{% extends "forums/alternating_color_table.html" %}
+{% block beforeTableContent %}
   <h1>{{post.title}}</h1>
   <p>{{post.content}}</p>
+{% endblock %}
+{% block tableContent %}
+  {% for comment in post.comments %}
+  <tr><td><a href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
+  {% endfor %}
 {% endblock %}
