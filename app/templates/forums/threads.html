@@ -1,7 +1,7 @@
 {% extends "forums/alternating_color_table.html" %}
 
 {% block beforeTableContent %}
-  <h1>{{title}}</h1>
+  <h2 class="forum-title">{{title}}</h2>
 {% endblock %}
 {% block tableContent %}
   {% for thread in threads %}

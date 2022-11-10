@@ -1,6 +1,7 @@
 {% extends "forums/alternating_color_table.html" %}
 {% block beforeTableContent %}
-  <h1>{{post.title}}</h1>
+  <h2 class="forum-title">{{post.title}}</h2>
+  <p>By {{post.author}} ({{post.date}})</p>
   <p>{{post.content}}</p>
 {% endblock %}
 {% block tableContent %}
