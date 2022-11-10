@@ -9,7 +9,7 @@ def forums():
   query = ForumPost.query.with_entities(ForumPost.thread).distinct().all() # returns list of tuples with 1 element.
   threads = [row[0] for row in query]
 
-  return render_template('forums/threads.html', title ='forum', threads = threads)
+  return render_template('forums/threads.html', title ='Forum', threads = threads)
 
 @forums_blueprint.route("/<thread>")
 def thread(thread):
