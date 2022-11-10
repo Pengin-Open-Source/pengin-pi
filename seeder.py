@@ -63,9 +63,23 @@ comments = [
   )
 ]
 
+users = [
+  (
+    "author1@gmail.com",
+    "author1"
+  ),
+  (
+    "author2@gmail.com",
+    "author2"
+  ),
+  (
+    "author3@gmail.com",
+    "author3"
+  ),
+]
+
 cur.executemany("INSERT INTO forum_post (title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (post_id, content, author, date ) VALUES(?, ?, ?, ?)", comments)
-#executemany comments
-#executemany users 
+cur.executemany("INSERT INTO user (email, name) VALUES(?, ?)", users)
 con.commit()
 con.close()
