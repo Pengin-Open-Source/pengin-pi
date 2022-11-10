@@ -5,7 +5,7 @@
   <p>{{post.content}}</p>
 {% endblock %}
 {% block tableContent %}
-  {% for comment in post.comments %}
-  <tr><td><a href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
+  {% for comment in comments %}
+  <tr><td>{{comment.content}}</td></tr>
   {% endfor %}
 {% endblock %}
