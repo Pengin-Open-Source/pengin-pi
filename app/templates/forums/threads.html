@@ -1,6 +1,10 @@
-{% extends "oneDiv.html" %}
-{% block oneDivContent %}
+{% extends "forums/alternating_color_table.html" %}
+
+{% block beforeTableContent %}
+  <h1>{{title}}</h1>
+{% endblock %}
+{% block tableContent %}
   {% for thread in threads %}
-    <h1><a href="/forums/{{thread}}">{{ thread }}</a></h1>
+  <tr><td><a href="/forums/{{thread}}">{{ thread }}</a></td></tr>
   {% endfor %}
 {% endblock %}
