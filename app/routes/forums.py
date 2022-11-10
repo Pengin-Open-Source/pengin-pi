@@ -20,5 +20,6 @@ def thread(thread):
 @forums_blueprint.route("/<thread>/<post_title>")
 def post(post_title, thread):
   post = ForumPost.query.filter_by(title=post_title).first()
+  comments = ForumComment.query.filter_by(post.id).all()
 
-  return render_template('forums/post.html', title = post_title, post = post)
+  return render_template('forums/post.html', title = post_title, post = post, comments = comments)
