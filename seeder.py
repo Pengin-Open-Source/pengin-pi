@@ -1,5 +1,8 @@
 from datetime import date
 import sqlite3
+from app import db, create_app, models
+
+db.create_all(app=create_app())
 
 con = sqlite3.connect("app/db.sqlite")
 cur = con.cursor()
