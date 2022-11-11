@@ -175,6 +175,7 @@ user_roles = [
   )
 ]
 
+#threads 1-4 are public 5 and 6 are in thier own groups, admin has access to all
 thread_roles = [ 
   (
     1,
