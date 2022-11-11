@@ -5,6 +5,6 @@
 {% endblock %}
 {% block tableContent %}
   {% for thread in threads %}
-  <tr><td><a href="/forums/{{thread}}">{{ thread }}</a></td></tr>
+  <tr><td><a href="/forums/{{thread.name}}">{{ thread.name }}</a></td></tr>
   {% endfor %}
 {% endblock %}
