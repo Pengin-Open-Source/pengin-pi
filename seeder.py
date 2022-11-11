@@ -115,37 +115,37 @@ users = [
 
 threads = [
   (
-    "thread1"
+    "thread1",
   ),
   (
-    "thread2"
+    "thread2",
   ),
   (
-    "thread3"
+    "thread3",
   ),
   (
-    "thread4"
+    "thread4",
   ),
   (
-    "thread5"
+    "thread5",
   ),
   (
-    "thread6"
+    "thread6",
   ),
 ]
 
 roles = [
   (
-    "admin"
+    "admin",
   ),
   (
-    "user"
+    "user",
   ),
   (
-    "thread5"
+    "thread5",
   ),
   (
-    "thread6"
+    "thread6",
   )
 ]
 
@@ -165,7 +165,7 @@ user_roles = [
   (
     2,
     3
-  )
+  ),
   (
     3,
     4
@@ -177,6 +177,6 @@ cur.executemany("INSERT INTO forum_comment (post_id, content, author, date ) VAL
 cur.executemany("INSERT INTO user (email, name) VALUES(?, ?)", users)
 cur.executemany("INSERT INTO roles (name) VALUES(?)", roles)
 cur.executemany("INSERT INTO thread (name) VALUES(?)", threads)
-cur.executemany("INSERT INTO user_roles (user_id, role_id) VALUES(? ?)", user_roles)
+cur.executemany("INSERT INTO user_roles (user_id, role_id) VALUES(?, ?)", user_roles)
 con.commit()
 con.close()
