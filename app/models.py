@@ -63,7 +63,7 @@ class ForumPost(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
     content = db.Column(db.String())
-    thread = db.Column(db.String())
+    thread = db.Column(db.Integer(), db.ForeignKey('thread.id', ondelete='CASCADE'))
     author = db.Column(db.String())
     tags = db.Column(db.String())
     date = db.Column(db.Integer())
@@ -77,3 +77,15 @@ class ForumComment(db.Model):
     content = db.Column(db.String())
     author = db.Column(db.String())
     date = db.Column(db.Integer())
+
+class Thread(db.Model):
+    __tablename__ = "thread"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String())
+    roles = db.relationship('ThreadRoles')
+
+class ThreadRoles(db.Model):
+    __tablename__ = "thread_roles"
+    id = db.Column(db.Integer(), primary_key=True)
+    thread_id = db.Column(db.Integer(), db.ForeignKey('thread.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
