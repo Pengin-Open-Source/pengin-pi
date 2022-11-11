@@ -2,6 +2,8 @@ from datetime import date
 import sqlite3
 from app import db, create_app
 
+# TODO find way to add hashed password to the users so they can be logged into to
+
 db.create_all(app=create_app())
 
 con = sqlite3.connect("app/db.sqlite")
@@ -149,6 +151,7 @@ roles = [
   )
 ]
 
+#author1 is admin, 2 and 3 are users with access to threads 5 and 6 respectively
 user_roles = [
   (
     1,
