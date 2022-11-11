@@ -173,7 +173,54 @@ user_roles = [
 ]
 
 thread_roles = [ 
-
+  (
+    1,
+    1
+  ),
+  (
+    1,
+    2
+  ),
+  (
+    1,
+    3
+  ),
+  (
+    1,
+    4
+  ),
+  (
+    1,
+    5
+  ),
+  (
+    1,
+    6
+  ),
+  (
+    2,
+    1
+  ),
+  (
+    2,
+    2
+  ),
+  (
+    2,
+    3
+  ),
+  (
+    2,
+    4
+  ),
+  (
+    3,
+    5
+  ),
+  (
+    4,
+    6
+  ),
 ]
 
 cur.executemany("INSERT INTO forum_post (title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?)", posts)
@@ -182,6 +229,6 @@ cur.executemany("INSERT INTO user (email, name) VALUES(?, ?)", users)
 cur.executemany("INSERT INTO roles (name) VALUES(?)", roles)
 cur.executemany("INSERT INTO thread (name) VALUES(?)", threads)
 cur.executemany("INSERT INTO user_roles (user_id, role_id) VALUES(?, ?)", user_roles)
-#execute many threadroles
+cur.executemany("INSERT INTO user_roles (thread_id, role_id) VALUES(?, ?)", thread_roles)
 con.commit()
 con.close()
