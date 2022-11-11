@@ -48,6 +48,38 @@ posts = [
     "author3",
     "lifestyle,art",
     date.today()
+  ),
+  (
+    "Test Post 6",
+    lorem,
+    "Thread 3",
+    "author3",
+    "lifestyle,art",
+    date.today()
+  ),
+  (
+    "Test Post 7",
+    lorem,
+    "Thread 4",
+    "author3",
+    "lifestyle,art",
+    date.today()
+  ),
+  (
+    "Test Post 8",
+    lorem,
+    "Thread 5",
+    "author3",
+    "lifestyle,art",
+    date.today()
+  ),
+  (
+    "Test Post 9",
+    lorem,
+    "Thread 6",
+    "author3",
+    "lifestyle,art",
+    date.today()
   )
 ]
 
@@ -81,8 +113,70 @@ users = [
   ),
 ]
 
+threads = [
+  (
+    "thread1"
+  ),
+  (
+    "thread2"
+  ),
+  (
+    "thread3"
+  ),
+  (
+    "thread4"
+  ),
+  (
+    "thread5"
+  ),
+  (
+    "thread6"
+  ),
+]
+
+roles = [
+  (
+    "admin"
+  ),
+  (
+    "user"
+  ),
+  (
+    "thread5"
+  ),
+  (
+    "thread6"
+  )
+]
+
+user_roles = [
+  (
+    1,
+    1
+  ),
+  (
+    2,
+    2
+  ),
+  (
+    3,
+    2
+  ),
+  (
+    2,
+    3
+  )
+  (
+    3,
+    4
+  )
+]
+
 cur.executemany("INSERT INTO forum_post (title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (post_id, content, author, date ) VALUES(?, ?, ?, ?)", comments)
 cur.executemany("INSERT INTO user (email, name) VALUES(?, ?)", users)
+cur.executemany("INSERT INTO roles (name) VALUES(?)", roles)
+cur.executemany("INSERT INTO thread (name) VALUES(?)", threads)
+cur.executemany("INSERT INTO user_roles (user_id, role_id) VALUES(? ?)", user_roles)
 con.commit()
 con.close()
