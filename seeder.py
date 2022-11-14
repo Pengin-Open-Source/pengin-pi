@@ -1,6 +1,7 @@
 from datetime import date
 import sqlite3
 from app import db, create_app
+from werkzeug.security import generate_password_hash
 
 # TODO find way to add hashed password to the users so they can be logged into to
 
@@ -9,6 +10,7 @@ db.create_all(app=create_app())
 con = sqlite3.connect("app/db.sqlite")
 cur = con.cursor()
 
+password = generate_password_hash('password', method='sha256')
 lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pharetra placerat nisl. Mauris vitae pretium est. Donec pharetra diam quam, quis lobortis nisi viverra nec. Ut sollicitudin nulla vitae nisl accumsan volutpat vel eget risus. In sed pharetra justo, sed malesuada quam. Curabitur blandit dictum leo, quis feugiat ipsum laoreet a. Nam molestie tristique viverra. Phasellus odio lacus, ultrices sed viverra eget, rutrum at orci. Aliquam non orci at ante posuere efficitur eget in diam. Aenean quis nulla vel turpis molestie fermentum nec sed ligula. Sed consectetur, sapien et aliquet porttitor, risus risus varius erat, eget elementum nibh velit ac odio. Etiam vel turpis elit. "
 posts = [
   (
@@ -103,15 +105,18 @@ comments = [
 users = [
   (
     "author1@gmail.com",
-    "author1"
+    "author1",
+    password
   ),
   (
     "author2@gmail.com",
-    "author2"
+    "author2",
+    password
   ),
   (
     "author3@gmail.com",
-    "author3"
+    "author3",
+    password
   ),
 ]
 
@@ -229,7 +234,7 @@ thread_roles = [
 
 cur.executemany("INSERT INTO forum_post (title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (post_id, content, author, date ) VALUES(?, ?, ?, ?)", comments)
-cur.executemany("INSERT INTO user (email, name) VALUES(?, ?)", users)
+cur.executemany("INSERT INTO user (email, name, password) VALUES(?, ?, ?)", users)
 cur.executemany("INSERT INTO roles (name) VALUES(?)", roles)
 cur.executemany("INSERT INTO thread (name) VALUES(?)", threads)
 cur.executemany("INSERT INTO user_roles (user_id, role_id) VALUES(?, ?)", user_roles)
