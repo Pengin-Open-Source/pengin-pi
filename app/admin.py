@@ -7,7 +7,7 @@ from .models import User, UserRoles, Role, blog, company
 from .models.db import db
 
 admin = Admin()
-admin_bpt = Blueprint('admin_bpt', __name__)
+admin_blueprint = Blueprint('admin_blueprint', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
 
