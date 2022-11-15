@@ -1,0 +1,10 @@
+{% extends "forums/alternating_color_table.html" %}
+
+{% block beforeTableContent %}
+  <h2 class="forum-title">{{title}}</h2>
+{% endblock %}
+{% block tableContent %}
+  {% for thread in threads %}
+  <tr><td><a href="/forums/{{thread.name}}">{{ thread.name }}</a></td></tr>
+  {% endfor %}
+{% endblock %}

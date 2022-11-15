@@ -1,0 +1,11 @@
+{% extends "forums/alternating_color_table.html" %}
+{% block beforeTableContent %}
+  <h2 class="forum-title">{{post.title}}</h2>
+  <p>By {{post.author}} ({{post.date}})</p>
+  <p>{{post.content}}</p>
+{% endblock %}
+{% block tableContent %}
+  {% for comment in comments %}
+  <tr><td>{{comment.content}} by {{comment.author}} at {{comment.date}}</td></tr>
+  {% endfor %}
+{% endblock %}

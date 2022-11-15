@@ -1,0 +1,9 @@
+{% extends "forums/alternating_color_table.html" %}
+{% block beforeTableContent %}
+  <h2 class="forum-title">{{title}}</h2>
+{% endblock %}
+{% block tableContent %}
+  {% for post in posts %}
+  <tr><td><a href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
+  {% endfor %}
+{% endblock %}

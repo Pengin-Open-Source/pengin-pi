@@ -1,181 +1,218 @@
+/* General Styles */
+
 body {
-    height: 100%;
-    display:flex;
-    flex-direction: column;
-    min-height: 1000px;
-    background: linear-gradient(#535252,#d1cccc );
-    margin-top: 5rem;
-  }
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  min-height: 1000px;
+  background: linear-gradient(#535252,#d1cccc );
+  margin-top: 5rem;
+}
 
-  h1{
+h1{
   color: #f0eeee;
-  } 
+} 
 
-  .title {
-    color: #ffffff;
-    font-size:30px
-  }
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  .bg-steel {
-    background-color: #1a6b99;
-  }
+footer {
+  display: flex;
+  margin-top: auto;
+  justify-content: center;
+}
+
+footer p {
+  color:#ffffff;
+  margin: 15px;
+}
+
+/* Utilities */
+
+.hidden {
+  display: none;
+}
+
+
+.text-muted {
+  color: #ffffff !important;
+}
+
+.col-md-4 {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 33.333333%;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  /* margin-block: 10px; */
+}
+
+.col-md-4 p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+/* Site-wide */
+
+.header {
+  color: black;
+  margin-top: 0;
+  font-size: 36px;
+}
+
+.title {
+  color: #ffffff;
+  font-size:30px
+}
+
+.bg-steel {
+  background-color: #1a6b99;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+article.media a {
+  color: #ffffff;
+  text-decoration:none;
+  background-color: transparent;
+}
+
+article.content-section {
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  background-color: #1a6b99;
+}
+
+article.media p {
+  color: #ffffff;
+}
+
+/* Auth */
+
+.authForm {
+  max-width: 500px;
+}
+
+/* Account */
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+/* Profile */
+
+.profile-info {
+  background: #ffffff;
+  padding: 20px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+}
+
+.profile-side-info {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+
+/* Forum */
+
+.forum-title {
+  color: white;
+  font-size: 3em
+}
+
+.alternating-colors-table  {
+  width: 100%;
+  margin-top:1em;
+}
+
+.alternating-colors-table a {
+  margin: 0.5em;
+  color: white;
+  font-size: 1.5em
+}
+
+.alternating-colors-table tr:nth-child(odd) td{
+  background-color: #1a6b99;
+}
+
+/* Other */
+
+.content-section {
+  background: #1f125d;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
   
-  .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
-  }
-  
-  .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
-  }
-  
-  .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-  }
-  
-  .content-section {
-    background: #1f125d;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    
-  }
-  
-  .article-title {
-    color: #444444;
-  }
-  
-  a.article-title:hover {
-    color: #428bca;
-    text-decoration: none;
-  }
-  
-  .article-content {
-    white-space: pre-line;
-  }
-  
-  .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-  
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-  
-  .article-metadata a:hover {
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
-  }
+}
 
-  .profile-info {
-    background: #ffffff;
-    padding: 20px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    margin-right: 30px;
-  }
-
-  .profile-side-info {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  }
-
-  .important-info-card {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    margin-top: 30px;
-  }
-
-  main {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  footer {
-    display: flex;
-    margin-top: auto;
-    justify-content: center;
-  }
-  footer p {
-    color:#ffffff;
-    margin: 15px;
-  }
-
-  .authForm {
-    max-width: 500px;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .header {
-    color: black;
-    margin-top: 0;
-    font-size: 36px;
-  }
-
-  article.media a {
-    color: #ffffff;
-    text-decoration:none;
-    background-color: transparent;
-  }
-
-  article.content-section {
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-    background-color: #1a6b99;
-  }
-
-  article.media p {
-    color: #ffffff;
-  }
-
-
-  .text-muted {
-    color: #ffffff !important;
-  }
-
-  .col-md-4 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-    /* margin-block: 10px; */
-  }
-
-  .col-md-4 p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: white;
-  }
+.important-info-card {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}

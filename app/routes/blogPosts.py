@@ -1,18 +1,19 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
+<<<<<<< HEAD:app/blogPosts.py
 from . import db
 from .models.blog import BlogPost
+=======
+from ..models import db
+from ..models import BlogPost
+>>>>>>> dev-forum-james:app/routes/blogPosts.py
 from flask_principal import Permission, RoleNeed
-
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
-# little helper to generate blog post links (inspired by tobuwebflask)
 def get_links():
     return BlogPost.query.all()
-
-
 
 # Logan Kiser: render all blog posts, potentially just their links not sure how
 # the front-end folks would like to organize this, tobuwebflask goes with a 
@@ -22,7 +23,6 @@ def display_blog_home():
     posts = BlogPost.query.limit(15)
     return render_template('blog/blog.html', posts=posts, links=get_links(), roles=current_user.roles)
 
-
 @blogPosts.route("/blog/<int:post_id>")
 def display_post(post_id):
     # Logan Kiser: Kabir uses get_or_404() instead of try-except block, we can
@@ -30,12 +30,10 @@ def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links(), roles=current_user.roles)
 
-
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
 # Logan Kiser: hang tight on requiring credentials for flask-principal branch
-# @login_required
 def create_post():
     # handle POST method
     if request.method == 'POST':

@@ -2,6 +2,7 @@
 **/*.sqlite
 __pycache__/
 *.py[cod]
+<<<<<<< HEAD
 .venv
 pengin-pie
 auth
@@ -10,3 +11,6 @@ README.md
 requirements.txt
 app/__pycache__
 app/db.sqlite
+=======
+auth
+>>>>>>> dev-forum-james
