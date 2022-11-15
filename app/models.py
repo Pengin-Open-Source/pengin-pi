@@ -120,6 +120,7 @@ class Forum_Post(db.Model):
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
    # comments = db.relationship('Forum_Comment', secondary='ticket_forum')
        
+
 class TicketForum(db.Model):
     __tablename__ = 'ticket_forum'
     id = db.Column(db.Integer(),primary_key=True)
@@ -136,3 +137,13 @@ class Resolution(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String())
     date= db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+
+class TicketComment(db.Model):
+    __tablename__='ticket_comment'
+    id = db.Column(db.Integer(), primary_key=True)
+    ticket_id = db.Column(db.Integer(), db.ForeignKey('ticket_forum.id', ondelete='CASCADE'))
+    author_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    date= db.Column(db.DateTime(timezone=True), server_default=func.now())
+    comment = db.Column(db.String())
+
