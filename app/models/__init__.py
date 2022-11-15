@@ -1,9 +1,8 @@
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
+from db import db
+from .company import CompanyMembers # Needs this for User to be able to have relationship with company_members
 # TODO Should we import all models into __init__.py for simplicity of importing models in the rest of the app?
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"

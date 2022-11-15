@@ -1,4 +1,4 @@
-from . import db 
+from db import db 
 
 
 class Company(db.Model):
