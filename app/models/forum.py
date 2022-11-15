@@ -1,4 +1,4 @@
-from db import db
+from .db import db
 from sqlalchemy import func
 
 class ForumPost(db.Model):
