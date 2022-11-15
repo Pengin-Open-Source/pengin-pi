@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from ..models import User, ForumPost, ForumComment, Thread, db
+from ..models.forum import  ForumPost, ForumComment, Thread
 from flask_principal import Permission, RoleNeed
 from ..admin import admin_permission
 
@@ -8,12 +8,6 @@ forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
 
 @forums_blueprint.route("/")
 @admin_permission.require()
-def forums():
-  threads = Thread.query.filter_by().all()
-
-  return render_template('forums/threads.html', title ='Forum', threads = threads)
-
-@user_permission.require()
 def forums():
   threads = Thread.query.filter_by().all()
 
