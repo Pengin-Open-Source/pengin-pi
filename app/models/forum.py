@@ -10,18 +10,17 @@ class ForumPost(db.Model):
     thread = db.Column(db.Integer(), db.ForeignKey('thread.id', ondelete='CASCADE'))
     author = db.Column(db.String())
     tags = db.Column(db.String())
-    date = db.Column(db.Integer())
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     comments = db.relationship('ForumComment')
 
 
 class ForumComment(db.Model):
     __tablename__ = "forum_comment"
     id = db.Column(db.Integer(), primary_key=True)
-    post_id = db.Column(db.Integer(), db.ForeignKey(
-        'forum_post.id', ondelete='CASCADE'))
+    post_id = db.Column(db.Integer(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
-    date = db.Column(db.Integer())
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     zipcode = db.Column(db.Integer())
 
 
