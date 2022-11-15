@@ -4,29 +4,28 @@ from . import db
 from datetime import datetime
 from sqlalchemy.orm import with_polymorphic
 
-
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
 
-# Define the Role data-model
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
-# Define the UserRoles association table
+
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey(
+        'user.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey(
+        'roles.id', ondelete='CASCADE'))
 
-# copy/paste job from tobuwebflask per issue #39
 class BlogPost(db.Model):
     __tablename__ = "blogpost"
     id = db.Column(db.Integer, primary_key=True)
@@ -34,7 +33,7 @@ class BlogPost(db.Model):
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     content = db.Column(db.String(10000))
     tags = db.Column(db.String(1000))
-   
+
 class Company(db.Model):
     __tablename__ = "company"
     id = db.Column(db.Integer(), primary_key=True)
@@ -101,6 +100,39 @@ class ShippingAddress(db.Model):
     city = db.Column(db.String())
     state = db.Column(db.String())
     country = db.Column(db.String())
+    phone = db.Column(db.String(50), unique=True)
+    email = db.Column(db.String(50), unique=True)
+
+
+class CompanyMembers(db.Model):
+    __tablename__ = "members_company"
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey(
+        'user.id', ondelete='CASCADE'))
+    company_id = db.Column(db.Integer(), db.ForeignKey(
+        'company.id', ondelete='CASCADE'))
+
+
+class ForumPost(db.Model):
+    __tablename__ = "forum_post"
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(), unique=True)
+    content = db.Column(db.String())
+    thread = db.Column(db.String())
+    author = db.Column(db.String())
+    tags = db.Column(db.String(), unique=True)
+    date = db.Column(db.Integer(), unique=True)
+    comment = db.relationship('ForumComment')
+
+
+class ForumComment(db.Model):
+    __tablename__ = "forum_comment"
+    id = db.Column(db.Integer(), primary_key=True)
+    post_id = db.Column(db.Integer(), db.ForeignKey(
+        'forum_post.id', ondelete='CASCADE'))
+    content = db.Column(db.String())
+    author = db.Column(db.String())
+    date = db.Column(db.Integer(), unique=True)
     zipcode = db.Column(db.Integer())
 
 class Product(db.Model):
@@ -146,4 +178,3 @@ class TicketComment(db.Model):
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     date= db.Column(db.DateTime(timezone=True), server_default=func.now())
     comment = db.Column(db.String())
-
