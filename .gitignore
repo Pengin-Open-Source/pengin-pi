@@ -2,15 +2,6 @@
 **/*.sqlite
 __pycache__/
 *.py[cod]
-<<<<<<< HEAD
-.venv
-pengin-pie
 auth
-LICENSE
-README.md
-requirements.txt
 app/__pycache__
 app/db.sqlite
-=======
-auth
->>>>>>> dev-forum-james
