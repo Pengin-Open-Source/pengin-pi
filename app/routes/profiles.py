@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from . import db
-from .models import User, Company, CompanyMembers
-
-## user profile routes
+from ..models import User, db
+from ..models.company import Company, CompanyMembers
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -92,4 +90,3 @@ def edit_company_info_post(company_id):
     db.session.commit()
 
     return redirect(url_for('company_info.display_company_info', company_id=company.id))
-
