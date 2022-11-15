@@ -4,7 +4,6 @@ from sqlalchemy import func, schema #, ForeignKey
 from company import Company
 
 
-
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer(), primary_key=True)
