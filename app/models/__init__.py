@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# TODO Should we import all models into __init__.py for simplicity of importing models in the rest of the app?
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
