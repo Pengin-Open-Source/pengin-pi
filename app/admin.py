@@ -3,7 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask_principal import Permission, RoleNeed
 from . import admin
-from . import models
+from .models import User, UserRoles, Role, blog, company
 from . import db
 
 #Admin blueprint
@@ -25,10 +25,10 @@ class FixView(SecureModelView):
 
 
 #add DB model views into flask admin
-admin.add_view(SecureModelView(models.User, db.session))
-admin.add_view(SecureModelView(models.Role, db.session))
-admin.add_view(FixView(models.UserRoles, db.session))
-admin.add_view(SecureModelView(models.Company, db.session))
-admin.add_view(SecureModelView(models.BlogPost, db.session))
-admin.add_view(FixView(models.CompanyMembers, db.session))
+admin.add_view(SecureModelView(User, db.session))
+admin.add_view(SecureModelView(Role, db.session))
+admin.add_view(FixView(UserRoles, db.session))
+admin.add_view(SecureModelView(company.Company, db.session))
+admin.add_view(SecureModelView(blog.BlogPost, db.session))
+admin.add_view(FixView(company.CompanyMembers, db.session))
    
