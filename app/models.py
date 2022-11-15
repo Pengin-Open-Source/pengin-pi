@@ -1,7 +1,9 @@
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey, func
+from sqlalchemy import func, schema, ForeignKey, func
 from . import db
+from datetime import datetime
 from sqlalchemy.orm import with_polymorphic
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -47,6 +49,7 @@ class Company(db.Model):
     address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
     customer = db.relationship('User', secondary='customer')
+
 
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
