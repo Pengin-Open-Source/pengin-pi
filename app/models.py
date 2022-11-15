@@ -1,7 +1,7 @@
 from flask_login import UserMixin
-from sqlalchemy import func
+from sqlalchemy import func, schema
 from . import db
-
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -50,6 +50,7 @@ class Company(db.Model):
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
     members = db.relationship('User', secondary='company_members')
+    customer=db.relationship('User', secondary='customer')
     
     
 class CompanyMembers(db.Model):
@@ -59,3 +60,18 @@ class CompanyMembers(db.Model):
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
 
+
+class Customer(db.Model):
+    __tablename__ = "customer"
+    __table_args__ = (
+        schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
+    )
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(),db.ForeignKey('user.id', ondelete='CASCADE'), nullable=True)
+    company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=True)
+    order_id= db.Column(db.Integer())
+    #order_id = db.Column(db.Integer(), db.ForeignKey('order.id', ondelete='CASCADE')) 
+    # order table will be created later
+    date = db.Column(db.DateTime(timezone=True),server_default=func.now())
+    service_date = db.Column(db.DateTime(255), nullable=True) 
+    expiration_date = db.Column(db.DateTime(255), nullable=True)
