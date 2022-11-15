@@ -3,3 +3,10 @@
 __pycache__/
 *.py[cod]
 .venv
+pengin-pie
+auth
+LICENSE
+README.md
+requirements.txt
+app/__pycache__
+app/db.sqlite
