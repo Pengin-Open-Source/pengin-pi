@@ -3,8 +3,6 @@ import sqlite3
 from app import db, create_app
 from werkzeug.security import generate_password_hash
 
-# TODO find way to add hashed password to the users so they can be logged into to
-
 db.create_all(app=create_app())
 
 con = sqlite3.connect("app/db.sqlite")
