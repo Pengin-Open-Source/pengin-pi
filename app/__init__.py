@@ -2,7 +2,6 @@ from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 
-from .models import User, db
 from .admin import admin_blueprint, admin
 
 import app.routes as route
@@ -19,7 +18,7 @@ def create_app():
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-    db.init_app(app)
+    model.db.init_app(app)
     login_manager.init_app(app) 
     principals.init_app(app) 
     admin.init_app(app)
@@ -28,7 +27,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
-        return User.query.get(int(user_id))
+        return model.User.query.get(int(user_id))
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
