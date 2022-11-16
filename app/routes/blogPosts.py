@@ -1,28 +1,27 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from ..models import db
-from ..models.blog import BlogPost
 from flask_principal import Permission, RoleNeed
+import models
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
 def get_links():
-    return BlogPost.query.all()
+    return models.BlogPost.query.all()
 
 # Logan Kiser: render all blog posts, potentially just their links not sure how
 # the front-end folks would like to organize this, tobuwebflask goes with a 
 # list of links in a left-hand pane
 @blogPosts.route("/blog")
 def display_blog_home():
-    posts = BlogPost.query.limit(15)
+    posts = models.BlogPost.query.limit(15)
     return render_template('blog/blog.html', posts=posts, links=get_links(), roles=current_user.roles)
 
 @blogPosts.route("/blog/<int:post_id>")
 def display_post(post_id):
     # Logan Kiser: Kabir uses get_or_404() instead of try-except block, we can
     #              change this if we prefer the latter
-    post = BlogPost.query.get_or_404(post_id)
+    post = models.BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links(), roles=current_user.roles)
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -39,10 +38,10 @@ def create_post():
         # user = current_user.id
         content = request.form.get('content')
         tags = request.form.get('tags')
-        new_post = BlogPost(title=title, content=content, tags=tags)
+        new_post = models.BlogPost(title=title, content=content, tags=tags)
         # insert post into database via BlogPost object
-        db.session.add(new_post)
-        db.session.commit()
+        models.db.session.add(new_post)
+        models.db.session.commit()
         # render main blog page
         return redirect(url_for("blogPosts.display_post", post_id=new_post.id))
     # handle GET method
