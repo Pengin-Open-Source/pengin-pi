@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from ..models import User, db
-from ..models.company import Company, CompanyMembers
+import app.models as models
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -16,11 +15,11 @@ def edit_profile_post():
     old_email = request.form.get('old_email')
     name = request.form.get('name')
     email = request.form.get('email')
-    user = User.query.filter_by(email=old_email).first()
+    user = models.User.query.filter_by(email=old_email).first()
 
     user.name = name
     user.email = email
-    db.session.commit()
+    models.db.session.commit()
 
     return redirect(url_for('profiles.profile'))
 
@@ -36,7 +35,7 @@ def edit_password_post():
 company_info = Blueprint('company_info', __name__, url_prefix="/companies")
 
 def get_companies():
-    return Company.query.all()
+    return models.Company.query.all()
 
 
 @company_info.route("/")
@@ -46,7 +45,7 @@ def display_companies_home():
 @company_info.route('/<int:company_id>')
 @login_required
 def display_company_info(company_id):
-    company = Company.query.get_or_404(company_id)
+    company = models.Company.query.get_or_404(company_id)
     return render_template('company_info/company_info.html', company=company)
 
 @company_info.route('/create', methods=['GET', 'POST'])
@@ -63,12 +62,12 @@ def create_company():
         phone = request.form.get('phone')
         email = request.form.get('email')
 
-        new_company = Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
-        db.session.add(new_company)
-        db.session.commit()
-        new_members_company = CompanyMembers(id = new_company.id , user_id = current_user.id)
-        db.session.add(new_members_company)
-        db.session.commit()
+        new_company = models.Company(name=name, address1=address1, address2=address2, city=city, state=state, zipcode=zipcode, country=country, phone=phone, email=email)
+        models.db.session.add(new_company)
+        models.db.session.commit()
+        new_members_company = models.CompanyMembers(id = new_company.id , user_id = current_user.id)
+        models.db.session.add(new_members_company)
+        models.db.session.commit()
 
         return redirect(url_for("company_info.display_company_info", company_id=new_company.id))
 
@@ -77,7 +76,7 @@ def create_company():
 @company_info.route('/edit_company_info/<int:company_id>', methods=['POST'])
 @login_required
 def edit_company_info_post(company_id):
-    company = Company.query.filter_by(id=company_id).first()
+    company = models.Company.query.filter_by(id=company_id).first()
     company.name = request.form.get('name')
     company.address1 = request.form.get('address1')
     company.address2 = request.form.get('address2')
@@ -87,6 +86,6 @@ def edit_company_info_post(company_id):
     company.country = request.form.get('country')
     company.phone = request.form.get('phone')
     company.email = request.form.get('email')
-    db.session.commit()
+    models.db.session.commit()
 
     return redirect(url_for('company_info.display_company_info', company_id=company.id))
