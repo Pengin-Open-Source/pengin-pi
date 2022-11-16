@@ -197,6 +197,12 @@ article.media p {
   background-color: #1a6b99;
 }
 
+.alternating-colors-table tr:nth-child(even) td{
+  background-color: white;
+}
+.alternating-colors-table tr:nth-child(even) a{
+  color: black;
+}
 /* Other */
 
 .content-section {
