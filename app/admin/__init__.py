@@ -4,7 +4,7 @@ from flask_login import current_user
 from flask_principal import Permission, RoleNeed
 from flask_admin import Admin
 from ..models import User, UserRoles, Role, blog, company
-from ..models.db import db
+from ..models.config import db
 
 admin = Admin()
 admin_blueprint = Blueprint('admin_blueprint', __name__)

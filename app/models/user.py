@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from .db import db
+from .config import db
 from .company import CompanyMembers # Needs this for User to be able to have relationship with company_members
 
 

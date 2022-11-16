@@ -1,4 +1,4 @@
-from .db import db
+from .config import db
 
 
 class Contracts(db.Model):

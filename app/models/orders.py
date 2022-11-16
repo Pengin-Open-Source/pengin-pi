@@ -1,4 +1,4 @@
-from .db import db
+from .config import db
 from sqlalchemy import func, schema #, ForeignKey
 #from sqlalchemy.orm import with_polymorphic
 from company import Company
