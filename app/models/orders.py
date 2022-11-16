@@ -1,7 +1,7 @@
 from .config import db
 from sqlalchemy import func, schema #, ForeignKey
 #from sqlalchemy.orm import with_polymorphic
-from company import Company
+from .company import Company
 
 
 class Order(db.Model):
@@ -40,6 +40,3 @@ class Customer(db.Model):
     service_date = db.Column(db.DateTime(255), nullable=True) 
     expiration_date = db.Column(db.DateTime(255), nullable=True)
     
-
-class Company(Company):
-    customer = db.relationship('User', secondary='customer')
