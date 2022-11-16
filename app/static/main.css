@@ -176,9 +176,13 @@ article.media p {
 
 
 /* Forum */
+.post-content {
+  background-color: white;
+  color: black;
+  padding: 1em;
+}
 
 .forum-title {
-  color: white;
   font-size: 3em
 }
 
