@@ -1,9 +1,9 @@
 from datetime import date
 import sqlite3
-from app import db, create_app
+from app import models, create_app
 from werkzeug.security import generate_password_hash
 
-db.create_all(app=create_app())
+models.db.create_all(app=create_app())
 
 con = sqlite3.connect("app/db.sqlite")
 cur = con.cursor()
