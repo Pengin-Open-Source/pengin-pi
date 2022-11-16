@@ -5,12 +5,9 @@ from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, Anon
 from .models import User, db
 from .admin import admin_blueprint, admin
 
-from .routes.forums import forums_blueprint
-from .routes.auth import auth as auth_blueprint
-from .routes.blogPosts import blogPosts as blogPosts_blueprint
-from .routes.main import main as main_blueprint
-from .routes.profiles import profiles as profile_blueprint
-from .routes.profiles import company_info as company_blueprint
+import app.routes as route
+import app.models as model
+
 
 principals = Principal()
 login_manager = LoginManager()
@@ -49,12 +46,12 @@ def create_app():
     def static_from_root():
         return send_from_directory(app.static_folder, request.path[1:])
 
-    app.register_blueprint(auth_blueprint)
-    app.register_blueprint(blogPosts_blueprint)
-    app.register_blueprint(main_blueprint)
+    app.register_blueprint(route.auth_blueprint)
+    app.register_blueprint(route.blogPosts_blueprint)
+    app.register_blueprint(route.main_blueprint)
     app.register_blueprint(admin_blueprint)
-    app.register_blueprint(profile_blueprint)
-    app.register_blueprint(company_blueprint)
-    app.register_blueprint(forums_blueprint)
+    app.register_blueprint(route.profile_blueprint)
+    app.register_blueprint(route.company_blueprint)
+    app.register_blueprint(route.forums_blueprint)
 
     return app
