@@ -4,6 +4,6 @@
 {% endblock %}
 {% block tableContent %}
   {% for post in posts %}
-  <tr><td><a href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
+  <tr><td><a class="small-padding" href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
   {% endfor %}
 {% endblock %}
