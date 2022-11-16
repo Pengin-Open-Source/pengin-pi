@@ -54,6 +54,10 @@ footer p {
   color: white;
 }
 
+.small-padding {
+  padding: 0.2em;
+}
+
 /* Site-wide */
 
 .header {
@@ -191,8 +195,11 @@ article.media p {
   margin-top:1em;
 }
 
+.alternating-colors-table p {
+  margin:0;
+}
+
 .alternating-colors-table a {
-  margin: 0.5em;
   color: white;
   font-size: 1.5em
 }
