@@ -8,6 +8,13 @@
 {% endblock %}
 {% block tableContent %}
   {% for comment in comments %}
-  <tr><td>{{comment.content}} by {{comment.author}} at {{comment.date}}</td></tr>
+  <tr><td>
+    <div class="media">
+      <div class="media-body">
+        <div class="article-metadata small-padding">by {{comment.author}} at {{comment.date}}</div>
+        <p class="article content small-padding">{{comment.content}}</p>
+      </div>
+    </div>
+  </td></tr>
   {% endfor %}
 {% endblock %}
