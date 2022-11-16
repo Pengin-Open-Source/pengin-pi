@@ -10,7 +10,7 @@ class ForumPost(db.Model):
     thread = db.Column(db.Integer(), db.ForeignKey('thread.id', ondelete='CASCADE'))
     author = db.Column(db.String())
     tags = db.Column(db.String())
-    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    date = db.Column(db.String())
     comments = db.relationship('ForumComment')
 
 
@@ -20,7 +20,7 @@ class ForumComment(db.Model):
     post_id = db.Column(db.Integer(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
-    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    date = db.Column(db.String())
     zipcode = db.Column(db.Integer())
 
 
