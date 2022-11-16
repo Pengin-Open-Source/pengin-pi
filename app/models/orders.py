@@ -40,6 +40,3 @@ class Customer(db.Model):
     service_date = db.Column(db.DateTime(255), nullable=True) 
     expiration_date = db.Column(db.DateTime(255), nullable=True)
     
-
-class Company(Company):
-    customer = db.relationship('User', secondary='customer')
