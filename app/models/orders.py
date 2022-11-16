@@ -1,7 +1,7 @@
-from . import db
+from .. import db
 from sqlalchemy import func, schema #, ForeignKey
 #from sqlalchemy.orm import with_polymorphic
-from company import Company
+from .company import Company
 
 
 
