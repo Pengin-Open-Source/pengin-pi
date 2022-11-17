@@ -1,5 +1,4 @@
-from .config import db
-from sqlalchemy import func
+from app.db import db
 
 
 class ForumPost(db.Model):

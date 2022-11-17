@@ -1,4 +1,4 @@
-from .config import db 
+from app.db import db
 from sqlalchemy import func
 
 

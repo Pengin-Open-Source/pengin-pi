@@ -2,10 +2,10 @@ from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 
-from .admin import admin_blueprint, admin
+from app.admin import admin_blueprint, admin
 
 import app.routes as route
-import app.models as model
+import app.db.models as model
 
 
 principals = Principal()
