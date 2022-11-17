@@ -7,3 +7,6 @@
   <tr><td><a class="small-padding" href="/forums/{{thread}}/{{post.title}}">{{post.title}}</a></td></tr>
   {% endfor %}
 {% endblock %}
+{% block postTableContent %}
+  <a class="btn btn-primary" href="/forums/{{thread}}create">Create Post</a>
+{% endblock %}
