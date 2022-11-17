@@ -68,3 +68,27 @@ def post(post_title, thread):
   comments = ForumComment.query.filter_by(post_id=post.id).all()
 
   return render_template('forums/post.html', title = post_title, post = post, comments = comments, thread=thread)
+
+@forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
+def delete_thread(id):
+  thread = Thread.query.filter_by(id=id).first()
+  db.session.delete(thread)
+  db.session.commit()
+
+  return redirect(url_for('forums_blueprint.forums'))
+
+@forums_blueprint.route('/delete/post/<id>', methods=['POST'])
+def delete_post(id):
+  post = ForumPost.query.filter_by(id=id).first()
+  db.session.delete(post)
+  db.session.commit()
+
+  return redirect(url_for('delete_post'))
+
+@forums_blueprint.route('/delete/comment/<id>', methods=['POST'])
+def delete_comment(id):
+  comment = ForumComment.query.filter_by(id=id).first()
+  db.session.delete(comment)
+  db.session.commit()
+
+  return redirect(url_for('delete_comment'))
