@@ -13,6 +13,9 @@
       <div class="media-body">
         <div class="article-metadata small-padding">by {{comment.author}} at {{comment.date}}</div>
         <p class="article content small-padding">{{comment.content}}</p>
+        <form method="post" action="/forums/delete/comment/{{comment.id}}">
+          <button class="btn" type="submit">Delete</button>
+        </form>
       </div>
     </div>
   </td></tr>
