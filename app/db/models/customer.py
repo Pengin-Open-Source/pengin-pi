@@ -1,6 +1,6 @@
-from flask_login import UserMixin
 from app.db import db
 from sqlalchemy import func, schema #, ForeignKey
+from flask_login import UserMixin
 #from sqlalchemy.orm import with_polymorphic
 
 
@@ -28,12 +28,11 @@ class UserRoles(db.Model):
     role_id = db.Column(db.Integer(), db.ForeignKey(
         'roles.id', ondelete='CASCADE'))
 
-
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer(), primary_key=True)
-    product_id = db.Column(db.Integer(),db.ForeignKey('product.id', ondelete='CASCADE')) 
     order_date = db.Column(db.DateTime(255), nullable=True) 
+    product_id = db.Column(db.Integer(),db.ForeignKey('product.id', ondelete='CASCADE')) 
     #service_date = db.Column(db.DateTime(255), nullable=True) 
     #expiration_date = db.Column(db.DateTime(255), nullable=True)
     customer_id = db.Column(db.Integer(),db.ForeignKey('customer.id', ondelete='CASCADE'))
@@ -66,7 +65,6 @@ class Customer(db.Model):
     service_date = db.Column(db.DateTime(255), nullable=True) 
     expiration_date = db.Column(db.DateTime(255), nullable=True)
 
-
 class Company(db.Model):
     __tablename__ = "company"
     id = db.Column(db.Integer(), primary_key=True)
@@ -86,6 +84,6 @@ class Company(db.Model):
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     company_id = db.Column(db.Integer(), db.ForeignKey('company.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))

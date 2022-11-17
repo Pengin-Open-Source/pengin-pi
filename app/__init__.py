@@ -1,9 +1,7 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
-
 from app.admin import admin_blueprint, admin
-
 import app.routes as route
 import app.db.models as model
 
@@ -17,7 +15,6 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
     model.db.init_app(app)
     login_manager.init_app(app) 
     principals.init_app(app) 
