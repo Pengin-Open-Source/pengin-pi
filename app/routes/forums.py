@@ -89,7 +89,8 @@ def delete_post(id):
 @forums_blueprint.route('/delete/comment/<id>', methods=['POST'])
 def delete_comment(id):
   comment = ForumComment.query.filter_by(id=id).first()
+  post = ForumPost.query.filter_by(id=comment.post_id).first()
   db.session.delete(comment)
   db.session.commit()
 
-  return redirect(url_for('delete_comment'))
+  return redirect(url_for('forums_blueprint.post', post_title=post.title, thread=post.thread))
