@@ -31,6 +31,11 @@ footer p {
 
 /* Utilities */
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .hidden {
   display: none;
 }
