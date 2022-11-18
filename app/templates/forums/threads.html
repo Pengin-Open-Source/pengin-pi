@@ -6,7 +6,7 @@
 {% block tableContent %}
   {% for thread in threads %}
   <tr><td class="flex-between">
-    <a class="small-padding" href="/forums/{{thread.name}}">{{ thread.name }}</a>
+    <a class="small-padding" href="/forums/{{thread.id}}">{{ thread.name }}</a>
     <form method="post" action="/forums/delete/thread/{{thread.id}}">
       <button class="btn" type="submit">Delete</button>
     </form>

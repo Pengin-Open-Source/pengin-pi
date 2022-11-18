@@ -16,7 +16,7 @@ def display_blog_home():
     posts = BlogPost.query.limit(15)
     return render_template('blog/blog.html', posts=posts, links=get_links(), roles=current_user.roles)
 
-@blogPosts.route("/blog/<int:post_id>")
+@blogPosts.route("/blog/<post_id>")
 def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links(), roles=current_user.roles)
