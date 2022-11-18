@@ -33,22 +33,22 @@ def thread(thread_id):
 
   return render_template('forums/thread.html', thread_id = thread_id, title = thread_id, posts = posts)
 
-@forums_blueprint.route('/<thread>/create', methods=['GET', 'POST'])
+@forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
-def create_post(thread):
+def create_post(thread_id):
   if request.method == 'POST':
     title = request.form.get('title')
     content = request.form.get('content')
     tags = request.form.get('tags')
     today = date.today()
     author = current_user.name
-    new_post = ForumPost(title=title, thread=thread, content=content, tags= tags, date= today, author=author)
+    new_post = ForumPost(title=title, thread_id=thread_id, content=content, tags= tags, date= today, author=author)
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(url_for("forums_blueprint.thread", thread=thread))
+    return redirect(url_for("forums_blueprint.thread", thread_id=thread_id))
 
-  return render_template('forums/create_post.html', thread=thread)
+  return render_template('forums/create_post.html', thread_id=thread_id)
 
 @forums_blueprint.route("/<thread>/<post_title>", methods=['GET', 'POST'])
 def post(post_title, thread):
