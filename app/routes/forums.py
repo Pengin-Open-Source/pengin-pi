@@ -80,11 +80,11 @@ def delete_thread(id):
 @forums_blueprint.route('/delete/post/<id>', methods=['POST'])
 def delete_post(id):
   post = ForumPost.query.filter_by(id=id).first()
-  thread = post.thread
+  thread_id = post.thread_id
   db.session.delete(post)
   db.session.commit()
 
-  return redirect(url_for('forums_blueprint.thread', thread=thread))
+  return redirect(url_for('forums_blueprint.thread', thread_id=thread_id))
 
 @forums_blueprint.route('/delete/comment/<id>', methods=['POST'])
 def delete_comment(id):
@@ -93,4 +93,4 @@ def delete_comment(id):
   db.session.delete(comment)
   db.session.commit()
 
-  return redirect(url_for('forums_blueprint.post', post_title=post.title, thread=post.thread))
+  return redirect(url_for('forums_blueprint.post', post_id=post.id, thread_id=post.thread_id))
