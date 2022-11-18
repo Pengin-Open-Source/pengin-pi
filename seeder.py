@@ -13,13 +13,46 @@ cur = con.cursor()
 password = generate_password_hash('password', method='sha256')
 lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pharetra placerat nisl. Mauris vitae pretium est. Donec pharetra diam quam, quis lobortis nisi viverra nec. Ut sollicitudin nulla vitae nisl accumsan volutpat vel eget risus. In sed pharetra justo, sed malesuada quam. Curabitur blandit dictum leo, quis feugiat ipsum laoreet a. Nam molestie tristique viverra. Phasellus odio lacus, ultrices sed viverra eget, rutrum at orci. Aliquam non orci at ante posuere efficitur eget in diam. Aenean quis nulla vel turpis molestie fermentum nec sed ligula. Sed consectetur, sapien et aliquet porttitor, risus risus varius erat, eget elementum nibh velit ac odio. Etiam vel turpis elit. "
 
+thread_id_1=id()
+thread_id_2=id()
+thread_id_3=id()
+thread_id_4=id()
+thread_id_5=id()
+thread_id_6=id()
+threads = [
+  (
+    thread_id_1,
+    "thread1",
+  ),
+  (
+    thread_id_2,
+    "thread2",
+  ),
+  (
+    thread_id_3,
+    "thread3",
+  ),
+  (
+    thread_id_4,
+    "thread4",
+  ),
+  (
+    thread_id_5,
+    "thread5",
+  ),
+  (
+    thread_id_6,
+    "thread6",
+  ),
+]
+
 post_id_1 = id()
 posts = [
   (
     post_id_1,
     "Test Post 1",
     lorem,
-    "thread1",
+    thread_id_1,
     "author1",
     "lifestyle,politics,art",
     date.today()
@@ -28,7 +61,7 @@ posts = [
     id(),
     "Test Post 2",
     lorem,
-    "thread1",
+    thread_id_1,
     "author1",
     "gaming,politics",
     date.today()
@@ -37,7 +70,7 @@ posts = [
     id(),
     "Test Post 3",
     lorem ,
-    "thread1",
+    thread_id_1,
     "author2",
     "lifestyle,gaming,art",
     date.today()
@@ -46,7 +79,7 @@ posts = [
     id(),
     "Test Post 4",
     lorem,
-    "thread2",
+    thread_id_2,
     "author2",
     "gaming",
     date.today()
@@ -55,7 +88,7 @@ posts = [
     id(),
     "Test Post 5",
     lorem,
-    "thread2",
+    thread_id_2,
     "author3",
     "lifestyle,art",
     date.today()
@@ -64,7 +97,7 @@ posts = [
     id(),
     "Test Post 6",
     lorem,
-    "thread3",
+    thread_id_3,
     "author3",
     "lifestyle,art",
     date.today()
@@ -73,7 +106,7 @@ posts = [
     id(),
     "Test Post 7",
     lorem,
-    "thread4",
+    thread_id_4,
     "author3",
     "lifestyle,art",
     date.today()
@@ -82,7 +115,7 @@ posts = [
     id(),
     "Test Post 8",
     lorem,
-    "thread5",
+    thread_id_5,
     "author3",
     "lifestyle,art",
     date.today()
@@ -91,7 +124,7 @@ posts = [
     id(),
     "Test Post 9",
     lorem,
-    "thread6",
+    thread_id_6,
     "author3",
     "lifestyle,art",
     date.today()
@@ -136,39 +169,6 @@ users = [
     "author3@gmail.com",
     "author3",
     password
-  ),
-]
-
-thread_id_1=id()
-thread_id_2=id()
-thread_id_3=id()
-thread_id_4=id()
-thread_id_5=id()
-thread_id_6=id()
-threads = [
-  (
-    thread_id_1,
-    "thread1",
-  ),
-  (
-    thread_id_2,
-    "thread2",
-  ),
-  (
-    thread_id_3,
-    "thread3",
-  ),
-  (
-    thread_id_4,
-    "thread4",
-  ),
-  (
-    thread_id_5,
-    "thread5",
-  ),
-  (
-    thread_id_6,
-    "thread6",
   ),
 ]
 
@@ -288,7 +288,7 @@ thread_roles = [
   ),
 ]
 
-cur.executemany("INSERT INTO forum_post (id, title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
+cur.executemany("INSERT INTO forum_post (id, title, content, thread_id, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (id, post_id, content, author, date ) VALUES(?, ?, ?, ?, ?)", comments)
 cur.executemany("INSERT INTO user (id, email, name, password) VALUES(?, ?, ?, ?)", users)
 cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
