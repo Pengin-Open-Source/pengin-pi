@@ -55,6 +55,7 @@ def create_post(thread_id):
 def post(post_id, thread_id):
   if request.method == 'POST':
     post = ForumPost.query.filter_by(id=post_id).first()
+
     post_id = post.id
     content = request.form.get('content')
     today = date.today()
@@ -62,7 +63,6 @@ def post(post_id, thread_id):
     new_comment = ForumComment( content=content, post_id= post_id, date= today, author=author)
     db.session.add(new_comment)
     db.session.commit()
-
     return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
 
   post = ForumPost.query.filter_by(id=post_id).first()
