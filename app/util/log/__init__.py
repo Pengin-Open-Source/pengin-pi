@@ -1,5 +1,6 @@
 from app.util.log.config import logger
 
+
 def log():
     """Logging Wrapper
     
@@ -21,9 +22,9 @@ def log():
             """Actual wrapping"""
             pre(func)
             result = func(*args, **kwargs)
+            
+            
             post(func)
             return result
         return call
     return decorate
-    
-    

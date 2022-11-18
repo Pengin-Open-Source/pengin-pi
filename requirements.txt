@@ -7,3 +7,4 @@ flask-admin
 sqlalchemy
 markupsafe
 mysqlclient
+requests
