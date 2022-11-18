@@ -100,12 +100,14 @@ posts = [
 
 comments = [
   (
+    id(),
     post_id_1,
     "test comment1",
     "author1",
     date.today()
   ),
   (
+    id(),
     post_id_1,
     "test comment2",
     "author3",
@@ -165,7 +167,7 @@ threads = [
     "thread5",
   ),
   (
-    thread_id_1,
+    thread_id_6,
     "thread6",
   ),
 ]
@@ -196,22 +198,27 @@ roles = [
 #author1 is admin, 2 and 3 are users with access to threads 5 and 6 respectively
 user_roles = [
   (
+    id(),
     user_id_1,
     role_id_1
   ),
   (
+    id(),
     user_id_2,
     role_id_2
   ),
   (
+    id(),
     user_id_3,
     role_id_2
   ),
   (
+    id(),
     user_id_2,
     role_id_3
   ),
   (
+    id(),
     user_id_3,
     role_id_4
   )
@@ -220,61 +227,73 @@ user_roles = [
 #threads 1-4 are public 5 and 6 are in their own groups, admin has access to all
 thread_roles = [ 
   (
+    id(),
     role_id_1,
     thread_id_1
   ),
   (
+    id(),
     role_id_1,
     thread_id_2
   ),
   (
+    id(),
     role_id_1,
     thread_id_3
   ),
   (
+    id(),
     role_id_1,
     thread_id_4
   ),
   (
+    id(),
     role_id_1,
     thread_id_5
   ),
   (
+    id(),
     role_id_1,
     thread_id_6
   ),
   (
+    id(),
     role_id_2,
     thread_id_1
   ),
   (
+    id(),
     role_id_2,
     thread_id_2
   ),
   (
+    id(),
     role_id_2,
     thread_id_3
   ),
   (
+    id(),
     role_id_2,
     thread_id_4
   ),
   (
+    id(),
     role_id_3,
     thread_id_5
   ),
   (
+    id(),
     role_id_4,
     thread_id_6
   ),
 ]
 
 cur.executemany("INSERT INTO forum_post (id, title, content, thread, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
-cur.executemany("INSERT INTO forum_comment (post_id, content, author, date ) VALUES(?, ?, ?, ?)", comments)
+cur.executemany("INSERT INTO forum_comment (id, post_id, content, author, date ) VALUES(?, ?, ?, ?, ?)", comments)
 cur.executemany("INSERT INTO user (id, email, name, password) VALUES(?, ?, ?, ?)", users)
 cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
 cur.executemany("INSERT INTO thread (id, name) VALUES(?, ?)", threads)
-cur.executemany("INSERT INTO user_roles ( user_id, role_id) VALUES(?, ?)", user_roles)
-cur.executemany("INSERT INTO thread_roles ( role_id, thread_id) VALUES(?, ?)", thread_roles)
+cur.executemany("INSERT INTO user_roles ( id, user_id, role_id) VALUES(?, ?,?)", user_roles)
+cur.executemany("INSERT INTO thread_roles (id, role_id, thread_id) VALUES(?, ?,?)", thread_roles)
 con.commit()
 con.close()
