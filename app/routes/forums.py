@@ -50,10 +50,10 @@ def create_post(thread_id):
 
   return render_template('forums/create_post.html', thread_id=thread_id)
 
-@forums_blueprint.route("/<thread>/<post_title>", methods=['GET', 'POST'])
-def post(post_title, thread):
+@forums_blueprint.route("/<thread_id>/<post_id>", methods=['GET', 'POST'])
+def post(post_id, thread_id):
   if request.method == 'POST':
-    post = ForumPost.query.filter_by(title=post_title).first()
+    post = ForumPost.query.filter_by(id=post_id).first()
     post_id = post.id
     content = request.form.get('content')
     today = date.today()
@@ -62,12 +62,12 @@ def post(post_title, thread):
     db.session.add(new_comment)
     db.session.commit()
 
-    return redirect(url_for("forums_blueprint.post", post_title=post_title, thread=thread))
+    return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
 
-  post = ForumPost.query.filter_by(title=post_title).first()
+  post = ForumPost.query.filter_by(id=post_id).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
 
-  return render_template('forums/post.html', title = post_title, post = post, comments = comments, thread=thread)
+  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 def delete_thread(id):
