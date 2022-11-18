@@ -4,7 +4,7 @@ from app.util.uuid import id
 
 class ForumPost(db.Model):
     __tablename__ = "forum_post"
-    id = db.Column(db.String(), default=id(), primary_key=True)
+    id = db.Column(db.String(), server_default=id(), primary_key=True)
     title = db.Column(db.String())
     content = db.Column(db.String())
     thread = db.Column(db.String(), db.ForeignKey('thread.id', ondelete='CASCADE'))
@@ -16,7 +16,7 @@ class ForumPost(db.Model):
 
 class ForumComment(db.Model):
     __tablename__ = "forum_comment"
-    id = db.Column(db.String(), default=id(), primary_key=True)
+    id = db.Column(db.String(), server_default=id(), primary_key=True)
     post_id = db.Column(db.String(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
@@ -26,13 +26,13 @@ class ForumComment(db.Model):
 
 class Thread(db.Model):
     __tablename__ = "thread"
-    id = db.Column(db.String(), default=id(), primary_key=True)
+    id = db.Column(db.String(), server_default=id(), primary_key=True)
     name = db.Column(db.String())
     roles = db.relationship('Role', secondary='thread_roles')
 
 
 class ThreadRoles(db.Model):
     __tablename__ = "thread_roles"
-    id = db.Column(db.String(), default=id(), primary_key=True)
+    id = db.Column(db.String(), server_default=id(), primary_key=True)
     thread_id = db.Column(db.String(), db.ForeignKey('thread.id', ondelete='CASCADE'))
     role_id = db.Column(db.String(), db.ForeignKey('roles.id', ondelete='CASCADE'))
