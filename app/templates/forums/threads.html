@@ -5,6 +5,14 @@
 {% endblock %}
 {% block tableContent %}
   {% for thread in threads %}
-  <tr><td><a class="small-padding" href="/forums/{{thread.name}}">{{ thread.name }}</a></td></tr>
+  <tr><td class="flex-between">
+    <a class="small-padding" href="/forums/{{thread.name}}">{{ thread.name }}</a>
+    <form method="post" action="/forums/delete/thread/{{thread.id}}">
+      <button class="btn" type="submit">Delete</button>
+    </form>
+  </td></tr>
   {% endfor %}
+{% endblock %}
+{% block postTableContent %}
+  <a class="btn btn-primary" href="/forums/create">Create Thread</a>
 {% endblock %}

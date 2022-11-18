@@ -1,0 +1,38 @@
+{% extends "oneDiv.html" %}
+
+{% block oneDivContent %}
+  <div class="column">
+    <div class="box">
+        <form method="POST" action="/forums/{{thread}}/create">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                class="form-control"
+                type="text"
+                name="title"
+                id="title"
+                placeholder="Title">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea
+                class="form-control"
+                name="content"
+                id="content"
+                placeholder="Something enlightening..."></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="tags" class="form-label">Tags</label>
+                <input
+                class="form-control"
+                type="text"
+                name="tags"
+                id="tags">
+            </div>
+            <button class="btn btn-primary">Post</button>
+        </form>
+    </div>
+  </div>
+{% endblock %}
+
+

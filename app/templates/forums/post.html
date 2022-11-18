@@ -13,8 +13,29 @@
       <div class="media-body">
         <div class="article-metadata small-padding">by {{comment.author}} at {{comment.date}}</div>
         <p class="article content small-padding">{{comment.content}}</p>
+        <form method="post" action="/forums/delete/comment/{{comment.id}}">
+          <button class="btn" type="submit">Delete</button>
+        </form>
       </div>
     </div>
   </td></tr>
   {% endfor %}
+{% endblock %}
+{% block postTableContent %}
+  <div class="column">
+    <div class="box">
+        <form method="POST" action="/forums/{{thread}}/{{post.title}}">
+            <div class="mb-3">
+                <label for="content" class="form-label">Comment</label>
+                <input
+                class="form-control"
+                type="text"
+                name="content"
+                id="content"
+                placeholder="What do you think of this post?">
+            </div>
+            <button class="btn btn-primary">Post</button>
+        </form>
+    </div>
+  </div>
 {% endblock %}
