@@ -39,7 +39,7 @@ def get_companies():
 def display_companies_home():
     return render_template('company_info/company_info_main.html', companies=get_companies())
 
-@company_info.route('/<int:company_id>')
+@company_info.route('/<company_id>')
 @login_required
 def display_company_info(company_id):
     company = Company.query.get_or_404(company_id)
@@ -67,7 +67,7 @@ def create_company():
         return redirect(url_for("company_info.display_company_info", company_id=new_company.id))
     return render_template('company_info/company_info_create.html', companies=get_companies())
 
-@company_info.route('/edit_company_info/<int:company_id>', methods=['POST'])
+@company_info.route('/edit_company_info/<company_id>', methods=['POST'])
 @login_required
 def edit_company_info_post(company_id):
     company = Company.query.filter_by(id=company_id).first()
