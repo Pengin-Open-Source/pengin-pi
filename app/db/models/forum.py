@@ -7,7 +7,7 @@ class ForumPost(db.Model):
     id = db.Column(db.String(), server_default=id(), primary_key=True)
     title = db.Column(db.String())
     content = db.Column(db.String())
-    thread = db.Column(db.String(), db.ForeignKey('thread.id', ondelete='CASCADE'))
+    thread_id = db.Column(db.String(), db.ForeignKey('thread.id', ondelete='CASCADE'))
     author = db.Column(db.String())
     tags = db.Column(db.String())
     date = db.Column(db.String())
