@@ -1,11 +1,12 @@
 from flask_login import UserMixin
+from app.util.uuid import id
 from app.db import db
 #from sqlalchemy.orm import with_polymorphic
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), default=id(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
@@ -15,14 +16,12 @@ class User(UserMixin, db.Model):
 
 class Role(db.Model):
     __tablename__ = 'roles'
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.String(), default=id(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
 
 
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey(
-        'user.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey(
-        'roles.id', ondelete='CASCADE'))
+    id = db.Column(db.String(), default=id(), primary_key=True)
+    user_id = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    role_id = db.Column(db.String(), db.ForeignKey('roles.id', ondelete='CASCADE'))
