@@ -27,11 +27,11 @@ def create_thread():
 
   return render_template('forums/create_thread.html')
 
-@forums_blueprint.route("/<thread>")
-def thread(thread):
-  posts = ForumPost.query.filter_by(thread=thread).all()  
+@forums_blueprint.route("/<thread_id>")
+def thread(thread_id):
+  posts = ForumPost.query.filter_by(thread_id=thread_id).all()  
 
-  return render_template('forums/thread.html', thread = thread, title = thread, posts = posts)
+  return render_template('forums/thread.html', thread_id = thread_id, title = thread_id, posts = posts)
 
 @forums_blueprint.route('/<thread>/create', methods=['GET', 'POST'])
 @login_required
