@@ -204,6 +204,11 @@ user_roles = [
   ),
   (
     id(),
+    user_id_1,
+    role_id_2
+  ),
+  (
+    id(),
     user_id_2,
     role_id_2
   ),
