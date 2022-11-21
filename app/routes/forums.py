@@ -7,14 +7,20 @@ from app.admin import admin_permission
 from app.db import db
 
 forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
+admin_permission = Permission(RoleNeed('admin'))
+user_permission = Permission(RoleNeed('user'))
+
 
 @forums_blueprint.route("/")
+@login_required
 def forums():
   threads = Thread.query.filter_by().all()
 
   return render_template('forums/threads.html', title ='Forum', threads = threads)
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
 @login_required
 def create_thread():
   if request.method == 'POST':
@@ -28,6 +34,7 @@ def create_thread():
   return render_template('forums/create_thread.html')
 
 @forums_blueprint.route("/<thread_id>")
+@login_required
 def thread(thread_id):
   posts = ForumPost.query.filter_by(thread_id=thread_id).all() 
   thread = Thread.query.filter_by(id=thread_id).first()
@@ -36,6 +43,7 @@ def thread(thread_id):
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def create_post(thread_id):
   if request.method == 'POST':
     title = request.form.get('title')
@@ -52,6 +60,8 @@ def create_post(thread_id):
   return render_template('forums/create_post.html', thread_id=thread_id)
 
 @forums_blueprint.route("/<thread_id>/<post_id>", methods=['GET', 'POST'])
+@login_required
+@user_permission.require()
 def post(post_id, thread_id):
   if request.method == 'POST':
     post = ForumPost.query.filter_by(id=post_id).first()
@@ -71,6 +81,8 @@ def post(post_id, thread_id):
   return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
+@login_required
+@admin_permission.require()
 def delete_thread(id):
   thread = Thread.query.filter_by(id=id).first()
   db.session.delete(thread)
@@ -79,6 +91,8 @@ def delete_thread(id):
   return redirect(url_for('forums_blueprint.forums'))
 
 @forums_blueprint.route('/delete/post/<id>', methods=['POST'])
+@login_required
+@admin_permission.require()
 def delete_post(id):
   post = ForumPost.query.filter_by(id=id).first()
   thread_id = post.thread_id
@@ -88,6 +102,8 @@ def delete_post(id):
   return redirect(url_for('forums_blueprint.thread', thread_id=thread_id))
 
 @forums_blueprint.route('/delete/comment/<id>', methods=['POST'])
+@login_required
+@admin_permission.require()
 def delete_comment(id):
   comment = ForumComment.query.filter_by(id=id).first()
   post = ForumPost.query.filter_by(id=comment.post_id).first()
