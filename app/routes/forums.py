@@ -14,9 +14,10 @@ user_permission = Permission(RoleNeed('user'))
 @forums_blueprint.route("/")
 @login_required
 def forums():
+  
   threads = Thread.query.filter_by().all()
 
-  return render_template('forums/threads.html', title ='Forum', threads = threads)
+  return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -39,7 +40,7 @@ def thread(thread_id):
   posts = ForumPost.query.filter_by(thread_id=thread_id).all() 
   thread = Thread.query.filter_by(id=thread_id).first()
 
-  return render_template('forums/thread.html', thread_id = thread_id, title = thread.name, posts = posts)
+  return render_template('forums/thread.html', thread_id = thread_id, title = thread.name, posts = posts, current_user = current_user)
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
@@ -78,7 +79,7 @@ def post(post_id, thread_id):
   post = ForumPost.query.filter_by(id=post_id).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
 
-  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id)
+  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id, current_user = current_user)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required
