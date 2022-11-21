@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
-from app.db.models import Thread, ForumPost, ForumComment
+from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles
 from app.admin import admin_permission
 from app.db import db
 
@@ -10,12 +10,22 @@ forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
 admin_permission = Permission(RoleNeed('admin'))
 user_permission = Permission(RoleNeed('user'))
 
-
 @forums_blueprint.route("/")
 @login_required
 def forums():
+  threads = []
+  thread_ids =[]
+
+  for role in current_user.roles:
+    role_thread_ids = ThreadRoles.query.with_entities(ThreadRoles.thread_id).filter_by(role_id=role.id).all()
+    thread_ids.extend(role_thread_ids)
+
+  # Remove duplicates
+  unique_thread_ids = list(set(thread_ids))
   
-  threads = Thread.query.filter_by().all()
+  for thread_tuple in unique_thread_ids:
+    thread = Thread.query.filter_by(id=thread_tuple[0]).first()
+    threads.append(thread)
 
   return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
 
