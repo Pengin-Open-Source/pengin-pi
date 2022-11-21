@@ -23,8 +23,8 @@ def forums():
   # Remove duplicates
   unique_thread_ids = list(set(thread_ids))
   
-  for thread_tuple in unique_thread_ids:
-    thread = Thread.query.filter_by(id=thread_tuple[0]).first()
+  for thread_id_tuple in unique_thread_ids:
+    thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
     threads.append(thread)
 
   return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
