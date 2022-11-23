@@ -7,7 +7,7 @@
 {% block tableContent %}
   {% for ticket in tickets %}
   <tr><td class="flex-between">
-    <a class="small-padding" href="/tickets/{ticket.id}}">{{ticket.summary}}</a>
+    <a class="small-padding" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
     {% if current_user.is_authenticated %}
       {% for role in current_user.roles  %}
         {% if role.name == "admin" %}
