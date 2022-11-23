@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
+from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
 from app.db.models import Ticket, TicketComment, TicketForum, Resolution
@@ -27,7 +28,7 @@ def create_ticket():
     new_ticket = TicketForum(summary=summary, content=content,tags=tags)
     db.session.add(new_ticket)
     db.session.commit()
-    
+
     return redirect(url_for("ticket_blueprint.tickets"))
 
   return render_template('tickets/create_ticket.html')
@@ -37,11 +38,19 @@ def create_ticket():
 @user_permission.require()
 def ticket(ticket_id):
   if request.method == 'POST':
+    content = request.form.get('content')
+    today = date.today()
+    author_id = current_user.id
+    new_comment = TicketComment(ticket_id=ticket_id,content=content, date=today, author_id=author_id)
+    db.session.add(new_comment)
+    db.session.commit()
 
     return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
 
+  ticket =  TicketForum.query.filter_by(id=ticket_id).first()
+  comments= TicketComment.query.filter_by(ticket_id= ticket_id).all()
 
-  return render_template('tickets/ticket.html', )
+  return render_template('tickets/ticket.html', ticket=ticket, comments=comments )
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
