@@ -56,6 +56,9 @@ def ticket(ticket_id):
 @login_required
 @admin_permission.require()
 def delete_ticket(id):
+  ticket = TicketForum.query.filter_by(id=id).first()
+  db.session.delete(ticket)
+  db.session.commit()
 
   return redirect(url_for('ticket_blueprint.tickets'))
 
@@ -64,6 +67,8 @@ def delete_ticket(id):
 @login_required
 @admin_permission.require()
 def delete_comment(id):
+  comment = TicketComment.query.filter_by(id=id).first()
+  db.session.delete(comment)
+  db.session.commit()
 
-
-  return redirect(url_for('ticket_blueprint.ticket', ticket_id = id))
+  return redirect(url_for('ticket_blueprint.ticket', ticket_id = comment.ticket_id))
