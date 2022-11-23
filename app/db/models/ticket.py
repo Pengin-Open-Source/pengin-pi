@@ -35,5 +35,5 @@ class TicketComment(db.Model):
     id = db.Column(db.String(), default=id, primary_key=True)
     ticket_id = db.Column(db.String(), db.ForeignKey('ticket_forum.id', ondelete='CASCADE'))
     author_id = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
-    date= db.Column(db.DateTime(timezone=True), server_default=func.now())
+    date= db.Column(db.String)
     content = db.Column(db.String())
