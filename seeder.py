@@ -364,7 +364,7 @@ ticket_comments = [
 
 
 cur.executemany("INSERT INTO ticket_forum (id, summary, content, date) VALUES(?,?,?,?)", tickets)
-cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, comment) VALUES(?,?,?,?,?)", ticket_comments)
+cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, content) VALUES(?,?,?,?,?)", ticket_comments)
 cur.executemany("INSERT INTO forum_post (id, title, content, thread_id, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (id, post_id, content, author, date ) VALUES(?, ?, ?, ?, ?)", comments)
 cur.executemany("INSERT INTO user (id, email, name, password) VALUES(?, ?, ?, ?)", users)
