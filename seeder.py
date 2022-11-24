@@ -5,8 +5,11 @@ from app.util.uuid import id
 from app.db import db
 from werkzeug.security import generate_password_hash
 
-db.create_all(app=create_app())
 
+with create_app().app_context():
+  db.create_all()
+
+"""
 con = sqlite3.connect("app/db.sqlite")
 cur = con.cursor()
 
@@ -302,3 +305,5 @@ cur.executemany("INSERT INTO user_roles ( id, user_id, role_id) VALUES(?, ?,?)",
 cur.executemany("INSERT INTO thread_roles (id, role_id, thread_id) VALUES(?, ?,?)", thread_roles)
 con.commit()
 con.close()
+
+"""

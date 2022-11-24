@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
-    #companies = db.relationship('Company', secondary='company_members')
+    company_members = db.relationship('Company', back_populates='company_members')
 
 
 class Role(db.Model):

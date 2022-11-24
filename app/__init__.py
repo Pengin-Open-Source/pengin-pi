@@ -14,7 +14,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     model.db.init_app(app)
     login_manager.init_app(app) 
     principals.init_app(app) 

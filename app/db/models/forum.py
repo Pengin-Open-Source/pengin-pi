@@ -28,7 +28,7 @@ class Thread(db.Model):
     __tablename__ = "thread"
     id = db.Column(db.String(), default=id, primary_key=True)
     name = db.Column(db.String())
-    roles = db.relationship('Role', secondary='thread_roles')
+    roles = db.relationship('Roles', back_populates='thread_roles')
 
 
 class ThreadRoles(db.Model):
