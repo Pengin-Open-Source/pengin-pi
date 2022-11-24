@@ -11,8 +11,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-    roles = db.relationship('Role', back_populates='user_roles')
-    companies = db.relationship('Company', back_populates='company_members')
+    roles = db.relationship('Role', secondary='user_roles', viewonly=True)
+    company_members = db.relationship('Company', secondary='company_members', viewonly=True)
 
 
 class Role(db.Model):
@@ -26,6 +26,8 @@ class UserRoles(db.Model):
     id = db.Column(db.String(), default=id, primary_key=True)
     user_id = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.String(), db.ForeignKey('roles.id', ondelete='CASCADE'))
+    company_id = db.Column(db.String(), db.ForeignKey('company.id', ondelete='CASCADE'))
+    
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -76,13 +78,13 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
-    members = db.relationship('User', back_populates="company_members")
-    customer = db.relationship('User', back_populates="customer")
+    company_members = db.relationship('User', secondary="company_members", viewonly=True)
+    customer = db.relationship('User', secondary="customer", viewonly=True)
 
 
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
     id = db.Column(db.String(), default=id, primary_key=True)
-    company_id = db.Column(db.String(), db.ForeignKey('company.id', ondelete='CASCADE', back_populates="company"))
+    company_id = db.Column(db.String(), db.ForeignKey('company.id', ondelete='CASCADE'))
     user_id = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
     role_id = db.Column(db.String(), db.ForeignKey('roles.id', ondelete='CASCADE'))
