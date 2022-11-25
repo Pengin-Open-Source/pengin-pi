@@ -11,3 +11,4 @@ app/db.sqlite
 .github
 seeder.py
 *.log
+instance
