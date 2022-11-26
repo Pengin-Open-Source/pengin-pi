@@ -4,7 +4,7 @@ from app.util.uuid import id
 
 
 
-
+print("running forum")
 class ForumPost(db.Model):
     __tablename__ = "forum_post"
     id = db.Column(db.String(), default=id, primary_key=True)

@@ -5,8 +5,8 @@ from app.util.uuid import id
 from app.db import db
 from werkzeug.security import generate_password_hash
 
-
-with create_app().app_context():
+app = create_app()
+with app.app_context():
   db.create_all()
 
 

@@ -1,3 +1,5 @@
+print("init models")
+
 from app.db import db
 from app.db.models.customer import User, UserRoles, Role
 from app.db.models.blog import BlogPost
@@ -9,3 +11,4 @@ from app.db.models.ticket import Ticket, TicketComment, TicketForum, Resolution
 from app.db.models.product import Product
 
 
+print("models done")

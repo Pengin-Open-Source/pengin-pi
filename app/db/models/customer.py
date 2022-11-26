@@ -5,6 +5,7 @@ from flask_login import UserMixin
 #from sqlalchemy.orm import with_polymorphic
 
 
+print("running customer")
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.String(), default=id, primary_key=True)

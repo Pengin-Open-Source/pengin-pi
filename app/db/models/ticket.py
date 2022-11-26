@@ -3,6 +3,8 @@ from sqlalchemy import func
 from app.util.uuid import id
 
 
+print("running ticket")
+
 class Ticket(db.Model):
     __tablename__ = 'ticket'
     id = db.Column(db.String(), default=id, primary_key=True)

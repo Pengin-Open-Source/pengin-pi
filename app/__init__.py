@@ -3,8 +3,7 @@ from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
 from app.admin import admin_blueprint, admin
 import app.routes as route
-import app.db.models as models
-from app.db import db
+from app.db import db, models
 
 
 
@@ -20,6 +19,7 @@ def create_app():
     app.config["SQLALCHEMY_BINDS"] = {'db': 'sqlite:///db.sqlite'}
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+       
     
     db.init_app(app)
     login_manager.init_app(app) 

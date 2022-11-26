@@ -2,6 +2,7 @@ from app.db import db
 from app.util.uuid import id
 
 
+print("running contracts")
 class Contracts(db.Model):
     __tablename__ = 'contracts'
     id = db.Column(db.String(), default=id, primary_key=True)

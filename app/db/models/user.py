@@ -3,7 +3,7 @@ from app.util.uuid import id
 from app.db import db
 #from sqlalchemy.orm import with_polymorphic
 
-
+print("running user")
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.String(), default=id, primary_key=True)

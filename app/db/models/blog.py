@@ -3,6 +3,7 @@ from app.util.uuid import id
 from sqlalchemy import func
 
 
+print("running blogs")
 class BlogPost(db.Model):
     __tablename__ = "blogpost"
     id = db.Column(db.String(), default=id, primary_key=True)
