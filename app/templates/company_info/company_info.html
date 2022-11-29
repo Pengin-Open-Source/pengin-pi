@@ -1,58 +1,54 @@
 {% extends "profile/profile_main.html" %}
 
-
 {% block profilecontent %}
-<div id="company-info-table">
+  <div id="company-info-table">
   <h1 class="header">Company Information</h1>
-  <table class="table table-bordered">
-    <tr>
-      <th>Company Name</th>
-      <td>{{ company.name }}</td>
-    </tr>
-    <tr>
-      <th>Address 1</th>
-      <td>{{ company.address1 }}</td></a>
-    </tr>
-    <tr>
-      <th>Address 2</th>
-      <td>{{ company.address2 }}</td>
-    </tr>
-    <tr>
-      <th>City</th>
-      <td>{{ company.city }}</td>
-    </tr>
-    <tr>
-      <th>State</th>
-      <td>{{ company.state }}</td>
-    </tr>
-    <tr>
-      <th>ZIP Code</th>
-      <td>{{ company.zipcode }}</td>
-    </tr>
-    <tr>
-      <th>Country</th>
-      <td>{{ company.country }}</td>
-    </tr>
-    <tr>
-      <th>Phone Number</th>
-      <td>{{ company.phone }}</td>
-    </tr>
-    <tr>
-      <th>Email</th>
-      <td>{{ company.email }}</td>
-    </tr>
-    <tr>
-      <th>Members</th>
-      <td>{{ company.members }}</td>
-    </tr>
-  </table>
-  <button class="btn btn-primary btn-md mr-1" type="button" ><a href="/companies/edit_company_info/{{company.id}}">Edit Company Information</a>
-</div>
-
+    <table class="table table-bordered">
+      <tr>
+        <th>Company Name</th>
+        <td>{{ company.name }}</td>
+      </tr>
+      <tr>
+        <th>Address 1</th>
+        <td>{{ company.address1 }}</td></a>
+      </tr>
+      <tr>
+        <th>Address 2</th>
+        <td>{{ company.address2 }}</td>
+      </tr>
+      <tr>
+        <th>City</th>
+        <td>{{ company.city }}</td>
+      </tr>
+      <tr>
+        <th>State</th>
+        <td>{{ company.state }}</td>
+      </tr>
+      <tr>
+        <th>ZIP Code</th>
+        <td>{{ company.zipcode }}</td>
+      </tr>
+      <tr>
+        <th>Country</th>
+        <td>{{ company.country }}</td>
+      </tr>
+      <tr>
+        <th>Phone Number</th>
+        <td>{{ company.phone }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ company.email }}</td>
+      </tr>
+      <tr>
+        <th>Members</th>
+        <td>{{ company.members }}</td>
+      </tr>
+    </table>
+  <a class="btn btn-primary" href="/companies/edit_company_info/{{company.id}}">Edit Company Information</a>
+  </div>
 {% endblock %}
-
 
 {% block profileSideContent %}
   {% include "right_window/profile_info.html" %}
 {% endblock %}
-
