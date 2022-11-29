@@ -4,6 +4,7 @@ from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, Anon
 from app.admin import admin_blueprint, admin
 import app.routes as route
 import app.db.models as model
+from app.db import db
 
 
 principals = Principal()
@@ -20,6 +21,9 @@ def create_app():
     principals.init_app(app) 
     admin.init_app(app)
     login_manager.login_view = 'auth.login' 
+
+    with app.app_context():
+        db.create_all()
 
     @login_manager.user_loader
     def load_user(user_id):

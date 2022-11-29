@@ -5,9 +5,9 @@ from app.util.uuid import id
 from app.db import db
 from werkzeug.security import generate_password_hash
 
-db.create_all(app=create_app())
+create_app()
 
-con = sqlite3.connect("app/db.sqlite")
+con = sqlite3.connect("instance/db.sqlite")
 cur = con.cursor()
 
 password = generate_password_hash('password', method='sha256')
