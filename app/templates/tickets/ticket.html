@@ -2,9 +2,9 @@
 
 {% block beforeTableContent %}
   <div class="post-content">
-    <h2 class="forum-title">{{post.title}}</h2>
-    <p>By {{post.author}} ({{post.date}})</p>
-    <p>{{post.content}}</p>
+    <h2 class="forum-title">{{ticket.summary}}</h2>
+    <p>{{ticket.date}}</p>
+    <p>{{ticket.content}}</p>
   </div>
 {% endblock %}
 
@@ -13,12 +13,12 @@
   <tr><td>
     <div class="media">
       <div class="media-body">
-        <div class="article-metadata small-padding">by {{comment.author}} at {{comment.date}}</div>
+        <div class="article-metadata small-padding">by {{comment.author_id}} at {{comment.date}}</div>
         <p class="article content small-padding">{{comment.content}}</p>
         {% if current_user.is_authenticated %}
           {% for role in current_user.roles  %}
             {% if role.name == "admin" %}
-              <form method="post" action="/forums/delete/comment/{{comment.id}}">
+              <form method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
                 <button class="btn" type="submit">Delete</button>
               </form>
             {% endif %}
@@ -33,7 +33,7 @@
 {% block postTableContent %}
   <div class="column">
     <div class="box">
-        <form method="POST" action="/forums/{{thread_id}}/{{post.id}}">
+        <form method="POST" action="/tickets/{{ticket.id}}">
 
             <div class="mb-3">
                 <label for="content" class="form-label">Comment</label>
@@ -42,7 +42,7 @@
                 type="text"
                 name="content"
                 id="content"
-                placeholder="What do you think of this post?">
+                placeholder="What do you think of this ticket?">
             </div>
             <button class="btn btn-primary">Post</button>
         </form>

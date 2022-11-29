@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
-from app.db.models import Thread, ForumPost, ForumComment
+from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles
 from app.admin import admin_permission
 from app.db import db
 
@@ -10,13 +10,24 @@ forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
 admin_permission = Permission(RoleNeed('admin'))
 user_permission = Permission(RoleNeed('user'))
 
-
 @forums_blueprint.route("/")
 @login_required
 def forums():
-  threads = Thread.query.filter_by().all()
+  threads = []
+  thread_ids =[]
 
-  return render_template('forums/threads.html', title ='Forum', threads = threads)
+  for role in current_user.roles:
+    role_thread_ids = ThreadRoles.query.with_entities(ThreadRoles.thread_id).filter_by(role_id=role.id).all()
+    thread_ids.extend(role_thread_ids)
+
+  # Remove duplicates
+  unique_thread_ids = list(set(thread_ids))
+  
+  for thread_id_tuple in unique_thread_ids:
+    thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
+    threads.append(thread)
+
+  return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -39,7 +50,7 @@ def thread(thread_id):
   posts = ForumPost.query.filter_by(thread_id=thread_id).all() 
   thread = Thread.query.filter_by(id=thread_id).first()
 
-  return render_template('forums/thread.html', thread_id = thread_id, title = thread.name, posts = posts)
+  return render_template('forums/thread.html', thread_id = thread_id, title = thread.name, posts = posts, current_user = current_user)
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
@@ -78,7 +89,7 @@ def post(post_id, thread_id):
   post = ForumPost.query.filter_by(id=post_id).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
 
-  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id)
+  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id, current_user = current_user)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required

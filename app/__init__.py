@@ -53,5 +53,6 @@ def create_app():
     app.register_blueprint(route.profile_blueprint)
     app.register_blueprint(route.company_blueprint)
     app.register_blueprint(route.forums_blueprint)
+    app.register_blueprint(route.ticket_blueprint)
 
     return app

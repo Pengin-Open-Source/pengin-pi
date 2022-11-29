@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block tableContent %}
-  {% for post in posts %}
+  {% for ticket in tickets %}
   <tr><td class="flex-between">
-    <a class="small-padding" href="/forums/{{thread_id}}/{{post.id}}">{{post.title}}</a>
+    <a class="small-padding" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
     {% if current_user.is_authenticated %}
       {% for role in current_user.roles  %}
         {% if role.name == "admin" %}
-        <form method="post" action="/forums/delete/post/{{post.id}}">
+        <form method="post" action="/tickets/delete/ticket/{{ticket.id}}">
           <button class="btn" type="submit">Delete</button>
         </form>
         {% endif %}
@@ -22,5 +22,5 @@
 {% endblock %}
 
 {% block postTableContent %}
-  <a class="btn btn-primary" href="/forums/{{thread_id}}/create">Create Post</a>
+  <a class="btn btn-primary" href="/tickets/create">Create Ticket</a>
 {% endblock %}

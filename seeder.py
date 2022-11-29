@@ -293,6 +293,78 @@ thread_roles = [
   ),
 ]
 
+ticket_id_1 = id()
+ticket_id_2 = id()
+ticket_id_3 = id()
+ticket_id_4 = id()
+ticket_id_5 = id()
+tickets = [
+  (
+    ticket_id_1,
+    "Ticket 1",
+    "something broke please help me",
+    date.today()
+  ),
+  (
+    ticket_id_2,
+    "Ticket 2",
+    "something broke please help me",
+    date.today()
+  ),
+  (
+    ticket_id_3,
+    "Ticket 3",
+    "something broke please help me",
+    date.today()
+  ),
+  (
+    ticket_id_4,
+    "Ticket 4",
+    "something broke please help me",
+    date.today()
+  ),
+  (
+    ticket_id_5,
+    "Ticket 5",
+    "something broke please help me",
+    date.today()
+  )
+]
+
+ticket_comments = [
+  (
+    id(),
+    ticket_id_1,
+    user_id_1,
+    date.today(),
+    "Test Comment"
+  ),
+  (
+    id(),
+    ticket_id_1,
+    user_id_1,
+    date.today(),
+    "Test Comment"
+  ),
+  (
+    id(),
+    ticket_id_1,
+    user_id_1,
+    date.today(),
+    "Test Comment"
+  ),
+  (
+    id(),
+    ticket_id_1,
+    user_id_1,
+    date.today(),
+    "Test Comment"
+  )
+]
+
+
+cur.executemany("INSERT INTO ticket_forum (id, summary, content, date) VALUES(?,?,?,?)", tickets)
+cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, content) VALUES(?,?,?,?,?)", ticket_comments)
 cur.executemany("INSERT INTO forum_post (id, title, content, thread_id, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
 cur.executemany("INSERT INTO forum_comment (id, post_id, content, author, date ) VALUES(?, ?, ?, ?, ?)", comments)
 cur.executemany("INSERT INTO user (id, email, name, password) VALUES(?, ?, ?, ?)", users)
