@@ -1,32 +1,17 @@
-{% extends "twoAndOneThirdDivs.html" %}
+{% extends "profile/profile_main.html" %}
 
-{% block twoThirdContent %}
-
-    <!-- Jasmine: using the profile-info style for now, maybe could rename the style to something more broad? -->
-  <div class="profile-info">
-    {% block companycontent %}{% endblock %}
-  </div>
+{% block profilecontent %}
+  <h1 class="header">Company Information</h1>
+  {% for company in companies %}
+    <table class="table table-bordered">
+      <tr>
+        <td><a href="/companies/{{ company.id }}">{{ company.name }}</a></td>
+      </tr>
+    </table>
+  {% endfor %}
+  <a href="/companies/create" class="btn btn-primary">Create New Company</a>
 {% endblock %}
 
-{% block oneThirdContent %}
-
-    <!-- Jasmine: using the blog-links style for now, maybe could rename the style to something more broad? -->
-  <div class="blog-links">
-
-    <h1>Companies</h1>
-    <!--{% if not companies %}
-      <p>You're not currently a member of any companies.</p>
-      <p>Feel free to create one.</p>
-    {% else %}-->
-      {% for company in companies %}
-      <div class="blog-link-item">
-        <a href="/companies/{{ company.id }}">
-            {{ company.name }}
-        </a>
-      </div>
-      {% endfor %}
- <!-- {% endif %} -->
- <a href="/companies/create" class="btn btn-primary">Create New Company</a>
-</div>
-
-{% endblock %} 
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
