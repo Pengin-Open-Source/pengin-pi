@@ -1,6 +1,6 @@
-{% extends "company_info/company_info_main.html" %}
+{% extends "profile/profile_main.html" %}
 
-{% block companycontent %}
+{% block profilecontent %}
 
 <!-- The company info for the user to enter -->
 <form id="create_company_info_form" method="POST" action="/companies/create">
@@ -59,4 +59,8 @@
 
 </form>
 
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
 {% endblock %}

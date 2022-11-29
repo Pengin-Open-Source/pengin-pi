@@ -65,7 +65,7 @@ def create_company():
         db.session.add(new_members_company)
         db.session.commit()
         return redirect(url_for("company_info.display_company_info", company_id=new_company.id))
-    return render_template('company_info/company_info_create.html', companies=get_companies())
+    return render_template('company_info/company_info_create.html')
 
 @company_info.route('/edit_company_info/<company_id>', methods=['GET','POST'])
 @login_required
