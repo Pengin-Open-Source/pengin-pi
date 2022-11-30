@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request,flash
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.db import db
 from app.db.models import User, Company, CompanyMembers
 
@@ -31,11 +32,22 @@ def edit_profile_post():
 def edit_password():
     if request.method == 'POST':
         email = request.form.get('email')
+        old_password = request.form.get('curr_password')
+        new_password = request.form.get('new_password')
+        confirm_new_password = request.form.get('confirm_new_password')
         user = User.query.filter_by(email=email).first()
-        #TODO add change password logic
-        db.session.commit()
 
-        return redirect(url_for('profiles.profile'))
+        if new_password == confirm_new_password:
+            if check_password_hash(user.password, old_password):
+                #cannot get check_password_hash to work even though the password is correct the hashed passwords are different.
+                #the following code works fine for creating new password
+                user.password = generate_password_hash(new_password, method='sha256')
+                db.session.add(user)
+                db.session.commit()
+
+                return redirect(url_for('profiles.profile'))
+
+        flash('Please check your password details and try again.') # does nothing
 
     return render_template('profile/password_edit.html', name=current_user.name, email=current_user.email)
 
