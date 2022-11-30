@@ -45,7 +45,7 @@ def edit_password():
 
                 return redirect(url_for('profiles.profile'))
 
-        flash('Please check your password details and try again.') # does nothing
+        flash('Please check your password details and try again.') # does nothing fix later
 
     return render_template('profile/password_edit.html', name=current_user.name, email=current_user.email)
 
