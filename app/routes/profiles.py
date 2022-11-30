@@ -23,7 +23,7 @@ def edit_profile_post():
         user.name = name
         user.email = email
         db.session.commit()
-        return redirect(url_for('profiles.profile'), name=current_user.name, email=current_user.email)
+        return redirect(url_for('profiles.profile'))
 
     return render_template('profile/profile_edit.html', name=current_user.name, email=current_user.email)
 
@@ -35,7 +35,7 @@ def edit_password():
         #TODO add change password logic
         db.session.commit()
 
-        return redirect(url_for('profiles.profile'), name=current_user.name, email=current_user.email)
+        return redirect(url_for('profiles.profile'))
 
     return render_template('profile/password_edit.html', name=current_user.name, email=current_user.email)
 
