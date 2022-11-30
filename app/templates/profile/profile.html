@@ -1,102 +1,21 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-
-<!--Get flashed messages, if an editing password error message is in the messages, show editing password form and display error.-->
-      {% set ns = namespace(editing_password = false) %}
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-          {% if "curr_password_error" in messages %}
-            {% set ns.editing_password = true %}
-            {% set message = "Please check your current password and try again." %}
-          {% elif 'new_password_confirm_error' in messages %}
-            {% set ns.editing_password = true %}
-            {% set message = "New password and confirmation password do not match, please try again" %}
-          {% endif %}
-          {% if message %}
-            <div class="alert alert-danger">
-                {{ message }}
-            </div>
-          {% endif %}
-      {% endif %}
-      {% endwith %}
-      <script>
-        function toggle_edit_profile(){
-          document.getElementById("edit_profile_form").classList.toggle("hidden")
-          document.getElementById("profile_info").classList.toggle("hidden")
-        }
-  
-        function toggle_edit_password(){
-          document.getElementById("edit_password_form").classList.toggle("hidden")
-          document.getElementById("profile_info").classList.toggle("hidden")
-        }
-      </script>
-
-      <form id="edit_profile_form" class="hidden" method="POST" action="profile/edit_profile">
-        <h1 class="header">Edit Profile</h1>
-        <input type="hidden" name="old_email" value="{{email}}">
-        <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" type="name" name="name" value="{{ name }}" placeholder="Your new name">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input class="form-control" type="email" name="email" value="{{ email }}" placeholder="Your new email">
-        </div>
-        <div class="container d-flex justify-content-between px-0">
-          <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_profile()">Cancel</button>
-          <button class="btn btn-success btn-md" type="submit">Save</button>
-        </div>
-      </form>
-
-<!-- if editing_password, caused by error when editing password, show edit_password_form-->
-      {% if ns.editing_password %}
-        <form id="edit_password_form" method="POST" action="profile/edit_password">
-      {% else %}
-        <form id="edit_password_form" class="hidden" method="POST" action="profile/edit_password">
-      {% endif %}
-        <h1 class="header">Edit Password</h1>
-        <input type="hidden" name="email" value="{{email}}">
-        <div class="form-group">
-          <label>Current Password</label>
-          <input class="form-control" type="password" name="curr_password" value="" placeholder="Your old password">
-        </div>
-        <div class="form-group">
-          <label>New Password</label>
-          <input class="form-control" type="password" name="new_password" value="" placeholder="Your new password">
-        </div>
-        <div class="form-group">
-          <label>Confirm New Password</label>
-          <input class="form-control" type="password" name="confirm_new_password" value="" placeholder="Confirm your new password">
-        </div>
-        <div class="container d-flex justify-content-between px-0">
-          <button class="btn btn-danger btn-md"  type="button" onclick="toggle_edit_password()">Cancel</button>
-          <button class="btn btn-success btn-md" type="submit">Save</button>
-        </div>
-      </form>
-
-<!-- if editing_password, caused by error when editing password, hide profile_info-->
-      {% if ns.editing_password %}
-      <div id="profile_info" class="hidden">
-      {% else %}
-      <div id="profile_info">
-      {% endif %}
-        <h1 class="header">Profile Information</h1>
-        <table class="table table-bordered">
-          <tr>
-            <th width="30%">Name</th>
-            <td>{{ name }}</td>
-          </tr>
-          <tr>
-            <th width="30%">Email</th>
-            <td>{{ email }}</td>
-          </tr>
-        </table>
-          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_profile()">Edit Profile</button>
-          <!-- for testing purposes: -->
-          <button class="btn btn-primary btn-md mr-1" type="button" onclick="toggle_edit_password()">Edit Password</button> 
-      </div>
-
+  <div id="profile_info">
+    <h1 class="header">Profile Information</h1>
+    <table class="table table-bordered">
+      <tr>
+        <th width="30%">Name</th>
+        <td>{{ name }}</td>
+      </tr>
+      <tr>
+        <th width="30%">Email</th>
+        <td>{{ email }}</td>
+      </tr>
+    </table>
+      <a class="btn btn-primary" href="/profiles/edit_profile" >Edit Profile</a>
+      <a class="btn btn-primary " href="">Edit Password</a> 
+  </div>
 {% endblock %}
 
 {% block profileSideContent %}
