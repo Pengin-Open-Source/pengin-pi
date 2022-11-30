@@ -5,8 +5,6 @@ from app.db.models import Company, CompanyMembers
 
 company_info = Blueprint('company_info', __name__, url_prefix="/companies")
 
-# TODO Split profile routes into companies and profiles routes. Follow single responsibility principle.
-
 def get_companies():
     return Company.query.all()
 
