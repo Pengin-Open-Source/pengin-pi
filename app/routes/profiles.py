@@ -12,25 +12,32 @@ company_info = Blueprint('company_info', __name__, url_prefix="/companies")
 def profile():
     return render_template('profile/profile.html', name=current_user.name, email=current_user.email)
 
-@profiles.route('/edit_profile', methods=['POST'])
+@profiles.route('/edit_profile', methods=['GET','POST'])
 @login_required
 def edit_profile_post():
-    old_email = request.form.get('old_email')
-    name = request.form.get('name')
-    email = request.form.get('email')
-    user = User.query.filter_by(email=old_email).first()
-    user.name = name
-    user.email = email
-    db.session.commit()
-    return redirect(url_for('profiles.profile'))
+    if request.method == 'POST':
+        old_email = request.form.get('old_email')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        user = User.query.filter_by(email=old_email).first()
+        user.name = name
+        user.email = email
+        db.session.commit()
+        return redirect(url_for('profiles.profile'), name=current_user.name, email=current_user.email)
 
-@profiles.route('/edit_password')
+    return render_template('profile/profile_edit.html', name=current_user.name, email=current_user.email)
+
+@profiles.route('/edit_password', methods=['GET','POST'])
 def edit_password():
-    return render_template('edit_password.html')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        #TODO add change password logic
+        db.session.commit()
 
-@profiles.route('/edit_password', methods=['POST'])
-def edit_password_post():
-    return redirect(url_for('profiles.profile'))
+        return redirect(url_for('profiles.profile'), name=current_user.name, email=current_user.email)
+
+    return render_template('profile/password_edit.html', name=current_user.name, email=current_user.email)
 
 def get_companies():
     return Company.query.all()
