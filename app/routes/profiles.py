@@ -37,8 +37,6 @@ def edit_password():
 
         if new_password == confirm_new_password:
             if check_password_hash(user.password, old_password):
-                #cannot get check_password_hash to work even though the password is correct the hashed passwords are different.
-                #the following code works fine for creating new password
                 user.password = generate_password_hash(new_password, method='sha256')
                 db.session.add(user)
                 db.session.commit()
