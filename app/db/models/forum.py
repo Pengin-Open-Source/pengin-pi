@@ -8,7 +8,7 @@ class ForumPost(db.Model):
     title = db.Column(db.String())
     content = db.Column(db.String())
     thread_id = db.Column(db.String(), db.ForeignKey('thread.id', ondelete='CASCADE'))
-    author = db.Column(db.String())
+    author = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
     tags = db.Column(db.String())
     date = db.Column(db.String())
     comments = db.relationship('ForumComment')
