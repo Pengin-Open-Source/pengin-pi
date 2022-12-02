@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
 from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles
 from app.admin import admin_permission
 from app.db import db
+from app.util.security import EditPostPermission, DeletePostPermission
 
 forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
 admin_permission = Permission(RoleNeed('admin'))
@@ -30,7 +31,6 @@ def forums():
   return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
-@login_required
 @admin_permission.require()
 @login_required
 def create_thread():
@@ -76,7 +76,6 @@ def create_post(thread_id):
 def post(post_id, thread_id):
   if request.method == 'POST':
     post = ForumPost.query.filter_by(id=post_id).first()
-
     post_id = post.id
     content = request.form.get('content')
     today = date.today()
@@ -103,19 +102,22 @@ def delete_thread(id):
 
 @forums_blueprint.route('/delete/post/<id>', methods=['POST'])
 @login_required
-@admin_permission.require()
+@user_permission.require()
 def delete_post(id):
-  post = ForumPost.query.filter_by(id=id).first()
-  thread_id = post.thread_id
-  db.session.delete(post)
-  db.session.commit()
-
-  return redirect(url_for('forums_blueprint.thread', thread_id=thread_id))
+  permission = DeletePostPermission(id)
+  if permission.can():
+    post = ForumPost.query.filter_by(id=id).first()
+    thread_id = post.thread_id
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('forums_blueprint.thread', thread_id=thread_id))
+  abort(403)
 
 @forums_blueprint.route('/delete/comment/<id>', methods=['POST'])
 @login_required
-@admin_permission.require()
+@user_permission.require()
 def delete_comment(id):
+  
   comment = ForumComment.query.filter_by(id=id).first()
   post = ForumPost.query.filter_by(id=comment.post_id).first()
   db.session.delete(comment)

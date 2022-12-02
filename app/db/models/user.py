@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     roles = db.relationship('Role', secondary='user_roles')
     posts = db.relationship('ForumPosts')
-    #companies = db.relationship('Company', secondary='company_members')
+    companies = db.relationship('Company', secondary='company_members')
 
 
 class Role(db.Model):

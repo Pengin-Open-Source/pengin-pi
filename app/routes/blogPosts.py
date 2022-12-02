@@ -20,7 +20,7 @@ def display_blog_home():
 def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links(), roles=current_user.roles)
-
+    
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
