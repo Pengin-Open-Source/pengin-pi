@@ -49,8 +49,8 @@ def create_thread():
 def thread(thread_id):
   posts = ForumPost.query.filter_by(thread_id=thread_id).all() 
   thread = Thread.query.filter_by(id=thread_id).first()
-
-  return render_template('forums/thread.html', thread_id = thread_id, title = thread.name, posts = posts, current_user = current_user)
+  return render_template('forums/thread.html', is_admin=admin_permission.can(), can_delete=DeletePostPermission, thread_id=thread_id, title=thread.name, posts=posts, current_user=current_user)
+  
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
@@ -88,7 +88,6 @@ def post(post_id, thread_id):
   post = ForumPost.query.filter_by(id=post_id).first()
   author = User.query.filter_by(id=post.author).first().name
   comments = ForumComment.query.filter_by(post_id=post.id).all()
-
   return render_template('forums/post.html', title=post_id, author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
