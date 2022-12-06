@@ -1,0 +1,10 @@
+{% extends "layout/oneDiv.html" %}
+{% block oneDivContent %}
+  <ul>
+    {% for event in events %}
+      <li>
+        <a href="/calendar/{{ event.id }}">{{ event.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
