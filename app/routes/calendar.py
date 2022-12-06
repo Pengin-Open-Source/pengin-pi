@@ -17,7 +17,15 @@ def calendar():
 @login_required
 def calendar_create():
   if request.method == 'POST':
+    title = request.form.get('title')
+    description = request.form.get('description')
+    start = request.form.get('start')
+    end = request.form.get('end')
+    location = request.form.get('location')
 
+    new_event = Event(title=title, description=description, start=start, end=end, location=location)
+    db.session.add(new_event)
+    db.session.commit()
 
     return redirect(url_for("calendar_blueprint.calendar"))
 
