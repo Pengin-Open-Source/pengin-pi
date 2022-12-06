@@ -362,6 +362,32 @@ ticket_comments = [
   )
 ]
 
+events = [
+  (
+    id(),
+    user_id_1,
+    user_id_1,
+    date.today(),
+    date.today(),
+    date.today(),
+    "Test Event 1",
+    "Test description 1",
+    "Faketown"
+  ),
+  (
+    id(),
+    user_id_1,
+    user_id_1,
+    date.today(),
+    date.today(),
+    date.today(),
+    "Test Event 2",
+    "Test description 2",
+    "Faketown"
+  ),
+
+]
+
 
 cur.executemany("INSERT INTO ticket_forum (id, summary, content, date) VALUES(?,?,?,?)", tickets)
 cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, content) VALUES(?,?,?,?,?)", ticket_comments)
@@ -372,5 +398,6 @@ cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
 cur.executemany("INSERT INTO thread (id, name) VALUES(?, ?)", threads)
 cur.executemany("INSERT INTO user_roles ( id, user_id, role_id) VALUES(?, ?,?)", user_roles)
 cur.executemany("INSERT INTO thread_roles (id, role_id, thread_id) VALUES(?, ?,?)", thread_roles)
+cur.executemany("INSERT INTO events (id, user_id, organizer, date_created, start_datetime, end_datetime, title, description, location) VALUES(?,?,?,?,?,?,?,?,?)", events)
 con.commit()
 con.close()
