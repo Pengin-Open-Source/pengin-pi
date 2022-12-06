@@ -220,6 +220,13 @@ article.media p {
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
 }
+
+/* Calendar */
+
+.date-box {
+  border: 1px solid black;
+}
+
 /* Other */
 
 .content-section {
