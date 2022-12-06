@@ -3,7 +3,7 @@
 {% block oneDivContent %}
 <div class="post-content">
   <h2 class="forum-title">{{event.title}}</h2>
-  <p>Date:{{event.start_datetime}} to {{event.end_datetime}}</p>
+  <p>{{event.start_date}}@{{event.start_time}} to {{event.end_date}}@{{event.end_time}}</p>
   <p>{{event.description}}</p>
 </div>
 {% endblock %}
