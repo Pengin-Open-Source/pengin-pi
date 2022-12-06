@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from datetime import date
+from datetime import date, datetime
 from flask_login import login_required, current_user
 from app.db.models import Event
 from app.db import db
@@ -10,8 +10,16 @@ calendar_blueprint = Blueprint('calendar_blueprint', __name__, url_prefix="/cale
 @login_required
 def calendar():
   events = Event.query.filter_by(user_id=current_user.id).all()
+  event_dates = set()
 
-  return render_template('calendar/calendar.html', events=events, current_user = current_user)
+  for event in events:
+    event_dates.add(event.start_date)
+
+  dates = [datetime.strptime(date, "%Y-%m-%d") for date in list(event_dates)]
+  dates.sort()
+  sorted_dates = [datetime.strftime(date, "%Y-%m-%d") for date in dates]
+
+  return render_template('calendar/calendar.html', events=events, dates=sorted_dates, current_user = current_user)
 
 @calendar_blueprint.route("/create", methods=['GET', 'POST'])
 @login_required
