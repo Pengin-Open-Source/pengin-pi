@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
-from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles
+from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles, User
 from app.admin import admin_permission
 from app.db import db
 from app.util.security import EditPostPermission, DeletePostPermission
@@ -86,9 +86,10 @@ def post(post_id, thread_id):
     return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
 
   post = ForumPost.query.filter_by(id=post_id).first()
+  author = User.query.filter_by(id=post.author).first().name
   comments = ForumComment.query.filter_by(post_id=post.id).all()
 
-  return render_template('forums/post.html', title = post_id, post = post, comments = comments, thread_id=thread_id, current_user = current_user)
+  return render_template('forums/post.html', title=post_id, author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required
