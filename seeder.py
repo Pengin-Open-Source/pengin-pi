@@ -417,10 +417,8 @@ events = [
     "Test Event 5",
     "Test description 5",
     "Faketown"
-  ),
-
+  )
 ]
-
 
 cur.executemany("INSERT INTO ticket_forum (id, summary, content, date) VALUES(?,?,?,?)", tickets)
 cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, content) VALUES(?,?,?,?,?)", ticket_comments)
