@@ -1,0 +1,55 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+  <div class="column">
+    <div class="box">
+        <form method="POST" action="/calendar/create">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                class="form-control"
+                type="text"
+                name="title"
+                id="title"
+                placeholder="Title">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                class="form-control"
+                name="description"
+                id="description"
+                placeholder="Something enlightening..."></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="start" class="form-label">Date start</label>
+                <input
+                class="form-control"
+                type="datetime"
+                name="start"
+                id="start">
+            </div>
+            <div class="mb-2">
+                <label for="end" class="form-label">Date end</label>
+                <input
+                class="form-control"
+                type="datetime"
+                name="end"
+                id="end">
+            </div>
+            <button class="btn btn-primary">Create</button>
+            <div class="mb-2">
+                <label for="location" class="form-label">location</label>
+                <input
+                class="form-control"
+                type="text"
+                name="location"
+                id="location">
+            </div>
+            <button class="btn btn-primary">Create</button>
+        </form>
+    </div>
+  </div>
+{% endblock %}
+
+
