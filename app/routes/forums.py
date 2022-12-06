@@ -105,7 +105,7 @@ def delete_thread(id):
 @user_permission.require()
 def delete_post(id):
   permission = DeletePostPermission(id)
-  if permission.can():
+  if permission.can() or admin_permission.can():
     post = ForumPost.query.filter_by(id=id).first()
     thread_id = post.thread_id
     db.session.delete(post)
