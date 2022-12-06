@@ -4,9 +4,9 @@ from flask_principal import Permission
 
 
 PostNeed = namedtuple('forum_post', ['method', 'value'])
-PostDelNeed = namedtuple('forum_post', ['method'])
+PostDelNeed = namedtuple('delete_post', ['method', 'value'])
 EditPostNeed = partial(PostNeed, 'edit')
-DeletePostNeed = partial(PostNeed, 'delete')
+DeletePostNeed = partial(PostNeed, 'delete_post')
 
 
 class DeletePostPermission(Permission):

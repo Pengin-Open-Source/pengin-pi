@@ -61,7 +61,7 @@ def create_post(thread_id):
     content = request.form.get('content')
     tags = request.form.get('tags')
     today = date.today()
-    author = current_user.name
+    author = current_user.id
     new_post = ForumPost(title=title, thread_id=thread_id, content=content, tags= tags, date= today, author=author)
     db.session.add(new_post)
     db.session.commit()
@@ -79,8 +79,8 @@ def post(post_id, thread_id):
     post_id = post.id
     content = request.form.get('content')
     today = date.today()
-    author = current_user.name
-    new_comment = ForumComment( content=content, post_id= post_id, date= today, author=author)
+    author = current_user.id
+    new_comment = ForumComment( content=content, post_id=post_id, date=today, author=author)
     db.session.add(new_comment)
     db.session.commit()
     return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
