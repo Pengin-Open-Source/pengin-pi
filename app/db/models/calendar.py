@@ -12,7 +12,7 @@ class Event(db.Model):
     end_datetime = db.Column(db.String())
     title = db.Column(db.String())
     description = db.Column(db.String())
-    attendees = db.relationship('User')
+    #attendees = db.relationship('User')
     location =  db.Column(db.String())
 
 
