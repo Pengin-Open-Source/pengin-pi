@@ -7,5 +7,6 @@ from app.db.models.customer import Company, CompanyMembers
 from app.db.models.customer import Order, ShippingAddress, Customer
 from app.db.models.product import Product
 from app.db.models.ticket import Ticket, TicketComment, TicketForum, Resolution
+from app.db.models.calendar import Event
 
 
