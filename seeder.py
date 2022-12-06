@@ -385,6 +385,39 @@ events = [
     "Test description 2",
     "Faketown"
   ),
+  (
+    id(),
+    user_id_1,
+    user_id_1,
+    '2022-01-02',
+    '2022-01-02',
+    '2022-01-02',
+    "Test Event 3",
+    "Test description 3",
+    "Faketown"
+  ),
+  (
+    id(),
+    user_id_1,
+    user_id_1,
+    '2022-01-04',
+    '2022-01-04',
+    '2022-01-04',
+    "Test Event 4",
+    "Test description 4",
+    "Faketown"
+  ),
+  (
+    id(),
+    user_id_1,
+    user_id_1,
+    '2022-01-05',
+    '2022-01-05',
+    '2022-01-05',
+    "Test Event 5",
+    "Test description 5",
+    "Faketown"
+  ),
 
 ]
 
