@@ -23,7 +23,8 @@ def calendar_create():
     end = request.form.get('end')
     location = request.form.get('location')
 
-    new_event = Event(title=title, description=description, start=start, end=end, location=location)
+    new_event = Event(title=title, description=description, start_datetime=start, end_datetime=end, location=location, 
+                      date_created = date.today(), user_id=current_user.id)
     db.session.add(new_event)
     db.session.commit()
 
