@@ -10,13 +10,12 @@ class Event(db.Model):
     date_created = db.Column(db.String())
     start_datetime = db.Column(db.String())
     end_datetime = db.Column(db.String())
+    title = db.Column(db.String())
     description = db.Column(db.String())
     attendees = db.relationship('User')
     location =  db.Column(db.String())
 
 
 ''' 
-  how to do atendees?
-
-
+  how to do attendees?
 '''
