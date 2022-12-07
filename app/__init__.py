@@ -1,10 +1,12 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
-from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
+from flask_principal import Principal, UserNeed, RoleNeed, \
+    identity_loaded, AnonymousIdentity
 from app.admin import admin_blueprint, admin
 import app.routes as route
 import app.db.models as model
 from app.db import db
+from app.util.security import EditPostNeed, DeletePostNeed
 
 
 principals = Principal()
@@ -21,7 +23,6 @@ def create_app():
     principals.init_app(app) 
     admin.init_app(app)
     login_manager.login_view = 'auth.login' 
-
     with app.app_context():
         db.create_all()
 
@@ -39,10 +40,13 @@ def create_app():
             if hasattr(current_user, 'roles'):
                 for role in current_user.roles:
                     identity.provides.add(RoleNeed(role.name))
+            if hasattr(current_user, 'posts'):
+                for post in current_user.posts:
+                    identity.provides.add(EditPostNeed(post.id))
+                    identity.provides.add(DeletePostNeed(post.id))
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
-
     def static_from_root():
         return send_from_directory(app.static_folder, request.path[1:])
 
