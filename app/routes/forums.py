@@ -110,7 +110,7 @@ def post(post_id, thread_id):
     db.session.commit()
     return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
   post = ForumPost.query.filter_by(id=post_id).first()
-  author = User.query.filter_by(id=post.author).first().name
+  author = User.query.filter_by(id=post.author).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
   return render_template('forums/post.html', title=post_id, author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
