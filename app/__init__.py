@@ -23,7 +23,6 @@ def create_app():
     principals.init_app(app) 
     admin.init_app(app)
     login_manager.login_view = 'auth.login' 
-
     with app.app_context():
         db.create_all()
 

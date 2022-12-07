@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.db import db
 from app.db.models import Company, CompanyMembers
 
+
 company_info = Blueprint('company_info', __name__, url_prefix="/companies")
 
 def get_companies():
@@ -56,6 +57,5 @@ def edit_company_info_post(company_id):
         company.email = request.form.get('email')
         db.session.commit()
         return redirect(url_for('company_info.display_company_info', company_id=company.id))
-
     company = Company.query.filter_by(id=company_id).first()
     return render_template('company_info/company_edit.html', company=company)
