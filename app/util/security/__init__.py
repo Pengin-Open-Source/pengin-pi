@@ -1,8 +1,10 @@
 from functools import partial
 from collections import namedtuple
-from flask_principal import Permission
+from flask_principal import Permission, RoleNeed
 
 
+admin_permission = Permission(RoleNeed('admin'))
+user_permission = Permission(RoleNeed('user'))
 PostNeed = namedtuple('forum_post', ['method', 'value'])
 PostDelNeed = namedtuple('delete_post', ['method', 'value'])
 EditPostNeed = partial(PostNeed, 'edit')

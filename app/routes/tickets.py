@@ -3,7 +3,7 @@ from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
 from app.db.models import Ticket, TicketComment, TicketForum, Resolution
-from app.admin import admin_permission
+from app.util.security import admin_permission
 from app.db import db
 
 user_permission = Permission(RoleNeed('user'))
