@@ -1,0 +1,17 @@
+{% extends "layout/oneDiv.html" %}
+{% block oneDivContent %}
+  {% for date in dates %}
+    <div class="date-box">
+      <h2>{{date}}</h2>
+      <ul>
+        {% for event in events %}
+          {% if event.start_date == date %}
+            <li><a href="/calendar/{{ event.id }}">{{ event.title }}@{{event.start_time}}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+  <a class="btn btn-primary" href="/calendar/create">Create Event</a>
+{% endblock %}
