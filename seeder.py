@@ -45,7 +45,9 @@ threads = [
     "thread6",
   ),
 ]
-
+user_id_1 = id()
+user_id_2 = id()
+user_id_3 = id()
 post_id_1 = id()
 posts = [
   (
@@ -53,7 +55,7 @@ posts = [
     "Test Post 1",
     lorem,
     thread_id_1,
-    "author1",
+    user_id_1,
     "lifestyle,politics,art",
     date.today()
   ),
@@ -62,7 +64,7 @@ posts = [
     "Test Post 2",
     lorem,
     thread_id_1,
-    "author1",
+    user_id_1,
     "gaming,politics",
     date.today()
   ),
@@ -71,7 +73,7 @@ posts = [
     "Test Post 3",
     lorem ,
     thread_id_1,
-    "author2",
+    user_id_2,
     "lifestyle,gaming,art",
     date.today()
   ),
@@ -80,7 +82,7 @@ posts = [
     "Test Post 4",
     lorem,
     thread_id_2,
-    "author2",
+    user_id_2,
     "gaming",
     date.today()
   ),
@@ -89,7 +91,7 @@ posts = [
     "Test Post 5",
     lorem,
     thread_id_2,
-    "author3",
+    user_id_3,
     "lifestyle,art",
     date.today()
   ),
@@ -98,7 +100,7 @@ posts = [
     "Test Post 6",
     lorem,
     thread_id_3,
-    "author3",
+    user_id_3,
     "lifestyle,art",
     date.today()
   ),
@@ -107,7 +109,7 @@ posts = [
     "Test Post 7",
     lorem,
     thread_id_4,
-    "author3",
+    user_id_3,
     "lifestyle,art",
     date.today()
   ),
@@ -116,7 +118,7 @@ posts = [
     "Test Post 8",
     lorem,
     thread_id_5,
-    "author3",
+    user_id_3,
     "lifestyle,art",
     date.today()
   ),
@@ -125,7 +127,7 @@ posts = [
     "Test Post 9",
     lorem,
     thread_id_6,
-    "author3",
+    user_id_3,
     "lifestyle,art",
     date.today()
   )
@@ -148,9 +150,7 @@ comments = [
   )
 ]
 
-user_id_1 = id()
-user_id_2 = id()
-user_id_3 = id()
+
 users = [
   (
     user_id_1,

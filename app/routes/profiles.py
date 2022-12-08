@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.db import db
 from app.db.models import User
 
+
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
 @profiles.route('/')
@@ -23,7 +24,6 @@ def edit_profile_post():
         user.email = email
         db.session.commit()
         return redirect(url_for('profiles.profile'))
-
     return render_template('profile/profile_edit.html', name=current_user.name, email=current_user.email)
 
 @profiles.route('/edit_password', methods=['GET','POST'])
@@ -34,16 +34,11 @@ def edit_password():
         new_password = request.form.get('new_password')
         confirm_new_password = request.form.get('confirm_new_password')
         user = User.query.filter_by(email=email).first()
-
         if new_password == confirm_new_password:
             if check_password_hash(user.password, old_password):
                 user.password = generate_password_hash(new_password, method='sha256')
                 db.session.add(user)
                 db.session.commit()
-
                 return redirect(url_for('profiles.profile'))
-
         flash('Please check your password details and try again.') # does nothing fix later
-
     return render_template('profile/password_edit.html', name=current_user.name, email=current_user.email)
-
