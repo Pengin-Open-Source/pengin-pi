@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles, User
 from app.util.security import admin_permission, user_permission
 from app.db import db
-from app.util.security import EditPostPermission, DeletePostPermission
+from app.util.security import delete_comment_permission, delete_post_permission, edit_post_permission, edit_comment_permission
 
 
 forums_blueprint = Blueprint('forums_blueprint', __name__, url_prefix="/forums")
@@ -19,16 +19,16 @@ def forums():
       _type_: forums/threads.html
   """
   threads = []
-  thread_ids =[]
+  thread_ids = []
   for role in current_user.roles:
     role_thread_ids = ThreadRoles.query.with_entities(ThreadRoles.thread_id).filter_by(role_id=role.id).all()
     thread_ids.extend(role_thread_ids)
   # Remove duplicates
-  unique_thread_ids = list(set(thread_ids))
+  unique_thread_ids = tuple(set(thread_ids))
   for thread_id_tuple in unique_thread_ids:
     thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
     threads.append(thread)
-  return render_template('forums/threads.html', title ='Forum', threads = threads, current_user = current_user)
+  return render_template('forums/threads.html', title='Forum', threads=threads, current_user=current_user)
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
 @admin_permission.require()
@@ -61,7 +61,7 @@ def thread(thread_id):
   """
   posts = ForumPost.query.filter_by(thread_id=thread_id).all() 
   thread = Thread.query.filter_by(id=thread_id).first()
-  return render_template('forums/thread.html', is_admin=admin_permission.can(), can_delete=DeletePostPermission, thread_id=thread_id, title=thread.name, posts=posts, current_user=current_user)
+  return render_template('forums/thread.html', is_admin=admin_permission.can(), can_delete=delete_post_permission, thread_id=thread_id, title=thread.name, posts=posts, current_user=current_user)
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
@@ -101,18 +101,17 @@ def post(post_id, thread_id):
   """
   if request.method == 'POST':
     post = ForumPost.query.filter_by(id=post_id).first()
-    post_id = post.id
     content = request.form.get('content')
     today = date.today()
     author = current_user.id
-    new_comment = ForumComment( content=content, post_id=post_id, date=today, author=author)
+    new_comment = ForumComment(content=content, post_id=post_id, date=today, author=author)
     db.session.add(new_comment)
     db.session.commit()
     return redirect(url_for("forums_blueprint.post", post_id=post_id, thread_id=thread_id))
   post = ForumPost.query.filter_by(id=post_id).first()
   author = User.query.filter_by(id=post.author).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
-  return render_template('forums/post.html', title=post_id, author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
+  return render_template('forums/post.html', author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required
@@ -141,7 +140,7 @@ def delete_post(id):
   Failure Returns:
       _type_: 403 permissions error
   """
-  permission = DeletePostPermission(id)
+  permission = delete_post_permission(id)
   if permission.can() or admin_permission.can():
     post = ForumPost.query.filter_by(id=id).first()
     thread_id = post.thread_id
@@ -162,8 +161,11 @@ def delete_comment(id):
   Failure Returns:
       _type_: 403 permissions error
   """
-  comment = ForumComment.query.filter_by(id=id).first()
-  post = ForumPost.query.filter_by(id=comment.post_id).first()
-  db.session.delete(comment)
-  db.session.commit()
-  return redirect(url_for('forums_blueprint.post', post_id=post.id, thread_id=post.thread_id))
+  permission = delete_comment_permission(id)
+  if permission.can() or admin_permission.can():
+    comment = ForumComment.query.filter_by(id=id).first()
+    post = ForumPost.query.filter_by(id=comment.post_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for('forums_blueprint.post', post_id=post.id, thread_id=post.thread_id))
+  abort(403)
