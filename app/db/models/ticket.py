@@ -14,6 +14,7 @@ class Ticket(db.Model):
 class TicketForum(db.Model):
     __tablename__ = 'ticket_forum'
     id = db.Column(db.String(), default=id, primary_key=True)
+    user_id = db.Column(db.String(),db.ForeignKey('user.id', ondelete='CASCADE'))
     customer_id = db.Column(db.String(),db.ForeignKey('customer.id', ondelete='CASCADE'))
     summary = db.Column(db.String())
     content = db.Column(db.String())
