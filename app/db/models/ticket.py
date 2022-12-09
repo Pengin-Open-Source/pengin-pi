@@ -1,19 +1,12 @@
 from app.db import db
 from sqlalchemy import func
 from app.util.uuid import id
-
-
-class Ticket(db.Model):
-    __tablename__ = 'ticket'
-    id = db.Column(db.String(), default=id, primary_key=True)
-    customer_id = db.Column(db.String(),db.ForeignKey('customer.id', ondelete='CASCADE'))
-    forum_post_id = db.Column(db.String(),db.ForeignKey('forum_post.id',ondelete='CASCADE'))
-    thread_id = db.Column(db.Integer())
-    
+  
 
 class TicketForum(db.Model):
     __tablename__ = 'ticket_forum'
     id = db.Column(db.String(), default=id, primary_key=True)
+    user_id = db.Column(db.String(),db.ForeignKey('user.id', ondelete='CASCADE'))
     customer_id = db.Column(db.String(),db.ForeignKey('customer.id', ondelete='CASCADE'))
     summary = db.Column(db.String())
     content = db.Column(db.String())

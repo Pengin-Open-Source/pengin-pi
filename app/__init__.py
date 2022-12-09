@@ -6,7 +6,7 @@ from app.admin import admin_blueprint, admin
 import app.routes as route
 import app.db.models as model
 from app.db import db
-from app.util.security import edit_post_need, delete_post_need, edit_comment_need, delete_comment_need
+from app.util.security import edit_post_need, delete_post_need, edit_comment_need, delete_comment_need, delete_ticket_comment_need, delete_ticket_need
 
 
 principals = Principal()
@@ -48,6 +48,12 @@ def create_app():
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
                     identity.provides.add(delete_comment_need(comment.id))
+            if hasattr(current_user, 'tickets'):
+                for ticket in current_user.tickets:
+                    identity.provides.add(delete_ticket_need(ticket.id))
+            if hasattr(current_user, 'ticket_comments'):
+                for comment in current_user.ticket_comments:
+                    identity.provides.add(delete_ticket_comment_need(comment.id))
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')

@@ -8,7 +8,6 @@ app/db/__pycache__
 *.py[cod]
 auth
 app/db.sqlite
-.github
-seeder.py
+.githubs
 *.log
 instance
