@@ -18,6 +18,7 @@ class ForumComment(db.Model):
     __tablename__ = "forum_comment"
     id = db.Column(db.String(), default=id, primary_key=True)
     post_id = db.Column(db.String(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
+    author = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
     content = db.Column(db.String())
     author = db.Column(db.String())
     date = db.Column(db.String())
