@@ -48,7 +48,7 @@ def create_app():
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
                     identity.provides.add(delete_comment_need(comment.id))
-            if hasattr(current_user, 'ticket_forum'):
+            if hasattr(current_user, 'tickets'):
                 for ticket in current_user.tickets:
                     identity.provides.add(delete_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):
