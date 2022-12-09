@@ -113,6 +113,7 @@ def post(post_id, thread_id):
   comments = ForumComment.query.filter_by(post_id=post.id).all()
   return render_template('forums/post.html', is_admin=admin_permission.can(), can_delete=delete_comment_permission, author=author, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
+
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required
 @admin_permission.require()
