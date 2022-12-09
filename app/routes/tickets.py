@@ -23,7 +23,8 @@ def create_ticket():
     summary = request.form.get('summary')
     content = request.form.get('content')
     tags = request.form.get('tags')
-    new_ticket = TicketForum(summary=summary, content=content, tags=tags)
+    user_id = current_user.id
+    new_ticket = TicketForum(summary=summary, content=content,tags=tags, user_id=user_id)
     db.session.add(new_ticket)
     db.session.commit()
     return redirect(url_for("ticket_blueprint.tickets"))
