@@ -13,7 +13,7 @@ ticket_blueprint = Blueprint('ticket_blueprint', __name__, url_prefix="/tickets"
 @login_required
 def tickets():
   tickets = TicketForum.query.filter_by().all() # filter by company once company/customer model fixed
-  return render_template('tickets/ticket_list.html',  title = "Tickets", tickets = tickets, current_user = current_user)
+  return render_template('tickets/ticket_list.html',is_admin=admin_permission.can(), can_delete=delete_ticket_permission,  title = "Tickets", tickets = tickets, current_user = current_user)
 
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -43,7 +43,7 @@ def ticket(ticket_id):
     return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
   ticket =  TicketForum.query.filter_by(id=ticket_id).first()
   comments= TicketComment.query.filter_by(ticket_id= ticket_id).all()
-  return render_template('tickets/ticket.html', ticket=ticket, comments=comments )
+  return render_template('tickets/ticket.html',is_admin=admin_permission.can(), can_delete=delete_ticket_comment_permission, ticket=ticket, comments=comments )
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
