@@ -6,11 +6,14 @@ from app.admin import admin_blueprint, admin
 import app.routes as route
 import app.db.models as model
 from app.db import db
-from app.util.security import edit_post_need, delete_post_need, edit_comment_need, delete_comment_need, delete_ticket_comment_need, delete_ticket_need
+from app.util.security import edit_post_need, delete_post_need,\
+                              edit_comment_need, delete_comment_need,\
+                              delete_ticket_comment_need, delete_ticket_need
 
 
 principals = Principal()
 login_manager = LoginManager()
+
 
 def create_app():
     app = Flask(__name__, static_folder='static')
@@ -19,16 +22,17 @@ def create_app():
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     model.db.init_app(app)
-    login_manager.init_app(app) 
-    principals.init_app(app) 
+    login_manager.init_app(app)
+    principals.init_app(app)
     admin.init_app(app)
-    login_manager.login_view = 'auth.login' 
+    login_manager.login_view = 'auth.login'
     with app.app_context():
         db.create_all()
 
     @login_manager.user_loader
     def load_user(user_id):
-        # since the user_id is just the primary key of our user table, use it in the query for the user
+        # since the user_id is just the primary key of our user table,
+        # use it in the query for the user
         return model.User.query.get(user_id)
 
     @identity_loaded.connect_via(app)
@@ -53,7 +57,9 @@ def create_app():
                     identity.provides.add(delete_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):
                 for comment in current_user.ticket_comments:
-                    identity.provides.add(delete_ticket_comment_need(comment.id))
+                    identity.provides.add(
+                        delete_ticket_comment_need(comment.id)
+                    )
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
@@ -69,6 +75,5 @@ def create_app():
     app.register_blueprint(route.forums_blueprint)
     app.register_blueprint(route.ticket_blueprint)
     app.register_blueprint(route.calendar_blueprint)
-
 
     return app

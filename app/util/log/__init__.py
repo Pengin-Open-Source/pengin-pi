@@ -8,12 +8,12 @@ def log():
     """
     def pre(func):
         """ Pre function logging """
-        logger.debug("Entered %s", func.__name__)	
-    
+        logger.debug("Entered %s", func.__name__)
+
     def post(func):
         """Post function logging"""
         logger.debug("Exited  %s", func.__name__)
-    
+
     def decorate(func):
         """Decorator"""
         def call(*args, **kwargs):
