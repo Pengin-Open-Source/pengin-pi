@@ -19,7 +19,7 @@ class ForumComment(db.Model):
     id = db.Column(db.String(), default=id, primary_key=True)
     post_id = db.Column(db.String(), db.ForeignKey('forum_post.id', ondelete='CASCADE'))
     content = db.Column(db.String())
-    author = db.Column(db.String())
+    author = db.Column(db.String(), db.ForeignKey('user.id', ondelete='CASCADE'))
     date = db.Column(db.String())
     zipcode = db.Column(db.Integer())
 
