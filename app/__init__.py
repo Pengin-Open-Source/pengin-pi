@@ -6,7 +6,7 @@ from app.admin import admin_blueprint, admin
 import app.routes as route
 import app.db.models as model
 from app.db import db
-from app.util.security import edit_post_need, delete_post_need
+from app.util.security import edit_post_need, delete_post_need, edit_comment_need, delete_comment_need
 
 
 principals = Principal()
@@ -44,6 +44,10 @@ def create_app():
                 for post in current_user.posts:
                     identity.provides.add(edit_post_need(post.id))
                     identity.provides.add(delete_post_need(post.id))
+            if hasattr(current_user, 'comments'):
+                for comment in current_user.comments:
+                    identity.provides.add(edit_comment_need(comment.id))
+                    identity.provides.add(delete_comment_need(comment.id))
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
