@@ -15,7 +15,9 @@ class User(UserMixin, db.Model):
     posts = db.relationship('ForumPost')
     comments = db.relationship('ForumComment')
     companies = db.relationship('Company', secondary='company_members')
-
+    tickets = db.relationship('TicketForum')
+    ticket_comments = db.relationship('TicketComment')
+    
 
 class Role(db.Model):
     __tablename__ = 'roles'
