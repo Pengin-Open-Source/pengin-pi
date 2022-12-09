@@ -49,10 +49,10 @@ def create_app():
                     identity.provides.add(edit_comment_need(comment.id))
                     identity.provides.add(delete_comment_need(comment.id))
             if hasattr(current_user, 'tickets'):
-                for comment in current_user.comments:
-                    identity.provides.add(delete_ticket_need(comment.id))
+                for ticket in current_user.tickets:
+                    identity.provides.add(delete_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):
-                for comment in current_user.comments:
+                for comment in current_user.ticket_comments:
                     identity.provides.add(delete_ticket_comment_need(comment.id))
 
     @app.route('/robots.txt')
