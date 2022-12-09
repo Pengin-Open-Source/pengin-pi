@@ -9,7 +9,7 @@
   <tr><td class="flex-between">
     <a class="small-padding" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
     {% if current_user.is_authenticated %}
-      {% if is_admin or can_delete(ticket.id).can()%}
+      {% if is_admin or can_delete(ticket.id).can() %}
       <form method="post" action="/tickets/delete/ticket/{{ticket.id}}">
         <button class="btn" type="submit">Delete</button>
       </form>
