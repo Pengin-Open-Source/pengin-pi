@@ -16,13 +16,11 @@
         <div class="article-metadata small-padding">by {{comment.author_id}} at {{comment.date}}</div>
         <p class="article content small-padding">{{comment.content}}</p>
         {% if current_user.is_authenticated %}
-          {% for role in current_user.roles  %}
-            {% if role.name == "admin" %}
-              <form method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
-                <button class="btn" type="submit">Delete</button>
-              </form>
-            {% endif %}
-          {% endfor %}
+          {% if is_admin or can_delete(comment.id).can()%}
+            <form method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
+              <button class="btn" type="submit">Delete</button>
+            </form>
+          {% endif %}
         {% endif %}
       </div>
     </div>
