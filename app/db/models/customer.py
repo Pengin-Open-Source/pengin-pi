@@ -75,7 +75,7 @@ class Customer(db.Model):
     # ticket_id= db.Column(db.Integer(),
     #                       db.ForeignKey('ticket.id', ondelete='CASCADE'))
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    service_date = db.Column(db.DateTime(255), nullable=True) 
+    service_date = db.Column(db.DateTime(255), nullable=True)
     expiration_date = db.Column(db.DateTime(255), nullable=True)
 
 
