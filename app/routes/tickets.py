@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
 from app.db.models import Ticket, TicketComment, TicketForum, Resolution
-from app.util.security import admin_permission, user_permission
+from app.util.security import admin_permission, user_permission, delete_ticket_comment_permission, delete_ticket_permission
 from app.db import db
 
 
@@ -47,18 +47,24 @@ def ticket(ticket_id):
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
-@admin_permission.require()
 def delete_ticket(id):
-  ticket = TicketForum.query.filter_by(id=id).first()
-  db.session.delete(ticket)
-  db.session.commit()
-  return redirect(url_for('ticket_blueprint.tickets'))
+  permission = delete_ticket_permission(id)
+  if permission.can() or admin_permission.can():
+    ticket = TicketForum.query.filter_by(id=id).first()
+    db.session.delete(ticket)
+    db.session.commit()
+    return redirect(url_for('ticket_blueprint.tickets'))
+
+  abort(403)
 
 @ticket_blueprint.route('/delete/ticket-comment/<id>', methods=['POST'])
 @login_required
-@admin_permission.require()
-def delete_comment(id):
-  comment = TicketComment.query.filter_by(id=id).first()
-  db.session.delete(comment)
-  db.session.commit()
-  return redirect(url_for('ticket_blueprint.ticket', ticket_id = comment.ticket_id))
+def delete_ticket_comment(id):
+  permission = delete_ticket_comment_permission(id)
+  if permission.can() or admin_permission.can():
+    comment = TicketComment.query.filter_by(id=id).first()
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for('ticket_blueprint.ticket', ticket_id = comment.ticket_id))
+
+  abort(403)
