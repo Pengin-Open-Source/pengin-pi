@@ -111,7 +111,8 @@ def post(post_id, thread_id):
   post = ForumPost.query.filter_by(id=post_id).first()
   author = User.query.filter_by(id=post.author).first()
   comments = ForumComment.query.filter_by(post_id=post.id).all()
-  return render_template('forums/post.html', is_admin=admin_permission.can(), can_delete=delete_comment_permission, author=author.name, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
+  comment_authors = {j:User.query.filter_by(id=j).first().name for j in tuple(set([comment.author for comment in comments]))}
+  return render_template('forums/post.html', comment_authors=comment_authors, is_admin=admin_permission.can(), can_delete=delete_comment_permission, author=author.name, post=post, comments=comments, thread_id=thread_id, current_user=current_user)
 
 
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
