@@ -80,6 +80,7 @@ def thread(thread_id):
     return render_template('forums/thread.html',
                            is_admin=admin_permission.can(),
                            can_delete=delete_post_permission,
+                           can_edit=edit_post_permission,
                            thread_id=thread_id, title=thread.name,
                            posts=posts, current_user=current_user)
 
