@@ -218,3 +218,67 @@ def delete_comment(id):
                                 thread_id=post.thread_id))
 
     abort(403)
+
+
+@forums_blueprint.route('/<thread_id>/<post_id>/edit', methods=['POST', 'GET'])
+@login_required
+@user_permission.require()
+def edit_post(thread_id, post_id):
+    """/forums//<thread_id>/<post_id>/edit
+    Route for authenticated forum post editing
+    Requires: user login, user need OR admin
+    Success Returns:
+        _type_: forums_blueprint.thread
+    Failure Returns:
+        _type_: 403 permissions error
+    """
+
+    post = ForumPost.query.filter_by(id=post_id).first()
+
+    if request.method == 'POST':
+        permission = edit_post_permission(post_id)
+        if permission.can() or admin_permission.can():
+            post.title = request.form.get('title')
+            post.content = request.form.get('content')
+            post.tags = request.form.get('tags')
+            db.session.commit()
+
+            return redirect(url_for("forums_blueprint.thread",
+                                    thread_id=thread_id))
+
+        abort(403)
+
+    return render_template('forums/edit_post.html', post=post,
+                           thread_id=thread_id, post_id=post_id)
+
+
+@forums_blueprint.route('<thread_id>/<post_id>/<comment_id>/edit',
+                        methods=['POST', 'GET'])
+@login_required
+@user_permission.require()
+def edit_comment(thread_id, post_id, comment_id):
+    """/forums/<comment_id>/edit
+    Route for authenticated forum comment editing
+    Requires: user login, user need OR admin
+    Success Returns:
+        _type_: forums_blueprint.thread
+    Failure Returns:
+        _type_: 403 permissions error
+    """
+
+    comment = ForumComment.query.filter_by(id=comment_id).first()
+
+    if request.method == 'POST':
+        permission = edit_comment_permission(comment_id)
+        if permission.can() or admin_permission.can():
+            comment.content = request.form.get('content')
+            db.session.commit()
+
+            return redirect(url_for("forums_blueprint.post",
+                                    post_id=post_id, thread_id=thread_id))
+
+        abort(403)
+
+    return render_template('forums/edit_comment.html', comment=comment,
+                           post_id=post_id, thread_id=thread_id,
+                           comment_id=comment_id)
