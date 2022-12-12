@@ -15,6 +15,6 @@ class SecureModelView(ModelView):
 
 
 class FixView(SecureModelView):
-    column_display_pk = True # optional, but I like to see the IDs in the list
+    column_display_pk = True  # optional, but I like to see the IDs in the list
     column_hide_backrefs = False
     column_list = ('id', 'user_id', 'role_id')

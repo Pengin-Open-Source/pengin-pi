@@ -11,3 +11,4 @@ app/db.sqlite
 .githubs
 *.log
 instance
+.vscode

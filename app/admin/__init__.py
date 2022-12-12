@@ -1,6 +1,7 @@
 from flask_admin import Admin
 from app.db.models import db
-from app.db.models import User, UserRoles, Role, BlogPost, Company, CompanyMembers
+from app.db.models import User, UserRoles, Role, BlogPost, Company,\
+                          CompanyMembers
 from app.admin.views import SecureModelView, FixView
 from app.admin.views import admin_blueprint
 

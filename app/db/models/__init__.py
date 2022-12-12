@@ -8,5 +8,3 @@ from app.db.models.customer import Order, ShippingAddress, Customer
 from app.db.models.product import Product
 from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
-
-

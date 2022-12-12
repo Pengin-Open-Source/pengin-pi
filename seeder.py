@@ -11,14 +11,23 @@ con = sqlite3.connect("instance/db.sqlite")
 cur = con.cursor()
 
 password = generate_password_hash('password', method='sha256')
-lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pharetra placerat nisl. Mauris vitae pretium est. Donec pharetra diam quam, quis lobortis nisi viverra nec. Ut sollicitudin nulla vitae nisl accumsan volutpat vel eget risus. In sed pharetra justo, sed malesuada quam. Curabitur blandit dictum leo, quis feugiat ipsum laoreet a. Nam molestie tristique viverra. Phasellus odio lacus, ultrices sed viverra eget, rutrum at orci. Aliquam non orci at ante posuere efficitur eget in diam. Aenean quis nulla vel turpis molestie fermentum nec sed ligula. Sed consectetur, sapien et aliquet porttitor, risus risus varius erat, eget elementum nibh velit ac odio. Etiam vel turpis elit. "
-
-thread_id_1=id()
-thread_id_2=id()
-thread_id_3=id()
-thread_id_4=id()
-thread_id_5=id()
-thread_id_6=id()
+lorem = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+         pharetra placerat nisl. Mauris vitae pretium est. Donec pharetra diam
+         quam, quis lobortis nisi viverra nec. Ut sollicitudin nulla vitae
+         nisl accumsan volutpat vel eget risus. In sed pharetra justo, sed
+         malesuada quam. Curabitur blandit dictum leo, quis feugiat ipsum
+         laoreet a. Nam molestie tristique viverra. Phasellus odio lacus,
+         ultrices sed viverra eget, rutrum at orci. Aliquam non orci at ante
+         posuere efficitur eget in diam. Aenean quis nulla vel turpis molestie
+         fermentum nec sed ligula. Sed consectetur, sapien et aliquet
+         porttitor, risus risus varius erat, eget elementum nibh velit ac
+         odio. Etiam vel turpis elit. """
+thread_id_1 = id()
+thread_id_2 = id()
+thread_id_3 = id()
+thread_id_4 = id()
+thread_id_5 = id()
+thread_id_6 = id()
 threads = [
   (
     thread_id_1,
@@ -71,7 +80,7 @@ posts = [
   (
     id(),
     "Test Post 3",
-    lorem ,
+    lorem,
     thread_id_1,
     user_id_2,
     "lifestyle,gaming,art",
@@ -172,10 +181,10 @@ users = [
   ),
 ]
 
-role_id_1= id()
-role_id_2= id()
-role_id_3= id()
-role_id_4= id()
+role_id_1 = id()
+role_id_2 = id()
+role_id_3 = id()
+role_id_4 = id()
 roles = [
   (
     role_id_1,
@@ -195,7 +204,8 @@ roles = [
   )
 ]
 
-#author1 is admin, 2 and 3 are users with access to threads 5 and 6 respectively
+# author1 is admin, 2 and 3 are users with access
+# to threads 5 and 6 respectively
 user_roles = [
   (
     id(),
@@ -229,8 +239,9 @@ user_roles = [
   )
 ]
 
-#threads 1-4 are public 5 and 6 are in their own groups, admin has access to all
-thread_roles = [ 
+# threads 1-4 are public 5 and 6 are in their own groups,
+# admin has access to all
+thread_roles = [
   (
     id(),
     role_id_1,
@@ -430,15 +441,25 @@ events = [
   )
 ]
 
-cur.executemany("INSERT INTO ticket_forum (id, summary, content, date) VALUES(?,?,?,?)", tickets)
-cur.executemany("INSERT INTO ticket_comment (id, ticket_id, author_id, date, content) VALUES(?,?,?,?,?)", ticket_comments)
-cur.executemany("INSERT INTO forum_post (id, title, content, thread_id, author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)", posts)
-cur.executemany("INSERT INTO forum_comment (id, post_id, content, author, date ) VALUES(?, ?, ?, ?, ?)", comments)
-cur.executemany("INSERT INTO user (id, email, name, password) VALUES(?, ?, ?, ?)", users)
+cur.executemany("""INSERT INTO ticket_forum (id, summary, content, date)
+                VALUES(?,?,?,?)""", tickets)
+cur.executemany("""INSERT INTO ticket_comment (id, ticket_id, author_id, date,
+                content) VALUES(?,?,?,?,?)""", ticket_comments)
+cur.executemany("""INSERT INTO forum_post (id, title, content, thread_id,
+                author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)""", posts)
+cur.executemany("""INSERT INTO forum_comment (id, post_id, content, author,
+                date ) VALUES(?, ?, ?, ?, ?)""", comments)
+cur.executemany("""INSERT INTO user (id, email, name, password)
+                VALUES(?, ?, ?, ?)""", users)
 cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
 cur.executemany("INSERT INTO thread (id, name) VALUES(?, ?)", threads)
-cur.executemany("INSERT INTO user_roles ( id, user_id, role_id) VALUES(?, ?,?)", user_roles)
-cur.executemany("INSERT INTO thread_roles (id, role_id, thread_id) VALUES(?, ?,?)", thread_roles)
-cur.executemany("INSERT INTO events (id, user_id, organizer, date_created, start_date, end_date, start_time, end_time, title, description, location) VALUES(?,?,?,?,?,?,?,?,?,?,?)", events)
+cur.executemany("""INSERT INTO user_roles ( id, user_id, role_id)
+                VALUES(?, ?,?)""", user_roles)
+cur.executemany("""INSERT INTO thread_roles (id, role_id, thread_id)
+                VALUES(?, ?,?)""", thread_roles)
+cur.executemany("""INSERT INTO events (id, user_id, organizer,
+                date_created, start_date, end_date, start_time, end_time,
+                title, description, location)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)""", events)
 con.commit()
 con.close()
