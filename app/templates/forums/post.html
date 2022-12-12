@@ -3,6 +3,20 @@
 {% block beforeTableContent %}
   <div class="post-content">
     <h2 class="forum-title">{{post.title}}</h2>
+    {% if current_user.is_authenticated %}
+      <div class="flex">
+        {% if is_admin or can_delete_post(post.id).can() %}
+          <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
+            <button class="text-button" type="submit">Delete</button>
+          </form> 
+          <span class="text-button">|</span>
+        {% endif %}
+        
+        {% if is_admin or can_edit_post(post.id).can() %}
+          <a class="text-button" href="{{thread_id}}/{{post.id}}/edit">Edit</a>
+        {% endif %}
+      </div>
+    {% endif %}
     <p>By {{author}} ({{post.date}})</p>
     <p>{{post.content}}</p>
   </div>
@@ -16,12 +30,12 @@
         <div class="article-metadata small-padding">by {{comment_authors[comment.author]}} at {{comment.date}}</div>
         <p class="article content small-padding">{{comment.content}}</p>
         {% if current_user.is_authenticated %}
-          {% if is_admin or can_delete(comment.id).can() %}
+          {% if is_admin or can_delete_comment(comment.id).can() %}
             <form method="post" action="/forums/delete/comment/{{comment.id}}">
               <button class="btn" type="submit">Delete</button>
             </form>
           {% endif %}
-          {% if is_admin or can_edit(comment.id).can() %}
+          {% if is_admin or can_edit_comment(comment.id).can() %}
             <a class="btn btn-primary" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
           {% endif %}
         {% endif %}
