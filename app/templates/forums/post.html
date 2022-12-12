@@ -38,7 +38,7 @@
                 <span class="text-button">|</span>
               {% endif %}
               {% if is_admin or can_edit_comment(comment.id).can() %}
-                <a style="font-size:inherit; color:inherit;" class="text-button" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
+                <a class="text-button" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
               {% endif %}
             </div>
           {% endif %}
