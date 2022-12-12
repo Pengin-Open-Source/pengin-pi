@@ -8,18 +8,6 @@
   {% for post in posts %}
   <tr><td class="flex-between">
     <a class="small-padding" href="/forums/{{thread_id}}/{{post.id}}">{{post.title}}</a>
-    <div>
-      {% if current_user.is_authenticated %}
-        {% if is_admin or can_delete(post.id).can() %}
-          <form method="post" action="/forums/delete/post/{{post.id}}">
-            <button class="btn" type="submit">Delete</button>
-          </form>
-        {% endif %}
-        {% if is_admin or can_edit(post.id).can() %}
-          <a class="btn btn-primary" href="{{thread_id}}/{{post.id}}/edit">edit</a>
-        {% endif %}
-      {% endif %}
-    </div>
   </td></tr>
   {% endfor %}
 {% endblock %}
