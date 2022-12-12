@@ -21,6 +21,9 @@
               <button class="btn" type="submit">Delete</button>
             </form>
           {% endif %}
+          {% if is_admin or can_edit(comment.id).can() %}
+            <a class="btn btn-primary" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
+          {% endif %}
         {% endif %}
       </div>
     </div>
