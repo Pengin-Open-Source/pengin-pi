@@ -11,15 +11,14 @@
                 type="text"
                 name="title"
                 id="title"
-                placeholder="{{post.title}}">
+                value="{{post.title}}">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
                 <textarea
                 class="form-control"
                 name="content"
-                id="content"
-                placeholder="{{post.content}}"></textarea>
+                id="content">{{post.content}}</textarea>
             </div>
             <div class="mb-2">
                 <label for="tags" class="form-label">Tags</label>
@@ -27,7 +26,7 @@
                 class="form-control"
                 type="text"
                 name="tags"
-                placeholder="{{post.tags}}"
+                value="{{post.tags}}"
                 id="tags">
             </div>
             <button class="btn btn-primary">Post</button>
