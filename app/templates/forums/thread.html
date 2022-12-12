@@ -7,7 +7,7 @@
 {% block tableContent %}
   {% for post in posts %}
   <tr><td class="flex-between">
-    <a class="small-padding" href="/forums/{{thread_id}}/{{post.id}}">{{post.title}}</a>
+    <a class="small-padding alternating-colors-table-links " href="/forums/{{thread_id}}/{{post.id}}">{{post.title}}</a>
   </td></tr>
   {% endfor %}
 {% endblock %}
