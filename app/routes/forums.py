@@ -229,10 +229,13 @@ def edit_post(thread_id, post_id):
     """/forums//<thread_id>/<post_id>/edit
     Route for authenticated forum post editing
     Requires: user login, user need OR admin
-    Success Returns:
-        _type_: forums_blueprint.thread
-    Failure Returns:
-        _type_: 403 permissions error
+    POST Returns:
+        Success Returns:
+            _type_: forums_blueprint.thread
+        Failure Returns:
+            _type_: 403 permissions error
+    GET Returns:
+        _type_: forums/edit_post.html
     """
 
     post = ForumPost.query.filter_by(id=post_id).first()
@@ -262,10 +265,13 @@ def edit_comment(thread_id, post_id, comment_id):
     """/forums/<comment_id>/edit
     Route for authenticated forum comment editing
     Requires: user login, user need OR admin
-    Success Returns:
-        _type_: forums_blueprint.thread
-    Failure Returns:
-        _type_: 403 permissions error
+    POST Returns:
+        Success Returns:
+            _type_: forums_blueprint.post
+        Failure Returns:
+            _type_: 403 permissions error
+    GET Returns:
+        _type_: forums/edit_comment.html
     """
 
     comment = ForumComment.query.filter_by(id=comment_id).first()
