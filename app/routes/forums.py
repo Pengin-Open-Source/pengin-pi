@@ -32,7 +32,7 @@ def forums():
                           )
         thread_ids.extend(role_thread_ids)
 
-    # Remove duplicates
+    # Removes duplicates. TODO: return in ordered list
     unique_thread_ids = tuple(set(thread_ids))
     for thread_id_tuple in unique_thread_ids:
         thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
