@@ -40,6 +40,9 @@ footer p {
   display: none;
 }
 
+.flex{
+  display:flex;
+}
 
 .text-muted {
   color: #ffffff !important;
@@ -64,6 +67,24 @@ footer p {
 }
 
 /* Site-wide */
+
+.text-button {
+  border: none;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  margin: 5px;
+  padding: 0;
+}
+
+.text-button:hover {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.delete-form {
+  width: fit-content;
+}
 
 .header {
   color: black;
