@@ -112,16 +112,22 @@ def delete_ticket_comment(id):
 @ticket_blueprint.route('/edit/ticket/<id>', methods=['GET', 'POST'])
 @login_required
 def edit_ticket(id):
-    permission = delete_ticket_comment_permission(id)
-    if permission.can() or admin_permission.can():
-        comment = TicketComment.query.filter_by(id=id).first()
-        db.session.delete(comment)
-        db.session.commit()
+    ticket = TicketForum.query.filter_by(id=id).first()
 
-        return redirect(url_for('ticket_blueprint.ticket',
-                                ticket_id=comment.ticket_id))
+    if request.method == 'POST':
+        permission = edit_ticket_permission(id)
+        if permission.can() or admin_permission.can():
+            ticket.summary = request.form.get('summary')
+            ticket.content = request.form.get('content')
+            ticket.tags = request.form.get('tags')
+            db.session.commit()
 
-    abort(403)
+            return redirect(url_for('ticket_blueprint.ticket',
+                                    ticket_id=id))
+
+        abort(403)
+
+    return render_template('tickets/edit_ticket.html', ticket=ticket)
 
 
 @ticket_blueprint.route('/edit/ticket-comment/<ticket_id>/<comment_id>',
