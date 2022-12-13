@@ -14,7 +14,7 @@
           {% endif %}
           
           {% if is_admin or can_edit_post(post.id).can() %}
-            <a class="text-button" href="{{thread_id}}/{{post.id}}/edit">Edit</a>
+            <a class="text-button" href="/forums/{{thread_id}}/{{post.id}}/edit">Edit</a>
           {% endif %}
         </div>
     </div>
