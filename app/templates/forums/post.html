@@ -2,20 +2,22 @@
 
 {% block beforeTableContent %}
   <div class="post-content">
-    <h2 class="forum-title">{{post.title}}</h2>
-    {% if current_user.is_authenticated %}
-      <div class="flex">
-        {% if is_admin or can_delete_post(post.id).can() %}
-          <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
-            <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-          </form> 
-          <span class="text-button">|</span>
-        {% endif %}
-        
-        {% if is_admin or can_edit_post(post.id).can() %}
-          <a class="text-button" href="{{thread_id}}/{{post.id}}/edit">Edit</a>
-        {% endif %}
-      </div>
+    <div class="post-title flex-between ">
+      <h2 class="forum-title">{{post.title}}</h2>
+      {% if current_user.is_authenticated %}
+        <div class="flex-center">
+          {% if is_admin or can_delete_post(post.id).can() %}
+            <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
+              <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
+            </form> 
+            <span class="text-button">|</span>
+          {% endif %}
+          
+          {% if is_admin or can_edit_post(post.id).can() %}
+            <a class="text-button" href="{{thread_id}}/{{post.id}}/edit">Edit</a>
+          {% endif %}
+        </div>
+    </div>
     {% endif %}
     <p>By {{author}} ({{post.date}})</p>
     <p>{{post.content}}</p>
@@ -30,7 +32,7 @@
         <div class="article-metadata small-padding flex-between">
           <p>by {{comment_authors[comment.author]}} at {{comment.date}}</p>
           {% if current_user.is_authenticated %}
-            <div class="flex">
+            <div class="flex-center">
               {% if is_admin or can_delete_comment(comment.id).can() %}
                 <form class="delete-form" method="post" action="/forums/delete/comment/{{comment.id}}">
                   <button class="text-button" type="submit">Delete</button>
