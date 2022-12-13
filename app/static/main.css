@@ -40,8 +40,10 @@ footer p {
   display: none;
 }
 
-.flex{
+.flex-center{
   display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text-muted {
@@ -235,6 +237,11 @@ article.media p {
 }
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
+}
+
+.post-title {
+  border-bottom: 1px solid black;
+  margin-bottom: 1em;
 }
 
 /* Calendar */
