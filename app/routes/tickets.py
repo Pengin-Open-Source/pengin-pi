@@ -124,16 +124,22 @@ def edit_ticket(id):
     abort(403)
 
 
-@ticket_blueprint.route('/edit/ticket-comment/<id>', methods=['GET', 'POST'])
+@ticket_blueprint.route('/edit/ticket-comment/<ticket_id>/<comment_id>',
+                        methods=['GET', 'POST'])
 @login_required
-def edit_ticket_comment(id):
-    permission = delete_ticket_comment_permission(id)
-    if permission.can() or admin_permission.can():
-        comment = TicketComment.query.filter_by(id=id).first()
-        db.session.delete(comment)
-        db.session.commit()
+def edit_ticket_comment(ticket_id, comment_id):
+    comment = TicketComment.query.filter_by(id=comment_id).first()
 
-        return redirect(url_for('ticket_blueprint.ticket',
-                                ticket_id=comment.ticket_id))
+    if request.method == 'POST':
+        permission = edit_ticket_comment_permission(comment_id)
+        if permission.can() or admin_permission.can():
+            comment.content = request.form.get('content')
+            db.session.commit()
 
-    abort(403)
+            return redirect(url_for("ticket_blueprint.ticket",
+                                    ticket_id=ticket_id))
+
+        abort(403)
+
+    return render_template('tickets/edit_comment.html', comment=comment,
+                           ticket_id=ticket_id)
