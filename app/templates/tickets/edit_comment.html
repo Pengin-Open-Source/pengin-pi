@@ -3,7 +3,7 @@
 {% block oneDivContent %}
   <div class="column">
     <div class="box">
-        <form method="POST" action="/tickets/edit/{{comment.id}}">
+        <form method="POST" action="/tickets/edit/ticket-comment/{{ticket_id}}/{{comment.id}}">
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
                 <textarea
