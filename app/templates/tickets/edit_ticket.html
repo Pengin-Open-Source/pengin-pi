@@ -5,13 +5,13 @@
     <div class="box">
         <form method="POST" action="/tickets/edit/ticket/{{ticket.id}}">
             <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
+                <label for="summary" class="form-label">Summary</label>
                 <input
                 class="form-control"
                 type="text"
-                name="title"
-                id="title"
-                value="{{ticket.title}}">
+                name="summary"
+                id="summary"
+                value="{{ticket.summary}}">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
