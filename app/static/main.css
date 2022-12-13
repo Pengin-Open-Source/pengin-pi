@@ -230,10 +230,12 @@ article.media p {
 
 .alternating-colors-table tr:nth-child(odd) td{
   background-color: #1a6b99;
+  color: white;
 }
 
 .alternating-colors-table tr:nth-child(even) td{
   background-color: white;
+  color: black;
 }
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
