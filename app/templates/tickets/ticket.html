@@ -40,7 +40,7 @@
                   <span class="text-button">|</span>
                 {% endif %}
                 {% if is_admin or can_edit_comment(comment.id).can() %}
-                  <a class="text-button" href="/tickets/edit/ticket-comment/{{comment.id}}">Edit</a>
+                  <a class="text-button" href="/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}">Edit</a>
                 {% endif %}
               </div>
             {% endif %}
