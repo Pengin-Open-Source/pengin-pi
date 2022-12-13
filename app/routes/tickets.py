@@ -2,10 +2,12 @@ from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
 from flask_principal import Permission, RoleNeed
-from app.db.models import TicketComment, TicketForum, Resolution
+from app.db.models import TicketComment, TicketForum, User
 from app.util.security import admin_permission, user_permission,\
                               delete_ticket_comment_permission,\
-                              delete_ticket_permission
+                              delete_ticket_permission,\
+                              edit_ticket_permission,\
+                              edit_ticket_comment_permission
 from app.db import db
 
 
@@ -20,8 +22,6 @@ def tickets():
     # filter by company once company/customer model fixed
 
     return render_template('tickets/ticket_list.html',
-                           is_admin=admin_permission.can(),
-                           can_delete=delete_ticket_permission,
                            title="Tickets", tickets=tickets,
                            current_user=current_user)
 
@@ -34,10 +34,11 @@ def create_ticket():
         summary = request.form.get('summary')
         content = request.form.get('content')
         tags = request.form.get('tags')
+        today = date.today()
         user_id = current_user.id
         new_ticket = TicketForum(summary=summary,
-                                 content=content,
-                                 tags=tags, user_id=user_id)
+                                 content=content, tags=tags,
+                                 user_id=user_id, date=today)
         db.session.add(new_ticket)
         db.session.commit()
 
@@ -63,12 +64,20 @@ def ticket(ticket_id):
                                 ticket_id=ticket_id))
 
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
+    author = User.query.filter_by(id=ticket.user_id).first().name
     comments = TicketComment.query.filter_by(ticket_id=ticket_id).all()
+    comment_authors = {j: User.query.filter_by(id=j).first().name
+                       for j in tuple(set([comment.author_id
+                                           for comment in comments]))}
 
     return render_template('tickets/ticket.html',
-                           is_admin=admin_permission.can(),
-                           can_delete=delete_ticket_comment_permission,
-                           ticket=ticket, comments=comments)
+                           is_admin=admin_permission.can(), author=author,
+                           can_delete_ticket=delete_ticket_permission,
+                           can_delete_comment=delete_ticket_comment_permission,
+                           can_edit_ticket=edit_ticket_permission,
+                           can_edit_comment=edit_ticket_comment_permission,
+                           comment_authors=comment_authors, ticket=ticket,
+                           comments=comments)
 
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
@@ -88,6 +97,36 @@ def delete_ticket(id):
 @ticket_blueprint.route('/delete/ticket-comment/<id>', methods=['POST'])
 @login_required
 def delete_ticket_comment(id):
+    permission = delete_ticket_comment_permission(id)
+    if permission.can() or admin_permission.can():
+        comment = TicketComment.query.filter_by(id=id).first()
+        db.session.delete(comment)
+        db.session.commit()
+
+        return redirect(url_for('ticket_blueprint.ticket',
+                                ticket_id=comment.ticket_id))
+
+    abort(403)
+
+
+@ticket_blueprint.route('/edit/ticket/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_ticket(id):
+    permission = delete_ticket_comment_permission(id)
+    if permission.can() or admin_permission.can():
+        comment = TicketComment.query.filter_by(id=id).first()
+        db.session.delete(comment)
+        db.session.commit()
+
+        return redirect(url_for('ticket_blueprint.ticket',
+                                ticket_id=comment.ticket_id))
+
+    abort(403)
+
+
+@ticket_blueprint.route('/edit/ticket-comment/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_ticket_comment(id):
     permission = delete_ticket_comment_permission(id)
     if permission.can() or admin_permission.can():
         comment = TicketComment.query.filter_by(id=id).first()
