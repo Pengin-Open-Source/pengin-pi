@@ -147,14 +147,14 @@ comments = [
     id(),
     post_id_1,
     "test comment1",
-    "author1",
+    user_id_1,
     date.today()
   ),
   (
     id(),
     post_id_1,
     "test comment2",
-    "author3",
+    user_id_3,
     date.today()
   )
 ]
