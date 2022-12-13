@@ -8,7 +8,8 @@ import app.db.models as model
 from app.db import db
 from app.util.security import edit_post_need, delete_post_need,\
                               edit_comment_need, delete_comment_need,\
-                              delete_ticket_comment_need, delete_ticket_need
+                              delete_ticket_comment_need, delete_ticket_need,\
+                              edit_ticket_comment_need, edit_ticket_need
 
 
 principals = Principal()
@@ -55,10 +56,14 @@ def create_app():
             if hasattr(current_user, 'tickets'):
                 for ticket in current_user.tickets:
                     identity.provides.add(delete_ticket_need(ticket.id))
+                    identity.provides.add(edit_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):
                 for comment in current_user.ticket_comments:
                     identity.provides.add(
                         delete_ticket_comment_need(comment.id)
+                    )
+                    identity.provides.add(
+                        edit_ticket_comment_need(comment.id)
                     )
 
     @app.route('/robots.txt')
