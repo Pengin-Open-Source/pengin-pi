@@ -41,9 +41,11 @@ def create_ticket():
         tags = request.form.get('tags')
         today = date.today()
         user_id = current_user.id
+        resolution_status = 'open'
         new_ticket = TicketForum(summary=summary,
                                  content=content, tags=tags,
-                                 user_id=user_id, date=today)
+                                 user_id=user_id, date=today,
+                                 resolution_status=resolution_status)
         db.session.add(new_ticket)
         db.session.commit()
 
@@ -167,11 +169,10 @@ def edit_ticket_status(ticket_id):
         if permission.can() or admin_permission.can():
             ticket.resolution_status = request.form.get('status')
 
-            # TODO fix this conditional block. It does not set date properly.
             if request.form.get('status') == 'resolved':
-                ticket.resolution_date == date.today()
+                ticket.resolution_date = date.today()
             else:
-                ticket.resolution_date == ''
+                ticket.resolution_date = ''
 
             db.session.commit()
 
