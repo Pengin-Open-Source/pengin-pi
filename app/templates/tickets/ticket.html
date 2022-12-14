@@ -22,6 +22,9 @@
     <p>Date: {{ticket.date}}</p>
     <p>{{ticket.content}}</p>
   </div>
+  <div class="flex-center">
+    <a class="btn btn-primary" href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
+  </div>
 {% endblock %}
 
 {% block tableContent %}
