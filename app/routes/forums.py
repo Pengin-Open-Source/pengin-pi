@@ -32,7 +32,7 @@ def forums():
                           )
         thread_ids.extend(role_thread_ids)
 
-    # Remove duplicates
+    # Removes duplicates. TODO: return in ordered list
     unique_thread_ids = tuple(set(thread_ids))
     for thread_id_tuple in unique_thread_ids:
         thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
@@ -80,6 +80,7 @@ def thread(thread_id):
     return render_template('forums/thread.html',
                            is_admin=admin_permission.can(),
                            can_delete=delete_post_permission,
+                           can_edit=edit_post_permission,
                            thread_id=thread_id, title=thread.name,
                            posts=posts, current_user=current_user)
 
@@ -147,8 +148,11 @@ def post(post_id, thread_id):
                                            for comment in comments]))}
 
     return render_template('forums/post.html', comment_authors=comment_authors,
-                           is_admin=admin_permission.can(),
-                           can_delete=delete_comment_permission,
+                           is_admin=admin_permission.can(), post_id=post_id,
+                           can_delete_comment=delete_comment_permission,
+                           can_edit_comment=edit_comment_permission,
+                           can_delete_post=edit_post_permission,
+                           can_edit_post=edit_post_permission,
                            author=author.name, post=post, comments=comments,
                            thread_id=thread_id, current_user=current_user)
 
@@ -218,3 +222,73 @@ def delete_comment(id):
                                 thread_id=post.thread_id))
 
     abort(403)
+
+
+@forums_blueprint.route('/<thread_id>/<post_id>/edit', methods=['POST', 'GET'])
+@login_required
+@user_permission.require()
+def edit_post(thread_id, post_id):
+    """/forums//<thread_id>/<post_id>/edit
+    Route for authenticated forum post editing
+    Requires: user login, user need OR admin
+    POST Returns:
+        Success Returns:
+            _type_: forums_blueprint.thread
+        Failure Returns:
+            _type_: 403 permissions error
+    GET Returns:
+        _type_: forums/edit_post.html
+    """
+
+    post = ForumPost.query.filter_by(id=post_id).first()
+
+    if request.method == 'POST':
+        permission = edit_post_permission(post_id)
+        if permission.can() or admin_permission.can():
+            post.title = request.form.get('title')
+            post.content = request.form.get('content')
+            post.tags = request.form.get('tags')
+            db.session.commit()
+
+            return redirect(url_for("forums_blueprint.thread",
+                                    thread_id=thread_id))
+
+        abort(403)
+
+    return render_template('forums/edit_post.html', post=post,
+                           thread_id=thread_id, post_id=post_id)
+
+
+@forums_blueprint.route('<thread_id>/<post_id>/<comment_id>/edit',
+                        methods=['POST', 'GET'])
+@login_required
+@user_permission.require()
+def edit_comment(thread_id, post_id, comment_id):
+    """/forums/<comment_id>/edit
+    Route for authenticated forum comment editing
+    Requires: user login, user need OR admin
+    POST Returns:
+        Success Returns:
+            _type_: forums_blueprint.post
+        Failure Returns:
+            _type_: 403 permissions error
+    GET Returns:
+        _type_: forums/edit_comment.html
+    """
+
+    comment = ForumComment.query.filter_by(id=comment_id).first()
+
+    if request.method == 'POST':
+        permission = edit_comment_permission(comment_id)
+        if permission.can() or admin_permission.can():
+            comment.content = request.form.get('content')
+            db.session.commit()
+
+            return redirect(url_for("forums_blueprint.post",
+                                    post_id=post_id, thread_id=thread_id))
+
+        abort(403)
+
+    return render_template('forums/edit_comment.html', comment=comment,
+                           post_id=post_id, thread_id=thread_id,
+                           comment_id=comment_id)
