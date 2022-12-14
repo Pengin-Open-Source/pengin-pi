@@ -14,10 +14,8 @@ class TicketForum(db.Model):
     content = db.Column(db.String())
     tags = db.Column(db.String())
     date = db.Column(db.String())
-    resolution_id = db.Column(db.String(), db.ForeignKey('resolution.id',
-                                                         ondelete='CASCADE'))
-    resolution_date = db.Column(db.String(), db.ForeignKey('resolution.date',
-                                                           ondelete='CASCADE'))
+    resolution_status = db.Column(db.String())
+    resolution_date = db.Column(db.String())
 
 
 class Resolution(db.Model):
