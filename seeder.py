@@ -315,12 +315,16 @@ tickets = [
     user_id_1,
     "Ticket 1",
     "something broke please help me",
+    "open",
+    "",
     date.today()
   ),
   (
     ticket_id_2,
     user_id_1,
     "Ticket 2",
+    "open",
+    "",
     "something broke please help me",
     date.today()
   ),
@@ -328,6 +332,8 @@ tickets = [
     ticket_id_3,
     user_id_1,
     "Ticket 3",
+    "closed",
+    "",
     "something broke please help me",
     date.today()
   ),
@@ -335,6 +341,8 @@ tickets = [
     ticket_id_4,
     user_id_1,
     "Ticket 4",
+    "resolved",
+    date.today(),
     "something broke please help me",
     date.today()
   ),
@@ -342,6 +350,8 @@ tickets = [
     ticket_id_5,
     user_id_1,
     "Ticket 5",
+    "resolved",
+    date.today(),
     "something broke please help me",
     date.today()
   )
@@ -446,8 +456,9 @@ events = [
   )
 ]
 
-cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary, content,
-                date) VALUES(?,?,?,?,?)""", tickets)
+cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
+                resoultion_status, resolution_date, content, date)
+                VALUES(?,?,?,?,?,?,?)""", tickets)
 cur.executemany("""INSERT INTO ticket_comment (id, ticket_id, author_id, date,
                 content) VALUES(?,?,?,?,?)""", ticket_comments)
 cur.executemany("""INSERT INTO forum_post (id, title, content, thread_id,
