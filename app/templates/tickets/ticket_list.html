@@ -8,6 +8,7 @@
   {% for ticket in tickets %}
   <tr><td class="flex-between">
     <a class="small-padding alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
+    <p class="small-padding flex-center">Resolution Status: {{ticket.resolution_status|upper}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}
