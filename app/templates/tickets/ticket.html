@@ -18,7 +18,7 @@
         </div>
       {% endif %}
     </div>
-    <p>Status: {{ticket.resolution_status|upper}}</p>
+    <p>Status: {{ticket.resolution_status|upper}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date}}{% endif %}</p>
     <p>By: {{author}}</p>
     <p>Date: {{ticket.date}}</p>
     <p>{{ticket.content}}</p>

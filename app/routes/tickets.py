@@ -161,6 +161,11 @@ def edit_ticket_status(ticket_id):
         permission = edit_ticket_permission(ticket)
         if permission.can() or admin_permission.can():
             ticket.resolution_status = request.form.get('status')
+
+            if ticket.resolution_status == 'resolved':
+                ticket.resolution_date == date.today()
+            else:
+                ticket.resolution_date == ''
             db.session.commit()
 
             return redirect(url_for("ticket_blueprint.ticket",
