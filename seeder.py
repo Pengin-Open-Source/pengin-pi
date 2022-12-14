@@ -314,9 +314,9 @@ tickets = [
     ticket_id_1,
     user_id_1,
     "Ticket 1",
-    "something broke please help me",
     "open",
     "",
+    "something broke please help me",
     date.today()
   ),
   (
