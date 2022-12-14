@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
-from flask_principal import Permission, RoleNeed
 from app.db.models import TicketComment, TicketForum, User
 from app.util.security import admin_permission, user_permission,\
                               delete_ticket_comment_permission,\
