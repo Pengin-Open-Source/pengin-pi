@@ -1,7 +1,15 @@
 {% extends "forums/alternating_color_table.html" %}
 
 {% block beforeTableContent %}
-  <h2 class="forum-title">{{title}}</h2>
+  <div class="flex-between">
+    <h2 class="forum-title">{{title}}</h2>
+    <div class="flex-center">
+      <a class="text-button" href="/tickets?status=all">all</a>|
+      <a class="text-button" href="/tickets?status=resolved">resolved</a>|
+      <a class="text-button" href="/tickets?status=open">open</a>|
+      <a class="text-button" href="/tickets?status=closed">closed</a>
+    </div>
+  </div> 
 {% endblock %}
 
 {% block tableContent %}
