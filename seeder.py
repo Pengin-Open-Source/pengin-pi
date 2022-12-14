@@ -457,7 +457,7 @@ events = [
 ]
 
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
-                resoultion_status, resolution_date, content, date)
+                resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
 cur.executemany("""INSERT INTO ticket_comment (id, ticket_id, author_id, date,
                 content) VALUES(?,?,?,?,?)""", ticket_comments)
