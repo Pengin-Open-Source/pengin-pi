@@ -18,8 +18,13 @@ ticket_blueprint = Blueprint('ticket_blueprint', __name__,
 @ticket_blueprint.route("/")
 @login_required
 def tickets():
-    tickets = TicketForum.query.filter_by().all()
-    # filter by company once company/customer model fixed
+    status = request.args.get('status')
+
+    if status == 'all':
+        tickets = TicketForum.query.filter_by().all()
+        # filter by company once company/customer model fixed
+    else:
+        tickets = TicketForum.query.filter_by(resolution_status=status).all()
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
@@ -162,10 +167,12 @@ def edit_ticket_status(ticket_id):
         if permission.can() or admin_permission.can():
             ticket.resolution_status = request.form.get('status')
 
-            if ticket.resolution_status == 'resolved':
+            # TODO fix this conditional block. It does not set date properly.
+            if request.form.get('status') == 'resolved':
                 ticket.resolution_date == date.today()
             else:
                 ticket.resolution_date == ''
+
             db.session.commit()
 
             return redirect(url_for("ticket_blueprint.ticket",
