@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
 from flask_login import login_required, current_user
-from flask_principal import Permission, RoleNeed
 from app.db.models import TicketComment, TicketForum, User
 from app.util.security import admin_permission, user_permission,\
                               delete_ticket_comment_permission,\
@@ -18,8 +17,13 @@ ticket_blueprint = Blueprint('ticket_blueprint', __name__,
 @ticket_blueprint.route("/")
 @login_required
 def tickets():
-    tickets = TicketForum.query.filter_by().all()
-    # filter by company once company/customer model fixed
+    status = request.args.get('status')
+
+    if status == 'all':
+        tickets = TicketForum.query.filter_by().all()
+        # filter by company once company/customer model fixed
+    else:
+        tickets = TicketForum.query.filter_by(resolution_status=status).all()
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
@@ -36,9 +40,11 @@ def create_ticket():
         tags = request.form.get('tags')
         today = date.today()
         user_id = current_user.id
+        resolution_status = 'open'
         new_ticket = TicketForum(summary=summary,
                                  content=content, tags=tags,
-                                 user_id=user_id, date=today)
+                                 user_id=user_id, date=today,
+                                 resolution_status=resolution_status)
         db.session.add(new_ticket)
         db.session.commit()
 
@@ -149,3 +155,28 @@ def edit_ticket_comment(ticket_id, comment_id):
 
     return render_template('tickets/edit_comment.html', comment=comment,
                            ticket_id=ticket_id)
+@ticket_blueprint.route('/edit-status/<ticket_id>',
+                        methods=['GET', 'POST'])
+@login_required
+def edit_ticket_status(ticket_id):
+    ticket = TicketForum.query.filter_by(id=ticket_id).first()
+
+    if request.method == 'POST':
+        permission = edit_ticket_permission(ticket)
+        if permission.can() or admin_permission.can():
+            ticket.resolution_status = request.form.get('status')
+
+            if request.form.get('status') == 'resolved':
+                ticket.resolution_date = date.today()
+            else:
+                ticket.resolution_date = ''
+
+            db.session.commit()
+
+            return redirect(url_for("ticket_blueprint.ticket",
+                                    ticket_id=ticket_id))
+
+        abort(403)
+
+    return render_template('tickets/edit_status.html', ticket_id=ticket_id)
+

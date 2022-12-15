@@ -1,13 +1,22 @@
 {% extends "forums/alternating_color_table.html" %}
 
 {% block beforeTableContent %}
-  <h2 class="forum-title">{{title}}</h2>
+  <div class="flex-between">
+    <h2 class="forum-title">{{title}}</h2>
+    <div class="flex-center">
+      <a class="text-button" href="/tickets?status=all">all</a>|
+      <a class="text-button" href="/tickets?status=resolved">resolved</a>|
+      <a class="text-button" href="/tickets?status=open">open</a>|
+      <a class="text-button" href="/tickets?status=closed">closed</a>
+    </div>
+  </div> 
 {% endblock %}
 
 {% block tableContent %}
   {% for ticket in tickets %}
   <tr><td class="flex-between">
     <a class="small-padding alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
+    <p class="small-padding flex-center">Resolution Status: {{ticket.resolution_status|upper}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}
