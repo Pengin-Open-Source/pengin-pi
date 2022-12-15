@@ -155,6 +155,8 @@ def edit_ticket_comment(ticket_id, comment_id):
 
     return render_template('tickets/edit_comment.html', comment=comment,
                            ticket_id=ticket_id)
+
+
 @ticket_blueprint.route('/edit-status/<ticket_id>',
                         methods=['GET', 'POST'])
 @login_required
@@ -179,4 +181,3 @@ def edit_ticket_status(ticket_id):
         abort(403)
 
     return render_template('tickets/edit_status.html', ticket_id=ticket_id)
-
