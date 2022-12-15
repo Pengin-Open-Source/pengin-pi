@@ -6,7 +6,8 @@ from app.db.models import User, UserRoles, Role, BlogPost, Company,\
                           Customer, Product, TicketComment, TicketForum,\
                           Resolution, Event, ThreadRoles
 
-from app.admin.views import SecureModelView, FixView
+from app.admin.views import SecureModelView, FixView, admin_blueprint,\
+                            admin_permission
 
 admin = Admin()
 
