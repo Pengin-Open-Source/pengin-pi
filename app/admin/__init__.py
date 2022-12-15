@@ -6,8 +6,9 @@ from app.db.models import User, UserRoles, Role, BlogPost, Company,\
                           Customer, Product, TicketComment, TicketForum,\
                           Resolution, Event, ThreadRoles
 
-from app.admin.views import SecureModelView, FixView, admin_blueprint,\
-                            admin_permission
+from app.admin.views import SecureModelView, UserRolesView, admin_blueprint,\
+                            admin_permission, CompanyMembersView,\
+                            ThreadRolesView
 
 admin = Admin()
 
@@ -28,6 +29,6 @@ admin.add_view(SecureModelView(TicketComment, db.session))
 admin.add_view(SecureModelView(Resolution, db.session))
 admin.add_view(SecureModelView(Event, db.session))
 
-admin.add_view(FixView(CompanyMembers, db.session))
-admin.add_view(FixView(UserRoles, db.session))
-admin.add_view(FixView(ThreadRoles, db.session))
+admin.add_view(CompanyMembersView(CompanyMembers, db.session))
+admin.add_view(UserRolesView(UserRoles, db.session))
+admin.add_view(ThreadRolesView(ThreadRoles, db.session))
