@@ -1,0 +1,9 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+<div class="post-content">
+  <h2 class="forum-title">{{event.title}}</h2>
+  <p>{{event.start_date}}@{{event.start_time}} to {{event.end_date}}@{{event.end_time}}</p>
+  <p>{{event.description}}</p>
+</div>
+{% endblock %}

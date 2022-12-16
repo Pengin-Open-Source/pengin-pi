@@ -1,19 +1,20 @@
 from flask import Flask, request, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
-from flask_principal import Principal, UserNeed, RoleNeed, identity_loaded, AnonymousIdentity
-from flask_admin import Admin
+from flask_principal import Principal, UserNeed, RoleNeed, \
+    identity_loaded, AnonymousIdentity
+from app.admin import admin_blueprint, admin
+import app.routes as route
+import app.db.models as model
+from app.db import db
+from app.util.security import edit_post_need, delete_post_need,\
+                              edit_comment_need, delete_comment_need,\
+                              delete_ticket_comment_need, delete_ticket_need,\
+                              edit_ticket_comment_need, edit_ticket_need
 
-# init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy()
 
-# init Principals so we can use it later
 principals = Principal()
-# init login manager so we can use it later
 login_manager = LoginManager()
-#flask admin
 
-admin = Admin()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
@@ -21,58 +22,63 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
-    db.init_app(app)
-    login_manager.init_app(app) #login manager
-    principals.init_app(app) #principals
+    model.db.init_app(app)
+    login_manager.init_app(app)
+    principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
-    
-    from .models import User
+    with app.app_context():
+        db.create_all()
 
     @login_manager.user_loader
     def load_user(user_id):
-        # since the user_id is just the primary key of our user table, use it in the query for the user
-        return User.query.get(int(user_id))
+        # since the user_id is just the primary key of our user table,
+        # use it in the query for the user
+        return model.User.query.get(user_id)
 
-      #Identity loaded when user logs in or logs out    
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         if not isinstance(identity, AnonymousIdentity):
             identity.user = current_user
-            # Add the UserNeed to the identity
             if hasattr(current_user, 'id'):
                 identity.provides.add(UserNeed(current_user.id))
-            # identity with the roles that the user provides
             if hasattr(current_user, 'roles'):
                 for role in current_user.roles:
                     identity.provides.add(RoleNeed(role.name))
+            if hasattr(current_user, 'posts'):
+                for post in current_user.posts:
+                    identity.provides.add(edit_post_need(post.id))
+                    identity.provides.add(delete_post_need(post.id))
+            if hasattr(current_user, 'comments'):
+                for comment in current_user.comments:
+                    identity.provides.add(edit_comment_need(comment.id))
+                    identity.provides.add(delete_comment_need(comment.id))
+            if hasattr(current_user, 'tickets'):
+                for ticket in current_user.tickets:
+                    identity.provides.add(delete_ticket_need(ticket.id))
+                    identity.provides.add(edit_ticket_need(ticket.id))
+            if hasattr(current_user, 'ticket_comments'):
+                for comment in current_user.ticket_comments:
+                    identity.provides.add(
+                        delete_ticket_comment_need(comment.id)
+                    )
+                    identity.provides.add(
+                        edit_ticket_comment_need(comment.id)
+                    )
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
     def static_from_root():
         return send_from_directory(app.static_folder, request.path[1:])
 
-    # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
-
-    # blueprint for blogpost routes in app
-    from .blogPosts import blogPosts as blogPosts_blueprint
-    app.register_blueprint(blogPosts_blueprint)
-
-    # blueprint for non-auth parts of app
-    from .routes import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-    
-    # blueprint for admin
-    from .admin import admin_bpt as admin_blueprint
+    app.register_blueprint(route.auth_blueprint)
+    app.register_blueprint(route.blogPosts_blueprint)
+    app.register_blueprint(route.main_blueprint)
     app.register_blueprint(admin_blueprint)
-
-    from .profiles import profiles as profile_blueprint
-    app.register_blueprint(profile_blueprint)
-    
-    from .profiles import company_info as company_blueprint
-    app.register_blueprint(company_blueprint)
+    app.register_blueprint(route.profile_blueprint)
+    app.register_blueprint(route.company_blueprint)
+    app.register_blueprint(route.forums_blueprint)
+    app.register_blueprint(route.ticket_blueprint)
+    app.register_blueprint(route.calendar_blueprint)
 
     return app
