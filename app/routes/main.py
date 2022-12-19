@@ -13,8 +13,3 @@ def home():
 @main.route("/about")
 def about():
     return render_template('about/about.html', title='about')
-
-
-@main.route("/products")
-def products():
-    return render_template('products/products.html', title='products')
