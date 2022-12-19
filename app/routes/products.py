@@ -28,7 +28,17 @@ def product(product_id):
 @admin_permission.require()
 def create_product():
     if request.method == 'POST':
-        stuff = stuff
+        name = request.form.get('name')
+        price = request.form.get('price')
+        description = request.form.get('description')
+        url = 'images/test.png'
+        product = Product(name=name, price=price, description=description,
+                          card_image_url=url, stock_image_url=url)
+
+        db.session.add(product)
+        db.session.commit()
+
+        return redirect(url_for('product_blueprint.products'))
 
     return render_template('products/product_create.html')
 
@@ -52,7 +62,7 @@ def edit_product(id):
 
 @product_blueprint.route('/delete/<id>', methods=['POST'])
 @login_required
-@admin_permission.require()
+@user_permission.require()
 def delete_product(id):
     product = Product.query.filter_by(id=id).first()
     db.session.delete(product)
