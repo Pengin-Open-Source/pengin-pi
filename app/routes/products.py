@@ -62,7 +62,7 @@ def edit_product(id):
 
 @product_blueprint.route('/delete/<id>', methods=['POST'])
 @login_required
-@user_permission.require()
+@admin_permission.require()
 def delete_product(id):
     product = Product.query.filter_by(id=id).first()
     db.session.delete(product)
