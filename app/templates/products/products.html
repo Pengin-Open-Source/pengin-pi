@@ -1,31 +1,20 @@
-{% extends "layout/oneThirdDivs.html" %}
+{% extends "layout/oneDiv.html" %}
 
-{% block oneThirdContentLeft %}
-<article class="media content-section">
-    <div class="media-body">
-      <h2><a class="article-title" href="#">Product 1</a></h2>
-      <p class="article-content">This is a product.</p>
-    </div>
-</article>
+<h2 class="forum-title">Products</h2>
 
-{% endblock %}
+{% block oneDivContent %}
+  <div class="product-grid">
+    {% for product in products %}
+    <a href="/products/{{product.id}}">
+      <div class="product-item">
+        <h3>{{product.name}} - {{product.price}}</h3>
+        <img src="{{ url_for('static', filename= product.card_image_url ) }}" alt="Product Image">
+      </div>    
+    </a>
+    {% endfor %}
+  </div>
 
-{% block oneThirdContentMid %}
-<article class="media content-section">
-    <div class="media-body">
-      <h2><a class="article-title" href="#">Product 2</a></h2>
-      <p class="article-content">This is a product 2.</p>
-    </div>
-</article>
+  <a class="btn btn-primary" href="/products/create_product">New Product</a>
+{% endblock %} 
 
-{% endblock %}
 
-{% block oneThirdContentRight %}
-<article class="media content-section">
-    <div class="media-body">
-      <h2><a class="article-title" href="#">Product 3</a></h2>
-      <p class="article-content">This is a product 3.</p>
-    </div>
-</article>
-
-{% endblock %}
