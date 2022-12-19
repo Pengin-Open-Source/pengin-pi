@@ -41,3 +41,14 @@ def edit_product():
         stuff = stuff
 
     return render_template('products/product_edit.html')
+
+
+@product_blueprint.route('/delete/<id>', methods=['POST'])
+@login_required
+@admin_permission.require()
+def delete_product(id):
+    product = Product.query.filter_by(id=id).first()
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for('product_blueprint.products'))
