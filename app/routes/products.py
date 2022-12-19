@@ -33,14 +33,21 @@ def create_product():
     return render_template('products/product_create.html')
 
 
-@product_blueprint.route('/edit', methods=['GET', 'POST'])
+@product_blueprint.route('/edit/<id>', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
-def edit_product():
-    if request.method == 'POST':
-        stuff = stuff
+def edit_product(id):
+    product = Product.query.filter_by(id=id).first()
 
-    return render_template('products/product_edit.html')
+    if request.method == 'POST':
+        product.name = request.form.get('name')
+        product.price = request.form.get('price')
+        product.description = request.form.get('description')
+        db.session.commit()
+
+        return redirect(url_for('product_blueprint.product', product_id=id))
+
+    return render_template('products/product_edit.html', product=product)
 
 
 @product_blueprint.route('/delete/<id>', methods=['POST'])
