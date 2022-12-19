@@ -456,6 +456,39 @@ events = [
   )
 ]
 
+products = [
+  (
+    id(),
+    'Test Product 1',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 2',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 3',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  )
+]
+
+cur.executemany("""INSERT INTO product (id, name, description,
+                price, article, card_image_url, stock_image_url)
+                VALUES(?,?,?,?,?,?,?)""")
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
