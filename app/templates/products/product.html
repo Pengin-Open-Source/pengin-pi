@@ -7,5 +7,6 @@
     <p>{{product.description}}</p>
     <img src="{{ url_for('static', filename= product.stock_image_url ) }}" alt="Product Image">
   </div>
-  <a class="btn btn-primary" href="/products/edit">Edit Product</a>
+  <a class="btn btn-primary" href="/products/edit/{{product.id}}">Edit Product</a>
+  <a class="btn btn-primary" href="/products/delete/{{product.id}}">Delete Product</a>
 {% endblock %} 
