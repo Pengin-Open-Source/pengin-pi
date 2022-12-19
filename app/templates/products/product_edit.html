@@ -1,0 +1,38 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+  <div class="column">
+    <div class="box">
+        <form method="POST" action="/products/edit/{{product.id}}">
+            <div class="mb-3">
+                <label for="name" class="form-label">Product Name</label>
+                <input
+                class="form-control"
+                type="text"
+                name="name"
+                id="name"
+                value="{{product.name}}"/>
+            </div>
+            <div class="mb-2">
+              <label for="price" class="form-label">Price</label>
+              <input
+              class="form-control"
+              type="text"
+              name="price"
+              id="price"
+              value="{{product.price}}"/>
+          </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                class="form-control"
+                name="description"
+                id="description"
+                >{{product.description}}</textarea>
+            </div>
+
+            <button class="btn btn-primary">Edit Product</button>
+        </form>
+    </div>
+  </div>
+{% endblock %}
