@@ -483,12 +483,66 @@ products = [
     lorem,
     '/app/images/test.png',
     '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 4',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 5',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 6',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 7',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 8',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 9',
+    lorem,
+    '$1',
+    lorem,
+    '/app/images/test.png',
+    '/app/images/test.png'
   )
 ]
 
 cur.executemany("""INSERT INTO product (id, name, description,
                 price, article, card_image_url, stock_image_url)
-                VALUES(?,?,?,?,?,?,?)""")
+                VALUES(?,?,?,?,?,?,?)""", products)
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
