@@ -11,10 +11,10 @@ file_upload_blueprint = Blueprint('file_upload_blueprint',
 
 @file_upload_blueprint.route("/", methods=["POST"])
 def upload_file():
-    if "user_file" not in request.files:
-        return "No user_file key in request.files"
+    if "file" not in request.files:
+        return "No file key in request.files"
 
-    file = request.files["user_file"]
+    file = request.files["file"]
 
     if file.filename == "":
         return "Please select a file"
