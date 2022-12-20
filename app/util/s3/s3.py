@@ -17,8 +17,7 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
             bucket_name,
             file.filename,
             ExtraArgs={
-                "ACL": acl,
-                "ContentType": file.png
+                "ACL": acl
             }
         )
     except Exception as e:
