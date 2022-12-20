@@ -1,7 +1,7 @@
 import boto3
 from app import create_app
 
-app = create_app
+app = create_app()
 
 s3 = boto3.client(
    "s3",
