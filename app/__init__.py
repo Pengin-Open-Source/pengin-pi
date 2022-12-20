@@ -25,12 +25,6 @@ def create_app():
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-    # S3 Config
-    app.config['S3_BUCKET'] = "S3_BUCKET_NAME"
-    app.config['S3_KEY'] = "AWS_ACCESS_KEY"
-    app.config['S3_SECRET'] = "AWS_ACCESS_SECRET"
-    app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format("")
-
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
