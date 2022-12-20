@@ -1,12 +1,10 @@
 import boto3
-from app import create_app
-
-app = create_app()
+import os
 
 s3 = boto3.client(
    "s3",
-   aws_access_key_id=app.config['S3_KEY'],
-   aws_secret_access_key=app.config['S3_SECRET']
+   aws_access_key_id=os.getenv('S3_KEY'),
+   aws_secret_access_key=os.getenv('S3_SECRET')
 )
 
 
@@ -23,4 +21,4 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
     except Exception as e:
         print('Exception:' + e)
         return e
-    return "{}{}".format(app.config["S3_LOCATION"], file.filename)
+    return "{}{}".format(os.getenv("S3_LOCATION"), file.filename)
