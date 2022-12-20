@@ -18,15 +18,26 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
+
+    # SQLAlchemy Config
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+    # S3 Config
+
+    app.config['S3_BUCKET'] = "S3_BUCKET_NAME"
+    app.config['S3_KEY'] = "AWS_ACCESS_KEY"
+    app.config['S3_SECRET'] = "AWS_ACCESS_SECRET"
+    app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format("")
+
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
+
     with app.app_context():
         db.create_all()
 
