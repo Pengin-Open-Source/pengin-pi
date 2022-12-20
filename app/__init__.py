@@ -26,7 +26,6 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
     # S3 Config
-
     app.config['S3_BUCKET'] = "S3_BUCKET_NAME"
     app.config['S3_KEY'] = "AWS_ACCESS_KEY"
     app.config['S3_SECRET'] = "AWS_ACCESS_SECRET"
