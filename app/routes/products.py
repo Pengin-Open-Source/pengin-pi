@@ -3,6 +3,9 @@ from flask_login import login_required
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Product
+from app.util.s3 import upload_file_to_s3
+from werkzeug.utils import secure_filename
+import os
 
 product_blueprint = Blueprint('product_blueprint',
                               __name__, url_prefix="/products")
@@ -68,3 +71,26 @@ def delete_product(id):
     db.session.commit()
 
     return redirect(url_for('product_blueprint.products'))
+
+
+@product_blueprint.route('/upload/<id>', methods=['GET', 'POST'])
+def upload_file(id):
+    if request.method == 'POST':
+        if "file" not in request.files:
+            return "No file key in request.files"
+
+        file = request.files["file"]
+
+        if file.filename == "":
+            return "Please select a file"
+
+        if file:
+            file.filename = secure_filename(file.filename)
+            output = upload_file_to_s3(file, os.getenv("S3_BUCKET"))
+            product = Product.query.filter_by().first()
+            return str(output)
+
+        else:
+            return redirect("/")
+
+    return render_template('products/product_image_upload.html')
