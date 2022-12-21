@@ -59,7 +59,7 @@ def create_product():
 
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            small_output = upload_file_to_s3(large_file,
+            small_output = upload_file_to_s3(small_file,
                                              os.getenv("S3_BUCKET"))
             small_url = small_output
 
@@ -84,6 +84,39 @@ def edit_product(id):
         product.name = request.form.get('name')
         product.price = request.form.get('price')
         product.description = request.form.get('description')
+
+        # Image upload handling
+        if "file-large" not in request.files:
+            large_url = '/static/images/test.png'
+
+        large_file = request.files["file-large"]
+
+        if large_file.filename == "":
+            large_url = '/static/images/test.png'
+
+        if large_file:
+            large_file.filename = secure_filename(large_file.filename)
+            large_output = upload_file_to_s3(large_file,
+                                             os.getenv("S3_BUCKET"))
+            large_url = large_output
+
+        if "file-small" not in request.files:
+            small_url = '/static/images/test.png'
+
+        small_file = request.files["file-small"]
+
+        if small_file.filename == "":
+            small_url = '/static/images/test.png'
+
+        if small_file:
+            small_file.filename = secure_filename(small_file.filename)
+            small_output = upload_file_to_s3(small_file,
+                                             os.getenv("S3_BUCKET"))
+            small_url = small_output
+
+        product.stock_image_url = large_url
+        product.card_image_url = small_url
+
         db.session.commit()
 
         return redirect(url_for('product_blueprint.product', product_id=id))
