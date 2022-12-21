@@ -8,5 +8,7 @@
     <img src="{{ url_for('static', filename= product.stock_image_url ) }}" alt="Product Image">
   </div>
   <a class="btn btn-primary" href="/products/edit/{{product.id}}">Edit Product</a>
-  <a class="btn btn-primary" href="/products/delete/{{product.id}}">Delete Product</a>
+  <form class="margin-top" method="post" action="/products/delete/{{product.id}}">
+    <button class="btn btn-primary" type="submit">Delete</button>
+  </form>
 {% endblock %} 
