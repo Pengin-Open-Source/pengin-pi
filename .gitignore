@@ -13,3 +13,4 @@ app/db.sqlite
 instance
 .vscode
 .env
+/env
