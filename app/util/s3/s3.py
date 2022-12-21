@@ -8,17 +8,14 @@ s3 = boto3.client(
 )
 
 
-def upload_file_to_s3(file, bucket_name, acl="public-read"):
+def upload_file_to_s3(file, bucket_name):
     try:
         s3.upload_fileobj(
             file,
             bucket_name,
             file.filename,
-            ExtraArgs={
-                "ACL": acl
-            }
         )
     except Exception as e:
-        print('Exception:' + e)
+        print('Exception:' + str(e))
         return e
     return "{}{}".format(os.getenv("S3_LOCATION"), file.filename)
