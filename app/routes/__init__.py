@@ -7,7 +7,6 @@ from app.routes.companies import company_info as company_blueprint
 from app.routes.tickets import ticket_blueprint
 from app.routes.calendar import calendar_blueprint
 from app.routes.products import product_blueprint
-from app.routes.file_upload import file_upload_blueprint
 
 
 # Blueprints variable is a list of blueprints in this current directory
