@@ -3,7 +3,6 @@ from flask_login import LoginManager, current_user
 from flask_principal import Principal, UserNeed, RoleNeed, \
     identity_loaded, AnonymousIdentity
 from app.admin import admin_blueprint, admin
-#from app.routes import routes
 import app.routes as route
 import app.db.models as model
 from app.db import db
@@ -72,11 +71,10 @@ def create_app():
     def static_from_root():
         return send_from_directory(app.static_folder, request.path[1:])
 
-    #Register all routes as blueprints
+    # Register all routes as blueprints
     for blueprint in route.blueprints:
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-
 
     return app
