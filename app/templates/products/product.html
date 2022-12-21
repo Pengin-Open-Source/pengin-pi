@@ -5,7 +5,7 @@
   <div class="product-display">
     <p>{{product.price}}</p>
     <p>{{product.description}}</p>
-    <img src="{{ url_for('static', filename= product.stock_image_url ) }}" alt="Product Image">
+    <img src="{{product.stock_image_url}}" alt="Product Image">
   </div>
   <a class="btn btn-primary" href="/products/edit/{{product.id}}">Edit Product</a>
   <form class="margin-top" method="post" action="/products/delete/{{product.id}}">
