@@ -3,7 +3,7 @@
 {% block oneDivContent %}
   <div class="column">
     <div class="box">
-        <form method="POST" action="/products/edit/{{product.id}}">
+        <form method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
           <div class="flex-between">
             <div class="mb-3">
               <label for="name" class="form-label">Product Name</label>
@@ -33,25 +33,20 @@
               >{{product.description}}</textarea>
           </div>
           <div class="flex-between">
-            <div>
-              <p>Large Image</p>
-              <img src="{{product.stock_image_url}}" alt="Stock Image">
-              <form method="POST" action="/products/upload-large/{{product.id}}" enctype=multipart/form-data>
-                <input type=file name=file>
-                <input type=submit value=Upload>
-              </form>
+            <div class="mb-3">
+              <label for="file-large" class="form-label">Large Image</label>
+              <input type="file" name="file-large">
+              <p>Current:</p>
+              <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
             </div>
-            <div>
-              <p>Small Image</p>
-              <img src="{{product.card_image_url}}" alt="Card Image">
-              <form method="POST" action="/products/upload-small/{{product.id}}" enctype=multipart/form-data>
-                <input type=file name=file>
-                <input type=submit value=Upload>
-              </form>
+            <div class="mb-3">
+              <label for="file-small" class="form-label">Small Image</label>
+              <input type="file" name="file-small">
+              <p>Current:</p>
+              <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
             </div>
           </div>
             <button class="btn btn-primary">Edit Product</button>
-            <a class="btn btn-primary" href="/products/upload/{{product.id}}">Upload Image</a>
         </form>
     </div>
   </div>
