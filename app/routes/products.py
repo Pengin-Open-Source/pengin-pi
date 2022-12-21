@@ -77,20 +77,31 @@ def delete_product(id):
 def upload_file(id):
     if request.method == 'POST':
         if "file" not in request.files:
+
             return "No file key in request.files"
 
         file = request.files["file"]
 
         if file.filename == "":
+
             return "Please select a file"
 
         if file:
             file.filename = secure_filename(file.filename)
             output = upload_file_to_s3(file, os.getenv("S3_BUCKET"))
-            product = Product.query.filter_by().first()
-            return str(output)
+
+            product = Product.query.filter_by(id=id).first()
+            product.card_image_url = output
+            product.stock_image_url = output
+
+            db.session.commit()
+
+            return redirect(url_for('product_blueprint.product',
+                                    product_id=id))
 
         else:
-            return redirect("/")
+
+            return redirect(url_for('product_blueprint.product',
+                                    product_id=id))
 
     return render_template('products/product_image_upload.html')
