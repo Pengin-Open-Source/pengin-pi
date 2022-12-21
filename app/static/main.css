@@ -314,6 +314,8 @@ article.media p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .product-item:hover {
@@ -324,8 +326,6 @@ article.media p {
   height: 50%;
   width: 50%;
 }
-
-/* Product */
 
 .product-display {
   background-color: var(--main-blue);
@@ -345,6 +345,12 @@ article.media p {
 }
 
 .upload-image {
-  height: 80%;
-  width: 80%;
+  max-width:100%;
+  max-height:100%;
+  margin:1em;
+}
+
+.upload-image-container {
+  height: 50%;
+  width: 50%;
 }

@@ -32,21 +32,26 @@
               id="description"
               >{{product.description}}</textarea>
           </div>
-          <div class="flex-between">
-            <div class="mb-3">
+          <div class="flex-between ">
+            <div class="mb-3 upload-image-container">
               <label for="file-large" class="form-label">Large Image</label>
               <input type="file" name="file-large">
-              <p>Current:</p>
-              <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
+              <div class="upload-image-container">
+                <p>Current:</p>
+                <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
+              </div>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 upload-image-container">
               <label for="file-small" class="form-label">Small Image</label>
               <input type="file" name="file-small">
-              <p>Current:</p>
-              <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
+              <div class="upload-image-container">
+                <p>Current:</p>
+                <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
+              </div>
+
             </div>
           </div>
-            <button class="btn btn-primary">Edit Product</button>
+            <button class="margin-top btn btn-primary">Edit Product</button>
         </form>
     </div>
   </div>
