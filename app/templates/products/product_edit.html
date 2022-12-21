@@ -24,15 +24,32 @@
               value="{{product.price}}"/>
             </div>
           </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea
-                class="form-control"
-                name="description"
-                id="description"
-                >{{product.description}}</textarea>
+          <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+              class="form-control"
+              name="description"
+              id="description"
+              >{{product.description}}</textarea>
+          </div>
+          <div class="flex-between">
+            <div>
+              <p>Large Image</p>
+              <img src="{{product.stock_image_url}}" alt="Stock Image">
+              <form method="POST" action="/products/upload-large/{{product.id}}" enctype=multipart/form-data>
+                <input type=file name=file>
+                <input type=submit value=Upload>
+              </form>
             </div>
-
+            <div>
+              <p>Small Image</p>
+              <img src="{{product.card_image_url}}" alt="Card Image">
+              <form method="POST" action="/products/upload/{{product.id}}" enctype=multipart/form-data>
+                <input type=file name=file>
+                <input type=submit value=Upload>
+              </form>
+            </div>
+          </div>
             <button class="btn btn-primary">Edit Product</button>
             <a class="btn btn-primary" href="/products/upload/{{product.id}}">Upload Image</a>
         </form>
