@@ -33,7 +33,7 @@ def create_product():
         name = request.form.get('name')
         price = request.form.get('price')
         description = request.form.get('description')
-        url = 'images/test.png'
+        url = '/static/images/test.png'
         product = Product(name=name, price=price, description=description,
                           card_image_url=url, stock_image_url=url)
 
