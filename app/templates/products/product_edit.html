@@ -44,7 +44,7 @@
             <div>
               <p>Small Image</p>
               <img src="{{product.card_image_url}}" alt="Card Image">
-              <form method="POST" action="/products/upload/{{product.id}}" enctype=multipart/form-data>
+              <form method="POST" action="/products/upload-small/{{product.id}}" enctype=multipart/form-data>
                 <input type=file name=file>
                 <input type=submit value=Upload>
               </form>
