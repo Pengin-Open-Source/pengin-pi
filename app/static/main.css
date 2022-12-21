@@ -344,5 +344,7 @@ article.media p {
   width: 30%;
 }
 
-/* Product Create/Edit */
-
+.upload-image {
+  height: 80%;
+  width: 80%;
+}
