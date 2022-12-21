@@ -463,8 +463,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -472,8 +472,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -481,8 +481,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -490,8 +490,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -499,8 +499,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -508,8 +508,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -517,8 +517,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -526,8 +526,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   ),
   (
     id(),
@@ -535,8 +535,8 @@ products = [
     lorem,
     '$1',
     lorem,
-    'images/test.png',
-    'images/test.png'
+    '/static/images/test.png',
+    '/static/images/test.png'
   )
 ]
 
