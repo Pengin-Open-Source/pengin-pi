@@ -86,6 +86,10 @@ a:hover {
   padding: 0.2em;
 }
 
+.margin-top {
+  margin-top: 0.2em;
+}
+
 /* Site-wide */
 
 .text-button {
