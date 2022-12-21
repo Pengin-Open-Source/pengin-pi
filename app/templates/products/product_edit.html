@@ -4,14 +4,15 @@
   <div class="column">
     <div class="box">
         <form method="POST" action="/products/edit/{{product.id}}">
+          <div class="flex-between">
             <div class="mb-3">
-                <label for="name" class="form-label">Product Name</label>
-                <input
-                class="form-control"
-                type="text"
-                name="name"
-                id="name"
-                value="{{product.name}}"/>
+              <label for="name" class="form-label">Product Name</label>
+              <input
+              class="form-control"
+              type="text"
+              name="name"
+              id="name"
+              value="{{product.name}}"/>
             </div>
             <div class="mb-2">
               <label for="price" class="form-label">Price</label>
@@ -21,6 +22,7 @@
               name="price"
               id="price"
               value="{{product.price}}"/>
+            </div>
           </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
