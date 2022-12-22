@@ -3,7 +3,7 @@ from flask_login import login_required
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Product
-from app.util.s3 import upload_file_to_s3
+from app.util.s3 import conn
 from werkzeug.utils import secure_filename
 import os
 
@@ -34,7 +34,7 @@ def create_product():
         price = request.form.get('price')
         description = request.form.get('description')
 
-        # Image upload handling
+        # Image create handling
         if "file-large" not in request.files:
             large_url = '/static/images/test.png'
 
@@ -45,8 +45,7 @@ def create_product():
 
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            large_output = upload_file_to_s3(large_file,
-                                             os.getenv("S3_BUCKET"))
+            large_output = conn.create(large_file)
             large_url = large_output
 
         if "file-small" not in request.files:
@@ -59,8 +58,7 @@ def create_product():
 
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            small_output = upload_file_to_s3(small_file,
-                                             os.getenv("S3_BUCKET"))
+            small_output = conn.create(small_file)
             small_url = small_output
 
         product = Product(name=name, price=price, description=description,
@@ -85,37 +83,18 @@ def edit_product(id):
         product.price = request.form.get('price')
         product.description = request.form.get('description')
 
-        # Image upload handling
-        if "file-large" not in request.files:
-            large_url = '/static/images/test.png'
-
+        # Image create handling
         large_file = request.files["file-large"]
-
-        if large_file.filename == "":
-            large_url = '/static/images/test.png'
-
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            large_output = upload_file_to_s3(large_file,
-                                             os.getenv("S3_BUCKET"))
-            large_url = large_output
-
-        if "file-small" not in request.files:
-            small_url = '/static/images/test.png'
-
+            conn.create(large_file)
         small_file = request.files["file-small"]
-
-        if small_file.filename == "":
-            small_url = '/static/images/test.png'
-
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            small_output = upload_file_to_s3(small_file,
-                                             os.getenv("S3_BUCKET"))
-            small_url = small_output
+            conn.create(small_file)
 
-        product.stock_image_url = large_url
-        product.card_image_url = small_url
+        product.stock_image_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
+        product.card_image_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
 
         db.session.commit()
 
@@ -135,8 +114,8 @@ def delete_product(id):
     return redirect(url_for('product_blueprint.products'))
 
 
-@product_blueprint.route('/upload/<id>', methods=['GET', 'POST'])
-def upload_file(id):
+@product_blueprint.route('/create/<id>', methods=['GET', 'POST'])
+def create_file(id):
     if request.method == 'POST':
         if "file" not in request.files:
 
@@ -150,7 +129,7 @@ def upload_file(id):
 
         if file:
             file.filename = secure_filename(file.filename)
-            output = upload_file_to_s3(file, os.getenv("S3_BUCKET"))
+            output = conn(file)
 
             product = Product.query.filter_by(id=id).first()
             product.card_image_url = output
@@ -166,4 +145,4 @@ def upload_file(id):
             return redirect(url_for('product_blueprint.product',
                                     product_id=id))
 
-    return render_template('products/product_image_upload.html')
+    return render_template('products/product_image_create.html')
