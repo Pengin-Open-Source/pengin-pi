@@ -1,0 +1,149 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+<h1>Update About</h1>
+<div class="column">
+    <div class="box">
+        <form method="POST" action="/about/edit">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                class="form-control"
+                type="text"
+                name="name"
+                id="name"
+                value="{{about.name}}">
+            </div>
+            <div class="mb-3">
+                <label for="article" class="form-label">Main Text</label>
+                <textarea
+                class="form-control"
+                name="article"
+                id="article"
+                >{{about.article}}</textarea>
+            </div>
+            <div class="mb-2">
+                <label for="facebook" class="form-label">Facebook</label>
+                <input
+                class="form-control"
+                type="text"
+                name="facebook"
+                id="facebook"
+                value="{{about.facebook}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="twitter" class="form-label">Twitter</label>
+                <input
+                class="form-control"
+                type="text"
+                name="twitter"
+                id="twitter"
+                value="{{about.twitter}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="instagram" class="form-label">Instagram</label>
+                <input
+                class="form-control"
+                type="text"
+                name="instagram"
+                id="instagram"
+                value="{{about.instagram}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="whatsapp" class="form-label">Whatsapp</label>
+                <input
+                class="form-control"
+                type="text"
+                name="whatsapp"
+                id="whatsapp"
+                value="{{about.whatsapp}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="linkedin" class="form-label">LinkedIn</label>
+                <input
+                class="form-control"
+                type="text"
+                name="linkedin"
+                id="linkedin"
+                value="{{about.linkedin}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="youtube" class="form-label">Youtube</label>
+                <input
+                class="form-control"
+                type="text"
+                name="youtube"
+                id="youtube"
+                value="{{about.youtube}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input
+                class="form-control"
+                type="text"
+                name="phone"
+                id="phone"
+                value="{{about.name}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="address1" class="form-label">Address line 1</label>
+                <input
+                class="form-control"
+                type="text"
+                name="address1"
+                id="address1"
+                value="{{about.address1}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="address2" class="form-label">Address line 2</label>
+                <input
+                class="form-control"
+                type="text"
+                name="address2"
+                id="address2"
+                value="{{about.address2}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="city" class="form-label">City</label>
+                <input
+                class="form-control"
+                type="text"
+                name="city"
+                id="city"
+                value="{{about.city}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="state" class="form-label">State</label>
+                <input
+                class="form-control"
+                type="text"
+                name="state"
+                id="state"
+                value="{{about.state}}"
+                >
+            </div>
+            <div class="mb-2">
+                <label for="country" class="form-label">Country</label>
+                <input
+                class="form-control"
+                type="text"
+                name="country"
+                id="country"
+                value="{{about.country}}"
+                >
+            </div>
+            <button class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
