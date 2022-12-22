@@ -21,12 +21,12 @@ class About(db.Model):
     state = db.Column(db.String(100))
     country = db.Column(db.String(100))
     article = db.Column(db.String(10000))
-    vip = db.relationship('Vip')
+    # vip = db.relationship('Vip')
 
 
-class Vip(db.Model):
-    __tablename__ = "vip"
-    id = db.Column(db.String(), default=id, primary_key=True)
-    name = db.Column(db.String(100))
-    content = db.Column(db.String(10000))
-    image = db.Column(db.String(100))
+# class Vip(db.Model):
+    # __tablename__ = "vip"
+    # id = db.Column(db.String(), default=id, primary_key=True)
+    # name = db.Column(db.String(100))
+    # content = db.Column(db.String(10000))
+    # image = db.Column(db.String(100))
