@@ -1,16 +1,20 @@
-{% extends "layout/oneDiv.html" %}
-{% block oneDivContent %}
-    <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
-    <!--for loop to loop through the list of posts -->
-    <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">About</a>
-            <small class="text-muted">July 14th, 2022</small>
-          </div>
-          <h2><a class="article-title" href="#">Pengin Open Source</a></h2>
-          <p class="article-content">Building cool tech for the future.</p>
-        </div>
-      </article>
-    <!--closing a code block -->
-{% endblock %}
+{% extends "about/about_main.html" %}
+
+{% block aboutContent %}
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#"></a>
+        <small class="text-muted">Pengin Open Source</small>
+      </div>
+      <h2><a class="article-title" href="#">About</a></h2>
+      <p class="article-content">{% block name %}{% endblock name %}</p>
+      <p class="article-content">{% block article %}{% endblock article %}</p>
+      <p class="article-content">{% block linkedin %}{% endblock linkedin %}</p>
+      <p class="article-content">{% block facebook %}{% endblock facebook %}</p>
+      <p class="article-content">{% block twitter %}{% endblock twitter %}</p>
+      <p class="article-content">{% block instagram %}{% endblock block instagram %}</p>
+    </div>
+  </article>    
+
+{% endblock blogContent %}
