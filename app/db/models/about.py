@@ -1,6 +1,9 @@
 from app.db import db
 from app.util.uuid import id
 
+# Is there a way to put a constraint on table to only allow single row
+# as all we need is one entry per organization?
+
 
 class About(db.Model):
     __tablename__ = "about"
