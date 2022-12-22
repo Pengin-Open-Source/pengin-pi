@@ -24,4 +24,9 @@
             </div>
         </div>
     </article>
+    {% for role in current_user.roles  %}
+        {% if role.name == "admin" %}
+        <a class="btn btn-primary" href="/about/edit">Edit About Page</a>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
