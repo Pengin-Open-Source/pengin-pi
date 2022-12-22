@@ -20,6 +20,8 @@ def view():
 @login_required
 @admin_permission.require()
 def edit_about():
+    # As there should only be one entry for about model it can be checked
+    # whether this exists or not to allow creation or editing.
     exists = About.query.first() is not None
 
     if exists:
@@ -47,8 +49,29 @@ def edit_about():
         return render_template('about/edit.html', about=about)
     else:
         if request.method == 'POST':
+            name = request.form.get('name')
+            article = request.form.get('article')
+            facebook = request.form.get('facebook')
+            instagram = request.form.get('instagram')
+            whatsapp = request.form.get('whatsapp')
+            linkedin = request.form.get('linkedin')
+            youtube = request.form.get('youtube')
+            twitter = request.form.get('twitter')
+            phone = request.form.get('phone')
+            address1 = request.form.get('address1')
+            address2 = request.form.get('address2')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            country = request.form.get('country')
 
-            db.session.add()
+            new_about = About(name=name, article=article, facebook=facebook,
+                              instagram=instagram, whatsapp=whatsapp,
+                              linkedin=linkedin, youtube=youtube, phone=phone,
+                              twitter=twitter, address1=address1,
+                              address2=address2, city=city, state=state,
+                              country=country)
+
+            db.session.add(new_about)
             db.session.commit()
 
             return redirect(url_for("about_blueprint.view"))
