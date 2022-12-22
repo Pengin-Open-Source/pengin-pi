@@ -1,18 +1,7 @@
-{% extends "layout/twoAndOneThirdDivs.html" %}
+{% extends "layout/oneDiv.html" %}
 
 {% block twoThirdContent %}
     <div class="about-content">
-        {% block aboutContent %}{% endblock %}
-    </div>
-{% endblock %}
-
-{% block oneThirdContent %}
-    <div class="about-vip">
-    
-        {% for vip in vips %}
-        <div class="vip-item">
-            <p>{{ vip.name }}</p>
-        </div>
-        {% endfor %}
+        {% block oneDivContent %}{% endblock %}
     </div>
 {% endblock %}
