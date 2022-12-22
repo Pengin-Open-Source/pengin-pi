@@ -22,7 +22,8 @@ class About(db.Model):
     country = db.Column(db.String(100))
     article = db.Column(db.String(10000))
     vip = db.relationship('Vip')
-    
+
+
 class Vip(db.Model):
     __tablename__ = "vip"
     id = db.Column(db.String(), default=id, primary_key=True)
