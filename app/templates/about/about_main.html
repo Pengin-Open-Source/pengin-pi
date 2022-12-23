@@ -4,7 +4,10 @@
     <article class="media content-section">
         <div class="media-body">
             <h2 class="about-title">About {{about.name}}</h2>
-            <p>{{about.article}}</p>
+            <div class="flex-between side-margins">
+                <p class="image-container">{{about.article}}</p>
+                <div class="image-container"><img src="{{about_image}}" alt="About Image"></div>
+            </div>
             <div class="address">
                 <p>{{about.address1}}</p>
                 <p>{{about.address2}}</p>
