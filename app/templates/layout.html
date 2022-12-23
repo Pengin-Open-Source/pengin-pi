@@ -20,10 +20,10 @@ this template is the parent, while home/about are the children-->
   <!--If a title is provided then use that if not use the default -->
   {% if title %}
   <!-- if a title IS provided -->
-  <title>{{company.name}} - {{ title }} </title>
+  <title>{{company_name}} - {{ title }} </title>
   {% else %}
   <!--Default title -->
-  <title>{{company.name}} </title>
+  <title>{{company_name}} </title>
   {% endif %}
 </head>
 
