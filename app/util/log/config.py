@@ -1,6 +1,5 @@
 import logging
 
-
 # config logfile path
 log_file = "./logfile.log"
 log_level = logging.DEBUG

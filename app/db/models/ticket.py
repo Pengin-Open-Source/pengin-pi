@@ -1,5 +1,6 @@
-from app.db import db
 from sqlalchemy import func
+
+from app.db import db
 from app.util.uuid import id
 
 

@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, request
 from datetime import date, datetime
-from flask_login import login_required, current_user
-from app.db.models import Event
+
+from flask import Blueprint, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
+
 from app.db import db
+from app.db.models import Event
 
 calendar_blueprint = Blueprint('calendar_blueprint', __name__,
                                url_prefix="/calendar")
