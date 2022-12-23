@@ -16,6 +16,12 @@ principals = Principal()
 login_manager = LoginManager()
 
 
+class DummyHome():
+    company_name = ''
+    article = ''
+    image = ''
+
+
 def create_app():
     app = Flask(__name__, static_folder='static')
 
@@ -35,9 +41,10 @@ def create_app():
 
     # Inject global variables to templates
     @app.context_processor
-    def inject_stage_and_region():
-        company = model.Home.query.first()
-        return dict(company=company)
+    def inject_globals():
+        company = model.Home.query.first() or DummyHome()
+        name = company.company_name
+        return dict(company_name=name)
 
     @login_manager.user_loader
     def load_user(user_id):
