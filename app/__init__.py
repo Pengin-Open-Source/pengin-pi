@@ -18,17 +18,26 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
+
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
+
     with app.app_context():
         db.create_all()
+
+    # Inject global variables to templates
+    @app.context_processor
+    def inject_stage_and_region():
+        company_name = model.home.query.first().name
+        return dict(company_name=company_name)
 
     @login_manager.user_loader
     def load_user(user_id):
