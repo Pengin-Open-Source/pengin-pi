@@ -3,7 +3,6 @@ from app.db.models.home import Home
 from app.db import db
 import logging
 
-
 home_blueprint = Blueprint('home', __name__)
 
 
