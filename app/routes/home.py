@@ -17,7 +17,7 @@ def home():
     return render_template('home/home.html', home=home, home_image=home_image)
 
 
-@home_blueprint.route("/home/edit")
+@home_blueprint.route("/home/edit", methods=['GET', 'POST'])
 def home_edit():
     # As there should only be one entry for home model it can be checked
     # whether this exists or not to allow creation or editing.
@@ -28,6 +28,7 @@ def home_edit():
 
     if exists:
         home = Home.query.first()
+
         if request.method == 'POST':
             home.company_name = request.form.get('name')
             home.article = request.form.get('article')
@@ -35,7 +36,7 @@ def home_edit():
 
             db.session.commit()
 
-            return redirect(url_for("home_blueprint.view"))
+            return redirect(url_for("home_blueprint.home"))
 
         return render_template('home/edit.html', home=home)
     else:
@@ -50,6 +51,6 @@ def home_edit():
             db.session.add(new_about)
             db.session.commit()
 
-            return redirect(url_for("home_blueprint.view"))
+            return redirect(url_for("home_blueprint.home"))
 
         return render_template('home/create.html')
