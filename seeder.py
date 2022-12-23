@@ -456,6 +456,17 @@ events = [
   )
 ]
 
+home = [
+  (
+    id(),
+    'ExampleCorp',
+    lorem,
+    '/static/images/test.png'
+  ),
+]
+
+cur.executemany("""INSERT INTO home (id, company_name, article, image)
+                VALUES(?,?,?,?)""", home)
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
