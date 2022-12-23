@@ -1,4 +1,4 @@
-from app.routes.main import main as main_blueprint
+from app.routes.home import home_blueprint 
 from app.routes.auth import auth as auth_blueprint
 from app.routes.forums import forums_blueprint
 from app.routes.blogPosts import blogPosts as blogPosts_blueprint
