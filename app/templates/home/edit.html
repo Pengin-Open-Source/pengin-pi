@@ -12,7 +12,7 @@
                 type="text"
                 name="name"
                 id="name"
-                value="{{about.name}}">
+                value="{{home.company_name}}">
             </div>
             <div class="mb-3">
                 <label for="article" class="form-label">Main Text</label>
@@ -20,14 +20,14 @@
                 class="form-control"
                 name="article"
                 id="article"
-                >{{about.article}}</textarea>
+                >{{home.article}}</textarea>
             </div>
             <div class="mb-3 upload-image-container">
                 <label for="file" class="form-label">Image</label>
                 <input type="file" name="file">
                 <div class="upload-image-container">
                   <p>Current:</p>
-                  <img class="upload-image" src="{{about.image}}" alt="About Image">
+                  <img class="upload-image" src="{{home.image}}" alt="About Image">
                 </div>
             </div>
             <button class="btn btn-primary">Update</button>
