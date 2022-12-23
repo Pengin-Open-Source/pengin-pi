@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_required, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from app.db import db
 from app.db.models import User
-
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 

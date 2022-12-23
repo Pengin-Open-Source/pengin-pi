@@ -1,7 +1,9 @@
+from flask_login import UserMixin
+from sqlalchemy import func, schema  # , ForeignKey
+
 from app.db import db
 from app.util.uuid import id
-from sqlalchemy import func, schema  # , ForeignKey
-from flask_login import UserMixin
+
 # from sqlalchemy.orm import with_polymorphic
 
 

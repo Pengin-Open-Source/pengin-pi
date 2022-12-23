@@ -1,8 +1,7 @@
-from flask_principal import Permission, RoleNeed
+from flask import Blueprint
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from flask import Blueprint
-
+from flask_principal import Permission, RoleNeed
 
 admin_blueprint = Blueprint('admin_blueprint', __name__)
 admin_permission = Permission(RoleNeed('admin'))
