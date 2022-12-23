@@ -36,9 +36,8 @@ def create_app():
     # Inject global variables to templates
     @app.context_processor
     def inject_stage_and_region():
-        if model.Home.query.first():
-            company_name = model.Home.query.first().company_name
-            return dict(company_name=company_name)
+        company = model.Home.query.first()
+        return dict(company=company)
 
     @login_manager.user_loader
     def load_user(user_id):
