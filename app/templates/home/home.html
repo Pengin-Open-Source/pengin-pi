@@ -12,7 +12,7 @@
       </article>
       {% for role in current_user.roles  %}
         {% if role.name == "admin" %}
-          <a class="btn btn-primary mb-3" href="/home/edit">Edit About Page</a>
+          <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
         {% endif %}
       {% endfor %}
 {% endblock %}
