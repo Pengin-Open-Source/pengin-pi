@@ -11,7 +11,7 @@
                 <p>{{about.city}}</p>
                 <p>{{about.state}}</p>
                 <p>{{about.country}}</p>
-                <p>Telephone: {{about.phone}}</p>
+                
             </div>
             <div class="social-media">
                 <!-- https://www.iconfinder.com/collections/collection/1672006 Icons -->
@@ -21,6 +21,9 @@
                 <a href="{{about.linkedin}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
                 <a href="{{about.whatsapp}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
                 <a href="{{about.youtube}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/youtube.png')}}" alt="Youtube"></a>
+            </div>
+            <div class="address">
+                <p>Telephone: {{about.phone}}</p>
             </div>
         </div>
     </article>
