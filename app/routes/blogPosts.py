@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required, current_user
+from flask import Blueprint, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
+
 from app.db import db
 from app.db.models import BlogPost
-
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
