@@ -4,7 +4,6 @@ from datetime import date
 from werkzeug.security import generate_password_hash
 
 from app import create_app
-from app.db import db
 from app.util.uuid import id
 
 create_app()
