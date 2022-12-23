@@ -27,7 +27,7 @@ def edit_about():
     # whether this exists or not to allow creation or editing.
     exists = About.query.first() is not None
 
-    # TODO Add image upload handling.
+    # TODO Add image upload handling which assigns S3 URl to image variable
     image = 'Sort out file handling for image when products issue done'
 
     if exists:
