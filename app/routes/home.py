@@ -11,10 +11,11 @@ home_blueprint = Blueprint('home_blueprint', __name__)
 def home():
 
     home = Home.query.first()
-    home_image = Home.query.first().image
-    logging.info('S3 Image accessed: ' + home_image)
 
-    return render_template('home/home.html', home=home, home_image=home_image)
+    if home:
+        logging.info('S3 Image accessed: ' + home.image)
+
+    return render_template('home/home.html', home=home)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])
@@ -28,6 +29,9 @@ def home_edit():
 
     if exists:
         home = Home.query.first()
+
+        if home:
+            logging.info('S3 Image accessed: ' + home.image)
 
         if request.method == 'POST':
             home.company_name = request.form.get('name')
