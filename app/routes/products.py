@@ -37,14 +37,12 @@ def create_product():
         # Image create handling
         large_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
         small_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
-        
         large_file = request.files["file-large"]
-       
+        small_file = request.files["file-small"]
+        
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            conn.create(large_file)
-
-        small_file = request.files["file-small"]
+            conn.create(large_file)  
 
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
@@ -74,10 +72,12 @@ def edit_product(id):
 
         # Image create handling
         large_file = request.files["file-large"]
+        small_file = request.files["file-small"]
+        
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
             conn.create(large_file)
-        small_file = request.files["file-small"]
+        
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
             conn.create(small_file)
@@ -118,11 +118,11 @@ def create_file(id):
 
         if file:
             file.filename = secure_filename(file.filename)
-            output = conn(file)
+            conn.create(file)
 
             product = Product.query.filter_by(id=id).first()
-            product.card_image_url = output
-            product.stock_image_url = output
+            product.card_image_url = file.filename
+            product.stock_image_url = file.filename
 
             db.session.commit()
 
