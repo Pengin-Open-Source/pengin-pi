@@ -467,8 +467,6 @@ home = [
   ),
 ]
 
-cur.executemany("""INSERT INTO home (id, company_name, article, image)
-                VALUES(?,?,?,?)""", home)
 about = [
   (
     id(),
@@ -491,6 +489,9 @@ about = [
   )
 ]
 
+
+cur.executemany("""INSERT INTO home (id, company_name, article, image)
+                VALUES(?,?,?,?)""", home)
 cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
                 whatsapp, linkedin, line, youtube, phone, address1, address2,
                 city, state, country, article, image )
