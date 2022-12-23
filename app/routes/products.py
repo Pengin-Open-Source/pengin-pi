@@ -34,11 +34,13 @@ def create_product():
         price = request.form.get('price')
         description = request.form.get('description')
 
+        large_file = request.files["file-large"]
+        small_file = request.files["file-small"]
+
         # Image create handling
         large_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
         small_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
-        large_file = request.files["file-large"]
-        small_file = request.files["file-small"]
+
         
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
