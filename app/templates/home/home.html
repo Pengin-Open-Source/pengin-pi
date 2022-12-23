@@ -3,9 +3,11 @@
 {% block oneDivContent %}
     <article class="media content-section">
         <div class="media-body">
-          <h2>Welcome to {{home.company_name}}</h2>
-          <p class="article-content">{{home.article}}</p>
-          <div><img src="{{home.image}}" alt="Home Image"></div>
+          <h2 class="about-title">Welcome to {{home.company_name}}</h2>
+          <div class="flex-between">
+            <p class="article-content image-container">{{home.article}}</p>
+            <img class="image-container" src="{{home.image}}" alt="Home Image">
+          </div>
         </div>
       </article>
       {% for role in current_user.roles  %}
