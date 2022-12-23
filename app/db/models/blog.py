@@ -1,6 +1,7 @@
+from sqlalchemy import func
+
 from app.db import db
 from app.util.uuid import id
-from sqlalchemy import func
 
 
 class BlogPost(db.Model):

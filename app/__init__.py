@@ -1,16 +1,16 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
-from flask_principal import Principal, UserNeed, RoleNeed, \
-    identity_loaded, AnonymousIdentity
-from app.admin import admin_blueprint, admin
-import app.routes as route
-import app.db.models as model
-from app.db import db
-from app.util.security import edit_post_need, delete_post_need,\
-                              edit_comment_need, delete_comment_need,\
-                              delete_ticket_comment_need, delete_ticket_need,\
-                              edit_ticket_comment_need, edit_ticket_need
+from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
+                             identity_loaded)
 
+import app.db.models as model
+import app.routes as route
+from app.admin import admin, admin_blueprint
+from app.db import db
+from app.util.security import (delete_comment_need, delete_post_need,
+                               delete_ticket_comment_need, delete_ticket_need,
+                               edit_comment_need, edit_post_need,
+                               edit_ticket_comment_need, edit_ticket_need)
 
 principals = Principal()
 login_manager = LoginManager()
