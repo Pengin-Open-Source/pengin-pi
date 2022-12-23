@@ -20,17 +20,17 @@ this template is the parent, while home/about are the children-->
   <!--If a title is provided then use that if not use the default -->
   {% if title %}
   <!-- if a title IS provided -->
-  <title>Tobu Pengin - {{ title }} </title>
+  <title>{{company_name}} - {{ title }} </title>
   {% else %}
   <!--Default title -->
-  <title>Tobu Pengin</title>
+  <title>{{company_name}}</title>
   {% endif %}
 </head>
 
 <body>
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <a class="navbar-brand d-flex align-items-center mr-5" href="/">Tobu Pengin</a>
+        <a class="navbar-brand d-flex align-items-center mr-5" href="/">{{company_name}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
           aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
