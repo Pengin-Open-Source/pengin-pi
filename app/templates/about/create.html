@@ -4,7 +4,7 @@
 <h1>Create About</h1>
 <div class="column">
     <div class="box">
-        <form method="POST" action="/about/edit">
+        <form method="POST" action="/about/edit" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input
@@ -141,6 +141,10 @@
                 id="country"
                 placeholder=""
                 >
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Image</label>
+                <input type="file" name="file">
             </div>
             <button class="btn btn-primary">Update</button>
         </form>
