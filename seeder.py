@@ -458,6 +458,32 @@ events = [
   )
 ]
 
+about = [
+  (
+    id(),
+    'ExampleCorp',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '000-0000-000',
+    '123 Fakestreet',
+    'Fakeborough',
+    'Fake City',
+    'Fakefornia',
+    'Republic of Fakeland',
+    lorem,
+    '/static/images/test.png'
+  )
+]
+
+cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
+                whatsapp, linkedin, line, youtube, phone, address1, address2,
+                city, state, country, article, image )
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", about)
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)

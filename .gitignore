@@ -12,4 +12,5 @@ app/db.sqlite
 *.log
 instance
 .vscode
+.env
 /env

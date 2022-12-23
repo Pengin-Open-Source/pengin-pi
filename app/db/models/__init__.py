@@ -6,4 +6,6 @@ from app.db.models.customer import (Company, CompanyMembers, Customer, Order,
                                     Role, ShippingAddress, User, UserRoles)
 from app.db.models.forum import ForumComment, ForumPost, Thread, ThreadRoles
 from app.db.models.product import Product
-from app.db.models.ticket import Resolution, TicketComment, TicketForum
+from app.db.models.ticket import TicketComment, TicketForum, Resolution
+from app.db.models.calendar import Event
+from app.db.models.about import About  # , Vip
