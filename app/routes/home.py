@@ -3,7 +3,7 @@ from app.db.models.home import Home
 from app.db import db
 import logging
 
-home_blueprint = Blueprint('home', __name__)
+home_blueprint = Blueprint('home_blueprint', __name__)
 
 
 @home_blueprint.route("/")
@@ -35,9 +35,9 @@ def home_edit():
 
             db.session.commit()
 
-            return redirect(url_for("about_blueprint.view"))
+            return redirect(url_for("home_blueprint.view"))
 
-        return render_template('about/edit.html', home=home)
+        return render_template('home/edit.html', home=home)
     else:
         if request.method == 'POST':
             company_name = request.form.get('name')
@@ -50,6 +50,6 @@ def home_edit():
             db.session.add(new_about)
             db.session.commit()
 
-            return redirect(url_for("about_blueprint.view"))
+            return redirect(url_for("home_blueprint.view"))
 
-        return render_template('about/create.html')
+        return render_template('home/create.html')
