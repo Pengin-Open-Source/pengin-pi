@@ -35,32 +35,21 @@ def create_product():
         description = request.form.get('description')
 
         # Image create handling
-        if "file-large" not in request.files:
-            large_url = '/static/images/test.png'
-
+        large_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
+        small_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
+        
         large_file = request.files["file-large"]
-
-        if large_file.filename == "":
-            large_url = '/static/images/test.png'
-
+       
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            large_output = conn.create(large_file)
-            large_url = large_output
-
-        if "file-small" not in request.files:
-            small_url = '/static/images/test.png'
+            conn.create(large_file)
 
         small_file = request.files["file-small"]
 
-        if small_file.filename == "":
-            small_url = '/static/images/test.png'
-
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            small_output = conn.create(small_file)
-            small_url = small_output
-
+            conn.create(small_file)
+                
         product = Product(name=name, price=price, description=description,
                           card_image_url=small_url, stock_image_url=large_url)
 

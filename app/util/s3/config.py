@@ -9,6 +9,7 @@ class File:
         self.aws_secret_access_key = os.getenv('S3_SECRET')
         self.aws_bucket = os.getenv('S3_BUCKET')
         self.aws_location = os.getenv('S3_LOCATION')
+        
         self.conn = boto3.client("s3",
                                        aws_access_key_id=self.aws_access_key_id,
                                        aws_secret_access_key=self.aws_secret_access_key )
@@ -29,3 +30,10 @@ class File:
         except Exception as e:
             print('Exception:' + str(e))
             return e
+        
+    def token(self, file):
+        pass
+
+
+if __name__ == "__main__":
+    file = File()

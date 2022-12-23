@@ -1,3 +1,3 @@
-from app.util.s3.config import File
+from app.util.s3.config import File as _File
 
-conn = File()
+conn = _File()
