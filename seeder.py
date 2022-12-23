@@ -1,9 +1,11 @@
-from datetime import date
 import sqlite3
-from app import create_app
-from app.util.uuid import id
-from app.db import db
+from datetime import date
+
 from werkzeug.security import generate_password_hash
+
+from app import create_app
+from app.db import db
+from app.util.uuid import id
 
 create_app()
 

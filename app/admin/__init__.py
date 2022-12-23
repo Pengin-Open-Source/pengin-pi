@@ -1,14 +1,13 @@
 from flask_admin import Admin
-from app.db.models import db
-from app.db.models import User, UserRoles, Role, BlogPost, Company,\
-                          CompanyMembers, Contracts, ForumPost,\
-                          ForumComment, Thread, Order, ShippingAddress,\
-                          Customer, Product, TicketComment, TicketForum,\
-                          Resolution, Event, ThreadRoles
 
-from app.admin.views import SecureModelView, UserRolesView, admin_blueprint,\
-                            admin_permission, CompanyMembersView,\
-                            ThreadRolesView
+from app.admin.views import (CompanyMembersView, SecureModelView,
+                             ThreadRolesView, UserRolesView, admin_blueprint,
+                             admin_permission)
+from app.db.models import (BlogPost, Company, CompanyMembers, Contracts,
+                           Customer, Event, ForumComment, ForumPost, Order,
+                           Product, Resolution, Role, ShippingAddress, Thread,
+                           ThreadRoles, TicketComment, TicketForum, User,
+                           UserRoles, db)
 
 admin = Admin()
 
