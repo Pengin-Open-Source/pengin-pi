@@ -1,6 +1,10 @@
-import boto3
 import os
-#from app.util.log import log
+
+import boto3
+# from app.util.log import log
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class File:
@@ -9,30 +13,35 @@ class File:
         self.aws_secret_access_key = os.getenv('S3_SECRET')
         self.aws_bucket = os.getenv('S3_BUCKET')
         self.aws_location = os.getenv('S3_LOCATION')
-        
-        self.conn = boto3.client("s3",
-                                       aws_access_key_id=self.aws_access_key_id,
-                                       aws_secret_access_key=self.aws_secret_access_key )
 
-    def create(self, file):
+        self.conn = boto3.client("s3",
+                                 aws_access_key_id=self.aws_access_key_id,
+                                 aws_secret_access_key=self.aws_secret_access_key)
+
+    def upload(self, file):
+        """
+        param file: Readable-binary file-like object
+        """
         try:
-            self.conn.upload_fileobj(file, self.aws_bucket, file.filename)
+            self.conn.upload_fileobj(
+                file, self.aws_bucket, os.path.basename(file.name))
         except Exception as e:
-            print('Exception:' + str(e))
+            print('Exception: ' + str(e))
             return e
-    
-    def read(self, file):
+
+    def download(self, file_name):
         try:
-            with open(file, 'wb') as f:
-                result = self.conn.download_fileobj(self.aws_bucket, file.filename, f)
-                return result
-                
+            with open(file_name, 'wb') as file:
+                self.conn.download_fileobj(self.aws_bucket, file_name, file)
         except Exception as e:
-            print('Exception:' + str(e))
+            print('Exception: ' + str(e))
             return e
-        
-    def token(self, file):
-        pass
+
+    def get_URL(self, file_name, exp=900):
+        return self.conn.generate_presigned_url(
+            ClientMethod='get_object',
+            Params={'Bucket': self.aws_bucket, 'Key': file_name},
+            ExpiresIn=exp)
 
 
 if __name__ == "__main__":
