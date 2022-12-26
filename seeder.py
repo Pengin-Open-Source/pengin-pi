@@ -538,7 +538,10 @@ products = [
     '$1',
     lorem,
     '/static/images/test.png',
-  )]
+    '/static/images/test.png'
+  )
+]
+
 home = [
   (
     id(),
@@ -566,7 +569,7 @@ about = [
     'Fake City',
     'Fakefornia',
     'Republic of Fakeland',
-    'lorem',
+    lorem,
     '/static/images/test.png'
   )
 ]
