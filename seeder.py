@@ -4,7 +4,6 @@ from datetime import date
 from werkzeug.security import generate_password_hash
 
 from app import create_app
-from app.db import db
 from app.util.uuid import id
 
 create_app()
@@ -459,6 +458,7 @@ events = [
 ]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 products = [
   (
     id(),
@@ -540,6 +540,17 @@ products = [
     lorem,
     '/static/images/test.png',
 =======
+=======
+home = [
+  (
+    id(),
+    'ExampleCorp',
+    lorem,
+    '/static/images/test.png'
+  ),
+]
+
+>>>>>>> 217-home
 about = [
   (
     id(),
@@ -564,10 +575,16 @@ about = [
 ]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 cur.executemany("""INSERT INTO product (id, name, description,
                 price, article, card_image_url, stock_image_url)
                 VALUES(?,?,?,?,?,?,?)""", products)
 =======
+=======
+
+cur.executemany("""INSERT INTO home (id, company_name, article, image)
+                VALUES(?,?,?,?)""", home)
+>>>>>>> 217-home
 cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
                 whatsapp, linkedin, line, youtube, phone, address1, address2,
                 city, state, country, article, image )

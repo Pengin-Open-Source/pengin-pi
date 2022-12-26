@@ -16,10 +16,19 @@ principals = Principal()
 login_manager = LoginManager()
 
 
+class DummyHome():
+    company_name = ''
+    article = ''
+    image = ''
+
+
 def create_app():
     app = Flask(__name__, static_folder='static')
 
+<<<<<<< HEAD
     # SQLAlchemy Config
+=======
+>>>>>>> 217-home
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
@@ -33,6 +42,13 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+    # Inject global variables to templates
+    @app.context_processor
+    def inject_globals():
+        company = model.Home.query.first() or DummyHome()
+        name = company.company_name
+        return dict(company_name=name)
 
     @login_manager.user_loader
     def load_user(user_id):

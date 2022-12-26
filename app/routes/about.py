@@ -12,11 +12,12 @@ about_blueprint = Blueprint('about_blueprint', __name__,
 @about_blueprint.route("/")
 def view():
     about = About.query.filter_by().first()
-    about_image = About.query.filter_by().first().image
-    logging.info('Image S3 URL accessed:' + about_image)
+
+    if about:
+        logging.info('Image S3 URL accessed:' + about.image)
 
     return render_template('about/about_main.html', about=about,
-                           current_user=current_user, about_image=about_image)
+                           current_user=current_user)
 
 
 @about_blueprint.route('/edit', methods=['GET', 'POST'])
@@ -32,6 +33,10 @@ def edit_about():
 
     if exists:
         about = About.query.first()
+
+        if about:
+            logging.info('Image S3 URL accessed:' + about.image)
+
         if request.method == 'POST':
             about.name = request.form.get('name')
             about.article = request.form.get('article')
