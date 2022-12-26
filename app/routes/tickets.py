@@ -1,14 +1,15 @@
-from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
-from flask_login import login_required, current_user
-from app.db.models import TicketComment, TicketForum, User
-from app.util.security import admin_permission, user_permission,\
-                              delete_ticket_comment_permission,\
-                              delete_ticket_permission,\
-                              edit_ticket_permission,\
-                              edit_ticket_comment_permission
-from app.db import db
 
+from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
+
+from app.db import db
+from app.db.models import TicketComment, TicketForum, User
+from app.util.security import (admin_permission,
+                               delete_ticket_comment_permission,
+                               delete_ticket_permission,
+                               edit_ticket_comment_permission,
+                               edit_ticket_permission, user_permission)
 
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")

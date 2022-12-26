@@ -1,13 +1,13 @@
-from flask import Blueprint, render_template, redirect, url_for, request, abort
 from datetime import date
-from flask_login import login_required, current_user
-from app.db.models import Thread, ForumPost, ForumComment, ThreadRoles, User
-from app.util.security import admin_permission, user_permission
-from app.db import db
-from app.util.security import delete_comment_permission,\
-                              delete_post_permission, edit_post_permission,\
-                              edit_comment_permission
 
+from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
+
+from app.db import db
+from app.db.models import ForumComment, ForumPost, Thread, ThreadRoles, User
+from app.util.security import (admin_permission, delete_comment_permission,
+                               delete_post_permission, edit_comment_permission,
+                               edit_post_permission, user_permission)
 
 forums_blueprint = Blueprint('forums_blueprint', __name__,
                              url_prefix="/forums")

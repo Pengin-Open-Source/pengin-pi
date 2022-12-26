@@ -7,6 +7,10 @@
 
 /* General Styles */
 
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
   height: 100%;
   display:flex;
@@ -48,6 +52,9 @@ a:hover {
 }
 
 /* Utilities */
+.side-margins {
+  margin: 0 2rem;
+}
 
 .flex-between {
   display: flex;
@@ -273,6 +280,35 @@ article.media p {
 
 .date-box {
   border: 1px solid black;
+}
+
+/* About */
+.about-title {
+  color: white;
+  font-size: 3em;
+  margin-bottom: 2rem;
+}
+
+.social-media {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem;
+  padding: 0 5rem;
+}
+
+.icon {
+  height: 2em;
+  width:  2em;
+}
+
+.address {
+  width: fit-content;
+  padding: 2em;
+  margin: 2em auto;
+}
+
+.image-container {
+  width: 40%;
 }
 
 /* Other */

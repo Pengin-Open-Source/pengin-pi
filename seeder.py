@@ -1,9 +1,11 @@
-from datetime import date
 import sqlite3
-from app import create_app
-from app.util.uuid import id
-from app.db import db
+from datetime import date
+
 from werkzeug.security import generate_password_hash
+
+from app import create_app
+from app.db import db
+from app.util.uuid import id
 
 create_app()
 
@@ -456,6 +458,7 @@ events = [
   )
 ]
 
+<<<<<<< HEAD
 products = [
   (
     id(),
@@ -536,13 +539,40 @@ products = [
     '$1',
     lorem,
     '/static/images/test.png',
+=======
+about = [
+  (
+    id(),
+    'ExampleCorp',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '#',
+    '000-0000-000',
+    '123 Fakestreet',
+    'Fakeborough',
+    'Fake City',
+    'Fakefornia',
+    'Republic of Fakeland',
+    lorem,
+>>>>>>> dev
     '/static/images/test.png'
   )
 ]
 
+<<<<<<< HEAD
 cur.executemany("""INSERT INTO product (id, name, description,
                 price, article, card_image_url, stock_image_url)
                 VALUES(?,?,?,?,?,?,?)""", products)
+=======
+cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
+                whatsapp, linkedin, line, youtube, phone, address1, address2,
+                city, state, country, article, image )
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", about)
+>>>>>>> dev
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
