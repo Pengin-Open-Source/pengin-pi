@@ -93,7 +93,8 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
-    members = db.relationship('User', secondary='company_members')
+    # add overlaps="companies" to silence warning when "flask run"
+    members = db.relationship('User', secondary='company_members', overlaps="companies")
     customer = db.relationship('User', secondary='customer')
 
 

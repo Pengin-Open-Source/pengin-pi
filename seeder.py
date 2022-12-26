@@ -458,6 +458,88 @@ events = [
   )
 ]
 
+<<<<<<< HEAD
+products = [
+  (
+    id(),
+    'Test Product 1',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 2',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 3',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 4',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 5',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 6',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 7',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 8',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+    '/static/images/test.png'
+  ),
+  (
+    id(),
+    'Test Product 9',
+    lorem,
+    '$1',
+    lorem,
+    '/static/images/test.png',
+=======
 about = [
   (
     id(),
@@ -476,14 +558,21 @@ about = [
     'Fakefornia',
     'Republic of Fakeland',
     lorem,
+>>>>>>> dev
     '/static/images/test.png'
   )
 ]
 
+<<<<<<< HEAD
+cur.executemany("""INSERT INTO product (id, name, description,
+                price, article, card_image_url, stock_image_url)
+                VALUES(?,?,?,?,?,?,?)""", products)
+=======
 cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
                 whatsapp, linkedin, line, youtube, phone, address1, address2,
                 city, state, country, article, image )
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", about)
+>>>>>>> dev
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)
