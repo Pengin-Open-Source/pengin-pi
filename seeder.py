@@ -457,8 +457,7 @@ events = [
   )
 ]
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 products = [
   (
     id(),
@@ -539,8 +538,7 @@ products = [
     '$1',
     lorem,
     '/static/images/test.png',
-=======
-=======
+  )]
 home = [
   (
     id(),
@@ -550,7 +548,7 @@ home = [
   ),
 ]
 
->>>>>>> 217-home
+
 about = [
   (
     id(),
@@ -568,28 +566,25 @@ about = [
     'Fake City',
     'Fakefornia',
     'Republic of Fakeland',
-    lorem,
->>>>>>> dev
+    'lorem',
     '/static/images/test.png'
   )
 ]
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 cur.executemany("""INSERT INTO product (id, name, description,
                 price, article, card_image_url, stock_image_url)
                 VALUES(?,?,?,?,?,?,?)""", products)
-=======
-=======
+
 
 cur.executemany("""INSERT INTO home (id, company_name, article, image)
                 VALUES(?,?,?,?)""", home)
->>>>>>> 217-home
+
 cur.executemany("""INSERT INTO about (id, name, twitter,facebook, instagram,
                 whatsapp, linkedin, line, youtube, phone, address1, address2,
                 city, state, country, article, image )
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", about)
->>>>>>> dev
+
 cur.executemany("""INSERT INTO ticket_forum (id, user_id, summary,
                 resolution_status, resolution_date, content, date)
                 VALUES(?,?,?,?,?,?,?)""", tickets)

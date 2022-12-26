@@ -25,10 +25,8 @@ class DummyHome():
 def create_app():
     app = Flask(__name__, static_folder='static')
 
-<<<<<<< HEAD
+
     # SQLAlchemy Config
-=======
->>>>>>> 217-home
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     # adding to suppress warning, will delete later
