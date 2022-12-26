@@ -8,12 +8,14 @@ load_dotenv()
 
 
 class File:
-    def __init__(self):
-        self.aws_access_key_id = os.getenv('S3_KEY')
-        self.aws_secret_access_key = os.getenv('S3_SECRET')
-        self.aws_bucket = os.getenv('S3_BUCKET')
-        self.aws_location = os.getenv('S3_LOCATION')
-
+    def __init__(self, aws_access_key_id=os.getenv('S3_KEY'),
+                 aws_secret_access_key=os.getenv('S3_SECRET'),
+                 aws_bucket=os.getenv('S3_BUCKET'),
+                 aws_location=os.getenv('S3_LOCATION')):
+        self.aws_access_key_id = aws_access_key_id
+        self.aws_secret_access_key = aws_secret_access_key
+        self.aws_bucket = aws_bucket
+        self.aws_location = aws_location        
         self.conn = boto3.client("s3",
                                  aws_access_key_id=self.aws_access_key_id,
                                  aws_secret_access_key=self.aws_secret_access_key)
@@ -45,4 +47,5 @@ class File:
 
 
 if __name__ == "__main__":
-    file = File()
+    #file = File("AWS ID", "AWS KEY", "AWS BUCKET", "AWS LOCATION")
+    pass
