@@ -18,7 +18,7 @@ class File:
                                  aws_access_key_id=self.aws_access_key_id,
                                  aws_secret_access_key=self.aws_secret_access_key)
 
-    def upload(self, file):
+    def create(self, file):
         """
         param file: Readable-binary file-like object
         """
@@ -29,7 +29,7 @@ class File:
             print('Exception: ' + str(e))
             return e
 
-    def download(self, file_name):
+    def read(self, file_name):
         try:
             with open(file_name, 'wb') as file:
                 self.conn.download_fileobj(self.aws_bucket, file_name, file)
