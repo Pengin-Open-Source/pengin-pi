@@ -20,11 +20,21 @@ class User(UserMixin, db.Model):
     tickets = db.relationship('TicketForum')
     ticket_comments = db.relationship('TicketComment')
 
+    def __repr__(self): # for debug purpose
+        return f"----- name: {self.name} || roles: {self.roles} "
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.String(), default=id, primary_key=True)
     name = db.Column(db.String(50), unique=True)
+    # used for populating "name" about role when showing dropdown of roles
+    event_info = db.relationship('Event', back_populates="role_info", lazy=True)
+
+
+    def __repr__(self): # for debug purpose
+        return f"----- id: {self.id} || name: {self.name} "
+
 
 
 class UserRoles(db.Model):
@@ -93,8 +103,7 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
-    # add overlaps="companies" to silence warning when "flask run"
-    members = db.relationship('User', secondary='company_members', overlaps="companies")
+    members = db.relationship('User', secondary='company_members',overlaps="companies")
     customer = db.relationship('User', secondary='customer')
 
 
