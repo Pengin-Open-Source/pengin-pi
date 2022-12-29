@@ -14,6 +14,8 @@ product_blueprint = Blueprint('product_blueprint',
 @product_blueprint.route('/')
 def products():
     products = Product.query.filter_by().all()
+    for product in products:
+        product.card_image_url = conn.get_URL(product.card_image_url)
 
     return render_template('products/products.html', products=products)
 
@@ -21,6 +23,7 @@ def products():
 @product_blueprint.route('/<product_id>')
 def product(product_id):
     product = Product.query.filter_by(id=product_id).first()
+    product.stock_image_url = conn.get_URL(product.stock_image_url)
 
     return render_template('products/product.html', product=product)
 
@@ -44,11 +47,11 @@ def create_product():
         
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            conn.create(large_file)  
+            large_url = conn.create(large_file)  
 
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            conn.create(small_file)
+            small_url = conn.create(small_file)
                 
         product = Product(name=name, price=price, description=description,
                           card_image_url=small_url, stock_image_url=large_url)
@@ -66,6 +69,8 @@ def create_product():
 @admin_permission.require()
 def edit_product(id):
     product = Product.query.filter_by(id=id).first()
+    product.stock_image_url = conn.get_URL(product.stock_image_url)
+    product.card_image_url = conn.get_URL(product.card_image_url)
 
     if request.method == 'POST':
         product.name = request.form.get('name')
@@ -78,14 +83,14 @@ def edit_product(id):
         
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            conn.create(large_file)
+            large = conn.create(large_file)
         
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
-            conn.create(small_file)
+            small = conn.create(small_file)
 
-        product.stock_image_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
-        product.card_image_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
+        product.stock_image_url = large if large and large != "" else '/static/images/test.png'
+        product.card_image_url = small if small and small != "" else '/static/images/test.png'
 
         db.session.commit()
 

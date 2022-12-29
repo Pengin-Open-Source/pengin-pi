@@ -3,6 +3,8 @@ import os
 import boto3
 # from app.util.log import log
 from dotenv import load_dotenv
+from app.util.uuid import id
+
 
 load_dotenv()
 
@@ -25,11 +27,13 @@ class File:
         param file: Readable-binary file-like object
         """
         try:
-            self.conn.upload_fileobj(
-                file, self.aws_bucket, os.path.basename(file.name))
+            ext = file.filename.split('.')[-1] #get the file extension
+            filename = id() + '.' + ext
+            self.conn.upload_fileobj(file, self.aws_bucket, filename)
+            return filename
         except Exception as e:
             print('Exception: ' + str(e))
-            return e
+            return "/static/images/test.png"
 
     def read(self, file_name):
         try:
