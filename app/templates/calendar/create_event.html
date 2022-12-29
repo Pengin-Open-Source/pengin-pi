@@ -10,8 +10,7 @@
                 class="form-control"
                 type="text"
                 name="title"
-                id="title"
-                placeholder="Title">
+                placeholder="Write some title..." required>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
@@ -19,26 +18,32 @@
                 class="form-control"
                 name="description"
                 id="description"
-                placeholder="Something enlightening..."></textarea>
+                placeholder="Write some description..."></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="roles" class="form-label">Role: </label>
+                <select id="roles" class="form-control" name="role" required>
+                    {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-2">
-                <label for="start" class="form-label">Date start</label>
+                <label for="start_datetime" class="form-label">Start at</label>
                 <input
                 class="form-control"
-                type="datetime"
-                name="start"
-                id="start">
+                type="datetime-local"
+                name="start_datetime" required>
             </div>
             <div class="mb-2">
-                <label for="end" class="form-label">Date end</label>
+                <label for="end_datetime" class="form-label">End at</label>
                 <input
                 class="form-control"
-                type="datetime"
-                name="end"
-                id="end">
+                type="datetime-local"
+                name="end_datetime" required>
             </div>
             <div class="mb-2">
-                <label for="location" class="form-label">location</label>
+                <label for="location" class="form-label">Location</label>
                 <input
                 class="form-control"
                 type="text"
