@@ -11,7 +11,7 @@ load_dotenv()
         
 class Message(Mailer):        
     def __init__(self, RECIPIENT, TOKEN, URL=os.getenv('URL')):
-        self.Mailer = Mailer.__init__(self)
+        Mailer.__init__(self)
         self.RECIPIENT=RECIPIENT
         self.TOKEN=TOKEN
         self.URL=URL
@@ -23,21 +23,21 @@ class Message(Mailer):
                     )
         
         # The HTML body of the email.
-        BODY_HTML = """<html>
+        BODY_HTML = f"""<html>
         <head></head>
         <body>
         <h1>Validation Email</h1>
         <p>This email is an automated message.  Please validate your email.
-            <a href='%s/validate/%s'>Account Validation</a>
+            <a href='https://{self.URL}/profile/validate/{self.TOKEN}'>Account Validation</a>
         </p>
         </body>
         </html>
-        """ % (self.URL, self.TOKEN)
+        """
         
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = self.SUBJECT
-        self.msg['From'] = email.utils.formataddr((self.Mailer.SENDERNAME, self.Mailer.SENDER))
+        self.msg['From'] = email.utils.formataddr((self.SENDER_NAME, self.SENDER))
         self.msg['To'] = RECIPIENT
         # Record the MIME types of both parts - text/plain and text/html.
         self.part1 = MIMEText(BODY_TEXT, 'plain')

@@ -1,10 +1,11 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for, abort
 from flask_login import current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
 from app.util.uuid import id
 from app.db import db
-from app.db.models import User
+from app.db.models import User, Role, UserRoles
+from app.util.mail import send_mail
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -29,9 +30,29 @@ def send_email():
         user.validation_date = now
         user.validate_id = id()
         db.session.commit()
-        print('test mail function')
-        #mail function
+        
+        send_mail(user.email, user.validation_id)
     return redirect(url_for('profiles.profile'))
+
+
+@profiles.route('/validate/<token>')
+def validate(token):
+    try:
+        user = User.query.filter_by(validation_id=token).first()
+        if user:
+            user.validated = True
+            role_id = Role.query.filter_by(name='user').first().id
+            user_role = UserRoles(user_id=user.id, role_id=role_id)
+            db.session.add(user_role)
+            db.session.commit()
+            
+
+        return redirect(url_for('profiles.profile'))
+    
+    except Exception as e:
+        print(e)
+        abort(403)
+        
 
 
 @profiles.route('/edit_profile', methods=['GET', 'POST'])
