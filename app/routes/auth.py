@@ -70,4 +70,4 @@ def logout():
     identity_changed.send(current_app._get_current_object(),
                           identity=AnonymousIdentity())
 
-    return redirect(url_for('main.home'))
+    return redirect(url_for('home_blueprint.home'))
