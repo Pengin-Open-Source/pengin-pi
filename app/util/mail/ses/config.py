@@ -11,7 +11,7 @@ class SESMailer:
                  USERNAME_SMTP=os.getenv('SES_USERNAME_SMTP'), 
                  PASSWORD_SMTP=os.getenv('SES_PASSWORD_SMTP'), 
                  HOST=os.getenv('SES_HOST'),
-                 PORT=25):
+                 PORT=465):
         self.SENDER=SENDER
         self.SENDER_NAME=SENDER_NAME
         self.USERNAME_SMTP=USERNAME_SMTP
