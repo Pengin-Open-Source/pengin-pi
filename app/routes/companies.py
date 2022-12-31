@@ -1,11 +1,11 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
-
+from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models import Company, CompanyMembers
 
 company_info = Blueprint('company_info', __name__, url_prefix="/companies")
-
+admin_permission = Permission(RoleNeed('admin'))
 
 def get_companies():
 
@@ -16,7 +16,7 @@ def get_companies():
 def display_companies_home():
 
     return render_template('company_info/company_info_main.html',
-                           companies=get_companies())
+                           companies=get_companies(), is_admin=admin_permission.can())
 
 
 @company_info.route('/<company_id>')
@@ -29,6 +29,7 @@ def display_company_info(company_id):
 
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def create_company():
     if request.method == 'POST':
         name = request.form.get('name')
@@ -58,6 +59,7 @@ def create_company():
 
 @company_info.route('/edit_company_info/<company_id>', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def edit_company_info_post(company_id):
     if request.method == 'POST':
         company = Company.query.filter_by(id=company_id).first()
