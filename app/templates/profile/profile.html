@@ -14,7 +14,10 @@
       </tr>
     </table>
       <a class="btn btn-primary" href="/profile/edit_profile" >Edit Profile</a>
-      <a class="btn btn-primary " href="/profile/edit_password">Edit Password</a> 
+      <a class="btn btn-primary " href="/profile/edit_password">Edit Password</a>
+      {% if can_do %}
+        <a class="btn btn-primary " href="/profile/send_email">Re-send Validation Email</a>
+      {% endif %}
   </div>
 {% endblock %}
 

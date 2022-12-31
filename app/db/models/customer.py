@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from sqlalchemy import func, schema  # , ForeignKey
-
+from datetime import datetime
 from app.db import db
 from app.util.uuid import id as ID
 
@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     validated = db.Column(db.Boolean, default=False, nullable=False)
-    validation_date = db.Column(db.DateTime(timezone=True))
+    validation_date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
     validation_id = db.Column(db.String(), default=ID, unique=True)
     roles = db.relationship('Role', secondary='user_roles')
     posts = db.relationship('ForumPost')

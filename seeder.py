@@ -169,7 +169,7 @@ users = [
     "author1",
     password,
     True,
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
     id()
   ),
   (
@@ -178,7 +178,7 @@ users = [
     "author2",
     password,
     True,
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
     id()
   ),
   (
@@ -187,7 +187,7 @@ users = [
     "author3",
     password,
     False,
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
     id()
   ),
 ]
@@ -405,9 +405,9 @@ events = [
     user_id_1,
     user_id_1,
     role_id_1,
-    datetime.datetime.now(),
-    datetime.datetime.now(),
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 1",
     "Test description 1",
     "Faketown"
@@ -417,9 +417,9 @@ events = [
     user_id_1,
     user_id_1,
     role_id_1,
-    datetime.datetime.now(),
-    datetime.datetime.now(),
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 2",
     "Test description 2",
     "Faketown"
@@ -429,9 +429,9 @@ events = [
     user_id_1,
     user_id_1,
     role_id_1,
-    datetime.datetime.now(),
-    datetime.datetime.now(),
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 3",
     "Test description 3",
     "Faketown"
@@ -441,9 +441,9 @@ events = [
     user_id_1,
     user_id_1,
     role_id_1,
-    datetime.datetime.now(),
-    datetime.datetime.now(),
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 4",
     "Test description 4",
     "Faketown"
@@ -453,9 +453,9 @@ events = [
     user_id_1,
     user_id_1,
     role_id_1,
-    datetime.datetime.now(),
-    datetime.datetime.now(),
-    datetime.datetime.now(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 5",
     "Test description 5",
     "Faketown"

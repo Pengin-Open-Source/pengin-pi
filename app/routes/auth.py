@@ -3,7 +3,7 @@ from flask import (Blueprint, current_app, flash, redirect, render_template,
 from flask_login import login_required, login_user, logout_user
 from flask_principal import AnonymousIdentity, Identity, identity_changed
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from datetime import datetime
 from app.db import db
 from app.db.models import User
 
@@ -53,7 +53,8 @@ def signup_post():
 
         return redirect(url_for('auth.signup'))
     new_user = User(email=email, name=name,
-                    password=generate_password_hash(password, method='sha256'))
+                    password=generate_password_hash(password, method='sha256'),
+                    validation_date=datetime.utcnow())
     db.session.add(new_user)
     db.session.commit()
 
