@@ -167,19 +167,28 @@ users = [
     user_id_1,
     "author1@gmail.com",
     "author1",
-    password
+    password,
+    True,
+    datetime.datetime.now(),
+    id()
   ),
   (
     user_id_2,
     "author2@gmail.com",
     "author2",
-    password
+    password,
+    True,
+    datetime.datetime.now(),
+    id()
   ),
   (
     user_id_3,
     "author3@gmail.com",
     "author3",
-    password
+    password,
+    False,
+    datetime.datetime.now(),
+    id()
   ),
 ]
 
@@ -593,8 +602,8 @@ cur.executemany("""INSERT INTO forum_post (id, title, content, thread_id,
                 author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)""", posts)
 cur.executemany("""INSERT INTO forum_comment (id, post_id, content, author,
                 date ) VALUES(?, ?, ?, ?, ?)""", comments)
-cur.executemany("""INSERT INTO user (id, email, name, password)
-                VALUES(?, ?, ?, ?)""", users)
+cur.executemany("""INSERT INTO user (id, email, name, password, validated, validation_date, validation_id)
+                VALUES(?, ?, ?, ?, ?, ?, ?)""", users)
 cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
 cur.executemany("INSERT INTO thread (id, name) VALUES(?, ?)", threads)
 cur.executemany("""INSERT INTO user_roles ( id, user_id, role_id)

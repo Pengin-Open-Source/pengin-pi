@@ -2,23 +2,27 @@ from flask_login import UserMixin
 from sqlalchemy import func, schema  # , ForeignKey
 
 from app.db import db
-from app.util.uuid import id
+from app.util.uuid import id as ID
 
 # from sqlalchemy.orm import with_polymorphic
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
+    validated = db.Column(db.Boolean, default=False, nullable=False)
+    validation_date = db.Column(db.DateTime(timezone=True))
+    validation_id = db.Column(db.String(), default=ID, unique=True)
     roles = db.relationship('Role', secondary='user_roles')
     posts = db.relationship('ForumPost')
     comments = db.relationship('ForumComment')
     companies = db.relationship('Company', secondary='company_members')
     tickets = db.relationship('TicketForum')
     ticket_comments = db.relationship('TicketComment')
+    
 
     def __repr__(self): # for debug purpose
         return f"----- name: {self.name} || roles: {self.roles} "
@@ -26,7 +30,7 @@ class User(UserMixin, db.Model):
 
 class Role(db.Model):
     __tablename__ = 'roles'
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     # used for populating "name" about role when showing dropdown of roles
     event_info = db.relationship('Event', back_populates="role_info", lazy=True)
@@ -39,7 +43,7 @@ class Role(db.Model):
 
 class UserRoles(db.Model):
     __tablename__ = 'user_roles'
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     user_id = db.Column(db.String(), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
     role_id = db.Column(db.String(), db.ForeignKey('roles.id',
@@ -48,7 +52,7 @@ class UserRoles(db.Model):
 
 class Order(db.Model):
     __tablename__ = 'order'
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(255), nullable=True)
     product_id = db.Column(db.String(), db.ForeignKey('product.id',
                                                       ondelete='CASCADE'))
@@ -60,7 +64,7 @@ class Order(db.Model):
 
 class ShippingAddress(db.Model):
     __tablename__ = 'shipping_address'
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     address1 = db.Column(db.String())
     address2 = db.Column(db.String())
     city = db.Column(db.String())
@@ -76,7 +80,7 @@ class Customer(db.Model):
     __table_args__ = (
         schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
     )
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     user_id = db.Column(db.String(),
                         db.ForeignKey('user.id', ondelete='CASCADE'),
                         nullable=False)
@@ -93,7 +97,7 @@ class Customer(db.Model):
 
 class Company(db.Model):
     __tablename__ = "company"
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     phone = db.Column(db.String())
     city = db.Column(db.String())
@@ -109,7 +113,7 @@ class Company(db.Model):
 
 class CompanyMembers(db.Model):
     __tablename__ = "company_members"
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(), default=ID, primary_key=True)
     company_id = db.Column(db.String(), db.ForeignKey('company.id',
                            ondelete='CASCADE'))
     user_id = db.Column(db.String(), db.ForeignKey('user.id',
