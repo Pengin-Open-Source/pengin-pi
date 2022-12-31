@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required, current_user
+from flask import Blueprint, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
+
 from app.db import db
 from app.db.models import BlogPost
-
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
@@ -17,14 +17,14 @@ def get_links():
 def display_blog_home():
     posts = BlogPost.query.limit(15)
     return render_template('blog/blog.html', posts=posts, links=get_links(),
-                           roles=current_user.roles)
+                           is_admin=admin_permission.can())
 
 
 @blogPosts.route("/blog/<post_id>")
 def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     return render_template('blog/view.html', post=post, links=get_links(),
-                           roles=current_user.roles)
+                           is_admin=admin_permission.can())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])

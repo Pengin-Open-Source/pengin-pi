@@ -1,16 +1,18 @@
-      
 {% extends "layout/oneDiv.html" %}
+
 {% block oneDivContent %}
-    <!--Flask uses jinja2 a templating engine. lets you write code in the template-->
-    <!--for loop to loop through the list of posts -->
     <article class="media content-section">
         <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">Pengin Open Source</a>
+          <h2 class="about-title">Welcome to {{home.company_name}}</h2>
+          <div class="flex-between">
+            <p class="article-content image-container">{{home.article}}</p>
+            <img class="image-container" src="{{image}}" alt="Home Image">
           </div>
-          <h2><a class="article-title" href="#">Welcome to Pengin Open Source</a></h2>
-          <p class="article-content">Building cool tech for the future.</p>
         </div>
       </article>
-    <!--closing a code block -->
+      {% for role in current_user.roles  %}
+        {% if role.name == "admin" %}
+          <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
+        {% endif %}
+      {% endfor %}
 {% endblock %}

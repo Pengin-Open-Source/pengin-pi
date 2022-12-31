@@ -8,3 +8,5 @@ sqlalchemy
 markupsafe
 mysqlclient
 requests
+boto3
+python-dotenv
