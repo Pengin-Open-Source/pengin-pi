@@ -37,8 +37,7 @@ def create_app():
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
 
-    with app.app_context():
-        db.create_all()
+    
 
     # Inject global variables to templates
     @app.context_processor
