@@ -7,7 +7,7 @@ from app.util.uuid import id
 
 class About(db.Model):
     __tablename__ = "about"
-    id = db.Column(db.String(), default=id, primary_key=True)
+    id = db.Column(db.String(36), default=id, primary_key=True)
     name = db.Column(db.String(100))
     image = db.Column(db.String(100))
     twitter = db.Column(db.String(100))
