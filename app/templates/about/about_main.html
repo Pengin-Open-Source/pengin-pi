@@ -1,12 +1,16 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section">
+    <article class="content-section">
         <div class="media-body">
             <h2 class="about-title">About {{about.name}}</h2>
             <div class="flex-between">
-                <p class="article-content image-container">{{about.article}}</p>
-                <div class="image-container"><img src="{{image}}" alt="About Image"></div>
+                <div class="image-container">
+                    <p>{{about.article}}</p>
+                </div>
+                <div class="image-container">
+                    <img src="{{image}}" alt="About Image" style="width: 100%; height: auto">
+                </div>
             </div>
             <div class="address">
                 {% if about.addresss1 %}
