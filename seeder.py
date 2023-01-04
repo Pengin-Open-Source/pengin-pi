@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import date
+import datetime
 
 from werkzeug.security import generate_password_hash
 
@@ -166,19 +167,28 @@ users = [
     user_id_1,
     "author1@gmail.com",
     "author1",
-    password
+    password,
+    True,
+    datetime.datetime.utcnow(),
+    id()
   ),
   (
     user_id_2,
     "author2@gmail.com",
     "author2",
-    password
+    password,
+    True,
+    datetime.datetime.utcnow(),
+    id()
   ),
   (
     user_id_3,
     "author3@gmail.com",
     "author3",
-    password
+    password,
+    False,
+    datetime.datetime.utcnow(),
+    id()
   ),
 ]
 
@@ -394,11 +404,10 @@ events = [
     id(),
     user_id_1,
     user_id_1,
-    date.today(),
-    date.today(),
-    date.today(),
-    '13:00:00',
-    '13:30:00',
+    role_id_1,
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 1",
     "Test description 1",
     "Faketown"
@@ -407,11 +416,10 @@ events = [
     id(),
     user_id_1,
     user_id_1,
-    date.today(),
-    date.today(),
-    date.today(),
-    '13:00:00',
-    '13:30:00',
+    role_id_1,
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 2",
     "Test description 2",
     "Faketown"
@@ -420,11 +428,10 @@ events = [
     id(),
     user_id_1,
     user_id_1,
-    '2022-01-02',
-    '2022-01-02',
-    '2022-01-02',
-    '13:00:00',
-    '13:30:00',
+    role_id_1,
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 3",
     "Test description 3",
     "Faketown"
@@ -433,11 +440,10 @@ events = [
     id(),
     user_id_1,
     user_id_1,
-    '2022-01-04',
-    '2022-01-04',
-    '2022-01-04',
-    '13:00:00',
-    '13:30:00',
+    role_id_1,
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 4",
     "Test description 4",
     "Faketown"
@@ -446,11 +452,10 @@ events = [
     id(),
     user_id_1,
     user_id_1,
-    '2022-01-05',
-    '2022-01-05',
-    '2022-01-05',
-    '13:00:00',
-    '13:30:00',
+    role_id_1,
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
+    datetime.datetime.utcnow(),
     "Test Event 5",
     "Test description 5",
     "Faketown"
@@ -597,17 +602,15 @@ cur.executemany("""INSERT INTO forum_post (id, title, content, thread_id,
                 author, tags, date ) VALUES(?, ?, ?, ?, ?, ?, ?)""", posts)
 cur.executemany("""INSERT INTO forum_comment (id, post_id, content, author,
                 date ) VALUES(?, ?, ?, ?, ?)""", comments)
-cur.executemany("""INSERT INTO user (id, email, name, password)
-                VALUES(?, ?, ?, ?)""", users)
+cur.executemany("""INSERT INTO user (id, email, name, password, validated, validation_date, validation_id)
+                VALUES(?, ?, ?, ?, ?, ?, ?)""", users)
 cur.executemany("INSERT INTO roles (id, name) VALUES(?, ?)", roles)
 cur.executemany("INSERT INTO thread (id, name) VALUES(?, ?)", threads)
 cur.executemany("""INSERT INTO user_roles ( id, user_id, role_id)
                 VALUES(?, ?,?)""", user_roles)
 cur.executemany("""INSERT INTO thread_roles (id, role_id, thread_id)
                 VALUES(?, ?,?)""", thread_roles)
-cur.executemany("""INSERT INTO events (id, user_id, organizer,
-                date_created, start_date, end_date, start_time, end_time,
-                title, description, location)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?)""", events)
+cur.executemany("""INSERT INTO events (id, user_id, organizer, role, date_created, start_datetime, end_datetime, title, description, location)
+                VALUES(?,?,?,?,?,?,?,?,?,?)""", events)
 con.commit()
 con.close()

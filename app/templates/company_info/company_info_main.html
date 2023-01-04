@@ -9,7 +9,9 @@
       </tr>
     </table>
   {% endfor %}
-  <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+  {% if is_admin %}
+    <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+  {% endif %}
 {% endblock %}
 
 {% block profileSideContent %}

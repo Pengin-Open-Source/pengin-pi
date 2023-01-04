@@ -14,5 +14,5 @@ from app.routes.about import about_blueprint
 
 
 # Blueprints variable is a list of blueprints in this current directory
-blueprints = [val for key, val in globals().items()
+blueprints = [val for key, val in locals().items()
               if isinstance(val, type(home_blueprint))]

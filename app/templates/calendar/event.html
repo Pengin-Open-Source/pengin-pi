@@ -3,7 +3,14 @@
 {% block oneDivContent %}
 <div class="post-content">
   <h2 class="forum-title">{{event.title}}</h2>
-  <p>{{event.start_date}}@{{event.start_time}} to {{event.end_date}}@{{event.end_time}}</p>
-  <p>{{event.description}}</p>
+  <p>Role: {{event.role_info.name}}</p>
+  <p>Start time: {{event.start_date}} @ {{event.start_time}}</p>
+  <p>End time: {{event.end_date}} @ {{event.end_time}}</p>
+  {% if event.description %}
+    <p>Description: {{event.description}}</p>
+  {% endif %}
+  {% if event.location %}
+    <p>Location: {{event.location}}</p>
+  {% endif %}
 </div>
 {% endblock %}

@@ -1,13 +1,11 @@
 {% extends "layout/oneDiv.html" %}
 {% block oneDivContent %}
-  {% for date in dates %}
+  {% for date in events_by_start_date %}
     <div class="date-box">
       <h2>{{date}}</h2>
       <ul>
-        {% for event in events %}
-          {% if event.start_date == date %}
-            <li><a href="/calendar/{{ event.id }}">{{ event.title }}@{{event.start_time}}</a></li>
-          {% endif %}
+        {% for event in events_by_start_date[date] %}
+          <li><a href="/calendar/{{ event.id }}">{{ event.title }} at {{event.start_time}}</a></li>
         {% endfor %}
       </ul>
     </div>

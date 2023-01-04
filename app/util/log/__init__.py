@@ -1,4 +1,4 @@
-from app.util.log.config import logger
+from app.util.log.config import logger as _logger
 
 
 def log():
@@ -8,11 +8,11 @@ def log():
     """
     def pre(func):
         """ Pre function logging """
-        logger.debug("Entered %s", func.__name__)
+        _logger.debug("Entered %s", func.__name__)
 
     def post(func):
         """Post function logging"""
-        logger.debug("Exited  %s", func.__name__)
+        _logger.debug("Exited  %s", func.__name__)
 
     def decorate(func):
         """Decorator"""
@@ -24,11 +24,11 @@ def log():
             """
             pre(func)
             result = func(*args, **kwargs)
-            logger.debug(str(result))
+            _logger.debug(str(result))
             post(func)
             try:
                 return result
             except Exception as e:
-                logger.debug(str(e))
+                _logger.debug(str(e))
         return call
     return decorate
