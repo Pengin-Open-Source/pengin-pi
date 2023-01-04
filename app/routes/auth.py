@@ -8,7 +8,6 @@ from app.db import db
 from app.db.models import User
 from app.util.mail import send_mail
 
-
 auth = Blueprint('auth', __name__)
 
 

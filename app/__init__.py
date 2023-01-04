@@ -46,6 +46,13 @@ def create_app():
         name = company.company_name
         return dict(company_name=name)
 
+    # Inject global variables to templates
+    @app.context_processor
+    def inject_globals():
+        company = model.Home.query.first() or DummyHome()
+        name = company.company_name
+        return dict(company_name=name)
+
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table,
