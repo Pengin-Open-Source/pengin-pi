@@ -8,25 +8,17 @@
   {% for thread in threads %}
   <tr><td class="flex-between">
     <a class="small-padding alternating-colors-table-links " href="/forums/{{thread.id}}">{{ thread.name }}</a>
-    {% if current_user.is_authenticated %}
-      {% for role in current_user.roles  %}
-        {% if role.name == "admin" %}
-        <form method="post" action="/forums/delete/thread/{{thread.id}}">
-          <button class="btn" type="submit">Delete</button>
-        </form>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+      {% if is_admin %}
+      <form method="post" action="/forums/delete/thread/{{thread.id}}">
+        <button class="btn" type="submit">Delete</button>
+      </form>
+      {% endif %}
   </td></tr>
   {% endfor %}
 {% endblock %}
 
 {% block postTableContent %}
-  {% if current_user.is_authenticated %}
-    {% for role in current_user.roles  %}
-      {% if role.name == "admin" %}
+    {% if is_admin %}
       <a class="btn btn-primary" href="/forums/create">Create Thread</a>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+    {% endif %}
 {% endblock %}
