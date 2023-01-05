@@ -10,10 +10,10 @@
           </div>
           </div>
         </div>
-    </article>
-    {% for role in current_user.roles  %}
-      {% if role.name == "admin" %}
-        <a class="btn btn-primary mb-3 media" href="/home/edit">Edit Home Page</a>
+      </article>
+    
+      {% if is_admin %}
+        <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
       {% endif %}
-    {% endfor %}
+      
 {% endblock %}
