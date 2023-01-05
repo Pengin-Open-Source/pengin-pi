@@ -27,11 +27,6 @@ body {
   padding: 0px 20px;
 }
 
-article.content-section {
-  padding: 10px 20px;
-  border-radius: 3px;
-  background-color: var(--main-blue);
-}
 
 h1{
   color: #f0eeee;
@@ -319,10 +314,11 @@ article.media p {
 }
 
 /* Other */
-
 .content-section {
-  background: #1f125d;
   border: 1px solid #dddddd;
+  padding: 10px 20px;
+  border-radius: 3px;
+  background-color: var(--main-blue);
 }
 
 .important-info-card {
