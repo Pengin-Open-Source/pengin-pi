@@ -14,9 +14,9 @@
           </div>
         </div>
       </article>
-      {% for role in current_user.roles  %}
-        {% if role.name == "admin" %}
-          <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
-        {% endif %}
-      {% endfor %}
+    
+      {% if is_admin %}
+        <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
+      {% endif %}
+      
 {% endblock %}
