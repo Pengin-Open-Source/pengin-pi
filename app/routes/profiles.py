@@ -45,13 +45,16 @@ def validate(token):
             user_role = UserRoles(user_id=user.id, role_id=role_id)
             db.session.add(user_role)
             db.session.commit()
-            
+            return redirect(url_for('profiles.profile'))
+        else:
+            #TODO: track IP and validate attempt count for blocking
+            abort(404)
 
-        return redirect(url_for('profiles.profile'))
+        
     
     except Exception as e:
         print(e)
-        abort(403)
+        abort(404)
         
 
 
