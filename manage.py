@@ -1,6 +1,6 @@
 from app import create_app
 from app import db
-from app.db.models import * #import all models namespace, it's on purpose
+from app.db.models import Thread, ThreadRoles, User, UserRoles, ForumPost, ForumComment, Home, About, Order, ShippingAddress, Customer, Company, CompanyMembers, Role, Contracts, Event, BlogPost
 
 
 def create_all():
@@ -18,7 +18,9 @@ def create(model, **kwargs):
         db.session.commit()
 
 def getone(model, **kwargs):
-    return model.query.filter_by(kwargs).first()
+    app = create_app()
+    with app.app_context():
+        return model.query.filter_by(kwargs).first()
         
 def update(model, search:dict, change:dict):
     lookup = getone(model, **search)
@@ -31,5 +33,10 @@ def build():
 
 
 if __name__ == "__main__":
-    #do stuff here
-    pass
+    app = create_app()
+    with app.app_context():
+        user = User.query.filter_by(email="stuart@tobupengin.com").first().id
+        role = Role.query.filter_by(name="user").first().id
+        new = UserRoles(user_id=user, role_id=role)
+        db.session.add(new)
+        db.session.commit()
