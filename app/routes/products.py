@@ -69,8 +69,7 @@ def create_product():
 @admin_permission.require()
 def edit_product(id):
     product = Product.query.filter_by(id=id).first()
-    product.stock_image_url = conn.get_URL(product.stock_image_url)
-    product.card_image_url = conn.get_URL(product.card_image_url)
+    
 
     if request.method == 'POST':
         product.name = request.form.get('name')
@@ -84,10 +83,14 @@ def edit_product(id):
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
             large = conn.create(large_file)
+        else:
+            large = product.stock_image_url
         
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
             small = conn.create(small_file)
+        else:
+            small = product.card_image_url
 
         product.stock_image_url = large if large and large != "" else '/static/images/test.png'
         product.card_image_url = small if small and small != "" else '/static/images/test.png'
@@ -95,6 +98,9 @@ def edit_product(id):
         db.session.commit()
 
         return redirect(url_for('product_blueprint.product', product_id=id))
+
+    product.stock_image_url = conn.get_URL(product.stock_image_url)
+    product.card_image_url = conn.get_URL(product.card_image_url)
 
     return render_template('products/product_edit.html', product=product)
 

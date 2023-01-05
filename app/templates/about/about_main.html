@@ -1,12 +1,16 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section">
+    <article class="content-section">
         <div class="media-body">
             <h2 class="about-title">About {{about.name}}</h2>
             <div class="flex-between">
-                <p class="article-content image-container">{{about.article}}</p>
-                <div class="image-container"><img src="{{image}}" alt="About Image"></div>
+                <div class="image-container">
+                    <p>{{about.article}}</p>
+                </div>
+                <div class="image-container">
+                    <img src="{{image}}" alt="About Image" style="width: 100%; height: auto">
+                </div>
             </div>
             <div class="address">
                 {% if about.addresss1 %}
@@ -29,19 +33,19 @@
             <div class="social-media">
                 <!-- https://www.iconfinder.com/collections/collection/1672006 Icons -->
                 {% if about.facebook %}
-                    <a href="{{about.facebook}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/facebook.png')}}" alt="FaceBook"></a>
+                    <a href="{{about.facebook}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/facebook.png')}}" alt="FaceBook"></a>
                 {% endif %}
                 {% if about.twitter %}
-                    <a href="{{about.twitter}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/twitter.png')}}" alt="Twitter"></a>
+                    <a href="{{about.twitter}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/twitter.png')}}" alt="Twitter"></a>
                 {% endif %}
                 {% if about.instagram %}
-                    <a href="{{about.instagram}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/insta.png')}}" alt="Instagram"></a>
+                    <a href="{{about.instagram}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/insta.png')}}" alt="Instagram"></a>
                 {% endif %}
-                {% if about.whatsapp %}<a href="{{about.linkedin}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
-                    <a href="{{about.whatsapp}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
+                {% if about.whatsapp %}<a href="{{about.linkedin}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
+                    <a href="{{about.whatsapp}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
                 {% endif %}
                 {% if about.youtube %}
-                    <a href="{{about.youtube}}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/youtube.png')}}" alt="Youtube"></a>
+                    <a href="{{about.youtube}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/youtube.png')}}" alt="Youtube"></a>
                 {% endif %}
             </div>
             <div class="address">
@@ -51,9 +55,9 @@
             </div>
         </div>
     </article>
-    {% for role in current_user.roles  %}
-        {% if role.name == "admin" %}
+    
+    {% if is_admin %}
         <a class="btn btn-primary mb-3" href="/about/edit">Edit About Page</a>
-        {% endif %}
-    {% endfor %}
+    {% endif %}
+    
 {% endblock %}

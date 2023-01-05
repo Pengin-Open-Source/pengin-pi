@@ -6,12 +6,13 @@ from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import db
+from app.db import db, config
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need)
 
+from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 
@@ -27,10 +28,8 @@ def create_app():
 
 
     # SQLAlchemy Config
-    app.config['SECRET_KEY'] = 'secret-key-goes-here'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    # adding to suppress warning, will delete later
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SECRET_KEY'] = id()
+    app.config.update(config)
 
     model.db.init_app(app)
     login_manager.init_app(app)
@@ -38,8 +37,14 @@ def create_app():
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
 
-    with app.app_context():
-        db.create_all()
+    
+
+    # Inject global variables to templates
+    @app.context_processor
+    def inject_globals():
+        company = model.Home.query.first() or DummyHome()
+        name = company.company_name
+        return dict(company_name=name)
 
     # Inject global variables to templates
     @app.context_processor

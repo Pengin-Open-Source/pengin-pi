@@ -1,18 +1,19 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section">
-        <div class="media-body">
+    <article class="media content-section aa">
+        <div class="media-body home-container aa">
           <h2 class="about-title">Welcome to {{home.company_name}}</h2>
-          <div class="flex-between">
-            <p class="article-content image-container">{{home.article}}</p>
-            <img class="image-container" src="{{image}}" alt="Home Image">
+          <p>{{home.article}}</p>
+          <div class="image-container">
+              <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
+          </div>
           </div>
         </div>
       </article>
-      {% for role in current_user.roles  %}
-        {% if role.name == "admin" %}
-          <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
-        {% endif %}
-      {% endfor %}
+    
+      {% if is_admin %}
+        <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
+      {% endif %}
+      
 {% endblock %}
