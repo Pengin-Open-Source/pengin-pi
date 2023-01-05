@@ -41,7 +41,10 @@
                 {% if about.instagram %}
                     <a href="{{about.instagram}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/insta.png')}}" alt="Instagram"></a>
                 {% endif %}
-                {% if about.whatsapp %}<a href="{{about.linkedin}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
+                {% if about.linkedin %}
+                    <a href="{{about.linkedin}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
+                {% endif %}
+                {% if about.whatsapp %}
                     <a href="{{about.whatsapp}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
                 {% endif %}
                 {% if about.youtube %}
