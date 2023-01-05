@@ -18,14 +18,8 @@ body {
   gap: 30px;
   background: linear-gradient(#535252,#d1cccc );
   padding-top: 5rem;
-  border: 3px red solid;
 }
 
-article.content-section {
-  padding: 10px 20px;
-  border-radius: 3px;
-  background-color: var(--main-blue);
-}
 
 h1{
   color: #f0eeee;
@@ -313,10 +307,11 @@ article.media p {
 }
 
 /* Other */
-
 .content-section {
-  background: #1f125d;
   border: 1px solid #dddddd;
+  padding: 10px 20px;
+  border-radius: 3px;
+  background-color: var(--main-blue);
 }
 
 .important-info-card {
