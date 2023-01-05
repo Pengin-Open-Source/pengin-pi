@@ -1,13 +1,10 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section">
-        <div class="media-body">
+    <article class="media content-section aa">
+        <div class="media-body home-container aa">
           <h2 class="about-title">Welcome to {{home.company_name}}</h2>
-          <div class="flex-between">
-            <div class="image-container">
-              <p>{{home.article}}</p>
-          </div>
+          <p>{{home.article}}</p>
           <div class="image-container">
               <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
           </div>

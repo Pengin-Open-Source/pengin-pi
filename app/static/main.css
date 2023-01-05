@@ -18,7 +18,13 @@ body {
   gap: 30px;
   background: linear-gradient(#535252,#d1cccc );
   padding-top: 5rem;
-  border: 3px red solid;
+}
+
+.home-container {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  padding: 0px 20px;
 }
 
 article.content-section {
