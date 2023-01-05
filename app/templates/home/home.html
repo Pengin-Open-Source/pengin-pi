@@ -5,8 +5,12 @@
         <div class="media-body">
           <h2 class="about-title">Welcome to {{home.company_name}}</h2>
           <div class="flex-between">
-            <p class="article-content image-container">{{home.article}}</p>
-            <img class="image-container" src="{{image}}" alt="Home Image">
+            <div class="image-container">
+              <p>{{home.article}}</p>
+          </div>
+          <div class="image-container">
+              <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
+          </div>
           </div>
         </div>
       </article>
