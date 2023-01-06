@@ -280,7 +280,17 @@ article.media p {
 
 /* Calendar */
 .date-box {
-  border: 1px solid black;
+  padding: 5px 15px;
+}
+
+.date-box:nth-child(odd) {
+  background-color: var(--main-blue);
+  color: white;
+}
+
+.date-box:nth-child(even) {
+  background-color: white;
+  color: black;
 }
 
 /* About */
