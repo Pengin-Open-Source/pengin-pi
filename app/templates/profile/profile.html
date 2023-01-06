@@ -1,0 +1,26 @@
+{% extends "profile/profile_main.html" %}
+
+{% block profilecontent %}
+  <div id="profile_info">
+    <h1 class="header">Profile Information</h1>
+    <table class="table table-bordered">
+      <tr>
+        <th width="30%">Name</th>
+        <td>{{ name }}</td>
+      </tr>
+      <tr>
+        <th width="30%">Email</th>
+        <td>{{ email }}</td>
+      </tr>
+    </table>
+      <a class="btn btn-primary" href="/profile/edit_profile" >Edit Profile</a>
+      <a class="btn btn-primary " href="/profile/edit_password">Edit Password</a>
+      {% if can_do %}
+        <a class="btn btn-primary " href="/profile/send_email">Re-send Validation Email</a>
+      {% endif %}
+  </div>
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}

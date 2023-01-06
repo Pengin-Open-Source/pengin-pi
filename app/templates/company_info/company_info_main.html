@@ -1,0 +1,19 @@
+{% extends "profile/profile_main.html" %}
+
+{% block profilecontent %}
+  <h1 class="header">Companies</h1>
+  {% for company in companies %}
+    <table class="table table-bordered">
+      <tr>
+        <td><a href="/companies/{{ company.id }}">{{ company.name }}</a></td>
+      </tr>
+    </table>
+  {% endfor %}
+  {% if is_admin %}
+    <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+  {% endif %}
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}

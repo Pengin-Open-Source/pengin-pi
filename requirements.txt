@@ -1,0 +1,12 @@
+flask
+jinja2
+flask-sqlalchemy
+flask-login
+flask-principal
+flask-admin
+sqlalchemy
+markupsafe
+mysqlclient
+requests
+boto3
+python-dotenv

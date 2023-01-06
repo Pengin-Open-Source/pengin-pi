@@ -1,0 +1,16 @@
+# do not push .sqlite files to GitHub
+app/*.sqlite
+__pycache__/
+app/__pycache__
+app/models/__pycache__
+app/routes/__pycache__
+app/db/__pycache__
+*.py[cod]
+auth
+app/db.sqlite
+.githubs
+*.log
+instance
+.vscode
+.env
+/env
