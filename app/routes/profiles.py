@@ -89,7 +89,6 @@ def edit_password():
             if check_password_hash(user.password, old_password):
                 user.password = generate_password_hash(new_password,
                                                        method='sha256')
-                db.session.add(user)
                 db.session.commit()
 
                 return redirect(url_for('profiles.profile'))
