@@ -25,6 +25,7 @@ body {
   flex-direction: column; 
   align-items: center;
   padding: 0px 20px;
+  color: white;
 }
 
 
@@ -284,6 +285,11 @@ article.media p {
 }
 
 /* About */
+.about-container {
+  color: white;
+  padding: 0px 20px;
+}
+
 .about-title {
   color: white;
   font-size: 3em;
