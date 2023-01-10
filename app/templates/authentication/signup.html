@@ -27,8 +27,17 @@
                 <input class="form-control" type="password" name="password" placeholder="Your Password">
             </div>
 
-            <button class="btn btn-primary btn-md" type="submit">Sign Up</button>
+            <button class="btn btn-primary btn-md g-recaptcha" type="submit" data-sitekey="{{ site_key }}" data-callback="onSubmit" data-action="submit">Sign Up</button>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block captchaScript %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.querySelector(".authForm").submit();
+        }
+    </script>
 {% endblock %}
