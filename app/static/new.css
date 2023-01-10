@@ -1,4 +1,4 @@
-/* CSS Reset */
+/* CSS RESET */
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -47,10 +47,8 @@ table {
 	border-spacing: 0;
 }
 
-/* Main CSS */
-
+/* CSS MAIN */
 /* Variables */
-
 :root {
   --main-blue: #1a6b99;
   --hover-blue: #428bca;
@@ -58,42 +56,57 @@ table {
 
 /* General Styles */
 
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
 :root {
   font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  background: linear-gradient(#535252,#d1cccc );
-  padding-top: 5rem;
+  
 }
 
 header {
  background-color: var(--main-blue);
+ height: 4rem;
+ color: white;
+ display: flex;
+ flex-direction: column;
+ justify-content:space-around;
+ padding: 0 1rem;
+ position: fixed;
+ top: 0;
+ width: 100%;
 }
 
-h1{
-  color: #f0eeee;
+h1, h2, h3, p {
+  color: white;
 } 
 
 main {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(#535252,#d1cccc );
+  padding-top: 4rem;
+  height: 100%;
 }
 
 footer {
   display: flex;
-  margin-top: auto;
   justify-content: center;
+  align-items: center;
   background-color: var(--main-blue);
-}
-
-footer p {
   color:#ffffff;
-  margin: 15px;
+  height: 2.5rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 a {
@@ -107,10 +120,38 @@ a:hover {
   cursor:pointer;  
 }
 
-/* Utilities */
+/* Nav Bar */
+
+.header-navbar-container {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
+.home-link {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.header-link {
+  margin-right: 0.5rem;
+}
+
+.header-navigation {
+ flex-grow: 1;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.header-main-nav {
+
+}
+
+.header-profile-nav {
+
+}
 
 /* Site-wide */
-
 .primary-button {
 
 }
@@ -171,7 +212,6 @@ a:hover {
 
 
 /* Home */
-
 .home-container {
   display: flex; 
   flex-direction: column; 
@@ -180,13 +220,11 @@ a:hover {
 }
 
 /* Auth */
-
 .authForm {
   max-width: 500px;
 }
 
 /* Account */
-
 .account-img {
   height: 125px;
   width: 125px;
@@ -199,7 +237,6 @@ a:hover {
 }
 
 /* Profile */
-
 .profile-info {
   background: #ffffff;
   padding: 20px 20px;
@@ -270,9 +307,7 @@ a:hover {
   width: 40%;
 }
 
-
 /* Products */
-
 .product-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
