@@ -14,33 +14,30 @@
 </head>
 
 <body>
-  <header class="">
-    <nav class="">
-        <a class="" href="/">{{company_name}}</a>
-        <div class="" id="navbarToggle">
-          <div class="">
-            <a class="" href="/">Home</a>
-            <a class="" href="/about">About Us </a>
-            <a class="" href="/products">Products</a>
-            <a class="" href="/forums">Forums</a>
-            <a class="" href="/blog">Blog</a>
-            <a class="" href="/tickets?status=all">Tickets</a>
-            <a class="" href="/calendar">Calendar</a>
+  <header>
+    <nav class="header-navbar-container">
+        <a class="home-link" href="/">{{company_name}}</a>
+        <div class="header-navigation">
+          <div class="header-main-nav">
+            <a class="header-link" href="/about">About Us </a>
+            <a class="header-link" href="/products">Products</a>
+            <a class="header-link" href="/forums">Forums</a>
+            <a class="header-link" href="/blog">Blog</a>
+            <a class="header-link" href="/tickets?status=all">Tickets</a>
+            <a class="header-link" href="/calendar">Calendar</a>
           </div>
           <!-- Navbar Right Side -->
-          <div class="">
+          <div class="header-profile-nav">
             {% if current_user.is_authenticated %}
-              
                 {% if is_admin %}
-                  <a class="" href="/blog/create">New Blog</a>
+                  <a class="header-link" href="/blog/create">New Blog</a>
                 {% endif %}
-              
-              <a class="" href="/profile">Profile</a>
-              <a class="" href="{{ url_for('auth.logout') }}">Logout</a>
+              <a class="header-link" href="/profile">Profile</a>
+              <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>
             {% endif %}
             {% if not current_user.is_authenticated %}
-              <a class="" href="/login">Login</a>
-              <a class="" href="/signup">Sign Up</a>
+              <a class="header-link" href="/login">Login</a>
+              <a class="header-link" href="/signup">Sign Up</a>
             {% endif %}
           </div>
         </div>
