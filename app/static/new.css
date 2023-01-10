@@ -1,3 +1,54 @@
+/* CSS Reset */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Main CSS */
+
 /* Variables */
 
 :root {
@@ -20,13 +71,9 @@ body {
   padding-top: 5rem;
 }
 
-.home-container {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center;
-  padding: 0px 20px;
+header {
+ background-color: var(--main-blue);
 }
-
 
 h1{
   color: #f0eeee;
@@ -41,6 +88,7 @@ footer {
   display: flex;
   margin-top: auto;
   justify-content: center;
+  background-color: var(--main-blue);
 }
 
 footer p {
@@ -60,52 +108,12 @@ a:hover {
 }
 
 /* Utilities */
-.side-margins {
-  margin: 0 2rem;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.hidden {
-  display: none;
-}
-
-.flex-center{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.text-muted {
-  color: #ffffff !important;
-}
-
-.col-md-4 {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 33.333333%;
-  flex: 0 0 33.333333%;
-  max-width: 33.333333%;
-  /* margin-block: 10px; */
-}
-
-.col-md-4 p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.small-padding {
-  padding: 0.2em;
-}
-
-.margin-top {
-  margin-top: 0.2em;
-}
 
 /* Site-wide */
+
+.primary-button {
+
+}
 
 .text-button {
   border: none;
@@ -125,73 +133,50 @@ a:hover {
   width: fit-content;
 }
 
-.header {
+
+.alternating-colors-table  {
+  width: 100%;
+  margin-top:1em;
+  margin-bottom: 1em;
+}
+
+.alternating-colors-table p {
+  margin:0;
+}
+
+.alternating-colors-table-links {
+  color: white;
+  font-size: 1.5em
+}
+
+.alternating-colors-table tr:nth-child(odd) td{
+  background-color: var(--main-blue);
+  color: white;
+}
+
+.alternating-colors-table tr:nth-child(even) td{
+  background-color: white;
   color: black;
-  margin-top: 0;
-  font-size: 36px;
+}
+.alternating-colors-table tr:nth-child(even) a{
+  color: black;
 }
 
-.title {
-  color: #ffffff;
-  font-size:30px
-}
-
-.bg-steel {
+.content-section {
+  border: 1px solid #dddddd;
+  padding: 10px 20px;
+  border-radius: 3px;
   background-color: var(--main-blue);
 }
 
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
-}
 
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
-}
+/* Home */
 
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
-}
-
-.article-title {
-  color: #444444;
-}
-
-a.article-title:hover {
-  color: var(--hover-blue);
-  text-decoration: none;
-}
-
-.article-content {
-  white-space: pre-line;
-}
-.article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
-}
-
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
-}
-
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-}
-
-article.media a {
-  color: #ffffff;
-  text-decoration:none;
-  background-color: transparent;
-}
-
-
-
-article.media p {
-  color: #ffffff;
+.home-container {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  padding: 0px 20px;
 }
 
 /* Auth */
@@ -245,34 +230,6 @@ article.media p {
   font-size: 3em
 }
 
-.alternating-colors-table  {
-  width: 100%;
-  margin-top:1em;
-  margin-bottom: 1em;
-}
-
-.alternating-colors-table p {
-  margin:0;
-}
-
-.alternating-colors-table-links {
-  color: white;
-  font-size: 1.5em
-}
-
-.alternating-colors-table tr:nth-child(odd) td{
-  background-color: var(--main-blue);
-  color: white;
-}
-
-.alternating-colors-table tr:nth-child(even) td{
-  background-color: white;
-  color: black;
-}
-.alternating-colors-table tr:nth-child(even) a{
-  color: black;
-}
-
 .post-title {
   border-bottom: 1px solid black;
   margin-bottom: 1em;
@@ -313,22 +270,6 @@ article.media p {
   width: 40%;
 }
 
-/* Other */
-.content-section {
-  border: 1px solid #dddddd;
-  padding: 10px 20px;
-  border-radius: 3px;
-  background-color: var(--main-blue);
-}
-
-.important-info-card {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-  margin-top: 30px;
-}
 
 /* Products */
 
@@ -389,3 +330,10 @@ article.media p {
   height: 50%;
   width: 50%;
 }
+
+/* Other */
+
+/* Tablet */
+
+/* Smartphone */
+
