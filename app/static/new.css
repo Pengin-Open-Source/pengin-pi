@@ -144,10 +144,13 @@ a:hover {
 }
 
 .primary-button {
+  border: none;
   background-color: #0d6efd;
+  border-color: #0d6efd;
   color: white;
   padding: 0.5rem;
   border-radius: 5px;
+  font-family: inherit;
 }
 
 .primary-button:hover {
@@ -174,6 +177,7 @@ a:hover {
 
 .text-buttons-container {
   display: flex;
+  align-items: center;
 }
 
 .delete-form {
@@ -281,14 +285,35 @@ a:hover {
   padding-bottom: 1rem;
 }
 
-.post-content {
+.comment-title-underline {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+
+.alternating-colors-table tr:nth-child(odd) .comment-title-underline{
+  border-bottom: 1px solid white;
+}
+
+.alternating-colors-table tr:nth-child(even) .comment-title-underline{
+  border-bottom: 1px solid black;
+}
+
+.post-container {
   background-color: white;
   color: black;
   padding: 1em;
   margin-bottom: 1em;
+  border-radius: 2px;
 }
-.post-content p {
+.post-info {
   margin: 0.5rem 0;
+}
+
+.post-content {
+  margin-top: 3rem;
 }
 
 .ticket-title-container {
