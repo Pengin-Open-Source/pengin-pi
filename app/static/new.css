@@ -67,7 +67,6 @@ html, body {
 
 body {
   min-height: 100vh;
-  
 }
 
 header {
@@ -82,10 +81,6 @@ header {
  top: 0;
  width: 100%;
 }
-
-h1, h2, h3, p {
-  color: white;
-} 
 
 main {
   display: flex;
@@ -143,17 +138,22 @@ a:hover {
  align-items: center;
 }
 
-.header-main-nav {
-
-}
-
-.header-profile-nav {
-
-}
-
 /* Site-wide */
-.primary-button {
+.one-div {
+  width: 50%;
+}
 
+.primary-button {
+  background-color: #0d6efd;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.primary-button:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  color: white;
 }
 
 .text-button {
@@ -163,6 +163,8 @@ a:hover {
   background-color: inherit;
   margin: 0 5px 0 5px;
   padding: 0;
+  font-family: inherit;
+  font-size: 1rem;
 }
 
 .text-button:hover {
@@ -170,19 +172,26 @@ a:hover {
   color: inherit;
 }
 
+.text-buttons-container {
+  display: flex;
+}
+
 .delete-form {
   width: fit-content;
 }
 
-
 .alternating-colors-table  {
   width: 100%;
-  margin-top:1em;
-  margin-bottom: 1em;
+  margin-top:2rem;
+  margin-bottom: 2rem;
 }
 
-.alternating-colors-table p {
-  margin:0;
+.alternating-colors-table p,a {
+ margin:0.25rem
+}
+
+.alternating-colors-table td {
+  padding: 0.5rem;
 }
 
 .alternating-colors-table-links {
@@ -199,9 +208,34 @@ a:hover {
   background-color: white;
   color: black;
 }
+
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
 }
+
+.title {
+  font-size: 3em
+}
+
+.title-underline {
+  border-bottom: 1px solid black;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}
+
+.post-content {
+  background-color: white;
+  color: black;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+.post-content p {
+  margin: 0.5rem 0;
+}
+
 
 .content-section {
   border: 1px solid #dddddd;
@@ -256,20 +290,13 @@ a:hover {
 
 
 /* Forum */
-.post-content {
-  background-color: white;
-  color: black;
-  padding: 1em;
-  margin-bottom: 1em;
-}
 
-.forum-title {
-  font-size: 3em
-}
 
-.post-title {
-  border-bottom: 1px solid black;
-  margin-bottom: 1em;
+/* Tickets */
+.ticket-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Calendar */
