@@ -1,11 +1,11 @@
-{% extends "forums/alternating_color_table.html" %}
+{% extends "layout/alternating_color_table.html" %}
 
 {% block beforeTableContent %}
-  <div class="post-content">
-    <div class="post-title flex-between">
-      <h2 class="forum-title">{{ticket.summary}}</h2>
+  <div class="post-container">
+    <div class="title-underline">
+      <h2 class="title">{{ticket.summary}}</h2>
       {% if current_user.is_authenticated %}
-        <div class="flex-center">
+        <div class="text-buttons-container">
           {% if is_admin or can_delete_ticket(ticket.id).can() %}
             <form class="delete-form" method="post" action="/tickets/delete/ticket/{{ticket.id}}">
               <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
@@ -18,25 +18,25 @@
         </div>
       {% endif %}
     </div>
-    <p>Status: {{ticket.resolution_status|upper}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date}}{% endif %}</p>
-    <p>By: {{author}}</p>
-    <p>Date: {{ticket.date}}</p>
-    <p>{{ticket.content}}</p>
+    <p class="post-info">Status: {{ticket.resolution_status|upper}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date}}{% endif %}</p>
+    <p class="post-info">By: {{author}}</p>
+    <p class="post-info">Date: {{ticket.date}}</p>
+    <p class="post-content">{{ticket.content}}</p>
   </div>
   <div class="flex-center">
-    <a class="btn btn-primary" href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
+    <a class="primary-button" style="margin-left: 0;"  href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
   </div>
 {% endblock %}
 
 {% block tableContent %}
   {% for comment in comments %}
   <tr><td>
-    <div class="media">
-      <div class="media-body">
-        <div class=" flex-between">
-          <div class="article-metadata small-padding">by {{comment_authors[comment.author_id]}} at {{comment.date}}</div>
+    <div class="">
+      <div class="">
+        <div class="comment-title-underline">
+          <div class="">by {{comment_authors[comment.author_id]}} at {{comment.date}}</div>
             {% if current_user.is_authenticated %}
-              <div class="flex-center">
+              <div class="text-buttons-container">
                 {% if is_admin or can_delete_comment(comment.id).can() %}
                   <form class="delete-form" method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
                     <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
@@ -49,7 +49,7 @@
               </div>
             {% endif %}
         </div>
-        <p class="article content small-padding">{{comment.content}}</p>
+        <p class="">{{comment.content}}</p>
       </div>
     </div>
   </td></tr>
@@ -57,20 +57,20 @@
 {% endblock %}
 
 {% block postTableContent %}
-  <div class="column">
-    <div class="box">
+  <div class="">
+    <div class="">
         <form method="POST" action="/tickets/{{ticket.id}}">
 
-            <div class="mb-3">
-                <label for="content" class="form-label">Comment</label>
+            <div class="">
+                <label for="content" class="">Comment</label>
                 <input
-                class="form-control"
+                class=""
                 type="text"
                 name="content"
                 id="content"
                 placeholder="What do you think of this ticket?">
             </div>
-            <button class="btn btn-primary">Post</button>
+            <button class="primary-button">Post</button>
         </form>
     </div>
   </div>
