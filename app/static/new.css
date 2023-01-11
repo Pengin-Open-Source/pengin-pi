@@ -180,70 +180,12 @@ a:hover {
   width: fit-content;
 }
 
-.alternating-colors-table  {
-  width: 100%;
-  margin-top:2rem;
-  margin-bottom: 2rem;
-}
-
-.alternating-colors-table p,a {
- margin:0.25rem
-}
-
-.alternating-colors-table td {
-  padding: 0.5rem;
-}
-
-.alternating-colors-table-links {
-  color: white;
-  font-size: 1.5em
-}
-
-.alternating-colors-table tr:nth-child(odd) td{
-  background-color: var(--main-blue);
-  color: white;
-}
-
-.alternating-colors-table tr:nth-child(even) td{
-  background-color: white;
-  color: black;
-}
-
-.alternating-colors-table tr:nth-child(even) a{
-  color: black;
-}
-
-.title {
-  font-size: 3em
-}
-
-.title-underline {
-  border-bottom: 1px solid black;
-  margin-bottom: 1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: black;
-}
-
-.post-content {
-  background-color: white;
-  color: black;
-  padding: 1em;
-  margin-bottom: 1em;
-}
-.post-content p {
-  margin: 0.5rem 0;
-}
-
-
 .content-section {
   border: 1px solid #dddddd;
   padding: 10px 20px;
   border-radius: 3px;
   background-color: var(--main-blue);
 }
-
 
 /* Home */
 .home-container {
@@ -289,10 +231,66 @@ a:hover {
 }
 
 
-/* Forum */
+/* Forum/Tickets */
 
 
-/* Tickets */
+.alternating-colors-table  {
+  width: 100%;
+  margin-top:2rem;
+  margin-bottom: 2rem;
+}
+
+.alternating-colors-table p,a {
+ margin:0.25rem
+}
+
+.alternating-colors-table td {
+  padding: 0.5rem;
+}
+
+.alternating-colors-table-links {
+  color: white;
+  font-size: 1.5em
+}
+
+.alternating-colors-table tr:nth-child(odd) td{
+  background-color: var(--main-blue);
+  color: white;
+}
+
+.alternating-colors-table tr:nth-child(even) td{
+  background-color: white;
+  color: black;
+}
+
+.alternating-colors-table tr:nth-child(even) a{
+  color: black;
+}
+
+.title {
+  font-size: 3em
+}
+
+.title-underline {
+  border-bottom: 1px solid black;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  padding-bottom: 1rem;
+}
+
+.post-content {
+  background-color: white;
+  color: black;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+.post-content p {
+  margin: 0.5rem 0;
+}
+
 .ticket-title-container {
   display: flex;
   justify-content: space-between;
