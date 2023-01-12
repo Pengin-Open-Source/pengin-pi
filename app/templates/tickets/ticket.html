@@ -30,48 +30,37 @@
 
 {% block tableContent %}
   {% for comment in comments %}
-  <tr><td>
-    <div class="">
-      <div class="">
-        <div class="comment-title-underline">
-          <div class="">by {{comment_authors[comment.author_id]}} at {{comment.date}}</div>
-            {% if current_user.is_authenticated %}
-              <div class="text-buttons-container">
-                {% if is_admin or can_delete_comment(comment.id).can() %}
-                  <form class="delete-form" method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
-                    <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-                  </form> 
-                  <span class="text-button">|</span>
-                {% endif %}
-                {% if is_admin or can_edit_comment(comment.id).can() %}
-                  <a class="text-button" href="/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}">Edit</a>
-                {% endif %}
-              </div>
-            {% endif %}
-        </div>
-        <p class="">{{comment.content}}</p>
+    <tr><td>
+      <div class="comment-title-underline">
+        <div class="">by {{comment_authors[comment.author_id]}} at {{comment.date}}</div>
+          {% if current_user.is_authenticated %}
+            <div class="text-buttons-container">
+              {% if is_admin or can_delete_comment(comment.id).can() %}
+                <form class="delete-form" method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
+                  <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
+                </form> 
+                <span class="text-button">|</span>
+              {% endif %}
+              {% if is_admin or can_edit_comment(comment.id).can() %}
+                <a class="text-button" href="/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}">Edit</a>
+              {% endif %}
+            </div>
+          {% endif %}
       </div>
-    </div>
-  </td></tr>
+      <p>{{comment.content}}</p>
+    </td></tr>
   {% endfor %}
 {% endblock %}
 
 {% block postTableContent %}
-  <div class="">
-    <div class="">
-        <form method="POST" action="/tickets/{{ticket.id}}">
-
-            <div class="">
-                <label for="content" class="">Comment</label>
-                <input
-                class=""
-                type="text"
-                name="content"
-                id="content"
-                placeholder="What do you think of this ticket?">
-            </div>
-            <button class="primary-button">Post</button>
-        </form>
-    </div>
-  </div>
+  <form class="comment-form" method="POST" action="/tickets/{{ticket.id}}">
+        <label for="content">Comment</label>
+        <input
+        class="comment-input"
+        type="text"
+        name="content"
+        id="content"
+        placeholder="What do you think of this ticket?">
+      <button class="primary-button">Post</button>
+  </form>
 {% endblock %}
