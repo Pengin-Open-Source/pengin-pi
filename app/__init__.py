@@ -12,9 +12,13 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need)
 
+from datetime import datetime
 from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
+
+
+
 
 
 class DummyHome():
@@ -22,11 +26,13 @@ class DummyHome():
     article = ''
     image = ''
 
+def copyright():
+    return {'copyright': str(datetime.utcnow().year)}
+
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-
-
+    
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
@@ -100,4 +106,5 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
 
+    app.context_processor(copyright)
     return app
