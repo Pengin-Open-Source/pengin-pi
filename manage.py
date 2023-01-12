@@ -7,12 +7,11 @@ from werkzeug.security import generate_password_hash
 
 
 password = generate_password_hash('password', method='sha256')
-
+app = create_app()
 
 
 
 def create_all():
-    app = create_app()
     
     with app.app_context():
         db.create_all()
@@ -20,16 +19,14 @@ def create_all():
         
 def create(model, **kwargs):
     new = model(kwargs)
-    app = create_app()
     
     with app.app_context():
         db.session.add(new)
         db.session.commit()
 
 def getone(model, **kwargs):
-    app = create_app()
     with app.app_context():
-        return model.query.filter_by(kwargs).first()
+        return model.query.filter_by(**kwargs).first()
         
 def update(model, search:dict, change:dict):
     lookup = getone(model, **search)
@@ -37,7 +34,6 @@ def update(model, search:dict, change:dict):
     #db.session.commit()
     
 def build():
-    app = create_app()
     with app.app_context():
         roles = ({'id':id(),'name':'admin'},{'id':id(),'name':'user'},{'id':id(),'name':'sales'},{'id':id(),'name':'marketing'},{'id':id(),'name':'support'})
         threads = ({'name':'General','id':id()},{'name':'Sales','id':id()},{'name':'Support','id':id()},{'name':'Marketing','id':id()})
@@ -50,12 +46,16 @@ def build():
                      {'id':id(),'user_id':users[0]['id'],'role_id':[i['id'] for i in roles if i['name'] == 'support'][0]})
         for i in roles:
             db.session.add(Role(id=i['id'],name=i['name'])) 
+        db.session.commit()
         for i in threads:
             db.session.add(Thread(id=i['id'], name=i['name']))
+        db.session.commit()
         for i in threadroles:
             db.session.add(ThreadRoles(id=i['id'], thread_id=i['thread_id'], role_id=i['role_id']))
+        db.session.commit()
         for i in users:
             db.session.add(User(id=i['id'],email=i['email'],password=i['password'],name=i['name'],validated=i['validated'],validation_date=i['validation_date'],validation_id=i['validation_id']))
+        db.session.commit()
         for i in userroles:
             db.session.add(UserRoles(user_id=i['user_id'],role_id=i['role_id']))
         db.session.commit()
@@ -63,7 +63,5 @@ def build():
 
 
 if __name__ == "__main__":
-    app = create_app()
-    with app.app_context():
-        pass
+    build()
     
