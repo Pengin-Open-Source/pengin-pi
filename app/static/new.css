@@ -192,6 +192,23 @@ a:hover {
   background-color: var(--main-blue);
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+.form-input {
+ margin-top: 0.25rem;
+ border-radius: 2px;
+}
+
 /* Home */
 .home-container {
   display: flex; 
@@ -329,6 +346,7 @@ a:hover {
 .comment-input {
  margin: 0.5rem 0;
  width: 50%;
+ border-radius: 2px;
 }
 
 /* Calendar */
