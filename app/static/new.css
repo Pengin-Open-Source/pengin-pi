@@ -151,6 +151,7 @@ a:hover {
   padding: 0.5rem;
   border-radius: 5px;
   font-family: inherit;
+  width: fit-content ;
 }
 
 .primary-button:hover {
@@ -236,8 +237,6 @@ a:hover {
 
 
 /* Forum/Tickets */
-
-
 .alternating-colors-table  {
   width: 100%;
   margin-top:2rem;
@@ -320,6 +319,16 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-input {
+ margin: 0.5rem 0;
+ width: 50%;
 }
 
 /* Calendar */
