@@ -1,8 +1,8 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section aa">
-        <div class="media-body home-container aa">
+    <article class="content-section ">
+        <div class="home-container">
           <h2 class="about-title">Welcome to {{home.company_name}}</h2>
           <p>{{home.article}}</p>
           <div class="image-container">
@@ -10,10 +10,10 @@
           </div>
           </div>
         </div>
-      </article>
+    </article>
     
       {% if is_admin %}
-        <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
+        <a class="primary-button" href="/home/edit">Edit Home Page</a>
       {% endif %}
       
 {% endblock %}
