@@ -11,6 +11,8 @@ from app.db import db
 from app.db.models import User
 from app.util.mail import send_mail
 from dotenv import load_dotenv
+from app.util.security.limit import limiter
+
 
 auth = Blueprint('auth', __name__)
 load_dotenv()
@@ -21,7 +23,7 @@ VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
 def login():
     return render_template('authentication/login.html')
 
-
+@limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -43,7 +45,7 @@ def login_post():
 def signup():
     return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"))
 
-
+@limiter.limit("5 per minute")
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     g_recaptcha_response = request.form.get('g-recaptcha-response')
