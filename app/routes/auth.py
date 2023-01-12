@@ -1,6 +1,4 @@
 import os
-import requests
-
 from flask import (Blueprint, current_app, flash, redirect, render_template,
                    request, session, url_for, abort)
 from flask_login import login_required, login_user, logout_user
@@ -10,12 +8,12 @@ from datetime import datetime
 from app.db import db
 from app.db.models import User
 from app.util.mail import send_mail
-from dotenv import load_dotenv
+from app.util.security.recaptcha import verify_response
 from app.util.security.limit import limiter
 
 
 auth = Blueprint('auth', __name__)
-load_dotenv()
+
 VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
 
 
@@ -45,17 +43,11 @@ def login_post():
 def signup():
     return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"))
 
+
 @limiter.limit("5 per minute")
 @auth.route('/signup', methods=['POST'])
+@verify_response
 def signup_post():
-    g_recaptcha_response = request.form.get('g-recaptcha-response')
-    secret_key = os.getenv("SECRET_KEY")
-    verify_response = requests.post(
-        url=f'{VERIFY_URL}?secret={secret_key}&response={g_recaptcha_response}').json()
-    # "verify_response" example: {'success': True, 'challenge_ts': '2023-01-10T03:01:06Z', 'hostname': 'localhost', 'score': 0.9, 'action': 'submit'}
-    if not verify_response["success"] or verify_response["score"] < 0.6:
-        abort(401)
-
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
