@@ -25,6 +25,9 @@ this template is the parent, while home/about are the children-->
   <!--Default title -->
   <title>{{company_name}} </title>
   {% endif %}
+  <script>
+    document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+  </script>
 </head>
 
 <body>
