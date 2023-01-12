@@ -14,9 +14,6 @@ from app.util.security.limit import limiter
 
 auth = Blueprint('auth', __name__)
 
-VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
-
-
 @auth.route('/login')
 def login():
     return render_template('authentication/login.html')
