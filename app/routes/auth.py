@@ -1,5 +1,6 @@
+import os
 from flask import (Blueprint, current_app, flash, redirect, render_template,
-                   request, session, url_for)
+                   request, session, url_for, abort)
 from flask_login import login_required, login_user, logout_user
 from flask_principal import AnonymousIdentity, Identity, identity_changed
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -7,16 +8,20 @@ from datetime import datetime
 from app.db import db
 from app.db.models import User
 from app.util.mail import send_mail
+from app.util.security.recaptcha import verify_response
+from app.util.security.limit import limiter
+
 
 auth = Blueprint('auth', __name__)
+
+VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
 
 
 @auth.route('/login')
 def login():
-
     return render_template('authentication/login.html')
 
-
+@limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -36,11 +41,12 @@ def login_post():
 
 @auth.route('/signup')
 def signup():
+    return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"))
 
-    return render_template('authentication/signup.html')
 
-
+@limiter.limit("5 per minute")
 @auth.route('/signup', methods=['POST'])
+@verify_response
 def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
@@ -62,7 +68,7 @@ def signup_post():
     try:
         send_mail(user.email, user.validation_id)
     except Exception as e:
-        print ("Error: ", e)
+        print("Error: ", e)
 
     return redirect(url_for('auth.login'))
 
