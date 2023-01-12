@@ -1,14 +1,21 @@
 from app.util.log.config import logger as _logger
+from flask import request
 
 
 def log():
     """Logging Wrapper
     By: Stuart Anderson
-    Copyright: Tobu Pengin, LLC. 2022
+    Copyright: Tobu Pengin, LLC. 2023
     """
     def pre(func):
         """ Pre function logging """
-        _logger.debug("Entered %s", func.__name__)
+        user_ip = request.remote_addr
+        user_id = request.headers.get("User-Id") or request.headers.get("Session-Id")
+        if user_ip and user_id:
+            extra = {"user_ip": user_ip, "user_id": user_id}
+            _logger.debug(f"Entered {func.__name__}", extra=extra)
+        else:
+            _logger.debug(f"Entered {func.__name__}")
 
     def post(func):
         """Post function logging"""
@@ -25,6 +32,7 @@ def log():
             pre(func)
             result = func(*args, **kwargs)
             _logger.debug(str(result))
+
             post(func)
             try:
                 return result

@@ -4,6 +4,8 @@ flask-sqlalchemy
 flask-login
 flask-principal
 flask-admin
+flask-commonmark
+pytz
 sqlalchemy
 markupsafe
 mysqlclient
