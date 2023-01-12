@@ -2,9 +2,8 @@
 
 {% block oneDivContent %}
     <article class="content-section">
-        <div class="media-body">
-            <h2 class="about-title">About {{about.name}}</h2>
-            <div class="flex-between">
+            <h2 class="title center-title">About {{about.name}}</h2>
+            <div class="about-article-container">
                 <div class="image-container">
                     <p>{{about.article}}</p>
                 </div>
@@ -56,11 +55,10 @@
                     <p>Telephone: {{about.phone}}</p>
                 {% endif %}
             </div>
-        </div>
     </article>
     
     {% if is_admin %}
-        <a class="btn btn-primary mb-3" href="/about/edit">Edit About Page</a>
+        <a class="primary-button" href="/about/edit">Edit About Page</a>
     {% endif %}
     
 {% endblock %}
