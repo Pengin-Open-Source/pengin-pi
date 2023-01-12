@@ -5,6 +5,7 @@ flask-login
 flask-principal
 flask-admin
 flask-commonmark
+flask-limiter
 pytz
 sqlalchemy
 markupsafe

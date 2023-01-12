@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, g
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
                              identity_loaded)
@@ -14,11 +14,10 @@ from app.util.security import (delete_comment_need, delete_post_need,
 
 from datetime import datetime
 from app.util.uuid import id
+from app.util.security.limit import limiter
+
 principals = Principal()
 login_manager = LoginManager()
-
-
-
 
 
 class DummyHome():
@@ -36,7 +35,7 @@ def create_app():
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
-
+    limiter.init_app(app)
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
@@ -44,13 +43,6 @@ def create_app():
     login_manager.login_view = 'auth.login'
 
     
-
-    # Inject global variables to templates
-    @app.context_processor
-    def inject_globals():
-        company = model.Home.query.first() or DummyHome()
-        name = company.company_name
-        return dict(company_name=name)
 
     # Inject global variables to templates
     @app.context_processor
@@ -105,6 +97,13 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
+
+    @app.context_processor
+    def get_time_zone():
+        time_zone = request.cookies.get('time_zone', 'UTC')
+        g.time_zone = time_zone
+        
+        return {'time_zone': time_zone}
 
     app.context_processor(copyright)
     return app
