@@ -14,11 +14,10 @@ from app.util.security import (delete_comment_need, delete_post_need,
 
 from datetime import datetime
 from app.util.uuid import id
+from app.util.security.limit import limiter
+
 principals = Principal()
 login_manager = LoginManager()
-
-
-
 
 
 class DummyHome():
@@ -36,7 +35,7 @@ def create_app():
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
-
+    limiter.init_app(app)
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)

@@ -7,6 +7,7 @@ from datetime import datetime
 from app.db import db
 from app.db.models import User
 from app.util.mail import send_mail
+from app.util.security.limit import limiter
 
 auth = Blueprint('auth', __name__)
 
@@ -16,7 +17,7 @@ def login():
 
     return render_template('authentication/login.html')
 
-
+@limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -39,7 +40,7 @@ def signup():
 
     return render_template('authentication/signup.html')
 
-
+@limiter.limit("5 per minute")
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
