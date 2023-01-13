@@ -1,59 +1,56 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/calendar/create">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
+        <form class="form" method="POST" action="/calendar/create">
+            <div class="form-section">
+                <label for="title">Title</label>
                 <input
-                class="form-control"
+                class="form-input"
                 type="text"
                 name="title"
                 placeholder="Write some title..." required>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+            <div class="form-section">
+                <label for="description" >Description</label>
                 <textarea
-                class="form-control"
+                cols="20"
+                class="form-input"
                 name="description"
                 id="description"
                 placeholder="Write some description..."></textarea>
             </div>
-            <div class="mb-3">
-                <label for="roles" class="form-label">Role: </label>
-                <select id="roles" class="form-control" name="role" required>
+            <div class="form-section">
+                <label for="roles">Role: </label>
+                <select id="roles" class="form-input" name="role" required>
                     {% for role in roles %}
                         <option value="{{ role.id }}">{{ role.name }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="mb-2">
-                <label for="start_datetime" class="form-label">Start at</label>
+            <div class="form-section">
+                <label for="start_datetime">Start at</label>
                 <input
-                class="form-control"
+                class="form-input"
                 type="datetime-local"
                 name="start_datetime" required>
             </div>
-            <div class="mb-2">
-                <label for="end_datetime" class="form-label">End at</label>
+            <div class="form-section">
+                <label for="end_datetime">End at</label>
                 <input
-                class="form-control"
+                class="form-input"
                 type="datetime-local"
                 name="end_datetime" required>
             </div>
-            <div class="mb-2">
-                <label for="location" class="form-label">Location</label>
+            <div class="form-section">
+                <label for="location">Location</label>
                 <input
-                class="form-control"
+                class="form-input"
                 type="text"
                 name="location"
                 id="location">
             </div>
-            <button class="btn btn-primary">Create</button>
+            <button class="primary-button">Create</button>
         </form>
-    </div>
-  </div>
 {% endblock %}
 
 

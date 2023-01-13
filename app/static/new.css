@@ -402,8 +402,8 @@ a:hover {
 }
 
 /* Calendar */
-.date-box {
-  border: 1px solid black;
+.calendar-date {
+  margin-bottom: 0.5rem;
 }
 
 /* About */
