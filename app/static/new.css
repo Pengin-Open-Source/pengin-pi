@@ -194,6 +194,10 @@ a:hover {
   width: fit-content;
 }
 
+.button-form {
+  margin: 1rem 0;
+}
+
 .content-section {
   border: 1px solid #dddddd;
   padding: 10px 20px;
@@ -425,7 +429,7 @@ a:hover {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 1em;
-  margin-bottom: 1em;
+  margin: 2em 0;
 }
 
 .product-item {
@@ -437,8 +441,10 @@ a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+}
+
+.product-item h3 {
+  margin: 1rem 0;
 }
 
 .product-item:hover {
@@ -459,12 +465,27 @@ a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1em;
+  margin: 2rem 0;
+}
+
+.product-display p {
+  margin: 0.5rem 0;
 }
 
 .product-display img {
   height: 30%;
   width: 30%;
+}
+
+.product-edit-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.product-edit-description {
+  width:50%;
+  margin-bottom: 2rem;
 }
 
 

@@ -1,20 +1,16 @@
 {% extends "layout/oneDiv.html" %}
 
-<h2 class="forum-title">Products</h2>
-
 {% block oneDivContent %}
+  <h2 class="title">Products</h2>
   <div class="product-grid">
     {% for product in products %}
-    <a href="/products/{{product.id}}">
-      <div class="product-item">
-        <h3>{{product.name}} - {{product.price}}</h3>
-        <img src="{{product.card_image_url}}" alt="Product Image">
-      </div>    
-    </a>
+      <a href="/products/{{product.id}}">
+        <div class="product-item">
+          <h3>{{product.name}} - {{product.price}}</h3>
+          <img src="{{product.card_image_url}}" alt="Product Image">
+        </div>    
+      </a>
     {% endfor %}
   </div>
-
-  <a class="btn btn-primary" href="/products/create">New Product</a>
+  <a class="primary-button" href="/products/create">New Product</a>
 {% endblock %} 
-
-
