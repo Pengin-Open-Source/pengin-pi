@@ -1,22 +1,14 @@
-{% extends "layout/twoAndOneThirdDivs.html" %}
+{% extends "layout/oneDiv.html" %}
 
-{% block twoThirdContent %}
-    <div class="blog-content">
-        {% block blogContent %}{% endblock %}
+{% block oneDivContent %}
+<article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#"></a>
+        <small class="text-muted">{{post.date}}</small>
+      </div>
+      <h2><a class="article-title" href="#">{{post.title}}</a></h2>
+      <p class="article-content">{{post.content}}</p>
     </div>
+  </article>
 {% endblock %}
-
-{% block oneThirdContent %}
-    <div class="blog-links content-section">
-        <h1>Links</h1>
-        {% for link in links %}
-        <div class="blog-link-item" style="color: white">
-            <a href="/blog/{{ link.id }}">
-                {{ link.title }}
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-{% endblock %}
-
-
