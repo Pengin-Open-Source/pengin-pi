@@ -1,32 +1,27 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-<div class="column md-6 offset-3">
-    <div class="container">
-        <h1 class="title">Login</h3>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert alert-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form class="authForm" method="POST" action="/login">
-            <div class="form-group">
-                <label>Email address</label>
-                <input class="form-control" type="email" name="email" placeholder="Your Email" autofocus="">
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input class="form-control" type="password" name="password" placeholder="Your Password">
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="remember">
-                <label class="form-check-label"> Remember me</label>
-            </div>
-            <button class="btn btn-primary btn-md" type="submit">Login</button>
-        </form>
-    </div>
-</div>
+    <h1 class="title">Login</h3>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <form class="form" method="POST" action="/login">
+        <div class="form-section">
+            <label>Email address</label>
+            <input class="form-input" type="email" name="email" placeholder="Your Email" autofocus="">
+        </div>
+        <div class="form-section">
+            <label>Password</label>
+            <input class="form-input" type="password" name="password" placeholder="Your Password">
+        </div>
+        <div class="form-section">
+            <input class="form-input" type="checkbox" name="remember">
+            <label> Remember me</label>
+        </div>
+        <button class="primary-button" type="submit">Login</button>
+    </form>
 {% endblock %}
