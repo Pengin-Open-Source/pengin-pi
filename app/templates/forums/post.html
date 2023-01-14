@@ -20,7 +20,7 @@
       {% endif %}
     </div>
     <p>By {{author}} ({{post.date}})</p>
-    <p>{{post.content}}</p>
+    <p>{{post.content|commonmark}}</p>
   </div>
 {% endblock %}
 
@@ -45,7 +45,7 @@
             </div>
           {% endif %}
         </div>
-        <p class="article content small-padding">{{comment.content}}</p>
+        <p class="article content small-padding">{{comment.content|commonmark}}</p>
       </div>
     </div>
   </td></tr>

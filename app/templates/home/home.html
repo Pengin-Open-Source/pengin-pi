@@ -4,7 +4,7 @@
     <article class="media content-section">
         <div class="media-body home-container">
           <h2 class="about-title">Welcome to {{home.company_name}}</h2>
-          <p>{{home.article}}</p>
+          <p>{{home.article|commonmark}}</p>
           <div class="image-container">
               <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
           </div>

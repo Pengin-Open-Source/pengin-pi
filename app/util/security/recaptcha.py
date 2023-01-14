@@ -5,9 +5,9 @@ from requests import post
 from dotenv import load_dotenv
 load_dotenv()
 
+
 VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
 secret_key = os.getenv("SECRET_KEY")
-
 
 #secret_key = os.getenv("SECRET_KEY")
 def verify_response(func):
