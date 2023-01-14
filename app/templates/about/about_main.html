@@ -6,7 +6,7 @@
             <h2 class="about-title">About {{about.name}}</h2>
             <div class="flex-between">
                 <div class="image-container">
-                    <p>{{about.article}}</p>
+                    <p>{{about.article|commonmark}}</p>
                 </div>
                 <div class="image-container">
                     <img src="{{image}}" alt="About Image" style="width: 100%; height: auto">

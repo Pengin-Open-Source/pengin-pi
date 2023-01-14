@@ -5,7 +5,7 @@ from app.db import db
 from app.db.models import Product
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
-import os
+from app.db.util import paginate
 
 product_blueprint = Blueprint('product_blueprint',
                               __name__, url_prefix="/products")
@@ -13,7 +13,7 @@ product_blueprint = Blueprint('product_blueprint',
 
 @product_blueprint.route('/')
 def products():
-    products = Product.query.filter_by().all()
+    products = paginate(Product, page=1, key="name", pages=9)
     for product in products:
         product.card_image_url = conn.get_URL(product.card_image_url)
 

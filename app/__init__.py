@@ -15,6 +15,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
 from datetime import datetime
 from app.util.uuid import id
 from app.util.security.limit import limiter
+from app.util.markup import markup
 
 principals = Principal()
 login_manager = LoginManager()
@@ -35,14 +36,13 @@ def create_app():
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
+    markup.init_app(app)
     limiter.init_app(app)
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
-
-    
 
     # Inject global variables to templates
     @app.context_processor
@@ -59,6 +59,10 @@ def create_app():
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
+        """Permissions loader function
+        This method loads all of the user permissions
+        to the user identity
+        """
         if not isinstance(identity, AnonymousIdentity):
             identity.user = current_user
             if hasattr(current_user, 'id'):

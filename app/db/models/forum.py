@@ -6,7 +6,7 @@ class ForumPost(db.Model):
     __tablename__ = "forum_post"
     id = db.Column(db.String(36), default=id, primary_key=True)
     title = db.Column(db.String(50))
-    content = db.Column(db.String(10000))
+    content = db.Column(db.Text)
     thread_id = db.Column(db.String(36), db.ForeignKey('thread.id',
                                                      ondelete='CASCADE'))
     author = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -21,7 +21,7 @@ class ForumComment(db.Model):
     id = db.Column(db.String(36), default=id, primary_key=True)
     post_id = db.Column(db.String(36), db.ForeignKey('forum_post.id',
                                                    ondelete='CASCADE'))
-    content = db.Column(db.String(15000))
+    content = db.Column(db.Text)
     author = db.Column(db.String(36), db.ForeignKey('user.id',
                                                   ondelete='CASCADE'))
     date = db.Column(db.String(100))
