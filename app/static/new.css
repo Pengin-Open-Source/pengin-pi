@@ -55,7 +55,6 @@ table {
 }
 
 /* General Styles */
-
 html, body {
   margin: 0;
   height: 100%;
@@ -116,7 +115,6 @@ a:hover {
 }
 
 /* Nav Bar */
-
 .header-navbar-container {
   display: flex;
   margin-right: 1.5rem;
@@ -151,6 +149,20 @@ a:hover {
 
 .one-div {
   width: 50%;
+}
+
+.two-and-one-thirds-div {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.two-thirds-div {
+  width: 60%;
+}
+
+.one-third-div {
+  width: 30%;
 }
 
 .primary-button {
@@ -296,6 +308,33 @@ a:hover {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+  height: fit-content;
+  width: fit-content ;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-side-info a {
+  font-size: 1.5rem;
+}
+
+.profile-title {
+  font-size: 2rem;
+}
+
+.edit-profile-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-info-container {
+  margin: 1rem 0;
+}
+
+.profile-info-container p{
+  margin: 0.5rem 0;
 }
 
 
@@ -494,8 +533,6 @@ a:hover {
   width:50%;
   margin-bottom: 2rem;
 }
-
-
 
 /* Other */
 
