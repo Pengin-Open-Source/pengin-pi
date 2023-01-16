@@ -1,4 +1,3 @@
 User-agent: *
-Allow: /
-
+Disallow: /
 Sitemap: http://www.penginopensource.org/sitemap.xml
