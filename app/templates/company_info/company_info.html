@@ -1,9 +1,9 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-  <div id="company-info-table">
-  <h1 class="header">Company Information</h1>
-    <table class="table table-bordered">
+<h1 class="profile-title">Company Information</h1>
+  <div class="company-info-table">
+    <table class="">
       <tr>
         <th>Company Name</th>
         <td>{{ company.name }}</td>
@@ -45,8 +45,8 @@
         <td>{{ company.members }}</td>
       </tr>
     </table>
-  <a class="btn btn-primary" href="/companies/edit_company_info/{{company.id}}">Edit Company Information</a>
   </div>
+  <a class="primary-button" href="/companies/edit_company_info/{{company.id}}">Edit Company Information</a>
 {% endblock %}
 
 {% block profileSideContent %}

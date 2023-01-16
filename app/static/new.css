@@ -256,6 +256,38 @@ a:hover {
   align-items: center;
 }
 
+.alternating-colors-table  {
+  width: 100%;
+  margin-top:2rem;
+  margin-bottom: 2rem;
+}
+
+.alternating-colors-table p,a {
+ margin:0.25rem
+}
+
+.alternating-colors-table td {
+  padding: 0.5rem;
+}
+
+.alternating-colors-table-links {
+  color: white;
+  font-size: 1.5em
+}
+
+.alternating-colors-table tr:nth-child(odd) td{
+  background-color: var(--main-blue);
+  color: white;
+}
+
+.alternating-colors-table tr:nth-child(even) td{
+  background-color: white;
+  color: black;
+}
+
+.alternating-colors-table tr:nth-child(even) a{
+  color: black;
+}
 
 /* Home */
 .home-container {
@@ -292,14 +324,12 @@ a:hover {
 }
 
 
-/* Profile */
+/* Profile/ Company Info */
 .profile-info {
   background: #ffffff;
   padding: 20px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
-  margin-bottom: 20px;
-  margin-right: 30px;
 }
 
 .profile-side-info {
@@ -307,7 +337,6 @@ a:hover {
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
-  margin-bottom: 20px;
   height: fit-content;
   width: fit-content ;
 
@@ -337,41 +366,24 @@ a:hover {
   margin: 0.5rem 0;
 }
 
-
-/* Forum/Tickets */
-.alternating-colors-table  {
-  width: 100%;
-  margin-top:2rem;
-  margin-bottom: 2rem;
+.company-info-table {
+  margin: 2rem;
 }
 
-.alternating-colors-table p,a {
- margin:0.25rem
-}
-
-.alternating-colors-table td {
+.company-info-table td,th {
+  border: 1px black solid;
   padding: 0.5rem;
 }
 
-.alternating-colors-table-links {
-  color: white;
-  font-size: 1.5em
+.company-list {
+  padding: 1rem;
 }
 
-.alternating-colors-table tr:nth-child(odd) td{
-  background-color: var(--main-blue);
-  color: white;
+.company-list li{
+  margin:0.5rem;
 }
 
-.alternating-colors-table tr:nth-child(even) td{
-  background-color: white;
-  color: black;
-}
-
-.alternating-colors-table tr:nth-child(even) a{
-  color: black;
-}
-
+/* Forum/Tickets */
 .thread-container {
   display: flex;
   justify-content: space-between;
@@ -533,8 +545,6 @@ a:hover {
   width:50%;
   margin-bottom: 2rem;
 }
-
-/* Other */
 
 /* Tablet */
 

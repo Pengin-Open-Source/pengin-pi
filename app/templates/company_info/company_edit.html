@@ -2,61 +2,55 @@
 
 
 {% block profilecontent %}
-<form id="edit_company_info_form" method="POST" action="/companies/edit_company_info/{{company.id}}">
-
-  <h1 class="header">Edit Company Information</h1>
-
+<h1 class="profile-title">Edit Company Information</h1>
+<form class="form" method="POST" action="/companies/edit_company_info/{{company.id}}">
   <input type="hidden" name="id" value="{{company.id}}">
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Company Name*</label>
-      <input class="form-control" type="text" name="name" value="{{ company.name }}" placeholder="Company Name" required>
+      <input class="form-input" type="text" name="name" value="{{ company.name }}" placeholder="Company Name" required>
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Address 1*</label>
-      <input class="form-control" type="text" name="address1" value="{{ company.address1 }}" placeholder="Address 1" required>
+      <input class="form-input" type="text" name="address1" value="{{ company.address1 }}" placeholder="Address 1" required>
     </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Address 2</label>
-      <input class="form-control" type="text" name="address2" value="{{ company.address2 }}" placeholder="Address 2">
+      <input class="form-input" type="text" name="address2" value="{{ company.address2 }}" placeholder="Address 2">
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>City*</label>
-      <input class="form-control" type="text" name="city" value="{{ company.city }}" placeholder="City" required>
+      <input class="form-input" type="text" name="city" value="{{ company.city }}" placeholder="City" required>
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
     <label>State*</label>
-    <input class="form-control" type="text" name="state" value="{{ company.state }}" placeholder="State">
+    <input class="form-input" type="text" name="state" value="{{ company.state }}" placeholder="State">
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>ZIP*</label>
-      <input class="form-control" type="text" name="zipcode" value="{{ company.zipcode }}" placeholder="ZIP" required>
+      <input class="form-input" type="text" name="zipcode" value="{{ company.zipcode }}" placeholder="ZIP" required>
     </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Country*</label>
-      <input class="form-control" type="text" name="country" value="{{ company.country }}" placeholder="Country" required>
+      <input class="form-input" type="text" name="country" value="{{ company.country }}" placeholder="Country" required>
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Phone</label>
-      <input class="form-control" type="text" name="phone" value="{{ company.phone }}" placeholder="Phone">
+      <input class="form-input" type="text" name="phone" value="{{ company.phone }}" placeholder="Phone">
   </div>
 
-  <div class="form-group">
+  <div class="form-section">
       <label>Email</label>
-      <input class="form-control" type="text" name="email" value="{{ company.email }}" placeholder="Email">
+      <input class="form-input" type="text" name="email" value="{{ company.email }}" placeholder="Email">
   </div>
-
-  <div class="container d-flex justify-content-between px-0">
-    <button class="btn btn-success btn-md" type="submit">Save</button>
-  </div>
-
+  <button class="primary-button" type="submit">Save</button>
 </form>
 {% endblock %}
 
