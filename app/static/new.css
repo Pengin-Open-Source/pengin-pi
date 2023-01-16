@@ -85,9 +85,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: linear-gradient(#535252,#d1cccc );
-  padding: 10rem 0;
+  padding: 6rem 0;
   height: 100%;
 }
 
@@ -136,9 +135,13 @@ a:hover {
  align-items: center;
 }
 
+.hamburger {
+  display: none;
+}
+
 /* Site-wide */
 .title {
-  font-size: 3em;
+  font-size: 3rem;
   margin-bottom:2rem;
 }
 
@@ -213,7 +216,7 @@ a:hover {
 
 .content-section {
   border: 1px solid #dddddd;
-  padding: 10px 20px;
+  padding: 1rem;
   border-radius: 3px;
   background-color: var(--main-blue);
   margin: 3rem 0;
@@ -294,27 +297,14 @@ a:hover {
   display: flex; 
   flex-direction: column; 
   align-items: center;
-  padding: 0px 20px;
+  padding: 0 1rem;
 }
 
 .home-container p {
   margin: 3rem 0;
 }
 
-/* Account */
-.account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
-}
-
-.account-heading {
-  font-size: 2.5rem;
-}
-
 /* Blog */
-
 .blog-content p {
   margin-bottom: 2rem;
 }
@@ -323,18 +313,17 @@ a:hover {
   margin: 1rem 0;
 }
 
-
 /* Profile/ Company Info */
 .profile-info {
   background: #ffffff;
-  padding: 20px 20px;
+  padding: 1rem;
   border: 1px solid #dddddd;
   border-radius: 3px;
 }
 
 .profile-side-info {
   background: #ffffff;
-  padding: 10px 20px;
+  padding: 1rem;
   border: 1px solid #dddddd;
   border-radius: 3px;
   height: fit-content;
@@ -418,8 +407,8 @@ a:hover {
 .post-container {
   background-color: white;
   color: black;
-  padding: 1em;
-  margin-bottom: 1em;
+  padding: 1rem;
+  margin-bottom: 1rem;
   border-radius: 2px;
 }
 .post-info {
@@ -461,14 +450,14 @@ a:hover {
 }
 
 .icon {
-  height: 2em;
-  width:  2em;
+  height: 2rem;
+  width:  2rem;
 }
 
 .address {
   width: fit-content;
-  padding: 2em;
-  margin: 2em auto;
+  padding: 2rem;
+  margin: 2rem auto;
 }
 
 .address p {
@@ -486,14 +475,14 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 1em;
-  margin: 2em 0;
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
 .product-item {
   background-color: var(--main-blue);
   color: white;
-  padding: 1em;
+  padding: 1rem;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -517,7 +506,7 @@ a:hover {
 .product-display {
   background-color: var(--main-blue);
   color: white;
-  padding: 1em;
+  padding: 1rem;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -550,3 +539,44 @@ a:hover {
 
 /* Smartphone */
 
+@media screen and (max-width: 480px) {
+  .header-navigation{
+    display: none;
+  }
+  .one-div {
+    width: 80%;
+  }
+  .title {
+    text-align: center;
+  }
+
+  .social-media {
+    margin: 0;
+    padding: 0;
+  }
+
+  .two-and-one-thirds-div {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 80%;
+  }
+  
+  .two-thirds-div {
+    width: 100%;
+  }
+  
+  .one-third-div {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .profile-side-info {
+    margin: 0 auto;
+  }
+
+  .ticket-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
