@@ -11,8 +11,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need)
-
-from datetime import datetime
+from app.util.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
@@ -26,8 +25,7 @@ class DummyHome():
     article = ''
     image = ''
 
-def copyright():
-    return {'copyright': str(datetime.utcnow().year)}
+
 
 
 def create_app():
@@ -102,12 +100,6 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
 
-    @app.context_processor
-    def get_time_zone():
-        time_zone = request.cookies.get('time_zone', 'UTC')
-        g.time_zone = time_zone
-        
-        return {'time_zone': time_zone}
-
+    app.context_processor(time_zone)
     app.context_processor(copyright)
     return app
