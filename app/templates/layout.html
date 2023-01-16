@@ -10,6 +10,9 @@
   {% else %}
     <title>{{company_name}} </title>
   {% endif %}
+  <script>
+    document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+  </script>
 </head>
 
 <body>
@@ -57,7 +60,9 @@
     {% block content %}{% endblock %}
   </main>
   <footer>
-    <p>Tobu Pengin 2023</p>
+    <p>Tobu Pengin 2023 {{copyright}}</p>
   </footer>
+
+  {% block captchaScript %}{% endblock %}
 </body>
 </html>
