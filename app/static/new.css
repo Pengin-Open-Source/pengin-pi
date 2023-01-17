@@ -63,6 +63,11 @@ a:hover {
   cursor:pointer;  
 }
 
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 /* Nav Bar */
 .hamburger {
   display: none;
