@@ -47,9 +47,11 @@ table {
 	border-spacing: 0;
 }
 
-/* Allowing Commonmark */
-/* Add "commonmark" class to all sections requiring commonmark formatting */
-
+/* Allow Commonmark */
+/* 
+  Add "commonmark" class to all sections requiring commonmark formatting. 
+  If any other issues found add them to this section 
+*/
 .commonmark  ul {
 	list-style: disc;
 }
