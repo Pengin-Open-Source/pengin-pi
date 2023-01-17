@@ -543,6 +543,28 @@ a:hover {
   .header-navigation{
     display: none;
   }
+
+  .responsive-nav {
+    position: fixed;
+    left:0;
+    top:4rem;
+    background-color: var(--main-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-bottom: white 1px solid;
+  }
+
+  .responsive-nav .main-nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .responsive-nav a {
+    margin-bottom: 2rem;
+  }
   
   .hamburger {
     display: block;
