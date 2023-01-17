@@ -21,7 +21,7 @@
     <p class="post-info">Status: {{ticket.resolution_status|upper}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date}}{% endif %}</p>
     <p class="post-info">By: {{author}}</p>
     <p class="post-info">Date: {{ticket.date}}</p>
-    <p class="post-content">{{ticket.content|commonmark}}</p>
+    <p class="post-content commonmark">{{ticket.content|commonmark}}</p>
   </div>
   <div>
     <a class="primary-button" style="margin-left: 0;"  href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>

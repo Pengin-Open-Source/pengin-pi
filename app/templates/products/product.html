@@ -4,7 +4,7 @@
   <h2 class="title">{{product.name}}</h2>
   <div class="product-display">
     <p>{{product.price}}</p>
-    <p>{{product.description|commonmark}}</p>
+    <p class="commonmark">{{product.description|commonmark}}</p>
     <img src="{{product.stock_image_url}}" alt="Product Image">
   </div>
   <a class="primary-button" href="/products/edit/{{product.id}}">Edit Product</a>
