@@ -114,6 +114,10 @@ a:hover {
 }
 
 /* Nav Bar */
+.hamburger {
+  display: none;
+}
+
 .header-navbar-container {
   display: flex;
   margin-right: 1.5rem;
@@ -133,10 +137,6 @@ a:hover {
  display: flex;
  justify-content: space-between;
  align-items: center;
-}
-
-.hamburger {
-  display: none;
 }
 
 /* Site-wide */
@@ -543,9 +543,23 @@ a:hover {
   .header-navigation{
     display: none;
   }
+  
+  .hamburger {
+    display: block;
+    margin-right: 1rem;
+  }
+  .hamburger img{
+   filter: invert(100%);
+  }
+
+  .header-navbar-container {
+    justify-content: space-between;
+  }
+
   .one-div {
     width: 80%;
   }
+
   .title {
     text-align: center;
   }
