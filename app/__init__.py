@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, g
+from flask import Flask, request, send_from_directory, redirect
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
                              identity_loaded)
@@ -54,7 +54,13 @@ def create_app():
         # since the user_id is just the primary key of our user table,
         # use it in the query for the user
         return model.User.query.get(user_id)
-
+    
+    @app.after_request
+    def remove_trailing_slash(response):
+        if request.path.endswith("/"):
+            return redirect(request.path[:-1], code=301)
+        return response
+  
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function
