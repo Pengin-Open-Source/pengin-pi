@@ -10,10 +10,8 @@
           </div>
           </div>
         </div>
+        {% if is_admin %}
+          <a class="primary-button" href="/home/edit">Edit Home Page</a>
+        {% endif %}
     </article>
-    
-      {% if is_admin %}
-        <a class="primary-button" href="/home/edit">Edit Home Page</a>
-      {% endif %}
-      
 {% endblock %}

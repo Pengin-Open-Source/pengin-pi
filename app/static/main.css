@@ -2,6 +2,7 @@
 :root {
   --main-blue: #1a6b99;
   --hover-blue: #428bca;
+  --highlight-grey: #b6b5b5;
 }
 
 /* General Styles */
@@ -68,6 +69,9 @@ table {
 	border-spacing: 0;
 }
 
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
+}
 /* Nav Bar */
 .hamburger {
   display: none;
@@ -125,9 +129,9 @@ table {
 
 .primary-button {
   border: none;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  color: white;
+  background-color: var(--highlight-grey);
+  border-color: rgb(90, 90, 90);
+  color: black;
   padding: 0.5rem;
   border-radius: 5px;
   font-family: inherit;
@@ -135,9 +139,8 @@ table {
 }
 
 .primary-button:hover {
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
-  color: white;
+  opacity: 0.8;
+  color: black;
 }
 
 .text-button {
@@ -171,7 +174,7 @@ table {
 
 .content-section {
   border: 1px solid #dddddd;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 3px;
   background-color: var(--main-blue);
   margin: 3rem 0;
@@ -216,8 +219,8 @@ table {
 
 .alternating-colors-table  {
   width: 100%;
-  margin-top:2rem;
-  margin-bottom: 2rem;
+  margin: 3rem 0;
+  border: 1px solid white;
 }
 
 .alternating-colors-table p,a {
@@ -229,13 +232,13 @@ table {
 }
 
 .alternating-colors-table-links {
-  color: white;
+  color: black;
   font-size: 1.5em
 }
 
 .alternating-colors-table tr:nth-child(odd) td{
-  background-color: var(--main-blue);
-  color: white;
+  background-color: var(--highlight-grey);
+  color: black;
 }
 
 .alternating-colors-table tr:nth-child(even) td{
@@ -434,28 +437,14 @@ table {
   margin: 2rem 0;
 }
 
-.product-item {
-  background-color: var(--main-blue);
-  color: white;
-  padding: 1rem;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.product-item h3 {
-  margin: 1rem 0;
-}
 
 .product-item:hover {
-  background-color: var(--hover-blue);
+  opacity: 0.8;
 }
 
 .product-item img {
-  height: 50%;
-  width: 50%;
+  height: 100%;
+  width: 100%;
 }
 
 .product-display {

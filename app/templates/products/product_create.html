@@ -1,49 +1,53 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <form class="form" method="POST" action="/products/create" enctype="multipart/form-data">
-      <div class="product-edit-container">
-        <div class="form-section">
-          <label for="name">Product Name</label>
-          <input
-          class="form-input"
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Title">
-        </div>
-        <div class="form-section">
-          <label for="price">Price</label>
-          <input
-          class="form-input"
-          type="text"
-          name="price"
-          id="price">
-        </div>
+<div class="content-section">
+  <form class="form" method="POST" action="/products/create" enctype="multipart/form-data">
+    <div class="product-edit-container">
+      <div class="form-section">
+        <label for="name">Product Name</label>
+        <input
+        class="form-input"
+        type="text"
+        name="name"
+        id="name"
+        placeholder="Title">
       </div>
-      <div class="form-section product-edit-description">
-          <label for="description">Description</label>
-          <textarea
-          rows="10"
-          cols="10"
-          class="form-input"
-          name="description"
-          id="description"
-          placeholder="Something enlightening..."></textarea>
+      <div class="form-section">
+        <label for="price">Price</label>
+        <input
+        class="form-input"
+        type="text"
+        name="price"
+        id="price">
       </div>
-      <div class="product-edit-container">
-        <div class="form-section">
-          <label for="file-large" >Large Image</label>
-          <input type="file" name="file-large" class="form-input">
-        </div>
-        <div class="form-section">
-          <label for="file-small">Small Image</label>
-          <input type="file" name="file-small" class="form-input">
-        </div>
+    </div>
+    <div class="form-section product-edit-description">
+        <label for="description">Description</label>
+        <textarea
+        rows="10"
+        cols="10"
+        class="form-input"
+        name="description"
+        id="description"
+        placeholder="Something enlightening..."></textarea>
+    </div>
+    <div class="product-edit-container">
+      <div class="form-section">
+        <label for="file-large" >Large Image</label>
+        <input type="file" name="file-large" class="form-input">
       </div>
+      <div class="form-section">
+        <label for="file-small">Small Image</label>
+        <input type="file" name="file-small" class="form-input">
+      </div>
+    </div>
 
-        <button class="primary-button">Create Product</button>
-    </form>
+      <button class="primary-button">Create Product</button>
+  </form>
+
+</div>
+ 
 
 {% endblock %}
 

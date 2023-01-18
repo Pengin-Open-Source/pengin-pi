@@ -1,55 +1,59 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <form class="form" method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
-      <div class="product-edit-container">
-        <div class="form-section">
-          <label for="name" >Product Name</label>
-          <input
-          class="form-input"
-          type="text"
-          name="name"
-          id="name"
-          value="{{product.name}}"/>
-        </div>
-        <div class="form-section">
-          <label for="price">Price</label>
-          <input
-          class="form-input"
-          type="text"
-          name="price"
-          id="price"
-          value="{{product.price}}"/>
+<div class="content-section">
+  <form class="form" method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
+    <div class="product-edit-container">
+      <div class="form-section">
+        <label for="name" >Product Name</label>
+        <input
+        class="form-input"
+        type="text"
+        name="name"
+        id="name"
+        value="{{product.name}}"/>
+      </div>
+      <div class="form-section">
+        <label for="price">Price</label>
+        <input
+        class="form-input"
+        type="text"
+        name="price"
+        id="price"
+        value="{{product.price}}"/>
+      </div>
+    </div>
+    <div class="form-section product-edit-description ">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+        rows="10"
+        cols="10"
+        class="form-input"
+        name="description"
+        id="description"
+        >{{product.description}}</textarea>
+    </div>
+    <div class="product-edit-container">
+      <div class=" upload-image-container">
+        <label for="file-large" >Large Image</label>
+        <input type="file" name="file-large" class="form-input">
+        <div class="upload-image-container">
+          <p>Current:</p>
+          <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
         </div>
       </div>
-      <div class="form-section product-edit-description ">
-          <label for="description" class="form-label">Description</label>
-          <textarea
-          rows="10"
-          cols="10"
-          class="form-input"
-          name="description"
-          id="description"
-          >{{product.description}}</textarea>
-      </div>
-      <div class="product-edit-container">
-        <div class=" upload-image-container">
-          <label for="file-large" >Large Image</label>
-          <input type="file" name="file-large" class="form-input">
-          <div class="upload-image-container">
-            <p>Current:</p>
-            <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
-          </div>
-        </div>
-        <div class=" upload-image-container">
-          <label for="file-small" >Small Image</label>
-          <input type="file" name="file-small" class="form-input">
-          <div class="upload-image-container">
-            <p>Current:</p>
-            <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
-          </div>
+      <div class=" upload-image-container">
+        <label for="file-small" >Small Image</label>
+        <input type="file" name="file-small" class="form-input">
+        <div class="upload-image-container">
+          <p>Current:</p>
+          <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
         </div>
       </div>
-        <button class="primary-button">Edit Product</button>
-    </form>
+    </div>
+      <button class="primary-button">Edit Product</button>
+  </form>
+
+</div>
+ 
 {% endblock %}

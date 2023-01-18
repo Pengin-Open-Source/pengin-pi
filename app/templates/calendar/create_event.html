@@ -1,6 +1,7 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
+    <div class="content-section">
         <form class="form" method="POST" action="/calendar/create">
             <div class="form-section">
                 <label for="title">Title</label>
@@ -51,6 +52,9 @@
             </div>
             <button class="primary-button">Create</button>
         </form>
+
+    </div>
+
 {% endblock %}
 
 

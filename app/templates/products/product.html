@@ -1,6 +1,7 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
+<div class="content-section">
   <h2 class="title">{{product.name}}</h2>
   <div class="product-display">
     <p>{{product.price}}</p>
@@ -11,4 +12,7 @@
   <form class="button-form" method="post" action="/products/delete/{{product.id}}">
     <button class="primary-button" type="submit">Delete</button>
   </form>
+
+</div>
+
 {% endblock %} 
