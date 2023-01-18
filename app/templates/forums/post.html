@@ -3,7 +3,7 @@
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline ">
-      <h2 class="title">{{post.title}}</h2>
+      <h2 class="title">{{post.title|e}}</h2>
       {% if current_user.is_authenticated %}
         <div class="text-buttons-container">
           {% if is_admin or can_delete_post(post.id).can() %}
@@ -19,8 +19,8 @@
         </div>
       {% endif %}
     </div>
-    <p class="post-info">By {{author}} ({{post.date}})</p>
-    <div class="post-content commonmark">{{post.content|commonmark}}</div>
+    <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
+    <div class="post-content commonmark">{{post.content|commonmark|e}}</div>
   </div>
 {% endblock %}
 
@@ -28,7 +28,7 @@
   {% for comment in comments %}
   <tr><td>
         <div class="comment-title-underline">
-          <p>by {{comment_authors[comment.author]}} at {{comment.date}}</p>
+          <p>by {{comment_authors[comment.author]|e}} at {{comment.date|e}}</p>
           {% if current_user.is_authenticated %}
             <div class="text-buttons-container">
               {% if is_admin or can_delete_comment(comment.id).can() %}
@@ -43,7 +43,7 @@
             </div>
           {% endif %}
         </div>
-        <p>{{comment.content}}</p>
+        <p>{{comment.content|e}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline">
-      <h2 class="title">{{ticket.summary}}</h2>
+      <h2 class="title">{{ticket.summary|e}}</h2>
       {% if current_user.is_authenticated %}
         <div class="text-buttons-container">
           {% if is_admin or can_delete_ticket(ticket.id).can() %}
@@ -18,11 +18,11 @@
         </div>
       {% endif %}
     </div>
-    <p class="post-info">Status: {{ticket.resolution_status|upper}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date}}{% endif %}</p>
-    <p class="post-info">By: {{author}}</p>
-    <p class="post-info">Date: {{ticket.date}}</p>
+    <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
+    <p class="post-info">By: {{author|e}}</p>
+    <p class="post-info">Date: {{ticket.date|e}}</p>
     <div class="post-content commonmark">
-      {{ticket.content|commonmark}}
+      {{ticket.content|commonmark|e}}
     </div>
     
   </div>
@@ -35,7 +35,7 @@
   {% for comment in comments %}
     <tr><td>
       <div class="comment-title-underline">
-        <div class="">by {{comment_authors[comment.author_id]}} at {{comment.date}}</div>
+        <div class="">by {{comment_authors[comment.author_id]|e}} at {{comment.date|e}}</div>
           {% if current_user.is_authenticated %}
             <div class="text-buttons-container">
               {% if is_admin or can_delete_comment(comment.id).can() %}

@@ -2,7 +2,7 @@
 
 {% block beforeTableContent %}
   <div class="">
-    <h2 class="title">{{title}}</h2>
+    <h2 class="title">{{title|e}}</h2>
     <div>
       <a class="text-button" href="/tickets?status=all">all</a>|
       <a class="text-button" href="/tickets?status=resolved">resolved</a>|
@@ -15,8 +15,8 @@
 {% block tableContent %}
   {% for ticket in tickets %}
   <tr><td class="">
-    <a class="alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
-    <p class="">Resolution Status: {{ticket.resolution_status|upper}}</p>
+    <a class="alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary|e}}</a>
+    <p class="">Resolution Status: {{ticket.resolution_status|upper|e}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}

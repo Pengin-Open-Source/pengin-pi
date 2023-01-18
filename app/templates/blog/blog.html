@@ -7,7 +7,7 @@
         <p>Click on the links below for blog articles.</p>
         {% for link in links %}
             <a href="/blog/{{ link.id }}">
-                {{ link.title }}
+                {{ link.title|e }}
             </a>
         {% endfor %}
     </div>

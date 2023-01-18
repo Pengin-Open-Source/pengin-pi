@@ -3,8 +3,8 @@
 {% block profilecontent %}
     <h1 class="profile-title">Profile Information</h1>
     <div class="profile-info-container">
-      <p>Name: {{ name }}</p>
-      <p>Email: {{ email }}</p>
+      <p>Name: {{ name|e }}</p>
+      <p>Email: {{ email|e }}</p>
     </div>
     <div class="edit-profile-buttons">
       <a class="primary-button" href="/profile/edit_profile" >Edit Profile</a>
