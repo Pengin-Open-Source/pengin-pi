@@ -9,9 +9,10 @@
               <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
           </div>
           </div>
+          {% if is_admin %}
+            <a class="primary-button" href="/home/edit">Edit Home Page</a>
+          {% endif %}
         </div>
-        {% if is_admin %}
-          <a class="primary-button" href="/home/edit">Edit Home Page</a>
-        {% endif %}
+
     </article>
 {% endblock %}

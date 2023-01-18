@@ -115,16 +115,12 @@ h1,h2,h3,h4,h5,h6 {
 
 .two-and-one-thirds-div {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 50%;
 }
 
 .two-thirds-div {
-  width: 60%;
-}
-
-.one-third-div {
-  width: 30%;
+  margin-right: 2rem;
 }
 
 .primary-button {
@@ -273,19 +269,22 @@ h1,h2,h3,h4,h5,h6 {
 
 /* Profile/ Company Info */
 .profile-info {
-  background: #ffffff;
+  background: var(--main-blue);
   padding: 1rem;
-  border: 1px solid #dddddd;
+  border: 1px solid white;
   border-radius: 3px;
+  width: fit-content;
+  color: white;
 }
 
 .profile-side-info {
-  background: #ffffff;
+  background: var(--main-blue);
   padding: 1rem;
-  border: 1px solid #dddddd;
+  border: 1px solid white;
   border-radius: 3px;
   height: fit-content;
   width: fit-content ;
+  color: white;
 
   display: flex;
   flex-direction: column;
@@ -318,7 +317,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .company-info-table td,th {
-  border: 1px black solid;
+  border: 1px white solid;
   padding: 0.5rem;
 }
 
