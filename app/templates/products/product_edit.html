@@ -1,58 +1,59 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
-          <div class="flex-between">
-            <div class="mb-3">
-              <label for="name" class="form-label">Product Name</label>
-              <input
-              class="form-control"
-              type="text"
-              name="name"
-              id="name"
-              value="{{product.name}}"/>
-            </div>
-            <div class="mb-2">
-              <label for="price" class="form-label">Price</label>
-              <input
-              class="form-control"
-              type="text"
-              name="price"
-              id="price"
-              value="{{product.price}}"/>
-            </div>
-          </div>
-          <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <textarea
-              class="form-control"
-              name="description"
-              id="description"
-              >{{product.description}}</textarea>
-          </div>
-          <div class="flex-between ">
-            <div class="mb-3 upload-image-container">
-              <label for="file-large" class="form-label">Large Image</label>
-              <input type="file" name="file-large">
-              <div class="upload-image-container">
-                <p>Current:</p>
-                <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
-              </div>
-            </div>
-            <div class="mb-3 upload-image-container">
-              <label for="file-small" class="form-label">Small Image</label>
-              <input type="file" name="file-small">
-              <div class="upload-image-container">
-                <p>Current:</p>
-                <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
-              </div>
-
-            </div>
-          </div>
-            <button class="margin-top btn btn-primary">Edit Product</button>
-        </form>
+<div class="content-section">
+  <form class="form" method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
+    <div class="product-edit-container">
+      <div class="form-section">
+        <label for="name" >Product Name</label>
+        <input
+        class="form-input"
+        type="text"
+        name="name"
+        id="name"
+        value="{{product.name}}"/>
+      </div>
+      <div class="form-section">
+        <label for="price">Price</label>
+        <input
+        class="form-input"
+        type="text"
+        name="price"
+        id="price"
+        value="{{product.price}}"/>
+      </div>
     </div>
-  </div>
+    <div class="form-section product-edit-description ">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+        rows="10"
+        cols="10"
+        class="form-input"
+        name="description"
+        id="description"
+        >{{product.description}}</textarea>
+    </div>
+    <div class="product-edit-container">
+      <div class=" upload-image-container">
+        <label for="file-large" >Large Image</label>
+        <input type="file" name="file-large" class="form-input">
+        <div class="upload-image-container">
+          <p>Current:</p>
+          <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
+        </div>
+      </div>
+      <div class=" upload-image-container">
+        <label for="file-small" >Small Image</label>
+        <input type="file" name="file-small" class="form-input">
+        <div class="upload-image-container">
+          <p>Current:</p>
+          <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
+        </div>
+      </div>
+    </div>
+      <button class="primary-button">Edit Product</button>
+  </form>
+
+</div>
+ 
 {% endblock %}

@@ -1,19 +1,18 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-    <article class="media content-section">
-        <div class="media-body home-container">
-          <h2 class="about-title">Welcome to {{home.company_name}}</h2>
-          <p>{{home.article|commonmark}}</p>
+    <article class="content-section ">
+        <div class="home-container">
+          <h2 class="center-title title">Welcome to {{home.company_name}}</h2>
+          <div class="commonmark">{{home.article|commonmark}}</div>
           <div class="image-container">
               <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
           </div>
           </div>
+          {% if is_admin %}
+            <a class="primary-button" href="/home/edit">Edit Home Page</a>
+          {% endif %}
         </div>
-      </article>
-    
-      {% if is_admin %}
-        <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
-      {% endif %}
-      
+
+    </article>
 {% endblock %}

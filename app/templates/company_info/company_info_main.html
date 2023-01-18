@@ -1,16 +1,14 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-  <h1 class="header">Companies</h1>
-  {% for company in companies %}
-    <table class="table table-bordered">
-      <tr>
-        <td><a href="/companies/{{ company.id }}">{{ company.name }}</a></td>
-      </tr>
-    </table>
-  {% endfor %}
+  <h1 class="profile-title">Companies</h1>
+  <ul class="company-list">
+    {% for company in companies %}
+      <li><a href="/companies/{{ company.id }}">{{ company.name }}</a></li>
+    {% endfor %}
+  </ul>
   {% if is_admin %}
-    <a href="/companies/create" class="btn btn-primary">Create New Company</a>
+    <a href="/companies/create" class="primary-button">Create New Company</a>
   {% endif %}
 {% endblock %}
 

@@ -1,14 +1,9 @@
-{% extends "blog/blog_main.html" %}
+{% extends "layout/oneDiv.html" %}
 
-{% block blogContent %}
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="#"></a>
-        <small class="text-muted">{{post.date}}</small>
-      </div>
-      <h2><a class="article-title" href="#">{{post.title}}</a></h2>
-      <p class="article-content">{{post.content|commonmark}}</p>
-    </div>
+{% block oneDivContent %}
+  <article class=" blog-content content-section">
+    <h2 class="title">{{post.title}}</h2>
+    <p>{{post.date}}</p>
+    <p>{{post.content|commonmark}}</p>
   </article>
-{% endblock blogContent %}
+{% endblock %}

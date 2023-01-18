@@ -1,37 +1,36 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-<h1>Update Home</h1>
-<div class="column">
-    <div class="box mb-3">
-        <form method="POST" action="/home/edit" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input
-                class="form-control"
-                type="text"
-                name="name"
-                id="name"
-                value="{{home.company_name}}">
-            </div>
-            <div class="mb-3">
-                <label for="article" class="form-label">Main Text</label>
-                <textarea
-                class="form-control"
-                name="article"
-                id="article"
-                >{{home.article}}</textarea>
-            </div>
-            <div class="mb-3 upload-image-container">
-                <label for="file" class="form-label">Image</label>
-                <input type="file" name="file">
-                <div class="upload-image-container">
-                  <p>Current:</p>
-                  <img class="upload-image" src="{{image}}" alt="About Image">
-                </div>
-            </div>
-            <button class="btn btn-primary">Update</button>
-        </form>
-    </div>
+<div class="content-section">
+    <h1 class="title">Update Home</h1>
+    <form class="form" method="POST" action="/home/edit" enctype="multipart/form-data">
+        <div class="form-section">
+            <label for="name" class="form-label">Name</label>
+            <input
+            class="form-input"
+            type="text"
+            name="name"
+            id="name"
+            value="{{home.company_name}}">
+        </div>
+        <div class="form-section">
+            <label for="article">Main Text</label>
+            <textarea
+            class="form-input"
+            name="article"
+            id="article"
+            >{{home.article}}</textarea>
+        </div>
+        <div class="form-section">
+            <label for="file" >Image</label>
+            <input type="file" name="file" class="form-input">
+        </div>
+        <div class="form-section">
+            <p>Current:</p>
+            <img class="upload-image" src="{{image}}" alt="About Image">
+        </div>
+
+        <button class="primary-button">Update</button>
+    </form>
 </div>
 {% endblock %}
