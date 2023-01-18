@@ -11,7 +11,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need)
-from app.util.time import copyright, time_zone
+from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
