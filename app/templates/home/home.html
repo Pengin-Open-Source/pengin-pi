@@ -3,10 +3,10 @@
 {% block oneDivContent %}
     <article class="content-section ">
         <div class="home-container">
-          <h2 class="center-title title">Welcome to {{home.company_name}}</h2>
-          <div class="commonmark">{{home.article|commonmark}}</div>
+          <h2 class="center-title title">Welcome to {{home.company_name|e}}</h2>
+          <div class="commonmark">{{home.article|commonmark|e}}</div>
           <div class="image-container">
-              <img src="{{image}}" alt="Home Image" style="width: 100%; height: auto">
+              <img src="{{image|e}}" alt="Home Image" style="width: 100%; height: auto">
           </div>
           </div>
           {% if is_admin %}

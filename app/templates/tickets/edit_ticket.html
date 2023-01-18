@@ -9,14 +9,14 @@
             type="text"
             name="summary"
             id="summary"
-            value="{{ticket.summary}}">
+            value="{{ticket.summary|e}}">
         </div>
         <div class="form-section">
             <label for="content" >Content</label>
             <textarea
             class="form-input"
             name="content"
-            id="content">{{ticket.content}}</textarea>
+            id="content">{{ticket.content|e}}</textarea>
         </div>
         <div class="form-section">
             <label for="tags">Tags</label>
@@ -24,7 +24,7 @@
             class="form-input"
             type="text"
             name="tags"
-            value="{{ticket.tags}}"
+            value="{{ticket.tags|e}}"
             id="tags">
         </div>
         <button class="primary-button">Post Ticket</button>

@@ -4,7 +4,7 @@
   <h1 class="profile-title">Companies</h1>
   <ul class="company-list">
     {% for company in companies %}
-      <li><a href="/companies/{{ company.id }}">{{ company.name }}</a></li>
+      <li><a href="/companies/{{ company.id }}">{{ company.name|e }}</a></li>
     {% endfor %}
   </ul>
   {% if is_admin %}

@@ -8,7 +8,7 @@
       {% if product.title != "" or product.title != None %}
         <a href="/products/{{product.id}}">
           <div class="product-item">
-            <img src="{{product.card_image_url}}" alt="Product Image">
+            <img src="{{product.card_image_url|e}}" alt="Product Image">
           </div>    
         </a>
       {% endif %}

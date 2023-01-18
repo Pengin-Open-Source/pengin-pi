@@ -11,7 +11,7 @@
         type="text"
         name="name"
         id="name"
-        value="{{product.name}}"/>
+        value="{{product.name|e}}"/>
       </div>
       <div class="form-section">
         <label for="price">Price</label>
@@ -20,7 +20,7 @@
         type="text"
         name="price"
         id="price"
-        value="{{product.price}}"/>
+        value="{{product.price|e}}"/>
       </div>
     </div>
     <div class="form-section product-edit-description ">
@@ -31,7 +31,7 @@
         class="form-input"
         name="description"
         id="description"
-        >{{product.description}}</textarea>
+        >{{product.description|e}}</textarea>
     </div>
     <div class="product-edit-container">
       <div class=" upload-image-container">
@@ -39,7 +39,7 @@
         <input type="file" name="file-large" class="form-input">
         <div class="upload-image-container">
           <p>Current:</p>
-          <img class="upload-image" src="{{product.stock_image_url}}" alt="Stock Image">
+          <img class="upload-image" src="{{product.stock_image_url|e}}" alt="Stock Image">
         </div>
       </div>
       <div class=" upload-image-container">
@@ -47,7 +47,7 @@
         <input type="file" name="file-small" class="form-input">
         <div class="upload-image-container">
           <p>Current:</p>
-          <img class="upload-image" src="{{product.card_image_url}}" alt="Card Image">
+          <img class="upload-image" src="{{product.card_image_url|e}}" alt="Card Image">
         </div>
       </div>
     </div>
