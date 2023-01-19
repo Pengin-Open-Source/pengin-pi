@@ -1,6 +1,6 @@
 import os
 from flask import (Blueprint, current_app, flash, redirect, render_template,
-                   request, session, url_for, abort)
+                   request, session, url_for)
 from flask_login import login_required, login_user, logout_user
 from flask_principal import AnonymousIdentity, Identity, identity_changed
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -41,7 +41,7 @@ def signup():
     return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"))
 
 
-@limiter.limit("5 per minute")
+@limiter.limit("3 per minute")
 @auth.route('/signup', methods=['POST'])
 @verify_response
 def signup_post():

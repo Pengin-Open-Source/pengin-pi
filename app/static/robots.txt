@@ -1,3 +1,10 @@
 User-agent: *
-Disallow: /
+Disallow: /tickets
+Disallow: /forums
+Disallow: /profiles
+Disallow: /calendar
+Disallow: /admin
+Disallow: /about/create
+Disallow: /about/edit
+
 Sitemap: http://www.penginopensource.org/sitemap.xml
