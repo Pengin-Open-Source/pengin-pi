@@ -1,16 +1,15 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/twoAndOneThirdDivs.html" %}
 
-{% block oneDivContent %}
+{% block twoThirdContent %}
     
     <div class="content-section blog-content">
         <h2 class="title">Blog</h2>
-        <p>Click on the links below for blog articles.</p>
-        {% for link in links %}
-            <a href="/blog/{{ link.id }}">
-                {{ link.title }}
-            </a>
-        {% endfor %}
+        <p>Please use the links to navigate to individual blog posts.</p>
     </div>
+
+
 {% endblock %}
 
-
+{% block oneThirdContent %}
+    {% include "blog/link_list.html" %}
+{% endblock %}

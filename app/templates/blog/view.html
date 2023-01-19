@@ -1,9 +1,13 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/twoAndOneThirdDivs.html" %}
 
-{% block oneDivContent %}
+{% block twoThirdContent %}
   <article class=" blog-content content-section">
     <h2 class="title">{{post.title}}</h2>
     <p>{{post.date}}</p>
-    <p>{{post.content|commonmark}}</p>
+    <p>{{post.content|commonmark  }}</p>
   </article>
+{% endblock %}
+
+{% block oneThirdContent %}
+    {% include "blog/link_list.html" %}
 {% endblock %}
