@@ -55,12 +55,6 @@ def create_app():
         # use it in the query for the user
         return model.User.query.get(user_id)
     
-    @app.after_request
-    def remove_trailing_slash(response):
-        if request.path.endswith("/"):
-            return redirect(request.path[:-1], code=301)
-        return response
-  
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function
