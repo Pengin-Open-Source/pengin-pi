@@ -1,16 +1,16 @@
-{% extends "blog/blog_main.html" %}
+{% extends "layout/oneDiv.html" %}
 
-{% block blogContent %}
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="#"></a>
-        <small class="text-muted">Pengin Open Source</small>
-      </div>
-      <h2><a class="article-title" href="#">Blog</a></h2>
-      <p class="article-content">Welcome to the blog section. Feel free to click on an
-        article in the pane to the right</p>
+{% block oneDivContent %}
+    
+    <div class="content-section blog-content">
+        <h2 class="title">Blog</h2>
+        <p>Click on the links below for blog articles.</p>
+        {% for link in links %}
+            <a href="/blog/{{ link.id }}">
+                {{ link.title|e }}
+            </a>
+        {% endfor %}
     </div>
-  </article>    
+{% endblock %}
 
-{% endblock blogContent %}
+

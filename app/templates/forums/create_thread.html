@@ -1,28 +1,26 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/forums/create">
-            <div class="mb-3">
-                <label for="thread" class="form-label">Thread Name</label>
-                <input
-                class="form-control"
-                type="text"
-                name="thread"
-                id="thread"
-                placeholder="Thread Name">
-            </div>
-            <div class="mb-3">
-              <label for="roles" class="form-label">Role: </label>
-              <select id="roles" class="form-control" name="role" required>
-                  {% for role in roles %}
-                      <option value="{{ role.id }}">{{ role.name }}</option>
-                  {% endfor %}
-              </select>
-            </div>
-            <button class="btn btn-primary">Post</button>
-        </form>
-    </div>
-  </div>
+<div class="content-section">
+    <form class="form" method="POST" action="/forums/create">
+        <div class="form-section">
+            <label for="thread" >Thread Name</label>
+            <input
+            class="form-input"
+            type="text"
+            name="thread"
+            id="thread"
+            placeholder="Thread Name">
+        </div>
+        <div class="form-section">
+          <label for="roles">Role: </label>
+          <select id="roles" class="form-input" name="role" required>
+              {% for role in roles %}
+                  <option value="{{ role.id }}">{{ role.name }}</option>
+              {% endfor %}
+          </select>
+        </div>
+        <button class="primary-button">Post</button>
+    </form>
+</div>
 {% endblock %}

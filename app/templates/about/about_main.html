@@ -2,65 +2,65 @@
 
 {% block oneDivContent %}
     <article class="content-section">
-        <div class="media-body about-container">
-            <h2 class="about-title">About {{about.name}}</h2>
-            <div class="flex-between">
-                <div class="image-container">
-                    <p>{{about.article}}</p>
-                </div>
-                <div class="image-container">
-                    <img src="{{image}}" alt="About Image" style="width: 100%; height: auto">
-                </div>
+        <h2 class="title center-title">About {{about.name|e}}</h2>
+        <div class="about-article-container">
+            <div class="image-container commonmark">
+                {{about.article|commonmark|e}}
             </div>
-            <div class="address">
-                {% if about.addresss1 %}
-                    <p>{{about.address1}}</p>
-                {% endif %}
-                {% if about.addresss2 %}
-                    <p>{{about.address2}}</p>
-                {% endif %}
-                {% if about.city %}
-                    <p>{{about.city}}</p>
-                {% endif %}
-                {% if about.state %}
-                    <p>{{about.state}}</p>
-                {% endif %}
-                {% if about.country %}
-                    <p>{{about.country}}</p>
-                {% endif %}
-                
-            </div>
-            <div class="social-media">
-                <!-- https://www.iconfinder.com/collections/collection/1672006 Icons -->
-                {% if about.facebook %}
-                    <a href="{{about.facebook}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/facebook.png')}}" alt="FaceBook"></a>
-                {% endif %}
-                {% if about.twitter %}
-                    <a href="{{about.twitter}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/twitter.png')}}" alt="Twitter"></a>
-                {% endif %}
-                {% if about.instagram %}
-                    <a href="{{about.instagram}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/insta.png')}}" alt="Instagram"></a>
-                {% endif %}
-                {% if about.linkedin %}
-                    <a href="{{about.linkedin}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
-                {% endif %}
-                {% if about.whatsapp %}
-                    <a href="{{about.whatsapp}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
-                {% endif %}
-                {% if about.youtube %}
-                    <a href="{{about.youtube}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/youtube.png')}}" alt="Youtube"></a>
-                {% endif %}
-            </div>
-            <div class="address">
-                {% if about.phone %}
-                    <p>Telephone: {{about.phone}}</p>
-                {% endif %}
+            <div class="image-container">
+                <img src="{{image|e}}" alt="About Image" style="width: 100%; height: auto">
             </div>
         </div>
+        <div class="address">
+            {% if about.address1 %}
+                <p>{{about.address1|e}}</p>
+            {% endif %}
+            {% if about.address2 %}
+                <p>{{about.address2|e}}</p>
+            {% endif %}
+            {% if about.city %}
+                <p>{{about.city|e}}</p>
+            {% endif %}
+            {% if about.state %}
+                <p>{{about.state|e}}</p>
+            {% endif %}
+            {% if about.country %}
+                <p>{{about.country|e}}</p>
+            {% endif %}
+            
+        </div>
+        <div class="social-media">
+            <!-- https://www.iconfinder.com/collections/collection/1672006 Icons -->
+            {% if about.facebook %}
+                <a href="{{about.facebook|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/facebook.png')}}" alt="FaceBook"></a>
+            {% endif %}
+            {% if about.twitter %}
+                <a href="{{about.twitter|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/twitter.png')}}" alt="Twitter"></a>
+            {% endif %}
+            {% if about.instagram %}
+                <a href="{{about.instagram|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/insta.png')}}" alt="Instagram"></a>
+            {% endif %}
+            {% if about.linkedin %}
+                <a href="{{about.linkedin|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/linkedin.png')}}" alt="LinkedIn"></a>
+            {% endif %}
+            {% if about.whatsapp %}
+                <a href="{{about.whatsapp|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/whatsapp.png')}}" alt="Whatsapp"></a>
+            {% endif %}
+            {% if about.youtube %}
+                <a href="{{about.youtube|e}}"><img class="icon" src="{{ url_for ('static', filename = 'icons/youtube.png')}}" alt="Youtube"></a>
+            {% endif %}
+        </div>
+        <div class="address">
+            {% if about.phone %}
+                <p>Telephone: {{about.phone|e}}</p>
+            {% endif %}
+        </div>
+
+        {% if is_admin %}
+            <a class="primary-button" href="/about/edit">Edit About Page</a>
+        {% endif %}
     </article>
     
-    {% if is_admin %}
-        <a class="btn btn-primary mb-3" href="/about/edit">Edit About Page</a>
-    {% endif %}
+
     
 {% endblock %}

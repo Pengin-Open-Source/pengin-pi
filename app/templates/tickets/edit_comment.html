@@ -1,18 +1,15 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/tickets/edit/ticket-comment/{{ticket_id}}/{{comment.id}}">
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
+
+        <form class="form" method="POST" action="/tickets/edit/ticket-comment/{{ticket_id}}/{{comment.id}}">
+            <div class="form-section">
+                <label for="content">Content</label>
                 <textarea
-                class="form-control"
+                class="form-input"
                 name="content"
-                id="content">{{comment.content}}</textarea>
+                id="content">{{comment.content|e}}</textarea>
             </div>
-            <button class="btn btn-primary">Post Comment</button>
+            <button class="primary-button">Post Comment</button>
         </form>
-    </div>
-  </div>
 {% endblock %}

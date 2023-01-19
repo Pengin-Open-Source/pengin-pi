@@ -1,20 +1,19 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-  <form id="edit_profile_form"  method="POST" action="/profile/edit_profile">
-    <h1 class="header">Edit Profile</h1>
-    <input type="hidden" name="old_email" value="{{email}}">
-    <div class="form-group">
+  <h1 class="profile-title">Edit Profile</h1>
+  <form class="form" method="POST" action="/profile/edit_profile">
+    
+    <input type="hidden" name="old_email" value="{{email|e}}">
+    <div class="form-section">
         <label>Name</label>
-        <input class="form-control" type="name" name="name" value="{{ name }}" placeholder="Your new name">
+        <input class="form-input" type="name" name="name" value="{{ name|e }}" placeholder="Your new name">
     </div>
-    <div class="form-group">
+    <div class="form-section">
       <label>Email</label>
-      <input class="form-control" type="email" name="email" value="{{ email }}" placeholder="Your new email">
+      <input class="form-input" type="email" name="email" value="{{ email|e }}" placeholder="Your new email">
     </div>
-    <div class="container d-flex justify-content-between px-0">
-      <button class="btn btn-success btn-md" type="submit">Save</button>
-    </div>
+    <button class="primary-button" type="submit">Save</button>
   </form>
 {% endblock %}
 

@@ -1,33 +1,31 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-<h1>Create About</h1>
-<div class="column">
-    <div class="box mb-3">
-        <form method="POST" action="/home/edit" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input
-                class="form-control"
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Organization Name">
-            </div>
-            <div class="mb-3">
-                <label for="article" class="form-label">Main Text</label>
-                <textarea
-                class="form-control"
-                name="article"
-                id="article"
-                placeholder="Write about your organization here."></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="file" class="form-label">Image</label>
-                <input type="file" name="file">
-            </div>
-            <button class="btn btn-primary">Update</button>
-        </form>
-    </div>
+<div class="content-section">
+    <h1 class="title">Create About</h1>
+    <form class="form" method="POST" action="/home/edit" enctype="multipart/form-data">
+        <div class="form-section">
+            <label for="name">Name</label>
+            <input
+            class="form-input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Organization Name">
+        </div>
+        <div class="mb-3">
+            <label for="article">Main Text</label>
+            <textarea
+            class="form-input"
+            name="article"
+            id="article"
+            placeholder="Write about your organization here."></textarea>
+        </div>
+        <div class="form-section">
+            <label for="file">Image</label>
+            <input type="file" name="file" class="form-input">
+        </div>
+        <button class="primary-button">Update</button>
+    </form>
 </div>
 {% endblock %}

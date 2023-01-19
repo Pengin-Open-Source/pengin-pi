@@ -12,7 +12,7 @@ class TicketForum(db.Model):
     customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                        ondelete='CASCADE'))
     summary = db.Column(db.String(100))
-    content = db.Column(db.String(10000))
+    content = db.Column(db.Text)
     tags = db.Column(db.String(100))
     date = db.Column(db.String(100))
     resolution_status = db.Column(db.String(100))
@@ -34,4 +34,4 @@ class TicketComment(db.Model):
     author_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                      ondelete='CASCADE'))
     date = db.Column(db.String(100))
-    content = db.Column(db.String(10000))
+    content = db.Column(db.Text)

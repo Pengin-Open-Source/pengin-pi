@@ -8,6 +8,6 @@ class Product(db.Model):
     name = db.Column(db.String(100))
     description = db.Column(db.String(1000))
     price = db.Column(db.String(100))
-    article = db.Column(db.String(10000))
+    article = db.Column(db.Text)
     card_image_url = db.Column(db.String(500))
     stock_image_url = db.Column(db.String(500))
