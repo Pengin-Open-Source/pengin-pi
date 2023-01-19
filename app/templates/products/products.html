@@ -14,7 +14,9 @@
       {% endif %}
     {% endfor %}
   </div>
+  {% if is_admin %}
   <a class="primary-button" href="/products/create">New Product</a>
+  {% endif %}
 </div>
 
 {% endblock %} 

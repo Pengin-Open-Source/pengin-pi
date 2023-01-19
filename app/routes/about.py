@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 from app.util.security import admin_permission
 import logging
-from app.util.security import admin_permission
 from app.db import db
 from app.db.models import About
 from app.util.s3 import conn
