@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, g
+from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
                              identity_loaded)
@@ -6,7 +6,7 @@ from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import db, config
+from app.db import config
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
@@ -24,8 +24,6 @@ class DummyHome():
     company_name = ''
     article = ''
     image = ''
-
-
 
 
 def create_app():
@@ -54,7 +52,7 @@ def create_app():
         # since the user_id is just the primary key of our user table,
         # use it in the query for the user
         return model.User.query.get(user_id)
-
+    
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function

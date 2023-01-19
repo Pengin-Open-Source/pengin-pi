@@ -7,10 +7,10 @@
 {% block tableContent %}
   {% for date in events_by_start_date %}
     <tr><td>
-      <h3 class="calendar-date">{{date}}</h3>
+      <h3 class="calendar-date">{{date|e}}</h3>
       <ul>
         {% for event in events_by_start_date[date] %}
-          <li><a href="/calendar/{{ event.id }}">{{ event.title }} at {{event.start_time}}</a></li>
+          <li><a href="/calendar/{{ event.id }}">{{ event.title|e }} at {{event.start_time|e}}</a></li>
         {% endfor %}
       </ul>
     </td></tr>

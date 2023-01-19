@@ -2,9 +2,9 @@
 
 {% block twoThirdContent %}
   <article class=" blog-content content-section">
-    <h2 class="title">{{post.title}}</h2>
-    <p>{{post.date}}</p>
-    <p>{{post.content|commonmark  }}</p>
+    <h2 class="title">{{post.title|e}}</h2>
+    <p>{{post.date|e}}</p>
+    <p>{{post.content|commonmark|e}}</p>
   </article>
 {% endblock %}
 

@@ -11,7 +11,7 @@
             type="text"
             name="name"
             id="name"
-            value="{{home.company_name}}">
+            value="{{home.company_name|e}}">
         </div>
         <div class="form-section">
             <label for="article">Main Text</label>
@@ -19,7 +19,7 @@
             class="form-input"
             name="article"
             id="article"
-            >{{home.article}}</textarea>
+            >{{home.article|e}}</textarea>
         </div>
         <div class="form-section">
             <label for="file" >Image</label>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-section">
             <p>Current:</p>
-            <img class="upload-image" src="{{image}}" alt="About Image">
+            <img class="upload-image" src="{{image|e}}" alt="About Image">
         </div>
 
         <button class="primary-button">Update</button>

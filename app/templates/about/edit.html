@@ -11,7 +11,7 @@
             type="text"
             name="name"
             id="name"
-            value="{{about.name}}">
+            value="{{about.name|e}}">
         </div>
         <div class="form-section">
             <label for="article">Main Text</label>
@@ -19,7 +19,7 @@
             class="form-input"
             name="article"
             id="article"
-            >{{about.article}}</textarea>
+            >{{about.article|e}}</textarea>
         </div>
         <div class="form-section">
             <label for="facebook">Facebook</label>
@@ -28,7 +28,7 @@
             type="text"
             name="facebook"
             id="facebook"
-            value="{{about.facebook}}"
+            value="{{about.facebook|e}}"
             >
         </div>
         <div class="form-section">
@@ -38,7 +38,7 @@
             type="text"
             name="twitter"
             id="twitter"
-            value="{{about.twitter}}"
+            value="{{about.twitter|e}}"
             >
         </div>
         <div class="form-section">
@@ -48,7 +48,7 @@
             type="text"
             name="instagram"
             id="instagram"
-            value="{{about.instagram}}"
+            value="{{about.instagram|e}}"
             >
         </div>
         <div class="form-section">
@@ -58,7 +58,7 @@
             type="text"
             name="whatsapp"
             id="whatsapp"
-            value="{{about.whatsapp}}"
+            value="{{about.whatsapp|e}}"
             >
         </div>
         <div class="form-section">
@@ -68,7 +68,7 @@
             type="text"
             name="linkedin"
             id="linkedin"
-            value="{{about.linkedin}}"
+            value="{{about.linkedin|e}}"
             >
         </div>
         <div class="form-section">
@@ -78,7 +78,7 @@
             type="text"
             name="youtube"
             id="youtube"
-            value="{{about.youtube}}"
+            value="{{about.youtube|e}}"
             >
         </div>
         <div class="form-section">
@@ -88,7 +88,7 @@
             type="text"
             name="phone"
             id="phone"
-            value="{{about.phone}}"
+            value="{{about.phone}|e}"
             >
         </div>
         <div class="form-section">
@@ -98,7 +98,7 @@
             type="text"
             name="address1"
             id="address1"
-            value="{{about.address1}}"
+            value="{{about.address1|e}}"
             >
         </div>
         <div class="form-section">
@@ -108,7 +108,7 @@
             type="text"
             name="address2"
             id="address2"
-            value="{{about.address2}}"
+            value="{{about.address2|e}}"
             >
         </div>
         <div class="form-section">
@@ -118,7 +118,7 @@
             type="text"
             name="city"
             id="city"
-            value="{{about.city}}"
+            value="{{about.city|e}}"
             >
         </div>
         <div class="form-section">
@@ -128,7 +128,7 @@
             type="text"
             name="state"
             id="state"
-            value="{{about.state}}"
+            value="{{about.state|e}}"
             >
         </div>
         <div class="form-section">
@@ -138,7 +138,7 @@
             type="text"
             name="country"
             id="country"
-            value="{{about.country}}"
+            value="{{about.country|e}}"
             >
         </div>
         <div class="form-section upload-image-container">
@@ -146,7 +146,7 @@
             <input type="file" name="file" class="form-input">
             <div class="upload-image-container">
                 <p>Current:</p>
-                <img class="upload-image" src="{{image}}" alt="About Image">
+                <img class="upload-image" src="{{image|e}}" alt="About Image">
             </div>
         </div>
         <button class="primary-button">Update</button>

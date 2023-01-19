@@ -1,13 +1,13 @@
 {% extends "layout/alternating_color_table.html" %}
 
 {% block beforeTableContent %}
-  <h2 class="title">{{title}}</h2>
+  <h2 class="title">{{title|e}}</h2>
 {% endblock %}
 
 {% block tableContent %}
   {% for thread in threads %}
   <tr><td class="thread-container">
-    <a class="alternating-colors-table-links " href="/forums/{{thread.id}}">{{ thread.name }}</a>
+    <a class="alternating-colors-table-links " href="/forums/{{thread.id}}">{{ thread.name|e }}</a>
       {% if is_admin %}
       <form method="post" action="/forums/delete/thread/{{thread.id}}">
         <button class="primary-button" type="submit">Delete</button>
