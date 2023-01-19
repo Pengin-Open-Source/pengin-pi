@@ -117,10 +117,11 @@ h1,h2,h3,h4,h5,h6 {
   display: flex;
   justify-content: center;
   width: 50%;
+  margin: 0;
 }
 
 .two-thirds-div {
-  margin-right: 2rem;
+  margin:0 2rem 0 0;
 }
 
 .primary-button {
@@ -173,7 +174,6 @@ h1,h2,h3,h4,h5,h6 {
   padding: 2rem;
   border-radius: 3px;
   background-color: var(--main-blue);
-  margin: 3rem 0;
   color: white;
 }
 
@@ -274,6 +274,7 @@ h1,h2,h3,h4,h5,h6 {
   border: 1px solid white;
   border-radius: 3px;
   width: fit-content;
+  margin: 0 auto;
   color: white;
 }
 
@@ -313,7 +314,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .company-info-table {
-  margin: 2rem;
+  margin: 2rem auto;
 }
 
 .company-info-table td,th {
