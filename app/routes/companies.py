@@ -4,19 +4,16 @@ from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models import Company, CompanyMembers
 
-company_info = Blueprint('company_info', __name__, url_prefix="/companies")
+company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
-
-def get_companies():
-
-    return Company.query.all()
 
 
 @company_info.route("/")
 def display_companies_home():
+    companies = Company.query.all()
 
     return render_template('company_info/company_info_main.html',
-                           companies=get_companies(), is_admin=admin_permission.can())
+                           companies=companies, is_admin=admin_permission.can())
 
 
 @company_info.route('/<company_id>')
@@ -57,12 +54,13 @@ def create_company():
     return render_template('company_info/company_info_create.html')
 
 
-@company_info.route('/edit_company_info/<company_id>', methods=['GET', 'POST'])
+@company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
 def edit_company_info_post(company_id):
+    company = Company.query.filter_by(id=company_id).first()
+
     if request.method == 'POST':
-        company = Company.query.filter_by(id=company_id).first()
         company.name = request.form.get('name')
         company.address1 = request.form.get('address1')
         company.address2 = request.form.get('address2')
@@ -73,7 +71,24 @@ def edit_company_info_post(company_id):
         company.phone = request.form.get('phone')
         company.email = request.form.get('email')
         db.session.commit()
+
         return redirect(url_for('company_info.display_company_info',
                                 company_id=company.id))
+
+    return render_template('company_info/company_edit.html', company=company)
+
+
+@company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def edit_company_info_post(company_id):
     company = Company.query.filter_by(id=company_id).first()
+
+    if request.method == 'POST':
+
+        db.session.commit()
+
+        return redirect(url_for('company_info.display_company_info',
+                                company_id=company.id))
+
     return render_template('company_info/company_edit.html', company=company)
