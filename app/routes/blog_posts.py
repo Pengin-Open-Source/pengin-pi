@@ -4,18 +4,21 @@ from flask_principal import Permission, RoleNeed
 
 from app.db import db
 from app.db.models import BlogPost
+from app.db.util import paginate
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
 
 def get_links():
-    return BlogPost.query.all()
+    # querying the newest posts ordered by date
+    return paginate(Model = BlogPost, page = 1, key = 'date')
 
 
 @blogPosts.route("/blog")
 def display_blog_home():
-    posts = BlogPost.query.limit(15)
+    # querying the newest posts ordered by date
+    posts = paginate(Model = BlogPost, page = 1, key = 'date')
     return render_template('blog/blog.html', posts=posts, links=get_links(),
                            is_admin=admin_permission.can())
 
