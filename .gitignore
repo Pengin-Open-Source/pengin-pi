@@ -16,3 +16,5 @@ instance
 /env
 containers.json
 public-endpoint.json
+app/static/robots.txt
+app/static/sitemap.xml
