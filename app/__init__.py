@@ -6,7 +6,7 @@ from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import config
+from app.db import db, config
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,

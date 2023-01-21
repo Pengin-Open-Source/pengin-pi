@@ -23,7 +23,8 @@ class Event(db.Model):
     location = db.Column(db.String(50))
 
     def __repr__(self):  # for debug purpose
-        return f"(id: {self.id}, organizer_id: {self.organizer_id}, title: {self.title}, desc: {self.description}, location: {self.location}, start_datetime: {self.start_datetime}, end_datetime: {self.end_datetime}, created_at: {self.created_at})\t"
+        # fix some spelling errors of attributes
+        return f"(id: {self.id}, organizer_id: {self.organizer}, title: {self.title}, desc: {self.description}, location: {self.location}, start_datetime: {self.start_datetime}, end_datetime: {self.end_datetime}, created_at: {self.date_created})\t"
 
     # Add/extract "time" properties on the fly when needed.
     def add_time(self):
