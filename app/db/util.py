@@ -29,14 +29,8 @@ def paginate(Model:object, page:int, **kwargs)->list:
         if key:
             order_attr = getattr(Model, key)
             query = query.order_by(order(order_attr))
-        items = query.paginate(page=page, per_page=pages)
+        return query.paginate(page=page, per_page=pages)
     except Exception as e:
-        items = None
-    if not items or not items.items:
-        return []
-    total_items = len(items.items) 
-    total_pages = ceil(total_items/pages)
-    if page > total_pages:
-        page = total_pages
-        items = query.paginate(page=total_pages, per_page=pages)
-    return items
+        count = Model.query.count()
+        end = ceil(count/pages)
+        return query.paginate(page=end, per_page=pages)

@@ -11,15 +11,18 @@ product_blueprint = Blueprint('product_blueprint',
                               __name__, url_prefix="/products")
 
 
-@product_blueprint.route('/')
+@product_blueprint.route('/', methods=["GET", "POST"])
 def products():
     is_admin = admin_permission.can()
-    products = paginate(Product, page=1, key="name", pages=9)
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    products = paginate(Product, page=page, key="name", pages=9)
     for product in products:
         product.card_image_url = conn.get_URL(product.card_image_url)
 
-    return render_template('products/products.html', is_admin=is_admin, products=products)
-
+    return render_template('products/products.html', is_admin=is_admin, products=products, page=page)
 
 @product_blueprint.route('/<product_id>')
 def product(product_id):
@@ -27,8 +30,7 @@ def product(product_id):
     product = Product.query.filter_by(id=product_id).first()
     product.stock_image_url = conn.get_URL(product.stock_image_url)
 
-    return render_template('products/product.html', is_admin=is_admin, product=product)
-
+    return render_template('products/product.html', is_admin=is_admin, product=product, page=1)
 
 @product_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required

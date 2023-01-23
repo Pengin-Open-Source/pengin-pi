@@ -1,0 +1,12 @@
+<div class="form-title-bar">
+    <div class="form-title"><span>{{form.title|e}}</span></div>
+    <div class="form-title-bar-nav">
+        {% if len(form.links) > 0 %}
+            <ul>
+            {% for link in form.links %}
+                <li><a href={{link.url|e}}">{{link.name|e}}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
