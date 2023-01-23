@@ -14,3 +14,4 @@ instance
 .vscode
 .env
 /env
+*.DS_STORE
