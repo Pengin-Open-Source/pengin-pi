@@ -60,6 +60,7 @@ def edit_about():
             about.city = request.form.get('city')
             about.state = request.form.get('state')
             about.country = request.form.get('country')
+            about.tags = request.form.get('tags')
             image = request.files["file"]
             url = image.filename if "file" in request.files and image.filename != "" else about.image
             if about.image != url:
@@ -88,6 +89,7 @@ def edit_about():
         city = request.form.get('city')
         state = request.form.get('state')
         country = request.form.get('country')
+        tags = request.form.get('tags')
         image = request.files["file"]
         url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
         if image:
@@ -99,7 +101,7 @@ def edit_about():
                             linkedin=linkedin, youtube=youtube, phone=phone,
                             twitter=twitter, address1=address1,
                             address2=address2, city=city, state=state,
-                            country=country, image=url)
+                            country=country, tags=tags, image=url)
 
         db.session.add(new_about)
         db.session.commit()

@@ -10,4 +10,4 @@ class BlogPost(db.Model):
     title = db.Column(db.String(100), unique=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
     content = db.Column(db.Text)
-    tags = db.Column(db.String(1000))
+    tags = db.Column(db.String(150))

@@ -40,6 +40,7 @@ def create_product():
         name = request.form.get('name')
         price = request.form.get('price')
         description = request.form.get('description')
+        tags = request.form.get('tags')
 
         large_file = request.files["file-large"]
         small_file = request.files["file-small"]
@@ -57,7 +58,7 @@ def create_product():
             small_file.filename = secure_filename(small_file.filename)
             small_url = conn.create(small_file)
                 
-        product = Product(name=name, price=price, description=description,
+        product = Product(name=name, price=price, description=description, tags=tags,
                           card_image_url=small_url, stock_image_url=large_url)
 
         db.session.add(product)
@@ -79,6 +80,7 @@ def edit_product(id):
         product.name = request.form.get('name')
         product.price = request.form.get('price')
         product.description = request.form.get('description')
+        product.tags = request.form.get('tags')
 
         # Image create handling
         large_file = request.files["file-large"]

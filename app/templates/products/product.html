@@ -1,5 +1,9 @@
 {% extends "layout/oneDiv.html" %}
-
+{% block tags %}
+  {% if product.tags %}
+      <meta name="keywords" content="{{product.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block oneDivContent %}
   <div class="content-section">
     <h2 class="title">{{product.name|e}}</h2>

@@ -24,6 +24,7 @@ class About(db.Model):
     state = db.Column(db.String(100))
     country = db.Column(db.String(100))
     article = db.Column(db.Text)
+    tags = db.Column(db.String(150))
     # vip = db.relationship('Vip')
 
 

@@ -11,3 +11,4 @@ class Product(db.Model):
     article = db.Column(db.Text)
     card_image_url = db.Column(db.String(500))
     stock_image_url = db.Column(db.String(500))
+    tags = db.Column(db.String(150))

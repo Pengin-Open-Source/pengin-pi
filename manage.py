@@ -5,6 +5,7 @@ from datetime import datetime
 from app.util.uuid import id
 from werkzeug.security import generate_password_hash
 
+
 def out(string):
         try:
             output = input(string)

@@ -1,5 +1,9 @@
 {% extends "layout/alternating_color_table.html" %}
-
+{% block tags %}
+  {% if ticket.tags %}
+    <meta name="keywords" content="{{ticket.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline">
