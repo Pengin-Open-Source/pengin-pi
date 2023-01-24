@@ -1,0 +1,22 @@
+{% extends "profile/profile_main.html" %}
+
+{% block profilecontent %}
+<h1 class="profile-title">Edit Company Members</h1>
+<form class="form" method="POST" action="/company/{{company.id}}/members/edit">
+  <div class="member-grid">
+    {% for user in users %}
+    <div>
+      <input type="checkbox" id="{{user.id}}" name="{{user.id}}" value="true" />
+      <label for="{{user.id}}">{{user.name}}</label>
+    </div>
+  {% endfor %}
+  </div>
+    <button class="primary-button" type="submit">Save</button>
+    <a href="/company/{{company.id}}/edit"></a>
+</form>
+
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
