@@ -31,6 +31,7 @@ class OrderList(db.Model):
                                                       ondelete='CASCADE'))
     order_id = db.Column(db.String(36), db.ForeignKey('order.id',
                                                       ondelete='CASCADE'))
+    quantity = db.Column(db.Integer)
 
 
 class ShippingAddress(db.Model):
