@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
-from app.db.models import Company, CompanyMembers
+from app.db.models import Company, CompanyMembers, User
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
@@ -81,14 +81,22 @@ def edit_company_info_post(company_id):
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
-def edit_company_info_post(company_id):
+def edit_company_members(company_id):
     company = Company.query.filter_by(id=company_id).first()
+    users = User.query.filter_by().all()
 
     if request.method == 'POST':
+        for user in users:
+            member = request.form.get(f'{user.id}')
+            
+        for member in members:
+            new_members_company = CompanyMembers(id=company.id,
+                                                 user_id=member.id)
+            db.session.add(new_members_company)
 
         db.session.commit()
 
         return redirect(url_for('company_info.display_company_info',
                                 company_id=company.id))
 
-    return render_template('company_info/company_edit.html', company=company)
+    return render_template('company_info/edit_members.html', users=users, company=company)
