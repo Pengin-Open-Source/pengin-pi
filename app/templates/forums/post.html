@@ -1,5 +1,9 @@
 {% extends "layout/alternating_color_table.html" %}
-
+{% block tags %}
+  {% if post.tags %}
+    <meta name="keywords" content="{{post.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline ">

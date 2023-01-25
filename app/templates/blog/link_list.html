@@ -1,8 +1,12 @@
-<div class="content-section">
+<div class="content-section blog-links">
   <h3 style="margin-bottom: 1rem;">Posts</h3>
+  <ul>
   {% for link in links %}
-  <a class="text-button" style="margin: 0.5rem 0;" href="/blog/{{ link.id }}">
-      {{ link.title }}
-  </a>
+  <li>
+    <a class="text-button" style="margin: 0.5rem 0;" href="/blog/{{ link.id }}">
+        {{ link.title }}
+    </a>
+  </li>
   {% endfor %}
+  </ul>
 </div>

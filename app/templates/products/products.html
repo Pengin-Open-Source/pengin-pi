@@ -1,4 +1,5 @@
 {% extends "layout/oneDiv.html" %}
+{% import "macros/paginate.html" as pagination %}
 
 {% block oneDivContent %}
 <div class="content-section">
@@ -14,6 +15,7 @@
       {% endif %}
     {% endfor %}
   </div>
+  {{ pagination.render_pagination(products, "") }}
   {% if is_admin %}
   <a class="primary-button" href="/products/create">New Product</a>
   {% endif %}

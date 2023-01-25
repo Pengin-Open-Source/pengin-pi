@@ -1,0 +1,39 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+    <div class="content-section">
+        <h1 class="title">Edit Blog Post</h1>
+        <form class="form" method="POST" action="/blog/{{post.id}}/edit">
+            <div class="form-section">
+                <label for="title" >Title</label>
+                <input
+                class="form-input"
+                type="text"
+                name="title"
+                id="title"
+                value="{{post.title|e}}">
+            </div>
+            <div class="form-section">
+                <label for="content" >Content</label>
+                <textarea
+                rows="10"
+                class="form-input"
+                name="content"
+                id="content">{{post.content|e}}</textarea>
+            </div>
+            <div class="form-section">
+                <label for="tags" >Tags</label>
+                <input
+                class="form-input"
+                type="text"
+                name="tags"
+                value="{{post.tags|e}}"
+                id="tags">
+            </div>
+            <button class="primary-button">Update</button>
+        </form>
+
+    </div>
+    
+
+{% endblock %}
