@@ -86,13 +86,14 @@ def edit_company_members(company_id):
     users = User.query.filter_by().all()
 
     if request.method == 'POST':
-        for user in users:
-            member = request.form.get(f'{user.id}')
-            
-        for member in members:
-            new_members_company = CompanyMembers(id=company.id,
-                                                 user_id=member.id)
-            db.session.add(new_members_company)
+        checkbox_values = request.form.getlist('member-checkbox')
+
+        # clear all members so only those with checkboxes can be added.
+        company.members = []  
+
+        for value in checkbox_values:
+            user = User.query.filter_by(id=value).first()
+            company.members.append(user)
 
         db.session.commit()
 
