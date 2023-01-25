@@ -23,9 +23,8 @@ class User(UserMixin, db.Model):
     tickets = db.relationship('TicketForum')
     ticket_comments = db.relationship('TicketComment')
     
-
-    def __repr__(self): # for debug purpose
-        return f"----- name: {self.name} || roles: {self.roles} "
+    # def __repr__(self): # for debug purpose
+    #   return f"----- name: {self.name} || roles: {self.roles} "
 
 
 class Role(db.Model):
@@ -35,10 +34,8 @@ class Role(db.Model):
     # used for populating "name" about role when showing dropdown of roles
     event_info = db.relationship('Event', back_populates="role_info", lazy=True)
 
-
-    def __repr__(self): # for debug purpose
-        return f"----- id: {self.id} || name: {self.name} "
-
+    # def __repr__(self): # for debug purpose
+    #    return f"----- id: {self.id} || name: {self.name} "
 
 
 class UserRoles(db.Model):
