@@ -6,7 +6,9 @@
   <div class="member-grid">
     {% for user in users %}
     <div>
-      <input type="checkbox" id="{{user.id}}" name="{{user.id}}" value="true" />
+      <input type="checkbox" id="{{user.id}}" name="member-checkbox" value="{{user.id}}"
+       {% if user in company.members %} checked {% endif %}
+      />
       <label for="{{user.id}}">{{user.name}}</label>
     </div>
   {% endfor %}
