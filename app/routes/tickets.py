@@ -29,7 +29,7 @@ def tickets():
         tickets = paginate(TicketForum, page=page, pages=20)
         # filter by company once company/customer model fixed
     else:
-        tickets = paginate(TicketForum, page=page, pages=2=, filters={"resolution_status": status})
+        tickets = paginate(TicketForum, page=page, pages=20, filters={"resolution_status": status})
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,

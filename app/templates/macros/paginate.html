@@ -1,4 +1,5 @@
 {% macro render_pagination(items, endpoint) %}
+  {% if items.pages > 1%}
   <div class=page-items>
     {{ items.first }} - {{ items.last }} of {{ items.total }}
   </div>
@@ -13,4 +14,5 @@
       </div>
     </form>
   </div>
+  {% endif %}
 {% endmacro %}

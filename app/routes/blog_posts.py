@@ -10,10 +10,6 @@ blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
 
-def get_links():
-    return BlogPost.query.all()
-
-
 @blogPosts.route("/blog", methods=["GET", "POST"])
 def display_blog_home():
     if request.method == "POST":
@@ -29,7 +25,13 @@ def display_blog_home():
 @blogPosts.route("/blog/<post_id>")
 def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    return render_template('blog/view.html', post=post, links=get_links(),
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/view.html', page=page, post=post, posts=posts,
                            is_admin=admin_permission.can())
 
 
