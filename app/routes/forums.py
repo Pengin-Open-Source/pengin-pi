@@ -49,8 +49,7 @@ def forums():
             thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
             threads.append(thread)
     
-    # set "pages = 2" for testing pagination function only
-    threads = paginate(Thread, page=page, key="name", pages=2)
+    threads = paginate(Thread, page=page, key="name", pages=10)
 
     return render_template('forums/threads.html', title='Forum',
                             threads=threads, is_admin=is_admin)
