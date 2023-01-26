@@ -21,8 +21,7 @@ def calendar():
         page = 1
 
     user = User.query.filter_by(id=current_user.id).first()
-    # set "pages = 2" for testing pagination function only
-    events = paginate(Event, page=page, pages=2, order=asc, key="start_datetime")
+    events = paginate(Event, page=page, pages=10, order=asc, key="start_datetime")
 
     user_roles = set()
     for role in user.roles:
