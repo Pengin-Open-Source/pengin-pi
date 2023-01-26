@@ -108,7 +108,8 @@ def edit_company_members(company_id):
 
         # clear all members so only those with checkboxes can be added.
         for user in users:
-            company.members.remove(user)
+            if user in company.members:
+                company.members.remove(user) # ValueError: list.remove(x): x not in list
 
         for value in checkbox_values:
             user = User.query.filter_by(id=value).first()
@@ -116,7 +117,7 @@ def edit_company_members(company_id):
 
         db.session.commit()
 
-        return redirect(url_for('company_info.display_company_info',
+        return redirect(url_for('company_info.edit_company_members',
                                 company_id=company.id))
 
     return render_template('company_info/edit_members.html', users=users, company=company, page=page, next_page=next_page, prev_page=prev_page)
