@@ -13,7 +13,7 @@ class TicketForum(db.Model):
                                                        ondelete='CASCADE'))
     summary = db.Column(db.String(100))
     content = db.Column(db.Text)
-    tags = db.Column(db.String(100))
+    tags = db.Column(db.String(150))
     date = db.Column(db.String(100))
     resolution_status = db.Column(db.String(100))
     resolution_date = db.Column(db.String(100))

@@ -2,7 +2,7 @@ from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
                              identity_loaded)
-
+from flask_migrate import Migrate
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
@@ -18,7 +18,7 @@ from app.util.markup import markup
 
 principals = Principal()
 login_manager = LoginManager()
-
+migrate = Migrate()
 
 class DummyHome():
     company_name = ''
@@ -39,6 +39,7 @@ def create_app():
     principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
+    migrate.init_app(app, model.db)
 
     # Inject global variables to templates
     @app.context_processor

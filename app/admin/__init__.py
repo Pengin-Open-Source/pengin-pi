@@ -1,8 +1,8 @@
 from flask_admin import Admin
 
 from app.admin.views import (CompanyMembersView, SecureModelView,
-                             ThreadRolesView, UserRolesView, admin_blueprint,
-                             admin_permission)
+                             ThreadRolesView, UserRolesView, RoleView,
+                             admin_blueprint)
 from app.db.models import (BlogPost, Company, CompanyMembers, Contracts,
                            Customer, Event, ForumComment, ForumPost, Order,
                            Product, Resolution, Role, ShippingAddress, Thread,
@@ -12,7 +12,7 @@ from app.db.models import (BlogPost, Company, CompanyMembers, Contracts,
 admin = Admin()
 
 admin.add_view(SecureModelView(User, db.session))
-admin.add_view(SecureModelView(Role, db.session))
+admin.add_view(RoleView(Role, db.session))
 admin.add_view(SecureModelView(Company, db.session))
 admin.add_view(SecureModelView(BlogPost, db.session))
 admin.add_view(SecureModelView(Contracts, db.session))

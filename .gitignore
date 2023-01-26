@@ -11,3 +11,4 @@ instance
 .env
 /env
 *.DS_Store
+migrations

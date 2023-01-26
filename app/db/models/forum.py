@@ -11,7 +11,7 @@ class ForumPost(db.Model):
                                                      ondelete='CASCADE'))
     author = db.Column(db.String(36), db.ForeignKey('user.id',
                                                   ondelete='CASCADE'))
-    tags = db.Column(db.String(100))
+    tags = db.Column(db.String(150))
     date = db.Column(db.String(100))
     comments = db.relationship('ForumComment')
 

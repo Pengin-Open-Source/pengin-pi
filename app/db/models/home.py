@@ -8,4 +8,4 @@ class Home(db.Model):
     company_name = db.Column(db.String(100))
     article = db.Column(db.Text)
     image = db.Column(db.String(200))
-    #tags = db.Column(db.String(100))
+    tags = db.Column(db.String(150))

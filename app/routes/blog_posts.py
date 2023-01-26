@@ -34,6 +34,23 @@ def display_post(post_id):
                            is_admin=admin_permission.can())
 
 
+@blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def edit_post(post_id):
+    post = BlogPost.query.filter_by(id=post_id).first()
+    if request.method == 'POST':
+        post.title = request.form.get('title')
+        post.content = request.form.get('content')
+        post.tags = request.form.get('tags')
+        
+        db.session.commit()
+
+        return redirect(url_for("blogPosts.display_post", post_id=post.id))
+
+    return render_template('blog/edit.html', post=post, links=get_links(), is_admin=admin_permission.can())
+
+
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
