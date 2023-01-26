@@ -15,7 +15,11 @@
       {% endfor %}
       </div>
         <button class="primary-button" type="submit">Save</button>
-        <a href="/company/{{company.id}}/edit"></a>
     </form>
+    <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
+    {% if page > 1 %}
+      <a class="primary-button" href="/company/{{company.id}}/members/edit?page={{prev_page}}">Previous page</a>
+    {% endif %}
+    <a class="primary-button" href="/company/{{company.id}}/members/edit?page={{next_page}}">Next page</a>
   </div>
 {% endblock %}

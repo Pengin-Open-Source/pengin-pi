@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
-from app.db import db
+from app.db import db, paginate
 from app.db.models import Company, CompanyMembers, User
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
@@ -92,13 +92,23 @@ def edit_company_info_post(company_id):
 @admin_permission.require()
 def edit_company_members(company_id):
     company = Company.query.filter_by(id=company_id).first()
-    users = User.query.filter_by().all()
+    page = request.args.get('page')
+
+    if not page:
+        page = 1
+    else:
+        page = int(page)
+
+    next_page = page + 1
+    prev_page = page - 1
+    users = paginate(User, page, pages=9)
 
     if request.method == 'POST':
         checkbox_values = request.form.getlist('member-checkbox')
 
         # clear all members so only those with checkboxes can be added.
-        company.members = []  
+        for user in users:
+            company.members.remove(user)
 
         for value in checkbox_values:
             user = User.query.filter_by(id=value).first()
@@ -109,4 +119,4 @@ def edit_company_members(company_id):
         return redirect(url_for('company_info.display_company_info',
                                 company_id=company.id))
 
-    return render_template('company_info/edit_members.html', users=users, company=company)
+    return render_template('company_info/edit_members.html', users=users, company=company, page=page, next_page=next_page, prev_page=prev_page)
