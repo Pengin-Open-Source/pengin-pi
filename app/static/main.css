@@ -275,9 +275,19 @@ h1,h2,h3,h4,h5,h6 {
 .page-items {
   text-align: center;
 }
-.pagination ul {
-  padding-left: unset;
-  list-style-type: none;
+
+.pagination-list {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination-list input {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  color: var(--main-blue);
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* Profile/ Company Info */
