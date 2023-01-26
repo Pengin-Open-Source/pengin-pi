@@ -5,17 +5,24 @@ from flask_login import current_user, login_required
 
 from app.db import db
 from app.db.models import Event, Role, User
+from app.db.util import paginate
 from sqlalchemy import asc
 
 calendar_blueprint = Blueprint('calendar_blueprint', __name__,
                                url_prefix="/calendar")
 
 
-@calendar_blueprint.route("/")
+@calendar_blueprint.route("/", methods=["GET", "POST"])
 @login_required
 def calendar():
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
     user = User.query.filter_by(id=current_user.id).first()
-    events = Event.query.order_by(asc("start_datetime")).all()
+    # set "pages = 2" for testing pagination function only
+    events = paginate(Event, page=page, pages=2, order=asc, key="start_datetime")
 
     user_roles = set()
     for role in user.roles:
@@ -36,7 +43,7 @@ def calendar():
         else:
             events_by_start_date[start_date] = [event]
 
-    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, current_user=current_user)
+    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, events=events, current_user=current_user)
 
 
 @calendar_blueprint.route("/create", methods=['GET', 'POST'])

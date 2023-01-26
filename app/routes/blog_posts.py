@@ -4,6 +4,7 @@ from flask_principal import Permission, RoleNeed
 
 from app.db import db
 from app.db.models import BlogPost
+from app.db.util import paginate
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
@@ -13,10 +14,16 @@ def get_links():
     return BlogPost.query.all()
 
 
-@blogPosts.route("/blog")
+@blogPosts.route("/blog", methods=["GET", "POST"])
 def display_blog_home():
-    posts = BlogPost.query.limit(15)
-    return render_template('blog/blog.html', posts=posts, links=get_links(),
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    # set "pages = 1" for testing pagination function only
+    posts = paginate(BlogPost, page=page, key="title", pages=1)
+    return render_template('blog/blog.html', posts=posts,
                            is_admin=admin_permission.can())
 
 

@@ -18,7 +18,9 @@ def products():
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    products = paginate(Product, page=page, key="name", pages=9)
+
+    # set "pages = 3" for testing pagination function only
+    products = paginate(Product, page=page, key="name", pages=3)
     for product in products:
         product.card_image_url = conn.get_URL(product.card_image_url)
 

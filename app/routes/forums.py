@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 from app.util.uuid import id
 from app.db import db
 from app.db.models import ForumComment, ForumPost, Thread, ThreadRoles, User, Role
+from app.db.util import paginate
 from app.util.security import (admin_permission, delete_comment_permission,
                                delete_post_permission, edit_comment_permission,
                                edit_post_permission, user_permission)
@@ -13,7 +14,7 @@ forums_blueprint = Blueprint('forums_blueprint', __name__,
                              url_prefix="/forums")
 
 
-@forums_blueprint.route("/")
+@forums_blueprint.route("/", methods=["GET", "POST"])
 @login_required
 def forums():
     """/forums/
@@ -25,10 +26,14 @@ def forums():
     threads = []
     thread_ids = []
     is_admin = admin_permission.can()
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
     
+    # TODO: could've got all unique threads whose role is in current_user's roles with a complex query alone
     if is_admin:
         threads = Thread.query.all()
-    
     else:    
         for role in current_user.roles:
             role_thread_ids = (
@@ -43,6 +48,9 @@ def forums():
         for thread_id_tuple in unique_thread_ids:
             thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
             threads.append(thread)
+    
+    # set "pages = 2" for testing pagination function only
+    threads = paginate(Thread, page=page, key="name", pages=2)
 
     return render_template('forums/threads.html', title='Forum',
                             threads=threads, is_admin=is_admin)
