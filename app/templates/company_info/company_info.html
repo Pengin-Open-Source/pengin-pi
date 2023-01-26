@@ -1,54 +1,52 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/oneDiv.html" %}
 
-{% block profilecontent %}
-<h1 class="profile-title">Company Information</h1>
-  <div class="company-info-table">
-    <table class="">
-      <tr>
-        <th>Company Name</th>
-        <td>{{ company.name|e }}</td>
-      </tr>
-      <tr>
-        <th>Address 1</th>
-        <td>{{ company.address1|e }}</td></a>
-      </tr>
-      <tr>
-        <th>Address 2</th>
-        <td>{{ company.address2|e }}</td>
-      </tr>
-      <tr>
-        <th>City</th>
-        <td>{{ company.city|e }}</td>
-      </tr>
-      <tr>
-        <th>State</th>
-        <td>{{ company.state|e }}</td>
-      </tr>
-      <tr>
-        <th>ZIP Code</th>
-        <td>{{ company.zipcode|e }}</td>
-      </tr>
-      <tr>
-        <th>Country</th>
-        <td>{{ company.country|e }}</td>
-      </tr>
-      <tr>
-        <th>Phone Number</th>
-        <td>{{ company.phone|e }}</td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td>{{ company.email|e }}</td>
-      </tr>
-      <tr>
-        <th>Members</th>
-        <td>{{ company.members|e }}</td>
-      </tr>
-    </table>
+{% block oneDivContent %}
+  <div class="content-section">
+    <h1 class="profile-title">Company Information</h1>
+    <div class="company-info-table">
+      <table class="">
+        <tr>
+          <th>Company Name</th>
+          <td>{{ company.name|e }}</td>
+        </tr>
+        <tr>
+          <th>Address 1</th>
+          <td>{{ company.address1|e }}</td></a>
+        </tr>
+        <tr>
+          <th>Address 2</th>
+          <td>{{ company.address2|e }}</td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td>{{ company.city|e }}</td>
+        </tr>
+        <tr>
+          <th>State</th>
+          <td>{{ company.state|e }}</td>
+        </tr>
+        <tr>
+          <th>ZIP Code</th>
+          <td>{{ company.zipcode|e }}</td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td>{{ company.country|e }}</td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td>{{ company.phone|e }}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{ company.email|e }}</td>
+        </tr>
+        <tr>
+          <th>Members</th>
+          <td>{{ company.members|e }}</td>
+        </tr>
+      </table>
+    </div>
+    <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company Information</a>
   </div>
-  <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company Information</a>
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
 {% endblock %}

@@ -24,6 +24,15 @@ def display_company_info(company_id):
     return render_template('company_info/company_info.html', company=company)
 
 
+@company_info.route('/editor', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def company_editor():
+    companies = Company.query.all()
+
+    return render_template('company_info/company_editor.html', companies=companies, is_admin=admin_permission.can())
+
+
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()

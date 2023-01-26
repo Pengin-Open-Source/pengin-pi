@@ -7,9 +7,6 @@
       <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
     {% endfor %}
   </ul>
-  {% if is_admin %}
-    <a href="/company/create" class="primary-button">Create New Company</a>
-  {% endif %}
 {% endblock %}
 
 {% block profileSideContent %}
