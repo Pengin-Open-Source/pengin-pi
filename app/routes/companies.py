@@ -105,11 +105,13 @@ def edit_company_members(company_id):
 
     if request.method == 'POST':
         checkbox_values = request.form.getlist('member-checkbox')
+        page_num = request.form.get('page-number')
+        users_for_delete = paginate(User, int(page_num), pages=9)
 
-        # clear all members so only those with checkboxes can be added.
-        for user in users:
+        # clear members so only those with checkboxes are left in DB.
+        for user in users_for_delete:
             if user in company.members:
-                company.members.remove(user) # ValueError: list.remove(x): x not in list
+                company.members.remove(user)
 
         for value in checkbox_values:
             user = User.query.filter_by(id=value).first()
