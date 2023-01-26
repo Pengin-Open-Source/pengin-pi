@@ -21,8 +21,7 @@ def display_blog_home():
     else:
         page = 1
 
-    # set "pages = 1" for testing pagination function only
-    posts = paginate(BlogPost, page=page, key="title", pages=1)
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
     return render_template('blog/blog.html', posts=posts,
                            is_admin=admin_permission.can())
 
