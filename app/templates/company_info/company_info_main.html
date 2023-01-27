@@ -1,5 +1,5 @@
 {% extends "profile/profile_main.html" %}
-
+{% import "macros/paginate.html" as pagination %}
 {% block profilecontent %}
   <h1 class="profile-title">Companies</h1>
   <ul class="company-list">
@@ -7,6 +7,7 @@
       <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
     {% endfor %}
   </ul>
+  {{ pagination.render_pagination(companies, "") }}
 {% endblock %}
 
 {% block profileSideContent %}

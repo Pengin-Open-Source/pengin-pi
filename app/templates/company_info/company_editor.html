@@ -1,5 +1,5 @@
 {% extends "layout/oneDiv.html" %}
-
+{% import "macros/paginate.html" as pagination %}
 {% block oneDivContent %}
   <div class="content-section">
     <h1 class="profile-title">Company Editor</h1>
@@ -12,5 +12,6 @@
     {% if is_admin %}
       <a href="/company/create" class="primary-button">Create New Company</a>
     {% endif %}
+    {{ pagination.render_pagination(companies, "") }}
   </div>
 {% endblock %}

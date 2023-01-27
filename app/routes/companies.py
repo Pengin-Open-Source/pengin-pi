@@ -10,22 +10,42 @@ admin_permission = Permission(RoleNeed('admin'))
 
 @company_info.route("/")
 def display_companies_home():
-    companies = Company.query.all()
-
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    companies = paginate(Company, key="id", page=page, pages=10)
+    
     return render_template('company_info/company_info_main.html',
                            companies=companies, is_admin=admin_permission.can())
 
 
 @company_info.route('/<company_id>')
 @login_required
-def display_company_info(company_id):
+def display_company_info(company_id:str) -> render_template:
+    """display company info method
+    This method handles the company/company_id route and returns a company information view.
+        
+    Required Inputs:
+        company_id: company UUID4 string
+        
+    Outputs:
+        render_template -> company_info.html
+    Output Arguments:
+        company_info.html, company query, paginated company members
+    """
+    
+    #Get company from database
     company = Company.query.get_or_404(company_id)
+    #If POST, get page number from form button
     if request.method == "POST":
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
-    members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, pages=10, filters={'company_id':company_id})
+    #custom paginate method to join two tables and paginate results.  Gets users where members of company_id
+    members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
+                            pages=10, filters={'company_id':company_id})
 
     return render_template('company_info/company_info.html', company=company, members=members)
 
@@ -34,7 +54,12 @@ def display_company_info(company_id):
 @login_required
 @admin_permission.require()
 def company_editor():
-    companies = Company.query.all()
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    companies = paginate(Company, key="id", page=page, pages=10)
 
     return render_template('company_info/company_editor.html', companies=companies, is_admin=admin_permission.can())
 
@@ -98,16 +123,13 @@ def edit_company_info_post(company_id):
 @admin_permission.require()
 def edit_company_members(company_id):
     company = Company.query.filter_by(id=company_id).first()
-    page = request.args.get('page')
-
-    if not page:
-        page = 1
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
     else:
-        page = int(page)
+        page = 1
 
-    next_page = page + 1
-    prev_page = page - 1
-    users = paginate(User, page, pages=9)
+
+    users = paginate(User, page=page, pages=10)
 
     if request.method == 'POST':
         checkbox_values = request.form.getlist('member-checkbox')
