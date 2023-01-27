@@ -10,15 +10,15 @@
         {% for user in users %}
         <div>
           <input type="checkbox" id="{{user.id}}" name="member-checkbox" value="{{user.id}}"
-          {% if user in members %} checked {% endif %}
+          {% if user.id in members.user_id %} checked {% endif %}
           />
           <label for="{{user.id}}">{{user.name}}</label>
         </div>
       {% endfor %}
-      {{ pagination.render_pagination(users, "/{{company.id}}/members/edit") }}
       </div>
         <button class="primary-button" type="submit">Save</button>
     </form>
+    {{ pagination.render_pagination(users, "/{{company.id}}/members/edit") }}
     <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
   </div>
 {% endblock %}
