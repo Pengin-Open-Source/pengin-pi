@@ -18,7 +18,7 @@
       </div>
         <button class="primary-button" type="submit">Save</button>
     </form>
-    {{ pagination.render_pagination(users, "/{{company.id}}/members/edit") }}
+    {{ pagination.render_pagination(users, "/company/" + company.id + "/members/edit") }}
     <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
   </div>
 {% endblock %}
