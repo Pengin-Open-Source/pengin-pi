@@ -27,16 +27,16 @@ def display_companies_home():
 def display_company_info(company_id:str) -> render_template:
     """display company info method
     This method handles the company/company_id route and returns a company information view.
-        
+ 
     Required Inputs:
         company_id: company UUID4 string
-        
+   
     Outputs:
         render_template -> company_info.html
     Output Arguments:
         company_info.html, company query, paginated company members
     """
-    
+
     #Get company from database
     company = Company.query.get_or_404(company_id)
     #If POST, get page number from form button
@@ -44,6 +44,7 @@ def display_company_info(company_id:str) -> render_template:
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
+
     #custom paginate method to join two tables and paginate results.  Gets users where members of company_id
     members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
                             pages=10, filters={'company_id':company_id})
@@ -59,7 +60,7 @@ def company_editor():
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
+
     companies = paginate(Company, key="id", page=page, pages=10)
 
     return render_template('company_info/company_editor.html', companies=companies, is_admin=admin_permission.can())
@@ -149,12 +150,11 @@ def edit_company_members_post(company_id):
 
         # clear members so only those with checkboxes are left in DB.
         for user in users_for_delete:
-            if user in members:
-                company.members.remove(user)
+            if user.id in members.user_id:
+                CompanyMembers.query.filter_by(user_id=user.id).delete()
 
         for value in checkbox_values:
             user = User.query.filter_by(id=value).first()
-            company.members.append(user)
 
         db.session.commit()
 
