@@ -15,7 +15,7 @@
           <label for="{{user.id}}">{{user.name}}</label>
         </div>
       {% endfor %}
-      {{ pagination.render_pagination(users, "/{{company.id/members/edit}}") }}
+      {{ pagination.render_pagination(users, "/{{company.id}}/members/edit") }}
       </div>
         <button class="primary-button" type="submit">Save</button>
     </form>
