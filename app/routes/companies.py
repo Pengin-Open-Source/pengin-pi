@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
+from app.util.security.limit import limiter
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
@@ -129,25 +130,26 @@ def edit_company_members(company_id):
         page = 1
 
     users = paginate(User, page=page, pages=10)
-    members = CompanyMembers.query.filter
+    members = CompanyMembers.query.filter_by(company_id=company.id)
+
     return render_template('company_info/edit_members.html', users=users, company=company, page=page, members=members)
 
 
-@company_info.route('/<company_id>/members/edit/post', methods=['POST'])
+@limiter.limit("10 per minute")
+@company_info.route('/<company_id>/members/edit/save', methods=['POST'])
 @login_required
 @admin_permission.require()
 def edit_company_members_post(company_id):
     if request.method == 'POST':
         company = Company.query.filter_by(id=company_id).first()
-        members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
-                            pages=10, filters={'company_id':company_id})
         checkbox_values = request.form.getlist('member-checkbox')
         page_num = request.form.get('page-number')
         users_for_delete = paginate(User, int(page_num), pages=9)
+        members = CompanyMembers.query.filter_by(company_id=company.id)
 
         # clear members so only those with checkboxes are left in DB.
         for user in users_for_delete:
-            if user in company.members:
+            if user in members:
                 company.members.remove(user)
 
         for value in checkbox_values:

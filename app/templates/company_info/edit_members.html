@@ -4,7 +4,7 @@
 {% block oneDivContent %}
   <div class="content-section">
     <h1 class="profile-title">Edit Company Members</h1>
-    <form class="form" method="POST" action="/company/{{company.id}}/members/edit/post">
+    <form class="form" method="POST" action="/company/{{company.id}}/members/edit/save">
       <input type="text" hidden name="page-number" value="{{page}}"/>
       <div class="member-grid">
         {% for user in users %}
