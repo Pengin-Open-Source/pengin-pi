@@ -29,7 +29,7 @@ def paginate(Model:object, page:int, **kwargs)->list:
     try:
         query = Model.query
         if filters:
-            query = Model.query.filter_by(**filters)
+            query = query.filter_by(**filters)
 
         elif key:
             order_attr = getattr(Model, key)
