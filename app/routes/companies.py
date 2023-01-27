@@ -130,7 +130,7 @@ def edit_company_members(company_id):
         page = 1
 
     users = paginate(User, page=page, pages=10)
-    members = CompanyMembers.query.filter_by(company_id=company.id)
+    members = CompanyMembers.query.filter_by(company_id=company.id).all()
 
     return render_template('company_info/edit_members.html', users=users, company=company, page=page, members=members)
 
@@ -145,7 +145,7 @@ def edit_company_members_post(company_id):
         checkbox_values = request.form.getlist('member-checkbox')
         page_num = request.form.get('page-number')
         users_for_delete = paginate(User, int(page_num), pages=9)
-        members = CompanyMembers.query.filter_by(company_id=company.id)
+        members = CompanyMembers.query.filter_by(company_id=company.id).all()
 
         # clear members so only those with checkboxes are left in DB.
         for user in users_for_delete:
