@@ -1,5 +1,5 @@
 {% extends "layout/oneDiv.html" %}
-
+{% import "macros/paginate.html" as pagination %}
 {% block oneDivContent %}
   <div class="content-section">
     <h1 class="profile-title">Company Information</h1>
@@ -41,12 +41,25 @@
           <th>Email</th>
           <td>{{ company.email|e }}</td>
         </tr>
-        <tr>
-          <th>Members</th>
-          <td>{{ company.members|e }}</td>
-        </tr>
+        
       </table>
+    </br><h3>Members</h3></br>
+      <table>
+        <tr>
+        <th>Name</th>
+        <th>Email</th>
+        </tr>
+        
+        {% for member in members %}
+        <tr>
+          <td>{{ member.name|e }}</td>
+          <td>{{ member.email|e }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {{ pagination.render_pagination(members, "/{{company.id}}") }}
     </div>
-    <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company Information</a>
+    
+    <a class="primary-button" href="/company/{{company.id|e}}/edit">Edit Company Information</a>
   </div>
 {% endblock %}

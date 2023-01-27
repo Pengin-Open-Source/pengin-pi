@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
-from app.db import db, paginate
+from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
@@ -20,8 +20,14 @@ def display_companies_home():
 @login_required
 def display_company_info(company_id):
     company = Company.query.get_or_404(company_id)
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, pages=10, filters={'company_id':company_id})
 
-    return render_template('company_info/company_info.html', company=company)
+    return render_template('company_info/company_info.html', company=company, members=members)
 
 
 @company_info.route('/editor', methods=['GET', 'POST'])

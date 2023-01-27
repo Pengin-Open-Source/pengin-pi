@@ -20,6 +20,7 @@ class User(UserMixin, db.Model):
     posts = db.relationship('ForumPost')
     comments = db.relationship('ForumComment')
     companies = db.relationship('Company', secondary='company_members')
+    customer = db.relationship('Customer')
     tickets = db.relationship('TicketForum')
     ticket_comments = db.relationship('TicketComment')
     
@@ -104,8 +105,7 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String(50))
     address2 = db.Column(db.String(50))
-    members = db.relationship('User', secondary='company_members',overlaps="companies")
-    customer = db.relationship('User', secondary='customer')
+    customer = db.relationship('Customer')
 
 
 class CompanyMembers(db.Model):
