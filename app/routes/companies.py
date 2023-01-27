@@ -128,10 +128,19 @@ def edit_company_members(company_id):
     else:
         page = 1
 
-
     users = paginate(User, page=page, pages=10)
+    members = CompanyMembers.query.filter
+    return render_template('company_info/edit_members.html', users=users, company=company, page=page, members=members)
 
+
+@company_info.route('/<company_id>/members/edit/post', methods=['POST'])
+@login_required
+@admin_permission.require()
+def edit_company_members_post(company_id):
     if request.method == 'POST':
+        company = Company.query.filter_by(id=company_id).first()
+        members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
+                            pages=10, filters={'company_id':company_id})
         checkbox_values = request.form.getlist('member-checkbox')
         page_num = request.form.get('page-number')
         users_for_delete = paginate(User, int(page_num), pages=9)
@@ -149,5 +158,3 @@ def edit_company_members(company_id):
 
         return redirect(url_for('company_info.edit_company_members',
                                 company_id=company.id))
-
-    return render_template('company_info/edit_members.html', users=users, company=company, page=page, next_page=next_page, prev_page=prev_page)
