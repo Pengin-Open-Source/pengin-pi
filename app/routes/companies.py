@@ -10,14 +10,15 @@ admin_permission = Permission(RoleNeed('admin'))
 
 
 @company_info.route("/")
+@login_required
 def display_companies_home():
     if request.method == "POST":
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
-    companies = paginate(Company, key="id", page=page, pages=10)
-    
+
+    companies = Company.query.join(CompanyMembers, CompanyMembers.company_id == Company.id).filter(CompanyMembers.user_id == current_user.id).paginate(page=page, per_page=10)
+
     return render_template('company_info/company_info_main.html',
                            companies=companies, is_admin=admin_permission.can())
 
@@ -27,10 +28,10 @@ def display_companies_home():
 def display_company_info(company_id:str) -> render_template:
     """display company info method
     This method handles the company/company_id route and returns a company information view.
- 
+
     Required Inputs:
         company_id: company UUID4 string
-   
+
     Outputs:
         render_template -> company_info.html
     Output Arguments:
