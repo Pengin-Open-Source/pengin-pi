@@ -131,9 +131,10 @@ def edit_company_members(company_id):
         page = 1
 
     users = paginate(User, page=page, pages=10)
-    members = CompanyMembers.query.filter_by(company_id=company.id).all()
+    members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+    members_ids_list = [i for i in members_ids for i in i]
 
-    return render_template('company_info/edit_members.html', users=users, company=company, page=page, members=members)
+    return render_template('company_info/edit_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
 
 
 @limiter.limit("10 per minute")
@@ -146,15 +147,18 @@ def edit_company_members_post(company_id):
         checkbox_values = request.form.getlist('member-checkbox')
         page_num = request.form.get('page-number')
         users_for_delete = paginate(User, int(page_num), pages=9)
-        members = CompanyMembers.query.filter_by(company_id=company.id).all()
+        members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+        members_ids_list = [i for i in members_ids for i in i]
 
         # clear members so only those with checkboxes are left in DB.
         for user in users_for_delete:
-            if user.id in members.user_id:
+            if user.id in members_ids_list:
                 CompanyMembers.query.filter_by(user_id=user.id).delete()
 
         for value in checkbox_values:
             user = User.query.filter_by(id=value).first()
+            new_member = CompanyMembers(company_id=company.id, user_id=user.id)
+            db.session.add(new_member)
 
         db.session.commit()
 

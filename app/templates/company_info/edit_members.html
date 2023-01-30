@@ -10,7 +10,7 @@
         {% for user in users %}
         <div>
           <input type="checkbox" id="{{user.id}}" name="member-checkbox" value="{{user.id}}"
-          {% if user.id in members.user_id %} checked {% endif %}
+          {% if user.id in members_ids_list %} checked {% endif %}
           />
           <label for="{{user.id}}">{{user.name}}</label>
         </div>
