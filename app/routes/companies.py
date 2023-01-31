@@ -24,7 +24,7 @@ def display_companies_home():
                            companies=companies, is_admin=admin_permission.can())
 
 
-@company_info.route('/<company_id>')
+@company_info.route('/<company_id>', methods=['POST','GET'])
 @login_required
 def display_company_info(company_id:str) -> render_template:
     """display company info method
