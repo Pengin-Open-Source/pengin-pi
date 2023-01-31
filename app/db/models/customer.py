@@ -21,12 +21,12 @@ class User(UserMixin, db.Model):
     order = db.relationship('Order')
     customer = db.relationship('Customer')
     companies = db.relationship('Company', secondary='company_members')
+    customer = db.relationship('Customer')
     tickets = db.relationship('TicketForum')
     ticket_comments = db.relationship('TicketComment')
     
-
-    def __repr__(self): # for debug purpose
-        return f"----- name: {self.name} || roles: {self.roles} "
+    # def __repr__(self): # for debug purpose
+    #   return f"----- name: {self.name} || roles: {self.roles} "
 
 
 class Role(db.Model):
@@ -36,10 +36,8 @@ class Role(db.Model):
     # used for populating "name" about role when showing dropdown of roles
     event_info = db.relationship('Event', back_populates="role_info", lazy=True)
 
-
-    def __repr__(self): # for debug purpose
-        return f"----- id: {self.id} || name: {self.name} "
-
+    # def __repr__(self): # for debug purpose
+    #    return f"----- id: {self.id} || name: {self.name} "
 
 
 class UserRoles(db.Model):
@@ -63,7 +61,10 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String(50))
     address2 = db.Column(db.String(50))
+<<<<<<< HEAD
     members = db.relationship('User', secondary='company_members',overlaps="companies")
+=======
+>>>>>>> dev-B1.1
     customer = db.relationship('Customer')
 
 

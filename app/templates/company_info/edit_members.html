@@ -1,0 +1,24 @@
+{% extends "layout/oneDiv.html" %}
+{% import "macros/paginate.html" as pagination %}
+
+{% block oneDivContent %}
+  <div class="content-section">
+    <h1 class="profile-title">Edit Company Members</h1>
+    <form class="form" method="POST" action="/company/{{company.id}}/members/edit/save">
+      <input type="text" hidden name="page-number" value="{{page}}"/>
+      <div class="member-grid">
+        {% for user in users %}
+        <div>
+          <input type="checkbox" id="{{user.id}}" name="member-checkbox" value="{{user.id}}"
+          {% if user.id in members_ids_list %} checked {% endif %}
+          />
+          <label for="{{user.id}}">{{user.name}}</label>
+        </div>
+      {% endfor %}
+      </div>
+        <button class="primary-button" type="submit">Save</button>
+    </form>
+    {{ pagination.render_pagination(users, "/company/" + company.id + "/members/edit") }}
+    <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
+  </div>
+{% endblock %}
