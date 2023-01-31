@@ -21,7 +21,7 @@ def display_companies_home():
     #companies = Company.query.join(CompanyMembers, CompanyMembers.company_id == Company.id).filter(CompanyMembers.user_id == current_user.id).paginate(page=page, per_page=10)
     
     #Attempt at using paginate join:
-    companies = paginate_join_filter(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
+    companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
                               pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
