@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
-from app.db import db, paginate, paginate_join
+from app.db import db, paginate, paginate_join, paginate_join_filter
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
 
@@ -17,7 +17,12 @@ def display_companies_home():
     else:
         page = 1
 
-    companies = Company.query.join(CompanyMembers, CompanyMembers.company_id == Company.id).filter(CompanyMembers.user_id == current_user.id).paginate(page=page, per_page=10)
+    # Below is the working join query:
+    #companies = Company.query.join(CompanyMembers, CompanyMembers.company_id == Company.id).filter(CompanyMembers.user_id == current_user.id).paginate(page=page, per_page=10)
+    
+    #Attempt at using paginate join:
+    companies = paginate_join_filter(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
+                              pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
                            companies=companies, is_admin=admin_permission.can())
@@ -50,7 +55,7 @@ def display_company_info(company_id:str) -> render_template:
     members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
                             pages=10, filters={'company_id':company_id})
 
-    return render_template('company_info/company_info.html', company=company, members=members)
+    return render_template('company_info/company_info.html', company=company, members=members, is_admin=admin_permission.can())
 
 
 @company_info.route('/editor', methods=['GET', 'POST'])
