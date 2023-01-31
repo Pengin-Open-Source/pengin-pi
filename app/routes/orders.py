@@ -36,7 +36,7 @@ def create_order():
         new_order = Order()
         db.session.add(new_order)
         db.session.commit()
-        new_members_order = orderMembers(id=new_order.id,
+        new_members_order = OrderMembers(id=new_order.id,
                                              user_id=current_user.id)
         db.session.add(new_members_order)
         db.session.commit()
