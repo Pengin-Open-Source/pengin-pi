@@ -61,10 +61,6 @@ class Company(db.Model):
     email = db.Column(db.String(100), unique=True)
     address1 = db.Column(db.String(50))
     address2 = db.Column(db.String(50))
-<<<<<<< HEAD
-    members = db.relationship('User', secondary='company_members',overlaps="companies")
-=======
->>>>>>> dev-B1.1
     customer = db.relationship('Customer')
 
 
