@@ -12,3 +12,4 @@ instance
 /env
 *.DS_Store
 migrations
+Favicon.png
