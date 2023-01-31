@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
-from app.db import db, paginate, paginate_join, paginate_join_filter
+from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
 
