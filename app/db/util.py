@@ -70,7 +70,7 @@ def paginate_join(Model1, Model2, join_on, page:int, **kwargs)->list:
     try:
         query = Model1.query.join(Model2, join_on)
         if filters:
-            query = query.filter_by(**filters) # This only works on model1 needs to filter both models.
+            query = query.filter_by(**filters)
 
         elif key:
             order_attr = getattr(Model1, key)
