@@ -1,4 +1,5 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
 
 {% block beforeTableContent %}
   <div class="">
@@ -22,5 +23,6 @@
 {% endblock %}
 
 {% block postTableContent %}
+  {{ pagination.render_pagination(tickets, "") }}
   <a class="primary-button" href="/tickets/create">Create Ticket</a>
 {% endblock %}

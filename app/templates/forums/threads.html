@@ -1,4 +1,5 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
 
 {% block beforeTableContent %}
   <h2 class="title">{{title|e}}</h2>
@@ -18,6 +19,7 @@
 {% endblock %}
 
 {% block postTableContent %}
+    {{ pagination.render_pagination(threads, "") }}
     {% if is_admin %}
       <a class="primary-button" href="/forums/create">Create Thread</a>
     {% endif %}
