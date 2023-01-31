@@ -59,5 +59,8 @@
       </table>
       {{ pagination.render_pagination(members, "/{{company.id}}") }}
     </div>
+    {% if is_admin %}
+      <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
+    {% endif %}
   </div>
 {% endblock %}
