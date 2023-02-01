@@ -7,13 +7,6 @@ from app.util.uuid import id
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.String(36), default=id, primary_key=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                    ondelete='CASCADE'))
-    organizer = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                      ondelete='CASCADE'))
-    role = db.Column(db.String(36), db.ForeignKey('roles.id',
-                                                 ondelete='CASCADE'))
-    role_info = db.relationship("Role", back_populates="event_info", lazy=True)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, server_default=func.now())
     start_datetime = db.Column(db.DateTime(timezone=True), nullable=False)
