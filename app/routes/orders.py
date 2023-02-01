@@ -30,16 +30,29 @@ def display_order_info(order_id):
 @admin_permission.require()
 def create_order():
     if request.method == 'POST':
-        order_date = request.form.get('order_date')
-        order_list = request.form.get('order_list')
+        order_date = request.form.get('order_date') # or datetime.utcnow() if null
         customer_id = request.form.get('customer_id')
-        new_order = Order()
-        db.session.add(new_order)
-        db.session.commit()
-        new_members_order = OrderMembers(id=new_order.id,
-                                             user_id=current_user.id)
-        db.session.add(new_members_order)
-        db.session.commit()
+        product_id_list = request.form.getlist('order-product-id')
+        order_id_list = request.form.getlist('order-order-id')
+        quantity_list = request.form.getlist('order-quantity')
+
+        for i in range(len(quantity_list)):
+            # As multiple lists to iterate through I have used a traditional
+            # loop with a counter that can then be used to access that item
+            # in each list in the same iteration.
+            product_id = product_id_list[i]
+            order_id = order_id_list[i]
+            quantity = quantity_list[i]
+
+            # TODO add each order to DB
+            new_order = Order()
+            db.session.add(new_order)
+            db.session.commit()
+
+            new_members_order = OrderMembers(id=new_order.id,
+                                                user_id=current_user.id)
+            db.session.add(new_members_order)
+            db.session.commit()
 
         return redirect(url_for("order_info.display_order_info",
                                 order_id=new_order.id))
