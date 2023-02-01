@@ -8,3 +8,18 @@ const hamburgerToggle= () => {
   }
   console.log('test')
 }
+
+const addOrderRow = () => {
+  const order = document.querySelector('.order');
+  const newOrder = order.cloneNode(true);
+
+  order.after(newOrder);
+}
+
+const removeOrderRow = (event) => {
+  const orders = document.querySelectorAll('.order');
+
+  if (orders.length > 1) {
+    event.parentElement.remove();
+  }
+}

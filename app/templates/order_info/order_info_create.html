@@ -1,0 +1,58 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+    <div class="content-section">
+        <form class="form" method="POST" action="/orders/create">
+            <div class="form-section">
+                <label for="title">Customer ID</label>
+                <input
+                class="form-input"
+                type="text"
+                name="title"
+                placeholder="Write some title..." required>
+            </div>
+            <div class="form-section">
+                <label for="start_datetime">Date</label>
+                <input
+                class="form-input"
+                type="datetime-local"
+                name="start_datetime" required>
+            </div>
+            <div class="order-list">
+              <button class="add-order" onclick="addOrderRow()">+</button>
+              <div class="order">
+                <div class="form-section">
+                  <label for="title">Product ID</label>
+                  <input
+                  class="form-input"
+                  type="text"
+                  name="title"
+                  placeholder="Write some title..." required>
+                </div>
+                <div class="form-section">
+                  <label for="title">Order ID</label>
+                  <input
+                  class="form-input"
+                  type="text"
+                  name="title"
+                  placeholder="Write some title..." required>
+                </div>
+                <div class="form-section">
+                  <label for="title">Quantity</label>
+                  <input
+                  class="form-input"
+                  type="text"
+                  name="title"
+                  placeholder="Write some title..." required>
+                </div>
+                <button class="remove-order" onclick="removeOrderRow(this)">-</button>
+              </div>
+            </div>
+            <button type="submit" class="primary-button">Create</button>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
