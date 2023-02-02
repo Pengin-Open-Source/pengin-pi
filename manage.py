@@ -6,9 +6,17 @@ from app.util.uuid import id
 from werkzeug.security import generate_password_hash
 
 
-password = generate_password_hash('password', method='sha256')
+def out(string):
+        try:
+            output = input(string)
+            if output == 'Q':
+                quit()
+            return output
+        except:
+            out(string)
 
-
+def password():
+    return generate_password_hash(out('Q to quit | Input password: '), method='sha256')
 
 
 def create_all():
@@ -60,7 +68,23 @@ def build():
             db.session.add(UserRoles(user_id=i['user_id'],role_id=i['role_id']))
         db.session.commit()
         
-
+    def create_admin():
+        email = out('Q for quit | input email: ')
+        name = out('Q for quit | input name: ')
+        password = password()
+        user = ({'id':id(),'email':email,'password':password,'name':name, 'validated':True, 'validation_date':datetime.utcnow(), 'validation_id':id()},)
+        app = create_app()
+    
+        with app.app_context():
+            for i in user:
+                db.session.add(User(id=i['id'],email=i['email'],password=i['password'],name=i['name'],validated=i['validated'],validation_date=i['validation_date'],validation_id=i['validation_id']))
+            db.session.commit()
+            user_id = User.query.filter_by(email=email).first().id
+            role_id = Role.query.filter_by(name="admin").first().id
+            db.session.add(UserRoles(user_id=user_id,role_id=role_id))
+            role_id = Role.query.filter_by(name="user").first().id
+            db.session.add(UserRoles(user_id=user_id,role_id=role_id))
+            db.session.commit()
 
 if __name__ == "__main__":
     app = create_app()

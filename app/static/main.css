@@ -271,6 +271,24 @@ h1,h2,h3,h4,h5,h6 {
   list-style-type: none;
 }
 
+/* Paginate/ List1 */
+.page-items {
+  text-align: center;
+}
+
+.pagination-list {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination-list input {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  color: var(--main-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
 
 /* Profile/ Company Info */
 .profile-info {
@@ -333,6 +351,13 @@ h1,h2,h3,h4,h5,h6 {
 
 .company-list li{
   margin:0.5rem;
+}
+
+.member-grid {
+  margin: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 }
 
 /* Forum/Tickets */

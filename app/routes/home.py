@@ -48,6 +48,7 @@ def home_edit():
         if request.method == 'POST':
             home.company_name = request.form.get('name')
             home.article = request.form.get('article')
+            home.tags = request.form.get('tags')
             image = request.files["file"]
             url = image.filename if "file" in request.files and image.filename != "" else home.image
             if home.image != url:
@@ -65,13 +66,14 @@ def home_edit():
     elif request.method == 'POST':
             company_name = request.form.get('name')
             article = request.form.get('article')
+            tags = request.form.get('tags')
             image = request.files["file"]
             url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
             if image:
                 image.filename = secure_filename(image.filename)
                 url = conn.create(image)
 
-            new_home = Home(company_name=company_name, article=article,
+            new_home = Home(company_name=company_name, article=article,tags=tags,
                              image=url)
 
             db.session.add(new_home)

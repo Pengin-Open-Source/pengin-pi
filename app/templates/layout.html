@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% block tags %}{% endblock %}
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
   {% if title %}
     <title>{{company_name|e}} - {{ title|e }} </title>
@@ -13,6 +14,7 @@
   <script>
     document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
   </script>
+  <link rel="icon" type="image/png" href="/static/images/Favicon.png"/>
 </head>
 
 <body>
@@ -35,6 +37,7 @@
             {% if current_user.is_authenticated %}
                 {% if is_admin %}
                   <a class="header-link" href="/blog/create">New Blog</a>
+                  <a class="header-link" href="/company/editor">Company Editor</a>
                 {% endif %}
               <a class="header-link" href="/profile">Profile</a>
               <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>

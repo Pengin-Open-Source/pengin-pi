@@ -1,4 +1,5 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
 
 {% block beforeTableContent %}
   <h2 class="title">Calendar</h2>
@@ -19,5 +20,6 @@
 {% endblock %}
 
 {% block postTableContent %}
-      <a class="primary-button" href="/calendar/create">Create Event</a>
+  {{ pagination.render_pagination(events, "") }}
+  <a class="primary-button" href="/calendar/create">Create Event</a>
 {% endblock %}

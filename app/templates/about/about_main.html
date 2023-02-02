@@ -1,5 +1,9 @@
 {% extends "layout/oneDiv.html" %}
-
+{% block tags %}
+  {% if about.tags %}
+      <meta name="keywords" content="{{about.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block oneDivContent %}
     <article class="content-section">
         <h2 class="title center-title">About {{about.name|e}}</h2>
