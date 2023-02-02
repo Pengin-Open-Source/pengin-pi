@@ -18,8 +18,9 @@ const addOrderRow = () => {
 
 const removeOrderRow = (event) => {
   const orders = document.querySelectorAll('.order');
-
+  console.log(orders.length)
   if (orders.length > 1) {
-    event.parentElement.remove();
+    event.parentElement.parentElement.remove();
   }
+  
 }
