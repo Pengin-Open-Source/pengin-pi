@@ -4,12 +4,12 @@
     <div class="content-section">
         <form class="form" method="POST" action="/orders/create">
             <div class="form-section">
-                <label for="title">Customer ID</label>
-                <input
-                class="form-input"
-                type="text"
-                name="customer_id"
-                placeholder="Write some title..." required>
+                <label for="customer">Customer ID</label>
+                <select name="customer_id" id="customer" placeholder="Product ID">
+                  {% for customer in customers %}
+                    <option value="{{customer.id}}">{{customer.id}}</option>
+                  {% endfor %}
+                </select>
             </div>
             <div class="form-section">
                 <label for="start_datetime">Date</label>
@@ -19,39 +19,33 @@
                 name="order_date" required>
             </div>
             <div class="order-list">
-              <button class="add-order" onclick="addOrderRow()">+</button>
-              <!-- fix the inputs and stuff this is just to get JS working -->
-              <div class="order">
-                <div class="form-section">
-                  <label for="title">Product ID</label>
-                  <input
-                  class="form-input"
-                  type="text"
-                  name="order-product-id"
-                  placeholder="Write some title..." required>
-                </div>
-                <div class="form-section">
-                  <label for="title">Order ID</label>
-                  <input
-                  class="form-input"
-                  type="text"
-                  name="order-order-id"
-                  placeholder="Write some title..." required>
-                </div>
-                <div class="form-section">
-                  <label for="title">Quantity</label>
-                  <input
-                  class="form-input"
-                  type="text"
-                  name="order-quantity"
-                  placeholder="Write some title..." required>
-                </div>
-                <button class="remove-order" onclick="removeOrderRow(this)">-</button>
+              <div class="company-info-table">
+                <table class="">
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Quantity</th>
+                      <th><button class="add-order" onclick="addOrderRow()">+</button></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="order">
+                      <td>
+                        <select name="table_data" placeholder="Product ID">
+                          {% for product in products %}
+                            <option value="{{product.id}}">{{product.id}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td><input type="number" name="table_data" placeholder="quantity"></td>
+                      <td><button class="remove-order" onclick="removeOrderRow(this)">-</button></td>
+                    </tr>     
+                  </tbody>
+                </table>
               </div>
             </div>
             <button type="submit" class="primary-button">Create</button>
         </form>
-
     </div>
 
 {% endblock %}
