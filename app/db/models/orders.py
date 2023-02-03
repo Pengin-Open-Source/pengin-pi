@@ -19,7 +19,7 @@ class Order(db.Model):
 
 class OrderList(db.Model):
     __tablename__ = 'order_list'
-    id = db.Column(db.String(36), primary_key=True)
+    id = db.Column(db.String(36), default=ID, primary_key=True)
     quantity = db.Column(db.Integer)
 
 
