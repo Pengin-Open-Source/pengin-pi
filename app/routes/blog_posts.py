@@ -48,8 +48,13 @@ def edit_post(post_id):
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=post.id))
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
 
-    return render_template('blog/edit.html', post=post, links=get_links(), is_admin=admin_permission.can())
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -65,5 +70,10 @@ def create_post():
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=new_post.id))
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
 
-    return render_template('blog/create.html', newPost=1, links=get_links())
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/create.html', newPost=1, posts=posts)
