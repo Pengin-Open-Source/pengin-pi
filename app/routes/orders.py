@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
-from app.db.models import Order, OrderList, Product, Customer
+from app.db.models import Order, OrderList, Product, Customer, User
 from itertools import groupby
 
 
@@ -37,7 +37,6 @@ def create_order():
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
         orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
-        print(orders)
 
         for order in orders:
             new_order = Order(order_date=order_date, customer_id=customer_id)
@@ -51,6 +50,6 @@ def create_order():
                                 order_id=new_order.id))
 
     products = Product.query.all()
-    customers = Customer.query.all()
+    customers = User.query.join(Customer, User.id == Customer.user_id).all()
 
     return render_template('order_info/order_info_create.html', products=products, customers=customers)
