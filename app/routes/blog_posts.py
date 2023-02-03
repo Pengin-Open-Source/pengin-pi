@@ -9,6 +9,9 @@ from app.db.util import paginate
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
+def get_links():
+    return []
+
 
 @blogPosts.route("/blog", methods=["GET", "POST"])
 def display_blog_home():

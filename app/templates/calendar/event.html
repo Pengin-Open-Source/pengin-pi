@@ -1,6 +1,6 @@
 {% extends "layout/oneDiv.html" %}
 
-{% block oneDivContent %}
+{% block profilecontent %}
 <div class="post-container">
   <h2 class="title">{{event.title|e}}</h2>
   <p class="post-info">Role: {{event.role_info.name|e}}</p>
@@ -13,4 +13,8 @@
     <p class="post-info">Location: {{event.location|e}}</p>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
 {% endblock %}

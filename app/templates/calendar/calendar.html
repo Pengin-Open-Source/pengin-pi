@@ -16,10 +16,14 @@
       </ul>
     </td></tr>
   {% endfor %}
-
+  
 {% endblock %}
 
 {% block postTableContent %}
-  {{ pagination.render_pagination(events, "") }}
-  <a class="primary-button" href="/calendar/create">Create Event</a>
+    {{ pagination.render_pagination(events, "") }}
+    <a class="primary-button" href="/calendar/create">Create Event</a>
+{% endblock %}
+
+{% block profileSideContent %}
+    {% include "right_window/profile_info.html" %}
 {% endblock %}
