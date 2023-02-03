@@ -36,11 +36,12 @@ def create_order():
         customer_id = request.form.get('customer_id')
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
-        orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity))]
+        orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
+        print(orders)
 
         for order in orders:
             new_order = Order(order_date=order_date, customer_id=customer_id)
-            new_order_list = OrderList(quantity=order.qty, order_id=new_order.id, product_id=order.product)
+            new_order_list = OrderList(quantity=order['qty'], order_id=new_order.id, product_id=order['product'])
 
             db.session.add(new_order)
             db.session.add(new_order_list)
