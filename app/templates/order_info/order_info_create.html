@@ -2,14 +2,16 @@
 
 {% block oneDivContent %}
     <div class="content-section">
+      <h2 class="title">Create Order</h2>
         <form class="form" method="POST" action="/orders/create">
+          <div class="flex-between">
             <div class="form-section">
-                <label for="customer">Customer ID</label>
-                <select name="customer_id" id="customer" placeholder="Product ID">
-                  {% for customer in customers %}
-                    <option value="{{customer.id}}">{{customer.id}}</option>
-                  {% endfor %}
-                </select>
+              <label for="customer">Customer ID</label>
+              <select name="customer_id" id="customer" placeholder="Product ID">
+                {% for customer in customers %}
+                  <option value="{{customer.id}}">{{customer.name}}</option>
+                {% endfor %}
+              </select>
             </div>
             <div class="form-section">
                 <label for="start_datetime">Date</label>
@@ -18,14 +20,15 @@
                 type="datetime-local"
                 name="order_date" required>
             </div>
+          </div>
             <div class="order-list">
               <div class="company-info-table">
-                <table class="">
+                <table>
                   <thead>
                     <tr>
                       <th>Product ID</th>
                       <th>Quantity</th>
-                      <th><button class="add-order" onclick="addOrderRow()">+</button></th>
+                      <th class="invisible-td"><button class="circle-button" onclick="addOrderRow()">+</button></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -33,12 +36,12 @@
                       <td>
                         <select name="product_id" placeholder="Product ID">
                           {% for product in products %}
-                            <option value="{{product.id}}">{{product.id}}</option>
+                            <option value="{{product.id}}">{{product.name}}</option>
                           {% endfor %}
                         </select>
                       </td>
                       <td><input type="number" name="quantity" placeholder="quantity"></td>
-                      <td><button class="remove-order" onclick="removeOrderRow(this)">-</button></td>
+                      <td style="border:none;"><button class="circle-button" onclick="removeOrderRow(this)" >-</button></td>
                     </tr>     
                   </tbody>
                 </table>
