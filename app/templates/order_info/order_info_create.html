@@ -31,13 +31,13 @@
                   <tbody>
                     <tr class="order">
                       <td>
-                        <select name="table_data" placeholder="Product ID">
+                        <select name="product_id" placeholder="Product ID">
                           {% for product in products %}
                             <option value="{{product.id}}">{{product.id}}</option>
                           {% endfor %}
                         </select>
                       </td>
-                      <td><input type="number" name="table_data" placeholder="quantity"></td>
+                      <td><input type="number" name="quantity" placeholder="quantity"></td>
                       <td><button class="remove-order" onclick="removeOrderRow(this)">-</button></td>
                     </tr>     
                   </tbody>
