@@ -2,7 +2,9 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
-from app.db.models import Order, OrderList
+from app.db.models import Order, OrderList, Product, Customer
+from itertools import groupby
+
 
 order_info = Blueprint('order_info', __name__, url_prefix="/orders")
 admin_permission = Permission(RoleNeed('admin'))
@@ -30,31 +32,24 @@ def display_order_info(order_id):
 @admin_permission.require()
 def create_order():
     if request.method == 'POST':
-        order_date = request.form.get('order_date') # or datetime.utcnow() if null
+        order_date = request.form.get('order_date') # TODO or datetime.utcnow() if null
         customer_id = request.form.get('customer_id')
-        product_id_list = request.form.getlist('order-product-id')
-        order_id_list = request.form.getlist('order-order-id')
-        quantity_list = request.form.getlist('order-quantity')
+        product_id = request.form.getlist('product_id')
+        quantity = request.form.getlist('quantity')
+        orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity))]
 
-        for i in range(len(quantity_list)):
-            # As multiple lists to iterate through I have used a traditional
-            # loop with a counter that can then be used to access that item
-            # in each list in the same iteration.
-            product_id = product_id_list[i]
-            order_id = order_id_list[i]
-            quantity = quantity_list[i]
+        for order in orders:
+            new_order = Order(order_date=order_date, customer_id=customer_id)
+            new_order_list = OrderList(quantity=order.qty, order_id=new_order.id, product_id=order.product)
 
-            # TODO add each order to DB
-            new_order = Order()
             db.session.add(new_order)
-            db.session.commit()
-
-            new_members_order = OrderMembers(id=new_order.id,
-                                                user_id=current_user.id)
-            db.session.add(new_members_order)
+            db.session.add(new_order_list)
             db.session.commit()
 
         return redirect(url_for("order_info.display_order_info",
                                 order_id=new_order.id))
 
-    return render_template('order_info/order_info_create.html')
+    products = Product.query.all()
+    customers = Customer.query.all()
+
+    return render_template('order_info/order_info_create.html', products=products, customers=customers)
