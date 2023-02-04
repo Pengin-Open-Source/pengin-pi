@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
+from flask_commonmark import Commonmark
 
 import app.db.models as model
 import app.routes as route

@@ -1,11 +1,8 @@
-{% extends "layout/alternating_color_table.html" %}
+{% extends "profile/profile_main.html" %}
 {% import "macros/paginate.html" as pagination %}
 
-{% block beforeTableContent %}
+{% block profilecontent %}
   <h2 class="title">Calendar</h2>
-{% endblock %}
-
-{% block tableContent %}
   {% for date in events_by_start_date %}
     <tr><td>
       <h3 class="calendar-date">{{date|e}}</h3>
@@ -17,11 +14,9 @@
     </td></tr>
   {% endfor %}
   
-{% endblock %}
+  {{ pagination.render_pagination(events, "") }}
+  <a class="primary-button" href="/calendar/create">Create Event</a>
 
-{% block postTableContent %}
-    {{ pagination.render_pagination(events, "") }}
-    <a class="primary-button" href="/calendar/create">Create Event</a>
 {% endblock %}
 
 {% block profileSideContent %}
