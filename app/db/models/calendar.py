@@ -7,8 +7,7 @@ from app.util.uuid import id
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.String(36), default=id, primary_key=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                    ondelete='CASCADE'))
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'))
     organizer = db.Column(db.String(36), db.ForeignKey('user.id',
                                                       ondelete='CASCADE'))
     role = db.Column(db.String(36), db.ForeignKey('roles.id',

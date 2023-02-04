@@ -57,10 +57,11 @@ def calendar_create():
             request.form.get('end_datetime'), '%Y-%m-%dT%H:%M')
         location = request.form.get('location').strip()
         role = request.form.get('role')
-
+        member = request.form.get('user_id')
+        print (member,role)
 
         # add "organizer" input later. Assume organizer = event creator for now
-        new_event = Event(user_id=current_user.id, organizer=current_user.id, role=role, title=title,
+        new_event = Event(user_id=member, organizer=current_user.id, role=role, title=title,
                           description=description, location=location, start_datetime=start_datetime, end_datetime=end_datetime)
         db.session.add(new_event)
         db.session.commit()
@@ -68,8 +69,9 @@ def calendar_create():
         return redirect(url_for("calendar_blueprint.calendar"))
 
     roles = Role.query.all()
+    users = User.query.all()
     return render_template('calendar/create_event.html',
-                           current_user=current_user, roles=roles)
+                           current_user=current_user, roles=roles, users=users)
 
 
 @calendar_blueprint.route("/<event_id>")
@@ -78,6 +80,7 @@ def calendar_event(event_id):
     event = Event.query.filter_by(id=event_id).first()
     event.add_date()
     event.add_time()
+    organizer = User.query.filter_by(id=event.user_id).first()
 
     return render_template('calendar/event.html', event=event,
-                           current_user=current_user)
+                           current_user=current_user, organizer=organizer)
