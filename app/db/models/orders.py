@@ -11,14 +11,14 @@ class Contracts(db.Model):
     expiration_date = db.Column(db.DateTime(timezone=True), nullable=True)
 
 
-class Order(db.Model):
-    __tablename__ = 'order'
+class Orders(db.Model):
+    __tablename__ = 'orders'
     id = db.Column(db.String(36), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(timezone=True), nullable=True)
     
 
-class OrderList(db.Model):
-    __tablename__ = 'order_list'
+class OrdersList(db.Model):
+    __tablename__ = 'orders_list'
     id = db.Column(db.String(36), default=ID, primary_key=True)
     quantity = db.Column(db.Integer)
 

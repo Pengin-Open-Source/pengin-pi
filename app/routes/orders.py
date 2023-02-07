@@ -2,7 +2,8 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
-from app.db.models import Order, OrderList, Product, Customer, User
+from app.util.uuid import id as ID
+from app.db.models import Orders, OrdersList, Product, Customer, User
 from itertools import groupby
 
 
@@ -10,7 +11,7 @@ order_info = Blueprint('order_info', __name__, url_prefix="/orders")
 admin_permission = Permission(RoleNeed('admin'))
 
 def get_orders():
-    return Order.query.all()
+    return Orders.query.all()
 
 
 @order_info.route("/")
@@ -37,17 +38,16 @@ def create_order():
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
         orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
-
+        order_id = ID()
+        new_order = Orders(id=order_id, order_date=order_date, customer_id=customer_id)
+        db.session.add(new_order)
         for order in orders:
-            new_order = Order(order_date=order_date, customer_id=customer_id)
-            new_order_list = OrderList(quantity=order['qty'], order_id=new_order.id, product_id=order['product'])
-
-            db.session.add(new_order)
+            new_order_list = OrdersList(quantity=order['qty'], orders_id=order_id, product_id=order['product'])
             db.session.add(new_order_list)
-            db.session.commit()
+        db.session.commit()
 
         return redirect(url_for("order_info.display_order_info",
-                                order_id=new_order.id))
+                                order_id=order_id))
 
     products = Product.query.all()
     customers = User.query.join(Customer, User.id == Customer.user_id).all()
