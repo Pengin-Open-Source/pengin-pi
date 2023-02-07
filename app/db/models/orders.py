@@ -10,13 +10,15 @@ class Contracts(db.Model):
     service_date = db.Column(db.DateTime(timezone=True), nullable=True)
     expiration_date = db.Column(db.DateTime(timezone=True), nullable=True)
 
-
+# order.order_list
+# order.customer_id
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.String(36), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(timezone=True), nullable=True)
     
-
+# order_list.order_id
+# order_list.product_id
 class OrderList(db.Model):
     __tablename__ = 'order_list'
     id = db.Column(db.String(36), primary_key=True)
@@ -34,7 +36,7 @@ class ShippingAddress(db.Model):
     phone = db.Column(db.String(50), unique=True)
     email = db.Column(db.String(50), unique=True)
     
-
+# customer.orders
 class Customer(db.Model):
     __tablename__ = "customer"
     id = db.Column(db.String(36), default=ID, primary_key=True)

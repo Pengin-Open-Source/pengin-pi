@@ -11,6 +11,7 @@ from app.routes.tickets import ticket_blueprint
 from app.routes.calendar import calendar_blueprint
 from app.routes.products import product_blueprint
 from app.routes.about import about_blueprint
+from app.routes.orders import order_info as orders_blueprint
 
 
 # Blueprints variable is a list of blueprints in this current directory

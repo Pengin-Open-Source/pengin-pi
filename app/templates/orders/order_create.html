@@ -1,0 +1,41 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+<!-- 
+date: datepicker customer_id: dropdown
+
+product_id: dropdown
+quantity: input field
+submit
+ -->
+    <div class="content-section">
+        <form class="form" method="POST" action="/calendar/create">
+            <div class="form-section">
+                <label for="order-date">Date:</label>
+                <input
+                class="form-input"
+                type="datetime"
+                name="order-date" required>
+            </div>
+            <div class="form-section">
+                <label for="customer">Customer: </label>
+                <select id="customer" class="form-input" name="customer_id" required>
+                    <!-- {% for customer in customers %}
+                        <option value="{{ customer.id }}">{{ customer.name|e }}</option>
+                    {% endfor %} -->
+                </select>
+            </div>
+            <div class="order-item"> 
+                <input type="checkbox" id="task${idx}">
+                <label>${task[0].title} (${task[1]})</label>
+                <div class="date">${task[0].dueDate}</div>
+                <button >Notes</button>
+                <span class="material-icons-outlined">edit</span>
+                <span class="material-icons-round">delete</span>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+

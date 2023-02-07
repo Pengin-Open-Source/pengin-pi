@@ -3,24 +3,56 @@ from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models import Order, OrderList
+from app.db.util import paginate
 
 order_info = Blueprint('order_info', __name__, url_prefix="/orders")
 admin_permission = Permission(RoleNeed('admin'))
 
-def get_orders():
-    return Order.query.all()
 
-
-@order_info.route("/")
+@order_info.route("/",  methods=["GET", "POST"])
 def display_orders_home():
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    # orders = paginate(Order, page=page, key="id", pages=5)
+
+    # dummy data for display purpose
+    orders = [
+        {"id": 1},
+        {"id": 2},
+        {"id": 3},
+        {"id": 4},
+    ]
+
     return render_template('order_info/order_info_main.html',
-                           orders=get_orders(), is_admin=admin_permission.can())
+                           orders=orders, is_admin=admin_permission.can())
 
 
-@order_info.route('/<order_id>')
+@order_info.route("/<order_id>")
 @login_required
 def display_order_info(order_id):
-    order = order.query.get_or_404(order_id)
+    # order = order.query.get_or_404(order_id)
+
+    # dummy data for display purpose
+    order = {
+        "id": "123456",
+        "order_date": "99/99/9999",
+        "customer_id": "654321",
+        "order_list": [
+            {
+                "id": "id111",
+                "quantity": 8,
+                "product_id": "367d39cc-ec94-4135-a8b5-d5d21ae73710",
+            },
+            {
+                "id": "id222",
+                "quantity": 88,
+                "product_id": "22976ec5-22a5-45a2-a680-1fd7492d4c82",
+            }
+        ]
+    }
 
     return render_template('order_info/order_info.html', order=order)
 

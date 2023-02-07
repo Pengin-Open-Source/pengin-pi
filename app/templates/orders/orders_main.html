@@ -1,0 +1,17 @@
+{% extends "profile/profile_main.html" %}
+
+{% block profilecontent %}
+  <h1 class="profile-title">Orders</h1>
+  <ul class="order-list">
+    {% for order in orders %}
+      <li><a href="/orders/{{ order.id }}">{{ order.id|e }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if is_admin %}
+    <a href="/orders/create" class="primary-button">Create New Order</a>
+  {% endif %}
+{% endblock %}
+
+{% block profileSideContent %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
