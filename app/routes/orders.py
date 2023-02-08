@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.util.uuid import id as ID
-from app.db.models import Orders, OrdersList, Product, Customer, User
+from app.db.models import Orders, OrdersList, Product, Customer, User, Company
 import datetime
 
 
@@ -29,17 +29,17 @@ def display_order_info(order_id):
 
 
 @order_info.route('/create', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require()
+#@login_required
+#@admin_permission.require()
 def create_order():
     if request.method == 'POST':
-        order_date = request.form.get('order_date') or datetime.utcnow() 
+        order_date = request.form.get('order_date') or datetime.utcnow()
         customer_id = request.form.get('customer_id')
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
         orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
         order_id = ID()
-        
+
         new_order = Orders(id=order_id, order_date=order_date, customer_id=customer_id)
         db.session.add(new_order)
 
@@ -52,6 +52,15 @@ def create_order():
                                 order_id=order_id))
 
     products = Product.query.all()
-    customers = User.query.join(Customer, User.id == Customer.user_id).all()
+    customers = Customer.query.all()
+    customers_with_names = []
 
-    return render_template('order_info/order_info_create.html', products=products, customers=customers)
+    for customer in customers:
+        if customer.company_id:
+            name = Company.query.filter_by(id=customer.company_id).first().name
+            customers_with_names.append({customer: customer, name: name})
+        elif customer.user_id:
+            name = User.query.filter_by(id=customer.user_id).first().name
+            customers_with_names.append({customer: customer, name: name})
+
+    return render_template('order_info/order_info_create.html', products=products, customers_with_names=customers_with_names)

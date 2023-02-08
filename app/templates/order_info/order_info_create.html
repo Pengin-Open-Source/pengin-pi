@@ -8,8 +8,8 @@
             <div class="form-section">
               <label for="customer">Customer ID</label>
               <select name="customer_id" id="customer" placeholder="Product ID">
-                {% for customer in customers %}
-                  <option value="{{customer.id}}">{{customer.name}}</option>
+                {% for customer in customers_with_names %}
+                  <option value="{{customer.customer.id}}">{{customer.name}}</option>
                 {% endfor %}
               </select>
             </div>
