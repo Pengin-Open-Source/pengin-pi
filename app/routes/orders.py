@@ -29,8 +29,8 @@ def display_order_info(order_id):
 
 
 @order_info.route('/create', methods=['GET', 'POST'])
-#@login_required
-#@admin_permission.require()
+@login_required
+@admin_permission.require()
 def create_order():
     if request.method == 'POST':
         order_date = request.form.get('order_date') or datetime.utcnow()
