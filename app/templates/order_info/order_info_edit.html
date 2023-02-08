@@ -8,8 +8,9 @@
             <div class="form-section">
               <label for="customer">Customer ID</label>
               <select name="customer_id" id="customer" placeholder="Product ID">
+                <option value="{{order.customer_id|e}}" selected>{{customer_name|e}}</option>
                 {% for customer in customers_with_names %}
-                  <option value="{{customer.customer.id}}">{{customer.name}}</option>
+                  <option value="{{customer.customer.id|e}}">{{customer.name|e}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -18,7 +19,8 @@
                 <input
                 class="form-input"
                 type="datetime-local"
-                name="order_date" required>
+                name="order_date"
+                value="{{order.order_date}}" required>
             </div>
           </div>
             <div class="order-list">
@@ -32,17 +34,20 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for order_item in order_list %}
                     <tr class="order">
                       <td>
                         <select name="product_id" placeholder="Product ID">
+                          <option value="{{order_item.product_id}}" selected>{{product_names_by_id[order_item.product_id]}}</option>
                           {% for product in products %}
                             <option value="{{product.id}}">{{product.name}}</option>
                           {% endfor %}
                         </select>
                       </td>
-                      <td><input type="number" name="quantity" placeholder="quantity"></td>
+                      <td><input type="number" name="quantity" placeholder="quantity" value="{{order_item.quantity}}"></td>
                       <td style="border:none;"><button type="button" class="circle-button" onclick="removeOrderRow(this)" >-</button></td>
                     </tr>     
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
