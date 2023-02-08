@@ -3,7 +3,7 @@
 {% block oneDivContent %}
     <div class="content-section">
       <h2 class="title">Create Order</h2>
-        <form class="form" method="POST" action="/orders/create">
+        <form class="form" method="POST" action="/orders/{{order.id}}/edit">
           <div class="flex-between">
             <div class="form-section">
               <label for="customer">Customer ID</label>
