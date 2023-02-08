@@ -79,13 +79,13 @@ def edit_order(order_id):
         customer_name = User.query.filter_by(id=customer.user_id).first().name
 
     if request.method == 'POST':
-        #TODO get post route working
         order.order_date = request.form.get('order_date')
         order.customer_id = request.form.get('customer_id')
-        product_id = request.form.getlist('product_id')
-        quantity = request.form.getlist('quantity')
-        orders = request.form.getlist('')
-        order.orders_list = []
+
+        product_ids = request.form.getlist('product_id')
+        quantitys = request.form.getlist('quantity')
+        order_list_ids = request.form.getlist('order-list-id')
+        # These three lists need to be used to update the OrdersList model
 
         db.session.commit()
 
