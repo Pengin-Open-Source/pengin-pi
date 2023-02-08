@@ -36,6 +36,7 @@
                   <tbody>
                     {% for order_item in order_list %}
                     <tr class="order">
+                      <input type="hidden" name="order-list-id" value="{{order_item.id}}">
                       <td>
                         <select name="product_id" placeholder="Product ID">
                           <option value="{{order_item.product_id}}" selected>{{product_names_by_id[order_item.product_id]}}</option>
