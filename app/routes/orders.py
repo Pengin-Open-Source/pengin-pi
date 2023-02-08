@@ -10,6 +10,7 @@ import datetime
 order_info = Blueprint('order_info', __name__, url_prefix="/orders")
 admin_permission = Permission(RoleNeed('admin'))
 
+
 def get_orders():
     return Orders.query.all()
 
