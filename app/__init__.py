@@ -28,7 +28,7 @@ class DummyHome():
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-    
+
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
@@ -53,7 +53,7 @@ def create_app():
         # since the user_id is just the primary key of our user table,
         # use it in the query for the user
         return model.User.query.get(user_id)
-    
+
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function
