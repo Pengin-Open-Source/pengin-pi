@@ -58,7 +58,7 @@ def create_order():
     for customer in customers:
         if customer.company_id:
             name = Company.query.filter_by(id=customer.company_id).first().name
-            customers_with_names.append({customer: customer, name: name})
+            customers_with_names.append({'customer': customer, 'name': name})
         elif customer.user_id:
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
