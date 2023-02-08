@@ -20,9 +20,9 @@ def display_orders_home():
 
 
 @order_info.route('/<order_id>')
-#@login_required  uncomment for PR
+@login_required
 def display_order_info(order_id):
-    order = Orders.query.get_or_404(order_id) # switch back to non working one for PR so as not to collide with andrew
+    order = orders.query.get_or_404(order_id)
 
     return render_template('order_info/order_info.html', order=order)
 
@@ -66,8 +66,8 @@ def create_order():
 
 
 @order_info.route('/<order_id>/edit', methods=['GET', 'POST'])
-#@login_required
-#@admin_permission.require()
+@login_required
+@admin_permission.require()
 def edit_order(order_id):
     order = Orders.query.get_or_404(order_id)
     order_list = order.orders_list
@@ -83,9 +83,14 @@ def edit_order(order_id):
         order.customer_id = request.form.get('customer_id')
 
         product_ids = request.form.getlist('product_id')
-        quantitys = request.form.getlist('quantity')
+        quantities = request.form.getlist('quantity')
         order_list_ids = request.form.getlist('order-list-id')
-        # These three lists need to be used to update the OrdersList model
+        order_list_update = dict(zip(order_list_ids, zip(quantities, product_ids)))
+
+        for k, v in order_list_update.items():
+            order_list = OrdersList.query.filter_by(id=k).first()
+            order_list.quantity = v[0]
+            order_list.product_id = v[1]
 
         db.session.commit()
 
