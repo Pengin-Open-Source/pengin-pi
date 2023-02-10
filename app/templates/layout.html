@@ -14,6 +14,7 @@
   <script>
     document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
   </script>
+  <link rel="icon" type="image/png" href="/static/images/Favicon.png"/>
 </head>
 
 <body>
@@ -36,6 +37,7 @@
             {% if current_user.is_authenticated %}
                 {% if is_admin %}
                   <a class="header-link" href="/blog/create">New Blog</a>
+                  <a class="header-link" href="/company/editor">Company Editor</a>
                 {% endif %}
               <a class="header-link" href="/profile">Profile</a>
               <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>
