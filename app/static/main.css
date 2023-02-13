@@ -92,11 +92,40 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .header-navigation {
- flex-grow: 1;
- display: flex;
- justify-content: space-between;
- align-items: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.main-nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: var(--main-blue);
+  flex-direction: column;
+}
+
+.dropdown-content a {
+  padding: 15px 30px;
+  margin: 0px;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--hover-blue);
+}
+
+.dropdown:hover .dropdown-content {display: flex;}
 
 /* Site-wide */
 .title {
