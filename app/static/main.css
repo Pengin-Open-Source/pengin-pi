@@ -108,6 +108,7 @@ h1,h2,h3,h4,h5,h6 {
   cursor: pointer;
 }
 
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -127,7 +128,25 @@ h1,h2,h3,h4,h5,h6 {
 
 .dropdown:hover .dropdown-content {display: flex;}
 
+
+/* Util */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+
 /* Site-wide */
+.circle-button {
+  margin-top: 0.25rem;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  color: var(--main-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .title {
   font-size: 3rem;
   margin-bottom:2rem;
@@ -273,6 +292,10 @@ h1,h2,h3,h4,h5,h6 {
 
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
+}
+
+.invisible-td {
+  border: none;
 }
 
 /* Home */
