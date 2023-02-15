@@ -3,7 +3,7 @@ from app.db.models.blog import BlogPost
 from app.db.models.customer import User, UserRoles, Role, Company, CompanyMembers
 from app.db.models.forum import ForumComment, ForumPost, Thread, ThreadRoles
 from app.db.models.product import Product
-from app.db.models.orders import Contracts, Order, ShippingAddress, Customer, OrderList
+from app.db.models.orders import Contracts, Orders, ShippingAddress, Customer, OrdersList
 from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
@@ -13,13 +13,13 @@ from sqlalchemy import schema
 
 
 #Company
-Company.customer = db.relationship('Customer', back_populates="company")
+Company.customer = db.relationship('Customer')
 #User
 User.roles = db.relationship('Role', secondary='user_roles')
 User.posts = db.relationship('ForumPost')
 User.comments = db.relationship('ForumComment')
 User.companies = db.relationship('Company', secondary='company_members')
-User.customer = db.relationship('Customer', back_populates="user")
+User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
 #User Roles
@@ -37,27 +37,26 @@ CompanyMembers.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
 #Role
 Role.event_info = db.relationship('Event', back_populates="role_info", lazy=True)
 #Customer
+Customer.__table_args__ = (
+        schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
+    )
 Customer.user_id = db.Column(db.String(36),
                     db.ForeignKey('user.id', ondelete='CASCADE'),
                     nullable=False)
 Customer.company_id = db.Column(db.String(36),
                         db.ForeignKey('company.id', ondelete='CASCADE'),
                         nullable=False)
-Customer.orders = db.relationship('Order')
+Customer.orders = db.relationship('Orders')
 Customer.contracts = db.relationship('Contracts')
 Customer.shipping_address = db.relationship('ShippingAddress')
-Customer.__table_args__ = (
-        schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
-    )
-Customer.user = db.relationship('User', back_populates='customer')
-Customer.company = db.relationship('Company', back_populates='customer')
+
 #ShippingAddress
 ShippingAddress.customer_id = db.Column(db.String(36),
                         db.ForeignKey('customer.id', ondelete='CASCADE'),
                         nullable=False)
-#Order
-Order.order_list = db.relationship('OrderList')
-Order.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
+#Orders
+Orders.orders_list = db.relationship('OrdersList')
+Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
 #Contracts
 Contracts.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
@@ -98,6 +97,6 @@ TicketComment.ticket_id = db.Column(db.String(36), db.ForeignKey('ticket_forum.i
                                                 ondelete='CASCADE'))
 TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                 ondelete='CASCADE'))
-#OrderList
-OrderList.order_id = db.Column(db.String(36), db.ForeignKey('order.id'))
-OrderList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+#OrdersList
+OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
+OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
