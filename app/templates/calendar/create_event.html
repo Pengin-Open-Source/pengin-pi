@@ -29,6 +29,14 @@
                 </select>
             </div>
             <div class="form-section">
+                <label for="user_id"> Organizers </label>
+                <select id="user_id" class="form-input" name="user_id" required>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name|e }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-section">
                 <label for="start_datetime">Start at</label>
                 <input
                 class="form-input"
