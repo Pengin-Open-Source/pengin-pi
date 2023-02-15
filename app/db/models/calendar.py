@@ -13,6 +13,7 @@ class Event(db.Model):
     role = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                  ondelete='CASCADE'))
     role_info = db.relationship("Role", back_populates="event_info", lazy=True)
+    is_role = db.Column(db.String(100))
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, server_default=func.now())
     start_datetime = db.Column(db.DateTime(timezone=True), nullable=False)
