@@ -4,6 +4,10 @@ flask-sqlalchemy
 flask-login
 flask-principal
 flask-admin
+flask-commonmark
+flask-limiter
+flask-migrate
+pytz
 sqlalchemy
 markupsafe
 mysqlclient

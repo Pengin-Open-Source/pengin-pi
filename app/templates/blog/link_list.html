@@ -1,0 +1,16 @@
+{% import "macros/paginate.html" as pagination %}
+
+<div class="content-section blog-links">
+  <h3 style="margin-bottom: 1rem;">Posts</h3>
+  <ul>
+    {% for post in posts %}
+    <li>
+      <a class="text-button" style="margin: 0.5rem 0;" href="/blog/{{ post.id }}">
+          {{ post.title }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  
+  {{ pagination.render_pagination(posts, "") }}
+</div>

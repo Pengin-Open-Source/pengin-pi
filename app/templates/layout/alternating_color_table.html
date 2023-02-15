@@ -1,0 +1,17 @@
+{% extends "layout/oneDiv.html" %}
+{% block tags %}{% endblock %}
+{% block oneDivContent %}
+<div class="content-section">
+{% block beforeTableContent %} {% endblock %}
+ 
+    <table class="alternating-colors-table">
+      <tbody>
+        {% block tableContent %}{% endblock %}
+      </tbody>
+    </table>
+    
+
+
+  {% block postTableContent %}{% endblock %}
+</div>
+{% endblock %}

@@ -1,20 +1,25 @@
 {% extends "layout/oneDiv.html" %}
-
-<h2 class="forum-title">Products</h2>
+{% import "macros/paginate.html" as pagination %}
 
 {% block oneDivContent %}
+<div class="content-section">
+  <h2 class="title">Products</h2>
   <div class="product-grid">
     {% for product in products %}
-    <a href="/products/{{product.id}}">
-      <div class="product-item">
-        <h3>{{product.name}} - {{product.price}}</h3>
-        <img src="{{product.card_image_url}}" alt="Product Image">
-      </div>    
-    </a>
+      <a href="/products/{{product.id}}">
+        {% if product.name %}
+          <div>{{product.name}}</div>
+        {% endif %}
+        <div class="product-item">
+          <img src="{{product.card_image_url|e}}" alt="Product Image">
+        </div>    
+      </a>
     {% endfor %}
   </div>
+  {{ pagination.render_pagination(products, "") }}
+  {% if is_admin %}
+  <a class="primary-button" href="/products/create">New Product</a>
+  {% endif %}
+</div>
 
-  <a class="btn btn-primary" href="/products/create">New Product</a>
 {% endblock %} 
-
-

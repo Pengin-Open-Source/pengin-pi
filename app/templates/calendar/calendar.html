@@ -1,15 +1,25 @@
-{% extends "layout/oneDiv.html" %}
-{% block oneDivContent %}
+{% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
+
+{% block beforeTableContent %}
+  <h2 class="title">Calendar</h2>
+{% endblock %}
+
+{% block tableContent %}
   {% for date in events_by_start_date %}
-    <div class="date-box">
-      <h2>{{date}}</h2>
+    <tr><td>
+      <h3 class="calendar-date">{{date|e}}</h3>
       <ul>
         {% for event in events_by_start_date[date] %}
-          <li><a href="/calendar/{{ event.id }}">{{ event.title }} at {{event.start_time}}</a></li>
+          <li><a href="/calendar/{{ event.id }}">{{ event.title|e }} at {{event.start_time|e}}</a></li>
         {% endfor %}
       </ul>
-    </div>
+    </td></tr>
   {% endfor %}
 
-  <a class="btn btn-primary" href="/calendar/create">Create Event</a>
+{% endblock %}
+
+{% block postTableContent %}
+  {{ pagination.render_pagination(events, "") }}
+  <a class="primary-button" href="/calendar/create">Create Event</a>
 {% endblock %}

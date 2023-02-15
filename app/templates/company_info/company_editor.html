@@ -1,0 +1,17 @@
+{% extends "layout/oneDiv.html" %}
+{% import "macros/paginate.html" as pagination %}
+{% block oneDivContent %}
+  <div class="content-section">
+    <h1 class="profile-title">Company Editor</h1>
+    <p>Select company to edit or create new company:</p>
+    <ul class="company-list">
+      {% for company in companies %}
+        <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
+      {% endfor %}
+    </ul>
+    {% if is_admin %}
+      <a href="/company/create" class="primary-button">Create New Company</a>
+    {% endif %}
+    {{ pagination.render_pagination(companies, "") }}
+  </div>
+{% endblock %}

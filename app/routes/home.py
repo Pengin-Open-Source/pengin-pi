@@ -14,8 +14,8 @@ home_blueprint = Blueprint('home_blueprint', __name__)
 @home_blueprint.route("/index")
 @home_blueprint.route("/home")
 def home():
-
     home = Home.query.first()
+    is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
     except:
@@ -24,7 +24,7 @@ def home():
     if home:
         logging.info('S3 Image accessed: ' + home.image)
 
-    return render_template('home/home.html', home=home, image=image)
+    return render_template('home/home.html', is_admin=is_admin, home=home, image=image)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])
@@ -35,47 +35,50 @@ def home_edit():
     # whether this exists or not to allow creation or editing.
     exists = Home.query.first() is not None
 
-    # TODO Add image upload handling which assigns S3 URl to image variable
-    image = 'Sort out file handling for image when products issue done'
-
     if exists:
         home = Home.query.first()
+        try:
+            image = conn.get_URL(home.image)
+        except:
+            image = "/static/images/test.png"
 
-        if home.image:
+        if home:
             logging.info('Image accessed: ' + home.image)
 
         if request.method == 'POST':
             home.company_name = request.form.get('name')
             home.article = request.form.get('article')
+            home.tags = request.form.get('tags')
             image = request.files["file"]
-            url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
-            home.image = url
-            if image:
-                image.filename = secure_filename(image.filename)
-                home.image = conn.create(image)
+            url = image.filename if "file" in request.files and image.filename != "" else home.image
+            if home.image != url:
+                home.image = url
+                if image:
+                    image.filename = secure_filename(image.filename)
+                    home.image = conn.create(image)
             
             db.session.commit()
 
 
             return redirect(url_for("home_blueprint.home"))
 
-        return render_template('home/edit.html', home=home)
+        return render_template('home/edit.html', home=home, image=image)
     elif request.method == 'POST':
             company_name = request.form.get('name')
             article = request.form.get('article')
+            tags = request.form.get('tags')
             image = request.files["file"]
             url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
             if image:
                 image.filename = secure_filename(image.filename)
                 url = conn.create(image)
 
-            new_about = Home(company_name=company_name, article=article,
+            new_home = Home(company_name=company_name, article=article,tags=tags,
                              image=url)
 
-            db.session.add(new_about)
+            db.session.add(new_home)
             db.session.commit()
 
             return redirect(url_for("home_blueprint.home"))
 
-    else:
-        return render_template('home/create.html')
+    return render_template('home/create.html')

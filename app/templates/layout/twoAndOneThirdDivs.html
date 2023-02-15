@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
-
+{% block tags %}{% endblock %}
 {% block content %}
-    <div class="col-md-8"> {% block twoThirdContent %}{% endblock %} </div>
-    <div class="col-md-4"> {% block oneThirdContent %}{% endblock %} </div>
+    <div class="two-and-one-thirds-div">
+        <div class="two-thirds-div"> {% block twoThirdContent %}{% endblock %} </div>
+        <div class="one-third-div"> {% block oneThirdContent %}{% endblock %} </div>
+    </div>
 {% endblock %}

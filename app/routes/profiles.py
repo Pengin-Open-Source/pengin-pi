@@ -6,6 +6,7 @@ from app.util.uuid import id
 from app.db import db
 from app.db.models import User, Role, UserRoles
 from app.util.mail import send_mail
+from app.util.security.limit import limiter
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -19,6 +20,7 @@ def profile():
     return render_template('profile/profile.html', name=current_user.name,
                            email=current_user.email, can_do=can_re_validate)
 
+@limiter.limit("2 per minute")
 @profiles.route('/send_email')
 @login_required
 def send_email():
@@ -34,7 +36,7 @@ def send_email():
         send_mail(user.email, user.validation_id)
     return redirect(url_for('profiles.profile'))
 
-
+@limiter.limit("2 per minute")
 @profiles.route('/validate/<token>')
 def validate(token):
     try:
@@ -45,34 +47,43 @@ def validate(token):
             user_role = UserRoles(user_id=user.id, role_id=role_id)
             db.session.add(user_role)
             db.session.commit()
-            
+            return redirect(url_for('profiles.profile'))
+        else:
+            #TODO: track IP and validate attempt count for blocking
+            abort(404)
 
-        return redirect(url_for('profiles.profile'))
+        
     
     except Exception as e:
         print(e)
-        abort(403)
+        abort(404)
         
 
 
-@profiles.route('/edit_profile', methods=['GET', 'POST'])
+@profiles.route('/edit_profile', methods=['GET'])
 @login_required
-def edit_profile_post():
-    if request.method == 'POST':
-        old_email = request.form.get('old_email')
-        name = request.form.get('name')
-        email = request.form.get('email')
-        user = User.query.filter_by(email=old_email).first()
-        user.name = name
-        user.email = email
-        db.session.commit()
-
-        return redirect(url_for('profiles.profile'))
-
+def edit_profile_get():
     return render_template('profile/profile_edit.html', name=current_user.name,
                            email=current_user.email)
 
 
+@limiter.limit("2 per minute")
+@profiles.route('/edit_profile', methods=['POST'])
+@login_required
+def edit_profile_post():
+    old_email = request.form.get('old_email')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    user = User.query.filter_by(email=old_email).first()
+    user.name = name
+    user.email = email
+    db.session.commit()
+
+    return redirect(url_for('profiles.profile'))
+
+
+
+@limiter.limit("2 per minute")
 @profiles.route('/edit_password', methods=['GET', 'POST'])
 @login_required
 def edit_password():
@@ -86,7 +97,6 @@ def edit_password():
             if check_password_hash(user.password, old_password):
                 user.password = generate_password_hash(new_password,
                                                        method='sha256')
-                db.session.add(user)
                 db.session.commit()
 
                 return redirect(url_for('profiles.profile'))

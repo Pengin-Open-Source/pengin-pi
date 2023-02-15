@@ -23,7 +23,8 @@ class About(db.Model):
     city = db.Column(db.String(100))
     state = db.Column(db.String(100))
     country = db.Column(db.String(100))
-    article = db.Column(db.String(10000))
+    article = db.Column(db.Text)
+    tags = db.Column(db.String(150))
     # vip = db.relationship('Vip')
 
 

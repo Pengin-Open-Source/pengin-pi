@@ -1,16 +1,16 @@
 {% extends "layout/oneDiv.html" %}
 
 {% block oneDivContent %}
-<div class="post-content">
-  <h2 class="forum-title">{{event.title}}</h2>
-  <p>Role: {{event.role_info.name}}</p>
-  <p>Start time: {{event.start_date}} @ {{event.start_time}}</p>
-  <p>End time: {{event.end_date}} @ {{event.end_time}}</p>
+<div class="post-container">
+  <h2 class="title">{{event.title|e}}</h2>
+  <p class="post-info">Role: {{event.role_info.name|e}}</p>
+  <p class="post-info">Start time: {{event.start_date|e}} @ {{event.start_time|e}}</p>
+  <p class="post-info">End time: {{event.end_date|e}} @ {{event.end_time|e}}</p>
   {% if event.description %}
-    <p>Description: {{event.description}}</p>
+    <p class="post-info">Description: {{event.description|e}}</p>
   {% endif %}
   {% if event.location %}
-    <p>Location: {{event.location}}</p>
+    <p class="post-info">Location: {{event.location|e}}</p>
   {% endif %}
 </div>
 {% endblock %}

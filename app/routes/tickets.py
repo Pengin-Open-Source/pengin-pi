@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 
 from app.db import db
 from app.db.models import TicketComment, TicketForum, User
+from app.db.util import paginate
 from app.util.security import (admin_permission,
                                delete_ticket_comment_permission,
                                delete_ticket_permission,
@@ -15,16 +16,20 @@ ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
 
 
-@ticket_blueprint.route("/")
+@ticket_blueprint.route("/", methods=["GET", "POST"])
 @login_required
 def tickets():
     status = request.args.get('status')
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
 
     if status == 'all':
-        tickets = TicketForum.query.filter_by().all()
+        tickets = paginate(TicketForum, page=page, pages=20)
         # filter by company once company/customer model fixed
     else:
-        tickets = TicketForum.query.filter_by(resolution_status=status).all()
+        tickets = paginate(TicketForum, page=page, pages=20, filters={"resolution_status": status})
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,

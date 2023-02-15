@@ -1,18 +1,22 @@
 {% extends "layout/oneDiv.html" %}
-
+{% block tags %}
+  {% if home.tags %}
+      <meta name="keywords" content="{{home.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block oneDivContent %}
-    <article class="media content-section">
-        <div class="media-body">
-          <h2 class="about-title">Welcome to {{home.company_name}}</h2>
-          <div class="flex-between">
-            <p class="article-content image-container">{{home.article}}</p>
-            <img class="image-container" src="{{image}}" alt="Home Image">
+    <article class="content-section ">
+        <div class="home-container">
+          <h2 class="center-title title">Welcome to {{home.company_name|e}}</h2>
+          <div class="commonmark">{{home.article|commonmark|e}}</div>
+          <div class="image-container">
+              <img src="{{image|e}}" alt="Home Image" style="width: 100%; height: auto">
           </div>
+          </div>
+          {% if is_admin %}
+            <a class="primary-button" href="/home/edit">Edit Home Page</a>
+          {% endif %}
         </div>
-      </article>
-      {% for role in current_user.roles  %}
-        {% if role.name == "admin" %}
-          <a class="btn btn-primary mb-3" href="/home/edit">Edit Home Page</a>
-        {% endif %}
-      {% endfor %}
+
+    </article>
 {% endblock %}

@@ -1,100 +1,85 @@
-<!--Use a layout page to avoid code duplication home/layout pages
-should only contain code unique to those pages, while code which is used
-multiple times should be in layout. -->
-
-<!-- template inheritance
-this template is the parent, while home/about are the children-->
-
+<!-- Template inheritance: this template is the parent, while others are the children-->
 <!DOCTYPE html>
 <html>
-
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  {% block tags %}{% endblock %}
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
-
-  <!--If a title is provided then use that if not use the default -->
   {% if title %}
-  <!-- if a title IS provided -->
-  <title>{{company_name}} - {{ title }} </title>
+    <title>{{company_name|e}} - {{ title|e }} </title>
   {% else %}
-  <!--Default title -->
-  <title>{{company_name}} </title>
+    <title>{{company_name|e}} </title>
   {% endif %}
+  <script>
+    document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+  </script>
+  <link rel="icon" type="image/png" href="/static/images/Favicon.png"/>
 </head>
 
 <body>
-  <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <a class="navbar-brand d-flex align-items-center mr-5" href="/">{{company_name}}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggle">
-          <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="/">Home</a>
-            <a class="nav-item nav-link" href="/about">About Us </a>
-            <a class="nav-item nav-link" href="/products">Products</a>
-            <a class="nav-item nav-link" href="/forums">Forums</a>
-            <a class="nav-item nav-link" href="/blog">Blog</a>
-            <a class="nav-item nav-link" href="/tickets?status=all">Tickets</a>
-            <a class="nav-item nav-link" href="/calendar">Calendar</a>
+  <header>
+    <nav class="header-navbar-container">
+        <a class="home-link" href="/">{{company_name|e}}</a>
+        <div class="hamburger">
+          <img onclick="hamburgerToggle()" class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon">
+        </div>
+        <div id="nav-id" class="header-navigation">
+          <div class="main-nav-links">
+            <a class="header-link" href="/about">About Us </a>
+            <a class="header-link" href="/products">Products</a>
+            <a class="header-link" href="/forums">Forums</a>
+            <a class="header-link" href="/blog">Blog</a>
+            <a class="header-link" href="/tickets?status=all">Tickets</a>
+            <a class="header-link" href="/calendar">Calendar</a>
+            <div class="dropdown">
+              <div class="dropdown-btn">Tools</div>
+              <div class="dropdown-content">
+                <!-- TODO: need to fill in correct href's -->
+                <a href="/company">Company</a>
+                <a href="/orders">Orders</a>
+                <a href="/customers">Customers</a>
+                <a href="/blogPosts">Blog Posts</a>
+              </div>
+            </div>
           </div>
-          <!-- Navbar Right Side -->
-          <div class="navbar-nav">
+          <div class="main-nav-links">
             {% if current_user.is_authenticated %}
-              
                 {% if is_admin %}
-                  <a class="nav-item nav-link" href="/blog/create">New Blog</a>
+                  <a class="header-link" href="/blog/create">New Blog</a>
+                  <a class="header-link" href="/company/editor">Company Editor</a>
                 {% endif %}
-              
-              <a class="nav-item nav-link" href="/profile">Profile</a>
-              <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+              <a class="header-link" href="/profile">Profile</a>
+              <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>
             {% endif %}
             {% if not current_user.is_authenticated %}
-              <a class="nav-item nav-link" href="/login">Login</a>
-              <a class="nav-item nav-link" href="/signup">Sign Up</a>
+              <a class="header-link" href="/login">Login</a>
+              <a class="header-link" href="/signup">Sign Up</a>
             {% endif %}
           </div>
         </div>
     </nav>
   </header>
-
-  <main role="main" class="container">
-  
+  <main>
   <!-- Andy: Commented out alerts in layout.html. I'm currently putting alerts in the children templates. -->
-  {#
-    {%with messages = get_flashed_messages(with_categories = true) %}
-      {% if messages%}
-        {% for category, message in messages%}
-        <div class = "alert alert-{{category}}">
-          {{ message }} 
-        </div>
-        {%endfor%}
-      {% endif%}
-    {% endwith %}
-  #}
-    
+    {#
+      {%with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages%}
+          {% for category, message in messages%}
+          <div class = "alert alert-{{category}}">
+            {{ message }} 
+          </div>
+          {%endfor%}
+        {% endif%}
+      {% endwith %}
+    #}
     {% block content %}{% endblock %}
-    
   </main>
-
-  <footer class="bg-steel">
-    <p>Tobu Pengin 2022</p>
+  <footer>
+    <p>Tobu Pengin {{copyright|e}}</p>
   </footer>
 
-
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"crossorigin="anonymous"></script>
+  <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
+  {% block captchaScript %}{% endblock %}
 </body>
-
 </html>

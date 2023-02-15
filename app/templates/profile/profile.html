@@ -1,24 +1,18 @@
 {% extends "profile/profile_main.html" %}
 
 {% block profilecontent %}
-  <div id="profile_info">
-    <h1 class="header">Profile Information</h1>
-    <table class="table table-bordered">
-      <tr>
-        <th width="30%">Name</th>
-        <td>{{ name }}</td>
-      </tr>
-      <tr>
-        <th width="30%">Email</th>
-        <td>{{ email }}</td>
-      </tr>
-    </table>
-      <a class="btn btn-primary" href="/profile/edit_profile" >Edit Profile</a>
-      <a class="btn btn-primary " href="/profile/edit_password">Edit Password</a>
+    <h1 class="profile-title">Profile Information</h1>
+    <div class="profile-info-container">
+      <p>Name: {{ name|e }}</p>
+      <p>Email: {{ email|e }}</p>
+    </div>
+    <div class="edit-profile-buttons">
+      <a class="primary-button" href="/profile/edit_profile" >Edit Profile</a>
+      <a class="primary-button " href="/profile/edit_password">Edit Password</a>
       {% if can_do %}
-        <a class="btn btn-primary " href="/profile/send_email">Re-send Validation Email</a>
+        <a class="primary-button " href="/profile/send_email">Re-send Validation Email</a>
       {% endif %}
-  </div>
+    </div>
 {% endblock %}
 
 {% block profileSideContent %}

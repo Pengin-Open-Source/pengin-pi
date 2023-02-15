@@ -1,14 +1,22 @@
 {% extends "layout/oneDiv.html" %}
-
+{% block tags %}
+  {% if product.tags %}
+      <meta name="keywords" content="{{product.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block oneDivContent %}
-  <h2 class="forum-title">{{product.name}}</h2>
-  <div class="product-display">
-    <p>{{product.price}}</p>
-    <p>{{product.description}}</p>
-    <img src="{{product.stock_image_url}}" alt="Product Image">
+  <div class="content-section">
+    <h2 class="title">{{product.name|e}}</h2>
+    <div class="product-display">
+      <p>{{product.price|e}}</p>
+      <div class="commonmark">{{product.description|commonmark|e}}</div>
+      <img src="{{product.stock_image_url|e}}" alt="Product Image">
+    </div>
+    {% if is_admin %}
+    <a class="primary-button" href="/products/edit/{{product.id}}">Edit Product</a>
+    <form class="button-form" method="post" action="/products/delete/{{product.id}}">
+      <button class="primary-button" type="submit">Delete</button>
+    </form>
+    {% endif %}
   </div>
-  <a class="btn btn-primary" href="/products/edit/{{product.id}}">Edit Product</a>
-  <form class="margin-top" method="post" action="/products/delete/{{product.id}}">
-    <button class="btn btn-primary" type="submit">Delete</button>
-  </form>
 {% endblock %} 

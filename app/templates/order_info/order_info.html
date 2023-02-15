@@ -1,0 +1,23 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+<div class="post-container">
+  <h2>Order ID: {{order.id|e}}</h2>
+  <p>Customer ID: {{order.customer_id|e}}</p>
+  <p>Order Date: {{order.order_date|e}}</p>
+  
+  {% if order.orders_list %}
+    <p>Items:</p>
+  {% endif %}
+  
+  <ul>
+  {% for item in order.orders_list %}
+    <li>
+        <a href="/products/{{item.product_id}}">Product ID: {{item.product_id | e}}</a>
+        <p>Quantity: {{item.quantity | e}} </p>
+    </li>
+  {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

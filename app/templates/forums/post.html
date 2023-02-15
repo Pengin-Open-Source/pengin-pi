@@ -1,11 +1,15 @@
-{% extends "forums/alternating_color_table.html" %}
-
+{% extends "layout/alternating_color_table.html" %}
+{% block tags %}
+  {% if post.tags %}
+    <meta name="keywords" content="{{post.tags|e}}">
+  {% endif %}
+{% endblock %}
 {% block beforeTableContent %}
-  <div class="post-content">
-    <div class="post-title flex-between ">
-      <h2 class="forum-title">{{post.title}}</h2>
+  <div class="post-container">
+    <div class="title-underline ">
+      <h2 class="title">{{post.title|e}}</h2>
       {% if current_user.is_authenticated %}
-        <div class="flex-center">
+        <div class="text-buttons-container">
           {% if is_admin or can_delete_post(post.id).can() %}
             <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
               <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
@@ -19,20 +23,18 @@
         </div>
       {% endif %}
     </div>
-    <p>By {{author}} ({{post.date}})</p>
-    <p>{{post.content}}</p>
+    <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
+    <div class="post-content commonmark">{{post.content|commonmark|e}}</div>
   </div>
 {% endblock %}
 
 {% block tableContent %}
   {% for comment in comments %}
   <tr><td>
-    <div class="media">
-      <div class="media-body">
-        <div class="article-metadata small-padding flex-between">
-          <p>by {{comment_authors[comment.author]}} at {{comment.date}}</p>
+        <div class="comment-title-underline">
+          <p>by {{comment_authors[comment.author]|e}} at {{comment.date|e}}</p>
           {% if current_user.is_authenticated %}
-            <div class="flex-center">
+            <div class="text-buttons-container">
               {% if is_admin or can_delete_comment(comment.id).can() %}
                 <form class="delete-form" method="post" action="/forums/delete/comment/{{comment.id}}">
                   <button class="text-button" type="submit">Delete</button>
@@ -45,28 +47,22 @@
             </div>
           {% endif %}
         </div>
-        <p class="article content small-padding">{{comment.content}}</p>
-      </div>
-    </div>
+        <p>{{comment.content|e}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}
 
 {% block postTableContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/forums/{{thread_id}}/{{post.id}}">
-            <div class="mb-3">
-                <label for="content" class="form-label">Comment</label>
-                <input
-                class="form-control"
-                type="text"
-                name="content"
-                id="content"
-                placeholder="What do you think of this post?">
-            </div>
-            <button class="btn btn-primary">Post</button>
-        </form>
-    </div>
-  </div>
+
+  <form class="comment-form" method="POST" action="/forums/{{thread_id}}/{{post.id}}">
+          <label for="content">Comment</label>
+          <input
+          class="comment-input"
+          type="text"
+          name="content"
+          id="content"
+          placeholder="What do you think of this post?">
+      <button class="primary-button">Post</button>
+  </form>
+
 {% endblock %}
