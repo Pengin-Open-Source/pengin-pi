@@ -4,7 +4,7 @@ from app.admin.views import (CompanyMembersView, SecureModelView,
                              ThreadRolesView, UserRolesView, RoleView,
                              admin_blueprint)
 from app.db.models import (BlogPost, Company, CompanyMembers, Contracts,
-                           Customer, Event, ForumComment, ForumPost, Order,
+                           Customer, Event, ForumComment, ForumPost, Orders,
                            Product, Resolution, Role, ShippingAddress, Thread,
                            ThreadRoles, TicketComment, TicketForum, User,
                            UserRoles, db)
@@ -19,7 +19,7 @@ admin.add_view(SecureModelView(Contracts, db.session))
 admin.add_view(SecureModelView(ForumPost, db.session))
 admin.add_view(SecureModelView(ForumComment, db.session))
 admin.add_view(SecureModelView(Thread, db.session))
-admin.add_view(SecureModelView(Order, db.session))
+admin.add_view(SecureModelView(Orders, db.session))
 admin.add_view(SecureModelView(ShippingAddress, db.session))
 admin.add_view(SecureModelView(Customer, db.session))
 admin.add_view(SecureModelView(Product, db.session))

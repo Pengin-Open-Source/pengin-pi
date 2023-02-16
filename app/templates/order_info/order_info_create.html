@@ -1,0 +1,56 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+    <div class="content-section">
+      <h2 class="title">Create Order</h2>
+        <form class="form" method="POST" action="/orders/create">
+          <div class="flex-between">
+            <div class="form-section">
+              <label for="customer">Customer ID</label>
+              <select name="customer_id" id="customer" placeholder="Product ID">
+                {% for customer in customers_with_names %}
+                  <option value="{{customer.customer.id}}">{{customer.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+                <label for="start_datetime">Date</label>
+                <input
+                class="form-input"
+                type="datetime-local"
+                name="order_date" required>
+            </div>
+          </div>
+            <div class="order-list">
+              <div class="company-info-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Quantity</th>
+                      <th class="invisible-td"><button type="button" class="circle-button" onclick="addOrderRow()">+</button></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="order">
+                      <td>
+                        <select name="product_id" placeholder="Product ID">
+                          {% for product in products %}
+                            <option value="{{product.id}}">{{product.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td><input type="number" name="quantity" placeholder="quantity"></td>
+                      <td style="border:none;"><button type="button" class="circle-button" onclick="removeOrderRow(this)" >-</button></td>
+                    </tr>     
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <button type="submit" class="primary-button">Create</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+
