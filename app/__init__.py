@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
-from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
+from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
 import app.db.models as model
@@ -98,7 +98,12 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-
+    
+    admin_permission = Permission(RoleNeed('admin'))
+    def is_admin():
+        return {"is_admin": str(admin_permission.can())}
+    
+    app.context_processor(is_admin)
     app.context_processor(time_zone)
     app.context_processor(copyright)
     return app
