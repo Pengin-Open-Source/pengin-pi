@@ -16,7 +16,7 @@
               <label for="customer">Customer (Company)</label>
               <select name="company_id" id="customer" placeholder="Product ID">
                 {% for customer in company_customers %}
-                  <option value="{{customer.id}}">{{customer.id}}</option>
+                  <option value="">NONE</option>
                 {% endfor %}
               </select>
             </div>
@@ -24,7 +24,7 @@
               <label for="customer">Customer (User)</label>
               <select name="user_id" id="customer" placeholder="Product ID">
                 {% for customer in user_customers %}
-                  <option value="{{customer.id}}">{{customer.id}}</option>
+                <option value="">NONE</option>
                 {% endfor %}
               </select>
             </div>
