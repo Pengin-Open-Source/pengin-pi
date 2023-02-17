@@ -1,0 +1,45 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+    <div class="content-section">
+      <h2 class="title">Create Customer</h2>
+        <form class="form" method="POST" action="/orders/create">
+            <div class="form-section">
+              <label for="customer">Order ID</label>
+              <select name="order_id" id="customer" placeholder="Product ID">
+                {% for order in orders %}
+                  <option value="{{order.id}}">{{order.id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (Company)</label>
+              <select name="company_id" id="customer" placeholder="Product ID">
+                {% for customer in company_customers %}
+                  <option value="{{customer.id}}">{{customer.id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (User)</label>
+              <select name="user_id" id="customer" placeholder="Product ID">
+                {% for customer in user_customers %}
+                  <option value="{{customer.id}}">{{customer.id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (New User)</label>
+              <input name="new_user" type="text">
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (New Company)</label>
+              <input name="new_company" type="text">
+            </div>
+            <button type="submit" class="primary-button">Create</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+
