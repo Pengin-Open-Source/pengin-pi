@@ -55,6 +55,7 @@ def create_customer():
                            company_customers=company_customers,
                            user_customers=user_customers)
 
+
 '''
 @customer_info.route('/edit', methods=['GET', 'POST'])
 @login_required
