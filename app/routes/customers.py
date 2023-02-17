@@ -14,7 +14,30 @@ admin_permission = Permission(RoleNeed('admin'))
 def create_customer():
     if request.method == 'POST':
         order_id = request.form.get('order_id')
-        customer_id = request.form.get('customer_id')
+
+        if request.form.get('company_id'):
+            customer_id = request.form.get('company_id')
+        elif request.form.get('user_id'):
+            customer_id = request.form.get('user_id')
+        elif request.form.get('new_company'):
+            name = request.form.get('new_company')
+            new_company = Company(name=name)
+
+            db.session.add(new_company)
+            db.session.commit()
+
+            customer_id = new_company.id
+        elif request.form.get('new_user'):
+            name = request.form.get('new_user')
+            new_user = User(name=name)
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            customer_id = new_user.id
+
+        order = Orders(id=order_id)
+        order.customer_id = customer_id
 
         return redirect(url_for("order_info.display_order_info",
                                 order_id=order_id))
