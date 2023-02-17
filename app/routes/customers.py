@@ -42,6 +42,7 @@ def create_customer():
 
         order = Orders(id=order_id)
         order.customer_id = new_customer.id
+        db.session.commit()
 
         return redirect(url_for("order_info.display_order_info",
                                 order_id=order_id))
