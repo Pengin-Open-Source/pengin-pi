@@ -17,8 +17,10 @@ def create_customer():
 
         if request.form.get('company_id'):
             customer_id = request.form.get('company_id')
+            new_customer = Customer(company_id=customer_id)
         elif request.form.get('user_id'):
             customer_id = request.form.get('user_id')
+            new_customer = Customer(company_id=customer_id)
         elif request.form.get('new_company'):
             name = request.form.get('new_company')
             new_company = Company(name=name)
@@ -27,6 +29,7 @@ def create_customer():
             db.session.commit()
 
             customer_id = new_company.id
+            new_customer = Customer(company_id=customer_id)
         elif request.form.get('new_user'):
             name = request.form.get('new_user')
             new_user = User(name=name)
@@ -35,9 +38,10 @@ def create_customer():
             db.session.commit()
 
             customer_id = new_user.id
+            new_customer = Customer(company_id=customer_id)
 
         order = Orders(id=order_id)
-        order.customer_id = customer_id
+        order.customer_id = new_customer.id
 
         return redirect(url_for("order_info.display_order_info",
                                 order_id=order_id))
