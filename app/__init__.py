@@ -19,6 +19,7 @@ from app.util.markup import markup
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
+admin_permission = Permission(RoleNeed('admin'))
 
 class DummyHome():
     company_name = ''
@@ -46,7 +47,7 @@ def create_app():
     def inject_globals():
         company = model.Home.query.first() or DummyHome()
         name = company.company_name
-        return dict(company_name=name)
+        return dict(company_name=name, is_admin=admin_permission.can())
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -99,11 +100,6 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
     
-    admin_permission = Permission(RoleNeed('admin'))
-    def is_admin():
-        return {"is_admin": str(admin_permission.can())}
-    
-    app.context_processor(is_admin)
     app.context_processor(time_zone)
     app.context_processor(copyright)
     return app
