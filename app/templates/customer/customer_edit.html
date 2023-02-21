@@ -9,6 +9,7 @@
               <select name="company_id" id="customer" placeholder="Product ID">
                 {% if customer.company_id %}
                   <option value="{{customer.company_id}}" selected>{{customer.company_id}}</option>
+                  <option value="" >NONE</option>
                 {% else %}
                   <option value="" selected>NONE</option>
                 {% endif %}
@@ -22,6 +23,7 @@
               <select name="user_id" id="customer" placeholder="Product ID">
                 {% if customer.user_id %}
                   <option value="{{customer.user_id}}" selected>{{customer.user_id}}</option>
+                  <option value="" >NONE</option>
                 {% else %}
                   <option value="" selected>NONE</option>
                 {% endif %}
