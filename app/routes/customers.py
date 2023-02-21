@@ -55,15 +55,49 @@ def create_customer():
                            user_customers=user_customers)
 
 
-'''
-@customer_info.route('/edit', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require()
-def edit_customer():
+
+@customer_info.route('<order_id>/edit', methods=['GET', 'POST'])
+#@login_required
+#@admin_permission.require()
+def edit_customer(order_id):
     if request.method == 'POST':
 
-        return redirect(url_for("order_info.display_order_info",
-                                order_id=new_order.id))
+        if request.form.get('company_id') != "":
+            customer_id = request.form.get('company_id')
+            new_customer = Customer(company_id=customer_id)
+        elif request.form.get('user_id') != "":
+            customer_id = request.form.get('user_id')
+            new_customer = Customer(company_id=customer_id)
+        elif request.form.get('new_company') != "":
+            name = request.form.get('new_company')
+            new_company = Company(name=name)
 
-    return render_template('order_info/order_info_create.html')
-'''
+            db.session.add(new_company)
+            db.session.commit()
+
+            customer_id = new_company.id
+            new_customer = Customer(company_id=customer_id)
+        elif request.form.get('new_user') != "":
+            name = request.form.get('new_user')
+            new_user = User(name=name)
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            customer_id = new_user.id
+            new_customer = Customer(company_id=customer_id)
+
+        order = Orders(id=order_id)
+        order.customer_id = new_customer.id
+        db.session.commit()
+
+        return redirect(url_for("home_blueprint.home"))
+
+    customer_id = Orders.query.filter_by(id=order_id).first().customer_id
+    customer = Customer.query.filter_by(id=customer_id).first()
+    company_customers = Company.query.all()
+    user_customers = User.query.all()
+
+    return render_template('customer/customer_edit.html', order_id=order_id,
+                           user_customers=user_customers, customer=customer,
+                           company_customers=company_customers)
