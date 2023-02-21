@@ -15,19 +15,19 @@
             <div class="form-section">
               <label for="customer">Customer (Company)</label>
               <select name="company_id" id="customer" placeholder="Product ID">
+                <option value="" selected>NONE</option>
                 {% for customer in company_customers %}
                   <option value="{{customer.id}}">{{customer.id}}</option>
                 {% endfor %}
-                <option value="">NONE</option>
               </select>
             </div>
             <div class="form-section">
               <label for="customer">Customer (User)</label>
               <select name="user_id" id="customer" placeholder="Product ID">
+                <option value="" selected>NONE</option>
                 {% for customer in user_customers %}
                   <option value="{{customer.id}}">{{customer.id}}</option>
                 {% endfor %}
-                <option value="">NONE</option>
               </select>
             </div>
             <div class="form-section">
