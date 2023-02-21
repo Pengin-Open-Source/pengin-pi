@@ -9,8 +9,8 @@ admin_permission = Permission(RoleNeed('admin'))
 
 
 @customer_info.route('/create', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require()
+#@login_required
+#@admin_permission.require()
 def create_customer():
     if request.method == 'POST':
         order_id = request.form.get('order_id')
@@ -44,8 +44,7 @@ def create_customer():
         order.customer_id = new_customer.id
         db.session.commit()
 
-        return redirect(url_for("order_info.display_order_info",
-                                order_id=order_id))
+        return redirect(url_for("home_blueprint.home"))
 
     orders = Orders.query.all()
     company_customers = Company.query.all()
