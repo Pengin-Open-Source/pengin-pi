@@ -1,0 +1,47 @@
+{% extends "layout/oneDiv.html" %}
+
+{% block oneDivContent %}
+    <div class="content-section">
+      <h2 class="title">Create Customer Order:{{order_id}}</h2>
+        <form class="form" method="POST" action="/customers/create">
+            <div class="form-section">
+              <label for="customer">Customer (Company)</label>
+              <select name="company_id" id="customer" placeholder="Product ID">
+                {% if customer.company_id %}
+                  <option value="{{customer.company_id}}" selected>{{customer.company_id}}</option>
+                {% else %}
+                  <option value="" selected>NONE</option>
+                {% endif %}
+                {% for company_customer in company_customers %}
+                  <option value="{{company_customer.id}}">{{company_customer .id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (User)</label>
+              <select name="user_id" id="customer" placeholder="Product ID">
+                {% if customer.user_id %}
+                  <option value="{{customer.user_id}}" selected>{{customer.user_id}}</option>
+                {% else %}
+                  <option value="" selected>NONE</option>
+                {% endif %}
+                {% for user_customer in user_customers %}
+                  <option value="{{user_customer.id}}">{{user_customer.id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (New User)</label>
+              <input value="" name="new_user" type="text">
+            </div>
+            <div class="form-section">
+              <label for="customer">Customer (New Company)</label>
+              <input value="" name="new_company" type="text">
+            </div>
+            <button type="submit" class="primary-button">Create</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+
