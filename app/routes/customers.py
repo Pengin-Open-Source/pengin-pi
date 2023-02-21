@@ -15,13 +15,13 @@ def create_customer():
     if request.method == 'POST':
         order_id = request.form.get('order_id')
 
-        if request.form.get('company_id'):
+        if request.form.get('company_id') != "":
             customer_id = request.form.get('company_id')
             new_customer = Customer(company_id=customer_id)
-        elif request.form.get('user_id'):
+        elif request.form.get('user_id') != "":
             customer_id = request.form.get('user_id')
             new_customer = Customer(company_id=customer_id)
-        elif request.form.get('new_company'):
+        elif request.form.get('new_company') != "":
             name = request.form.get('new_company')
             new_company = Company(name=name)
 
@@ -30,7 +30,7 @@ def create_customer():
 
             customer_id = new_company.id
             new_customer = Customer(company_id=customer_id)
-        elif request.form.get('new_user'):
+        elif request.form.get('new_user') != "":
             name = request.form.get('new_user')
             new_user = User(name=name)
 
