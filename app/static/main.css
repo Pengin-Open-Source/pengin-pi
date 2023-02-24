@@ -72,6 +72,14 @@ table {
 h1,h2,h3,h4,h5,h6 {
   margin: 0;
 }
+/* Main Content Template */
+.main-container {
+  width: 50%;
+}
+.page-content {
+  scroll-behavior: auto;
+}
+
 /* Nav Bar */
 .hamburger {
   display: none;
