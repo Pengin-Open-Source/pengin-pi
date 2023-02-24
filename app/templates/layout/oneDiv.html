@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block tags %}{% endblock %}
 {% block content %}
-    <div class="one-div"> {% block oneDivContent %}{% endblock %} </div>
+    <div class="main-container">
+        <div class="top-bar">
+            <h2 class="section-title">{{section_title}}</h2>
+            <div class="admin-hamburger"></div>
+        </div>
+        <div class="content-container">
+            <div class="item-title">{{item_title}}</div>
+            <div class="page-content">{% block oneDivContent %}{% endblock %}</div>
+            <div class="button-section"></div>     
+        </div>
+    </div>
 {% endblock %}
