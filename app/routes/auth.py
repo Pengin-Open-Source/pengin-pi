@@ -13,10 +13,11 @@ from app.util.security.limit import limiter
 
 
 auth = Blueprint('auth', __name__)
+section_title = 'Authentication'
 
 @auth.route('/login')
 def login():
-    return render_template('authentication/login.html')
+    return render_template('authentication/login.html', section_title=section_title, item_title='Login')
 
 @limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
