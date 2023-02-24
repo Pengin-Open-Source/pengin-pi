@@ -24,6 +24,7 @@ const removeOrderRow = (event) => {
 }
 
 const adminHamburgerToggle= () => {
+  // TODO this is all wrong it needs sorting for mobile admin toggle
   const admin_nav = document.querySelector('#nav-id');
 
   if (admin_nav.className === 'header-navigation') {
