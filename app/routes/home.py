@@ -24,7 +24,9 @@ def home():
     if home:
         logging.info('S3 Image accessed: ' + home.image)
 
-    return render_template('home/home.html', is_admin=is_admin, home=home, image=image)
+    return render_template('home/home.html', is_admin=is_admin, home=home,
+                           image=image, section_title='Home',
+                           item_title=home.company_name)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])
