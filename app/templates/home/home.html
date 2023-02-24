@@ -4,19 +4,24 @@
       <meta name="keywords" content="{{home.tags|e}}">
   {% endif %}
 {% endblock %}
-{% block oneDivContent %}
-    <article class="content-section ">
-        <div class="home-container">
-          <h2 class="center-title title">Welcome to {{home.company_name|e}}</h2>
-          <div class="commonmark">{{home.article|commonmark|e}}</div>
-          <div class="image-container">
-              <img src="{{image|e}}" alt="Home Image" style="width: 100%; height: auto">
-          </div>
-          </div>
-          {% if is_admin %}
-            <a class="primary-button" href="/home/edit">Edit Home Page</a>
-          {% endif %}
+{% block pageContent %}
+  {#
+    <article>
+      <div class="home-container">
+        <div class="commonmark">{{home.article|commonmark|e}}</div>
+        <div class="image-container">
+            <img src="{{image|e}}" alt="Home Image" style="width: 100%; height: auto">
         </div>
-
+    
     </article>
+  #}
+
+{% endblock %}
+
+{% block buttons %}
+  <a class="primary-button" href="/home/edit">TEST</a>
+  <a class="primary-button" href="/home/edit">TEST</a>
+  {% if is_admin %}
+    <a class="primary-button" href="/home/edit">Edit Home Page</a>
+  {% endif %}
 {% endblock %}
