@@ -1,4 +1,4 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/main.html" %}
 {% block tags %}
   {% if home.tags %}
       <meta name="keywords" content="{{home.tags|e}}">
@@ -15,8 +15,6 @@
 {% endblock %}
 
 {% block buttons %}
-  <a class="primary-button" href="/home/edit">TEST</a>
-  <a class="primary-button" href="/home/edit">TEST</a>
   {% if is_admin %}
     <a class="primary-button" href="/home/edit">Edit Home Page</a>
   {% endif %}
