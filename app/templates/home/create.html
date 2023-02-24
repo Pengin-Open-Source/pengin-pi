@@ -1,8 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/main.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
-    <h1 class="title">Create About</h1>
+{% block pageContent %}
     <form class="form" method="POST" action="/home/edit" enctype="multipart/form-data">
         <div class="form-section">
             <label for="name">Name</label>
@@ -36,5 +34,4 @@
         </div>
         <button class="primary-button">Update</button>
     </form>
-</div>
 {% endblock %}
