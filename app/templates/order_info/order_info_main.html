@@ -1,13 +1,9 @@
 {% extends "layout/oneDiv.html" %}
-{% block profilecontent %}
+{% block oneDivContent %}
   <h1 class="profile-title">Orders</h1>
   <ul>
     {% for order in orders %}
       <li><a href="/orders/{{ order.id }}">{{ order.id|e }}</a></li>
     {% endfor %}
   </ul>
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
 {% endblock %}
