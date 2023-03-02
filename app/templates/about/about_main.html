@@ -4,6 +4,11 @@
       <meta name="keywords" content="{{about.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns%}
+    <a href="/about/edit">Edit About Page</a>
+{% endblock %}
+
 {% block pageContent %}
     <article>
         <h2 class="title center-title">About {{about.name|e}}</h2>
@@ -60,10 +65,4 @@
             {% endif %}
         </div>
     </article>
-{% endblock %}
-
-{% block buttons %}
-    {% if is_admin %}
-        <a class="primary-button" href="/about/edit">Edit About Page</a>
-    {% endif %}
 {% endblock %}
