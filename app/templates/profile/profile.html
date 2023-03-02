@@ -1,20 +1,18 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block profilecontent %}
+{% block pageDropDowns %}
+  {% include "right_window/profile_info.html" %}
+  <a href="/profile/edit_profile" >Edit Profile</a>
+  <a href="/profile/edit_password">Edit Password</a>
+  {% if can_do %}
+    <a href="/profile/send_email">Re-send Validation Email</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
     <h1 class="profile-title">Profile Information</h1>
     <div class="profile-info-container">
       <p>Name: {{ name|e }}</p>
       <p>Email: {{ email|e }}</p>
     </div>
-    <div class="edit-profile-buttons">
-      <a class="primary-button" href="/profile/edit_profile" >Edit Profile</a>
-      <a class="primary-button " href="/profile/edit_password">Edit Password</a>
-      {% if can_do %}
-        <a class="primary-button " href="/profile/send_email">Re-send Validation Email</a>
-      {% endif %}
-    </div>
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
 {% endblock %}
