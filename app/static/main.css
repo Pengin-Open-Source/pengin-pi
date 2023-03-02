@@ -30,10 +30,11 @@ header {
 
 main {
   background: linear-gradient(#535252,#d1cccc );
-  height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: fit-content;
 }
 
 footer {
@@ -74,7 +75,7 @@ h1,h2,h3,h4,h5,h6 {
   justify-content: space-between;
 }
 
-/* Main Content Template */
+/* Inner div scroll */
 .main-container {
   width: 50%;
   height: 50%;
@@ -141,6 +142,22 @@ h1,h2,h3,h4,h5,h6 {
   overflow: auto;
   margin: 2rem 2rem;
   height: 70%;
+}
+
+/* Full page scroll */
+.full-page {
+  height: 100%;
+  width: 100%;
+  padding: 10rem;
+
+}
+
+.full-page-scroll-content {
+  background-color: var(--main-blue);
+  width: 50%;
+  border: 1px solid white;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 /* Nav Bar */
