@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block tags %}{% endblock %}
+{% block content %}
+  <div class="full-page">
+    <div class="full-page-scroll-content">
+      {% block pageContent %}{% endblock %}
+      <div class="button-section">{% block buttons %}{% endblock %}</div>  
+    </div>
+  </div>
+
+
+{% endblock %}
