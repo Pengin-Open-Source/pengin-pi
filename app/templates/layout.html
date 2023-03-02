@@ -35,10 +35,6 @@
           </div>
           <div class="main-nav-links">
             {% if current_user.is_authenticated %}
-                {% if is_admin %}
-                  <a class="header-link" href="/blog/create">New Blog</a>
-                  <a class="header-link" href="/company/editor">Company Editor</a>
-                {% endif %}
               <a class="header-link" href="/profile">Profile</a>
               <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>
             {% endif %}
