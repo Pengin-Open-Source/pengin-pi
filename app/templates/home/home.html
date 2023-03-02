@@ -4,6 +4,12 @@
       <meta name="keywords" content="{{home.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns %}
+  <a href="/home/edit">Edit Home Page</a>
+{% endblock %}
+
+
 {% block pageContent %}
     <article>
       <div class="home-container">
@@ -14,8 +20,3 @@
     </article>
 {% endblock %}
 
-{% block buttons %}
-  {% if is_admin %}
-    <a class="primary-button" href="/home/edit">Edit Home Page</a>
-  {% endif %}
-{% endblock %}
