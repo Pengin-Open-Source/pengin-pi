@@ -1,11 +1,11 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 {% block tags %}
   {% if about.tags %}
       <meta name="keywords" content="{{about.tags|e}}">
   {% endif %}
 {% endblock %}
-{% block oneDivContent %}
-    <article class="content-section">
+{% block pageContent %}
+    <article>
         <h2 class="title center-title">About {{about.name|e}}</h2>
         <div class="about-article-container">
             <div class="image-container commonmark">
@@ -59,12 +59,11 @@
                 <p>Telephone: {{about.phone|e}}</p>
             {% endif %}
         </div>
-
-        {% if is_admin %}
-            <a class="primary-button" href="/about/edit">Edit About Page</a>
-        {% endif %}
     </article>
-    
+{% endblock %}
 
-    
+{% block buttons %}
+    {% if is_admin %}
+        <a class="primary-button" href="/about/edit">Edit About Page</a>
+    {% endif %}
 {% endblock %}
