@@ -152,11 +152,14 @@ h1,h2,h3,h4,h5,h6 {
 
 }
 
-.full-page-scroll-content {
-  background-color: var(--main-blue);
+.full-page-scroll-container {
   width: 50%;
-  border: 1px solid white;
+  border: 1px solid var(--main-blue);
   margin: 0 auto;
+}
+
+.full-page-scroll-content {
+  background-color:white;
   padding: 2rem;
 }
 
