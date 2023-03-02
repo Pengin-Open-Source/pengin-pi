@@ -2,10 +2,28 @@
 {% block tags %}{% endblock %}
 {% block content %}
   <div class="full-page">
-    <div class="full-page-scroll-content">
-      <h3 class="item-title">{{item_title}}</h3>
-      {% block pageContent %}{% endblock %}
-      <div class="button-section">{% block buttons %}{% endblock %}</div>  
+    <div class="full-page-scroll-container">
+        <div class="top-bar">
+            <h2 class="section-title">{{section_title}}</h2>
+            <div class="admin-hamburger">             
+                <div class="dropdown">
+                <div class="dropdown-btn"><img class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon"></div>
+                <div class="dropdown-content">
+                  <!-- TODO: need to fill in correct href's -->
+                  <a href="/company">Company</a>
+                  <a href="/orders">Orders</a>
+                  <a href="/customers">Customers</a>
+                  <a href="/blogPosts">Blog Posts</a>
+                  {% block pageDropDowns %}{% endblock %}
+                </div>
+              </div> 
+            </div>
+        </div>
+      <div class="full-page-scroll-content">
+        <h3 class="item-title">{{item_title}}</h3>
+        {% block pageContent %}{% endblock %}
+        <div class="button-section">{% block buttons %}{% endblock %}</div>  
+      </div>
     </div>
   </div>
 
