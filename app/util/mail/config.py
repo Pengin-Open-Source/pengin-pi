@@ -10,30 +10,50 @@ load_dotenv()
     
         
 class Message(Mailer):        
-    def __init__(self, RECIPIENT, TOKEN, URL=os.getenv('URL')):
+    def __init__(self, RECIPIENT, TOKEN, TYPE, URL=os.getenv('URL')):
         Mailer.__init__(self)
         self.RECIPIENT=RECIPIENT
         self.TOKEN=TOKEN
         self.URL=URL
-        self.SUBJECT="Validation Email"
-        # The email body for recipients with non-HTML email clients.
-        BODY_TEXT = ("Validation Email\r\n"
-                    "This email is an automated message."
-                    "Verify your accout at %s/validate/%s" % (self.URL, self.TOKEN)
-                    )
         
-        # The HTML body of the email.
-        BODY_HTML = f"""<html>
-        <head></head>
-        <body>
-        <h1>Validation Email</h1>
-        <p>This email is an automated message.  Please validate your email.
-            <a href='https://{self.URL}/profile/validate/{self.TOKEN}'>Account Validation</a>
-        </p>
-        </body>
-        </html>
-        """
-        
+        if TYPE == "user_validation":
+            # The email body for recipients with non-HTML email clients.
+            self.SUBJECT="Validation Email"
+            BODY_TEXT = ("Validation Email\r\n"
+                        "This email is an automated message."
+                        "Verify your account at %s/profile/validate/%s" % (self.URL, self.TOKEN)
+                        )
+            
+            # The HTML body of the email.
+            BODY_HTML = f"""<html>
+            <head></head>
+            <body>
+            <h1>Validation Email</h1>
+            <p>This email is an automated message. Please validate your email.
+                <a href='https://{self.URL}/profile/validate/{self.TOKEN}'>Account Validation</a>
+            </p>
+            </body>
+            </html>
+            """
+        elif TYPE == "password_reset":
+            self.SUBJECT="Password Reset Email"
+            BODY_TEXT = ("Password Reset Email\r\n"
+                        "This email is an automated message."
+                        "Reset your password within the next 60 minutes at %s/reset-password/%s" % (self.URL, self.TOKEN)
+                        )
+
+            # The HTML body of the email.
+            BODY_HTML = f"""<html>
+            <head></head>
+            <body>
+            <h1>Password Reset Email</h1>
+            <p>This email is an automated message. Please reset your password within the next 60 minutes.
+                <a href='https://{self.URL}/reset-password/{self.TOKEN}'>Reset password</a>
+            </p>
+            </body>
+            </html>
+            """
+
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = self.SUBJECT

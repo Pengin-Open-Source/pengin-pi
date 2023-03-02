@@ -15,11 +15,13 @@ from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from flask_commonmark import Commonmark
 
 from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
+commonmark = Commonmark()
 
 class DummyHome():
     company_name = ''
