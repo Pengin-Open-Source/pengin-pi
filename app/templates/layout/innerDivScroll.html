@@ -8,11 +8,7 @@
                 <div class="dropdown">
                 <div class="dropdown-btn"><img class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon"></div>
                 <div class="dropdown-content">
-                  <!-- TODO: need to fill in correct href's -->
-                  <a href="/company">Company</a>
-                  <a href="/orders">Orders</a>
-                  <a href="/customers">Customers</a>
-                  <a href="/blogPosts">Blog Posts</a>
+                  {% block pageDropDowns %}{% endblock %}
                 </div>
               </div> 
             </div>
