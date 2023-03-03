@@ -199,7 +199,6 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Alternating color table */
-
 .alternating-colors-table  {
   width: 100%;
   margin: 3rem 0;
@@ -232,7 +231,6 @@ h1,h2,h3,h4,h5,h6 {
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
 }
-
 
 /* Site-wide */
 .circle-button {
@@ -363,31 +361,6 @@ h1,h2,h3,h4,h5,h6 {
   border: none;
 }
 
-/* Home */
-.home-container {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center;
-  padding: 0 1rem;
-}
-
-.home-container p {
-  margin: 3rem 0;
-}
-
-/* Blog */
-.blog-content p {
-  margin-bottom: 2rem;
-}
-.blog-content a {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-}
-.blog-links ul {
-  padding-left: unset;
-  list-style-type: none;
-}
-
 /* Paginate/ List1 */
 .page-items {
   text-align: center;
@@ -406,6 +379,28 @@ h1,h2,h3,h4,h5,h6 {
   font-weight: 600;
   cursor: pointer;
 }
+
+/* Home */
+.home-container {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  padding: 0 1rem;
+}
+
+/* Blog */
+.blog-content p {
+  margin-bottom: 2rem;
+}
+.blog-content a {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+.blog-links ul {
+  padding-left: unset;
+  list-style-type: none;
+}
+
 
 /* Profile/ Company Info */
 .profile-info {
