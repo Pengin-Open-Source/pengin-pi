@@ -73,7 +73,7 @@ def edit_about():
 
             return redirect(url_for("about_blueprint.view"))
 
-        return render_template('about/edit.html', about=about, image=image)
+        return render_template('about/edit.html', about=about, image=image, primary_title='Edit About Page')
     elif request.method == 'POST':
         name = request.form.get('name')
         article = request.form.get('article')
@@ -108,4 +108,4 @@ def edit_about():
 
         return redirect(url_for("about_blueprint.view"))
 
-    return render_template('about/create.html')
+    return render_template('about/create.html', primary_title='Create About Page')
