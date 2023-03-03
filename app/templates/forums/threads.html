@@ -5,10 +5,6 @@
   <a href="/forums/create">Create Thread</a>
 {% endblock %}
 
-{% block beforeTableContent %}
-  <h2 class="title">{{title|e}}</h2>
-{% endblock %}
-
 {% block tableContent %}
   {% for thread in threads %}
   <tr><td class="thread-container">
