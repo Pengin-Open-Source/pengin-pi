@@ -4,8 +4,8 @@
   <div class="full-page">
     <div class="full-page-scroll-container">
         <div class="top-bar">
-            <h2 class="section-title">{{section_title}}</h2>
-            <div class="admin-hamburger">             
+            <h2 class="section-title">{{primary_title}}</h2>
+            <div class="page-hamburger">             
                 <div class="dropdown">
                 <div class="dropdown-btn"><img class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon"></div>
                 <div class="dropdown-content">
@@ -15,7 +15,10 @@
             </div>
         </div>
       <div class="full-page-scroll-content">
-        <h3 class="item-title">{{item_title}}</h3>
+        <div class="item-title-container">
+          <h3 class="item-title">{{secondary_title}}</h3>
+          <p class="author-date-info">{{author_date_info}}</p>
+        </div>
         {% block pageContent %}{% endblock %}
         <div class="button-section">{% block buttons %}{% endblock %}</div>  
       </div>
