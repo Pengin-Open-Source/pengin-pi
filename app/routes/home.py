@@ -65,7 +65,7 @@ def home_edit():
 
         return render_template('home/edit.html', section_title=section_title,
                                item_title='Edit Home Page Info', home=home,
-                               image=image)
+                               image=image, primary_title='Edit Home Page')
     
     elif request.method == 'POST':
             company_name = request.form.get('name')
@@ -85,4 +85,4 @@ def home_edit():
 
             return redirect(url_for("home_blueprint.home"))
 
-    return render_template('home/create.html' , section_title=section_title, item_title='Create Home Page Info' )
+    return render_template('home/create.html', section_title=section_title, primary_title='Edit Home Page')
