@@ -224,12 +224,12 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .alternating-colors-table tr:nth-child(even) td{
-  background-color: white;
-  color: black;
+  background-color: var(--main-blue);
+  color: white;
 }
 
 .alternating-colors-table tr:nth-child(even) a{
-  color: black;
+  color: white;
 }
 
 /* Site-wide TODO: Check after GUI refactor to remove unused */
@@ -445,7 +445,6 @@ h1,h2,h3,h4,h5,h6 {
   width:50%;
   margin-bottom: 2rem;
 }
-
 
 /* Blog */
 .blog-content p {
