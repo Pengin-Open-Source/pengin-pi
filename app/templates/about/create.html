@@ -1,161 +1,156 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
-    <h1 class="title"> Create About</h1>
-        <form class="form" method="POST" action="/about/edit" enctype="multipart/form-data">
-            <div class="form-section">
-                <label for="name">Name</label>
-                <input
-                class="form-input"
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Organization Name">
-            </div>
-            <div class="form-section">
-                <label for="article">Main Text</label>
-                <textarea
-                class="form-input"
-                name="article"
-                id="article"
-                placeholder="Write about your organization here."></textarea>
-            </div>
-            <div class="form-section">
-                <label for="facebook">Facebook</label>
-                <input
-                class="form-input"
-                type="text"
-                name="facebook"
-                id="facebook"
-                placeholder="FaceBook link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="twitter">Twitter</label>
-                <input
-                class="form-input"
-                type="text"
-                name="twitter"
-                id="twitter"
-                placeholder="twitter link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="instagram">Instagram</label>
-                <input
-                class="form-input"
-                type="text"
-                name="instagram"
-                id="instagram"
-                placeholder="instagram link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="whatsapp">Whatsapp</label>
-                <input
-                class="form-input"
-                type="text"
-                name="whatsapp"
-                id="whatsapp"
-                placeholder="whatsapp link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="linkedin">LinkedIn</label>
-                <input
-                class="form-input"
-                type="text"
-                name="linkedin"
-                id="linkedin"
-                placeholder="LinkedIn link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="youtube">Youtube</label>
-                <input
-                class="form-input"
-                type="text"
-                name="youtube"
-                id="youtube"
-                placeholder="FaceBook link goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="phone">Phone Number</label>
-                <input
-                class="form-input"
-                type="text"
-                name="phone"
-                id="phone"
-                placeholder="Phone number goes here"
-                >
-            </div>
-            <div class="form-section">
-                <label for="address1">Address line 1</label>
-                <input
-                class="form-input"
-                type="text"
-                name="address1"
-                id="address1"
-                placeholder=""
-                >
-            </div>
-            <div class="form-section">
-                <label for="address2">Address line 2</label>
-                <input
-                class="form-input"
-                type="text"
-                name="address2"
-                id="address2"
-                placeholder=""
-                >
-            </div>
-            <div class="form-section">
-                <label for="city">City</label>
-                <input
-                class="form-input"
-                type="text"
-                name="city"
-                id="city"
-                placeholder=""
-                >
-            </div>
-            <div class="form-section">
-                <label for="state">State</label>
-                <input
-                class="form-input"
-                type="text"
-                name="state"
-                id="state"
-                placeholder=""
-                >
-            </div>
-            <div class="form-section">
-                <label for="country" >Country</label>
-                <input
-                class="form-input"
-                type="text"
-                name="country"
-                id="country"
-                placeholder=""
-                >
-            </div>
-            <div class="form-section">
-                <label for="article">Tags</label>
-                <input
-                class="form-input"
-                type="text"
-                name="tags"
-                id="tags"
-                placeholder="tags,tags">
-            <div class="form-section">
-                <label for="file" >Image</label>
-                <input type="file" name="file" class="form-input">
-            </div>
-            <button class="primary-button">Update</button>
-        </form>
-
-</div>
-
+{% block pageContent %}
+    <form class="form" method="POST" action="/about/edit" enctype="multipart/form-data">
+        <div class="form-section">
+            <label for="name">Name</label>
+            <input
+            class="form-input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Organization Name">
+        </div>
+        <div class="form-section">
+            <label for="article">Main Text</label>
+            <textarea
+            class="form-input"
+            name="article"
+            id="article"
+            placeholder="Write about your organization here."></textarea>
+        </div>
+        <div class="form-section">
+            <label for="facebook">Facebook</label>
+            <input
+            class="form-input"
+            type="text"
+            name="facebook"
+            id="facebook"
+            placeholder="FaceBook link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="twitter">Twitter</label>
+            <input
+            class="form-input"
+            type="text"
+            name="twitter"
+            id="twitter"
+            placeholder="twitter link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="instagram">Instagram</label>
+            <input
+            class="form-input"
+            type="text"
+            name="instagram"
+            id="instagram"
+            placeholder="instagram link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="whatsapp">Whatsapp</label>
+            <input
+            class="form-input"
+            type="text"
+            name="whatsapp"
+            id="whatsapp"
+            placeholder="whatsapp link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="linkedin">LinkedIn</label>
+            <input
+            class="form-input"
+            type="text"
+            name="linkedin"
+            id="linkedin"
+            placeholder="LinkedIn link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="youtube">Youtube</label>
+            <input
+            class="form-input"
+            type="text"
+            name="youtube"
+            id="youtube"
+            placeholder="FaceBook link goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="phone">Phone Number</label>
+            <input
+            class="form-input"
+            type="text"
+            name="phone"
+            id="phone"
+            placeholder="Phone number goes here"
+            >
+        </div>
+        <div class="form-section">
+            <label for="address1">Address line 1</label>
+            <input
+            class="form-input"
+            type="text"
+            name="address1"
+            id="address1"
+            placeholder=""
+            >
+        </div>
+        <div class="form-section">
+            <label for="address2">Address line 2</label>
+            <input
+            class="form-input"
+            type="text"
+            name="address2"
+            id="address2"
+            placeholder=""
+            >
+        </div>
+        <div class="form-section">
+            <label for="city">City</label>
+            <input
+            class="form-input"
+            type="text"
+            name="city"
+            id="city"
+            placeholder=""
+            >
+        </div>
+        <div class="form-section">
+            <label for="state">State</label>
+            <input
+            class="form-input"
+            type="text"
+            name="state"
+            id="state"
+            placeholder=""
+            >
+        </div>
+        <div class="form-section">
+            <label for="country" >Country</label>
+            <input
+            class="form-input"
+            type="text"
+            name="country"
+            id="country"
+            placeholder=""
+            >
+        </div>
+        <div class="form-section">
+            <label for="article">Tags</label>
+            <input
+            class="form-input"
+            type="text"
+            name="tags"
+            id="tags"
+            placeholder="tags,tags">
+        <div class="form-section">
+            <label for="file" >Image</label>
+            <input type="file" name="file" class="form-input">
+        </div>
+        <button class="primary-button">Update</button>
+    </form>
 {% endblock %}
