@@ -21,10 +21,11 @@
   <div class="post-container">
     <div class="title-underline">
       <h2 class="post-title">{{ticket.summary|e}}</h2>
+      <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
+      <p class="post-info">By: {{author|e}}</p>
+      <p class="post-info">Date: {{ticket.date|e}}</p>
     </div>
-    <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
-    <p class="post-info">By: {{author|e}}</p>
-    <p class="post-info">Date: {{ticket.date|e}}</p>
+
     <div class="post-content commonmark">
       {{ticket.content|commonmark|e}}
     </div>
