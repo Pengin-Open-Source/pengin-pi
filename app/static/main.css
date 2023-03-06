@@ -76,6 +76,8 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 
+
+
 /* Nav Bar */
 .hamburger {
   display: none;
@@ -114,6 +116,12 @@ h1,h2,h3,h4,h5,h6 {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
+}
+
+.right-nav-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .page-hamburger img {
