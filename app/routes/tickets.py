@@ -33,7 +33,7 @@ def tickets():
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
-                           current_user=current_user)
+                           current_user=current_user, primary_title='Tickets')
 
 
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
