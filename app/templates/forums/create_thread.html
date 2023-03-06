@@ -1,7 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
+{% block pageContent %}
     <form class="form" method="POST" action="/forums/create">
         <div class="form-section">
             <label for="thread" >Thread Name</label>
@@ -22,5 +21,4 @@
         </div>
         <button class="primary-button">Post</button>
     </form>
-</div>
 {% endblock %}
