@@ -2,7 +2,7 @@
 :root {
   --main-blue: #1a6b99;
   --hover-blue: #428bca;
-  --highlight-grey: #b6b5b5;
+  --highlight-grey: #c9c9c9;
 }
 
 /* General Styles */
@@ -202,7 +202,7 @@ h1,h2,h3,h4,h5,h6 {
 .alternating-colors-table  {
   width: 100%;
   margin: 3rem 0;
-  border: 1px solid white;
+  border: 1px solid black;
 }
 
 .alternating-colors-table p,a {
@@ -224,12 +224,12 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .alternating-colors-table tr:nth-child(even) td{
-  background-color: var(--main-blue);
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .alternating-colors-table tr:nth-child(even) a{
-  color: white;
+  color: black;
 }
 
 /* Site-wide TODO: Check after GUI refactor to remove unused */
