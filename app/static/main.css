@@ -243,10 +243,6 @@ h1,h2,h3,h4,h5,h6 {
   cursor: pointer;
 }
 
-.title {
-  font-size: 3rem;
-  margin-bottom:2rem;
-}
 
 .center-title {
   margin: 0 auto;
@@ -531,6 +527,10 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Forum/Tickets */
+.post-title {
+  font-size: 3rem;
+}
+
 .thread-container {
   display: flex;
   justify-content: space-between;
@@ -539,10 +539,6 @@ h1,h2,h3,h4,h5,h6 {
 .title-underline {
   border-bottom: 1px solid black;
   margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: black;
   padding-bottom: 1rem;
 }
 
@@ -568,6 +564,7 @@ h1,h2,h3,h4,h5,h6 {
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 2px;
+  border: 1px solid black;
 }
 .post-info {
   margin: 0.5rem 0;
