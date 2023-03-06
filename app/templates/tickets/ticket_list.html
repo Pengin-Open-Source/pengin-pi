@@ -1,16 +1,18 @@
 {% extends "layout/alternating_color_table.html" %}
 {% import "macros/paginate.html" as pagination %}
 
+
+{% block pageDropDowns%}
+  <a href="/tickets/create">Create Ticket</a>
+{% endblock %}
+
 {% block beforeTableContent %}
-  <div class="">
-    <h2 class="title">{{title|e}}</h2>
-    <div>
+    <div class="title-underline">
       <a class="text-button" href="/tickets?status=all">all</a>|
       <a class="text-button" href="/tickets?status=resolved">resolved</a>|
       <a class="text-button" href="/tickets?status=open">open</a>|
       <a class="text-button" href="/tickets?status=closed">closed</a>
     </div>
-  </div> 
 {% endblock %}
 
 {% block tableContent %}
@@ -24,5 +26,5 @@
 
 {% block postTableContent %}
   {{ pagination.render_pagination(tickets, "") }}
-  <a class="primary-button" href="/tickets/create">Create Ticket</a>
+  
 {% endblock %}

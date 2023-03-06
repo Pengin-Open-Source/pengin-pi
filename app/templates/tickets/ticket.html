@@ -4,23 +4,23 @@
     <meta name="keywords" content="{{ticket.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns%}
+  {% if is_admin or can_delete_ticket(ticket.id).can() %}
+    <form method="post" action="/tickets/delete/ticket/{{ticket.id}}">
+      <button type="submit">Delete</button>
+    </form> 
+  {% endif %}
+  {% if is_admin or can_edit_ticket(ticket.id).can() %}
+    <a href="/tickets/edit/ticket/{{ticket.id}}">Edit</a>
+  {% endif %}
+  <a href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
+{% endblock %}
+
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline">
-      <h2 class="title">{{ticket.summary|e}}</h2>
-      {% if current_user.is_authenticated %}
-        <div class="text-buttons-container">
-          {% if is_admin or can_delete_ticket(ticket.id).can() %}
-            <form class="delete-form" method="post" action="/tickets/delete/ticket/{{ticket.id}}">
-              <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-            </form> 
-            <span class="text-button">|</span>
-          {% endif %}
-          {% if is_admin or can_edit_ticket(ticket.id).can() %}
-            <a class="text-button" href="/tickets/edit/ticket/{{ticket.id}}">Edit</a>
-          {% endif %}
-        </div>
-      {% endif %}
+      <h2 class="post-title">{{ticket.summary|e}}</h2>
     </div>
     <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
     <p class="post-info">By: {{author|e}}</p>
@@ -28,10 +28,6 @@
     <div class="post-content commonmark">
       {{ticket.content|commonmark|e}}
     </div>
-    
-  </div>
-  <div>
-    <a class="primary-button" style="margin-left: 0;"  href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
   </div>
 {% endblock %}
 
