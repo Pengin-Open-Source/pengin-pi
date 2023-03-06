@@ -4,13 +4,24 @@
     <div class="main-container">
         <div class="top-bar">
             <h2 class="section-title">{{primary_title}}</h2>
-            <div class="page-hamburger">             
-                <div class="dropdown">
-                <div class="dropdown-btn"><img class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon"></div>
+            <div class="main-nav-links">
+                  {% block navBarMiddleSection %}{% endblock %}   
+            </div>
+            <div class="right-nav-container">
+              <div class="dropdown">
+                <div class="dropdown-btn">{{item_list_title}}</div>
                 <div class="dropdown-content">
-                  {% block pageDropDowns %}{% endblock %}
+                  {% block navBarItemList  %}{% endblock %}  
                 </div>
               </div> 
+              <div class="page-hamburger"> 
+                  <div class="dropdown">
+                    <div class="dropdown-btn"><img class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon"></div>
+                    <div class="dropdown-content">
+                      {% block pageDropDowns %}{% endblock %}
+                    </div>
+                  </div> 
+              </div>
             </div>
         </div>
         <div class="content-container">
