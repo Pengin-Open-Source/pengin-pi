@@ -89,7 +89,7 @@ def ticket(ticket_id):
                            can_edit_ticket=edit_ticket_permission,
                            can_edit_comment=edit_ticket_comment_permission,
                            comment_authors=comment_authors, ticket=ticket,
-                           comments=comments)
+                           comments=comments, primary_title='Ticket')
 
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
