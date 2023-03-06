@@ -1,29 +1,29 @@
 {% extends "layout/alternating_color_table.html" %}
+
 {% block tags %}
   {% if post.tags %}
     <meta name="keywords" content="{{post.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns%}
+  {% if is_admin or can_delete_post(post.id).can() %}
+    <form method="post" action="/forums/delete/post/{{post.id}}">
+      <button style="margin-left: 0;" type="submit">Delete</button>
+    </form> 
+  {% endif %}
+  {% if is_admin or can_edit_post(post.id).can() %}
+    <a href="/forums/{{thread_id}}/{{post.id}}/edit">Edit</a>
+  {% endif %}
+{% endblock %}
+
+
 {% block beforeTableContent %}
   <div class="post-container">
     <div class="title-underline ">
-      <h2 class="title">{{post.title|e}}</h2>
-      {% if current_user.is_authenticated %}
-        <div class="text-buttons-container">
-          {% if is_admin or can_delete_post(post.id).can() %}
-            <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
-              <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-            </form> 
-            <span class="text-button">|</span>
-          {% endif %}
-          
-          {% if is_admin or can_edit_post(post.id).can() %}
-            <a class="text-button" href="/forums/{{thread_id}}/{{post.id}}/edit">Edit</a>
-          {% endif %}
-        </div>
-      {% endif %}
+      <h2 class="post-title">{{post.title|e}}</h2>
+      <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
     </div>
-    <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
     <div class="post-content commonmark">{{post.content|commonmark|e}}</div>
   </div>
 {% endblock %}
