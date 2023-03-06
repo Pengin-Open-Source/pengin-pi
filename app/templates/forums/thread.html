@@ -1,7 +1,7 @@
 {% extends "layout/alternating_color_table.html" %}
 
-{% block beforeTableContent %}
-  <h2 class="title">{{title|e}}</h2>
+{% block pageDropDowns%}
+<a href="/forums/{{thread_id}}/create">Create Post</a>
 {% endblock %}
 
 {% block tableContent %}
@@ -12,6 +12,3 @@
   {% endfor %}
 {% endblock %}
 
-{% block postTableContent %}
-  <a class="primary-button" href="/forums/{{thread_id}}/create">Create Post</a>
-{% endblock %}
