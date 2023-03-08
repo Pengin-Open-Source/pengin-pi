@@ -3,10 +3,12 @@ from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
+from flask_commonmark import Commonmark
+
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import config
+from app.db import config,db
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
@@ -15,11 +17,14 @@ from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from flask_commonmark import Commonmark
 
+from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
 admin_permission = Permission(RoleNeed('admin'))
+commonmark = Commonmark()
 
 class DummyHome():
     company_name = ''
