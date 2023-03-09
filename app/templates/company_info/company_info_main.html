@@ -1,6 +1,6 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/oneDiv.html" %}
 {% import "macros/paginate.html" as pagination %}
-{% block profilecontent %}
+{% block oneDivContent %}
   <h1 class="profile-title">Companies</h1>
   <ul class="company-list">
     {% for company in companies %}
@@ -8,8 +8,4 @@
     {% endfor %}
   </ul>
   {{ pagination.render_pagination(companies, "") }}
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
 {% endblock %}
