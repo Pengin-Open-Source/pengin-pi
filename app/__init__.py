@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
-from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
+from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
 from flask_commonmark import Commonmark
@@ -23,6 +23,7 @@ from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
+admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
 
 class DummyHome():
@@ -51,7 +52,7 @@ def create_app():
     def inject_globals():
         company = model.Home.query.first() or DummyHome()
         name = company.company_name
-        return dict(company_name=name)
+        return dict(company_name=name, is_admin=admin_permission.can())
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -103,7 +104,7 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-
+    
     app.context_processor(time_zone)
     app.context_processor(copyright)
     return app
