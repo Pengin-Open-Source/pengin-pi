@@ -1,5 +1,6 @@
 {% extends "layout/alternating_color_table.html" %}
 {% import "macros/forum_tickets/comment_form.html" as comment_form %}
+{% import "macros/forum_tickets/comments_render.html" as comments_render %}
 
 {% block tags %}
   {% if post.tags %}
@@ -30,27 +31,7 @@
 {% endblock %}
 
 {% block tableContent %}
-  {% for comment in comments %}
-  <tr><td>
-        <div class="comment-title-underline">
-          <p>by {{comment_authors[comment.author]|e}} at {{comment.date|e}}</p>
-          {% if current_user.is_authenticated %}
-            <div class="text-buttons-container">
-              {% if is_admin or can_delete_comment(comment.id).can() %}
-                <form class="delete-form" method="post" action="/forums/delete/comment/{{comment.id}}">
-                  <button class="text-button" type="submit">Delete</button>
-                </form>
-                <span class="text-button">|</span>
-              {% endif %}
-              {% if is_admin or can_edit_comment(comment.id).can() %}
-                <a class="text-button" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
-              {% endif %}
-            </div>
-          {% endif %}
-        </div>
-        <p>{{comment.content|e}}</p>
-  </td></tr>
-  {% endfor %}
+  {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/forums/delete/comment/{{comment.id}}", "/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit") }}
 {% endblock %}
 
 {% block postTableContent %}
