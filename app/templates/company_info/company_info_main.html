@@ -1,7 +1,11 @@
-{% extends "profile/profile_main.html" %}
+{% extends "profile/fullPageScroll.html" %}
 {% import "macros/paginate.html" as pagination %}
-{% block profilecontent %}
-  <h1 class="profile-title">Companies</h1>
+
+{% block pageDropDowns %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
+
+{% block pageContent %}
   <ul class="company-list">
     {% for company in companies %}
       <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
@@ -10,6 +14,3 @@
   {{ pagination.render_pagination(companies, "") }}
 {% endblock %}
 
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
-{% endblock %}
