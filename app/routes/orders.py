@@ -15,7 +15,7 @@ def get_orders():
 
 @order_info.route("/")
 def display_orders_home():
-    return render_template('order_info/order_info_main.html',
+    return render_template('order_info/order_info_main.html', primary_title='Orders',
                            orders=get_orders(), is_admin=admin_permission.can())
 
 
