@@ -55,20 +55,6 @@ def display_company_info(company_id:str) -> render_template:
                            company=company, members=members, is_admin=admin_permission.can())
 
 
-@company_info.route('/editor', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require()
-def company_editor():
-    if request.method == "POST":
-        page = int(request.form.get('page_number', 1))
-    else:
-        page = 1
-
-    companies = paginate(Company, key="id", page=page, pages=10)
-
-    return render_template('company_info/company_editor.html', companies=companies, is_admin=admin_permission.can())
-
-
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
