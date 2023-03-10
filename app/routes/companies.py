@@ -51,7 +51,8 @@ def display_company_info(company_id:str) -> render_template:
     members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
                             pages=10, filters={'company_id':company_id})
 
-    return render_template('company_info/company_info.html', company=company, members=members, is_admin=admin_permission.can())
+    return render_template('company_info/company_info.html', primary_title='Company Info',
+                           company=company, members=members, is_admin=admin_permission.can())
 
 
 @company_info.route('/editor', methods=['GET', 'POST'])
