@@ -1,7 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
+{% block pageContent %}
     <h1 class="center-title">Request password reset</h3>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -17,7 +16,6 @@
             </div>
             <button class="primary-button g-recaptcha" type="submit" data-sitekey="{{ site_key }}" data-callback="onSubmit" data-action="submit">Send Link</button>
         </form>
-</div>
 {% endblock %}
 
 {% block captchaScript %}
