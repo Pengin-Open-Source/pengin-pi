@@ -250,7 +250,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .left-block {
-  margin-top: 1rem;
+  margin-top: 2rem;
   width: 20%;
 }
 
@@ -475,6 +475,15 @@ h1,h2,h3,h4,h5,h6 {
 
 .blog-article {
   border: 1px solid black;
+  padding: 0.5rem;
+}
+
+.blog-post-title {
+  font-size: 2rem;
+}
+
+.blog-author-date {
+  border-bottom: 1px solid black;
 }
 
 /* Profile/ Company Info */
