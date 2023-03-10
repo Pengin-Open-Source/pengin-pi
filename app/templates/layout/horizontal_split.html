@@ -3,17 +3,9 @@
 {% block pageContent %}
   <div class="horizontal-split">
     <div class="horizontal-block left-block">
-      <div class="item-title-container">
-        <h3 class="split-title">{{left_title}}</h3>
-        <p class="author-date-info">{{left_author_date_info}}</p>
-      </div>
       {% block leftContent %}{% endblock %} 
     </div>
     <div class="horizontal-block right-block">
-      <div class="item-title-container">
-        <h3 class="split-title">{{right_title}}</h3>
-        <p class="author-date-info">{{right_author_date_info}}</p>
-      </div>
       {% block rightContent %}{% endblock %}  
     </div>
   </div>
