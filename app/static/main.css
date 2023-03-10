@@ -69,43 +69,6 @@ h1,h2,h3,h4,h5,h6 {
   margin: 0;
 }
 
-/* Util */
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Nav Bar */
-.hamburger {
-  display: none;
-}
-
-.header-navbar-container {
-  display: flex;
-  margin-right: 1.5rem;
-}
-
-.home-link {
-  font-size: 1.5rem;
-  margin-right: 1rem;
-}
-
-.header-link {
-  margin-right: 0.5rem;
-}
-
-.header-navigation {
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main-nav-links {
-  display: flex;
-  align-items: center;
-}
-
 /* Layout templates shared */
 .top-bar {
   background-color: var(--main-blue);
@@ -162,6 +125,37 @@ h1,h2,h3,h4,h5,h6 {
 
 .author-date-info {
   margin: 0;
+}
+
+/* Main Layout.html */
+.hamburger {
+  display: none;
+}
+
+.header-navbar-container {
+  display: flex;
+  margin-right: 1.5rem;
+}
+
+.home-link {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.header-link {
+  margin-right: 0.5rem;
+}
+
+.header-navigation {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-nav-links {
+  display: flex;
+  align-items: center;
 }
 
 
