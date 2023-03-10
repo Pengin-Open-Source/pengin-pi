@@ -1,15 +1,9 @@
-{% extends "layout/twoAndOneThirdDivs.html" %}
+{% extends "layout/horizontal_split.html" %}
 
-{% block twoThirdContent %}
-    
-    <div class="content-section blog-content">
-        <h2 class="title">Blog</h2>
-        <p>Please use the links to navigate to individual blog posts.</p>
-    </div>
-
-
+{% block leftContent %}
+    <p>Please use the links to navigate to individual blog posts.</p>
 {% endblock %}
 
-{% block oneThirdContent %}
+{% block rightContent %}
     {% include "blog/link_list.html" %}
 {% endblock %}
