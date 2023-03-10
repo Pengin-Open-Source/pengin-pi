@@ -17,7 +17,9 @@
 {% endblock %}
 
 {% block rightContent %}
-    <article >
+    <h3>{{post.title|e}}</h3>
+    <article class="blog-article" >
+      <p class="author-date-blog">{{author_date|e}}</p>
       <p>{{post.content|commonmark|e}}</p>
     </article>
 {% endblock %}
