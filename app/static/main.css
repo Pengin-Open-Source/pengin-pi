@@ -252,7 +252,7 @@ h1,h2,h3,h4,h5,h6 {
   width: 70%;
 }
 
-/* Site-wide TODO: Check after GUI refactor to remove unused */
+/* Site-wide */
 .circle-button {
   margin-top: 0.25rem;
   border: none;
@@ -261,28 +261,7 @@ h1,h2,h3,h4,h5,h6 {
   color: var(--main-blue);
   font-weight: 600;
   cursor: pointer;
-}
-
-
-.center-title {
-  margin: 0 auto;
-  width: fit-content;
-}
-
-.one-div {
-  width: 50%;
-}
-
-.two-and-one-thirds-div {
-  display: flex;
-  justify-content: center;
-  width: 50%;
-  margin: 0;
-}
-
-.two-thirds-div {
-  margin:0 2rem 0 0;
-}
+} 
 
 .primary-button {
   border: none;
@@ -295,12 +274,12 @@ h1,h2,h3,h4,h5,h6 {
   width: fit-content ;
 }
 
-.primary-button:hover {
+.primary-button:hover { 
   opacity: 0.8;
   color: black;
 }
 
-.text-button {
+.text-button { 
   border: none;
   text-decoration: none;
   color: inherit;
@@ -311,7 +290,7 @@ h1,h2,h3,h4,h5,h6 {
   font-size: 1rem;
 }
 
-.text-button:hover {
+.text-button:hover { 
   text-decoration: underline;
   color: inherit;
 }
@@ -321,51 +300,35 @@ h1,h2,h3,h4,h5,h6 {
   align-items: center;
 }
 
-.delete-form {
-  width: fit-content;
-}
-
-.button-form {
-  margin: 1rem 0;
-}
-
-.content-section {
-  border: 1px solid #dddddd;
-  padding: 2rem;
-  border-radius: 3px;
-  background-color: var(--main-blue);
-  color: white;
-}
-
-.form {
+.form { 
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.form-section {
+.form-section { 
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
 }
 
-.form-input {
+.form-input { 
  margin-top: 0.25rem;
  border-radius: 2px;
 }
 
-.image-container {
+.image-container { 
   width: 40%;
   margin: 1rem;
 }
 
-.upload-image {
+.upload-image { 
   max-width:100%;
   max-height:100%;
   margin:1em;
 }
 
-.upload-image-container {
+.upload-image-container { 
   height: 50%;
   width: 50%;
   display: flex;
@@ -373,7 +336,7 @@ h1,h2,h3,h4,h5,h6 {
   align-items: center;
 }
 
-.invisible-td {
+.invisible-td { /* Not sure if still used*/
   border: none;
 }
 
