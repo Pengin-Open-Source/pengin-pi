@@ -1,4 +1,5 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/forum_tickets/comment_form.html" as comment_form %}
 
 {% block tags %}
   {% if post.tags %}
@@ -53,16 +54,5 @@
 {% endblock %}
 
 {% block postTableContent %}
-
-  <form class="comment-form" method="POST" action="/forums/{{thread_id}}/{{post.id}}">
-          <label for="content">Comment</label>
-          <input
-          class="comment-input"
-          type="text"
-          name="content"
-          id="content"
-          placeholder="What do you think of this post?">
-      <button class="primary-button">Post</button>
-  </form>
-
+  {{ comment_form.render_comment_form("post", "/forums/{{thread_id}}/{{post.id}}") }}
 {% endblock %}

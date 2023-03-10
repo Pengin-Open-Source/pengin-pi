@@ -1,4 +1,6 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/forum_tickets/comment_form.html" as comment_form %}
+
 {% block tags %}
   {% if ticket.tags %}
     <meta name="keywords" content="{{ticket.tags|e}}">
@@ -57,14 +59,5 @@
 {% endblock %}
 
 {% block postTableContent %}
-  <form class="comment-form" method="POST" action="/tickets/{{ticket.id}}">
-        <label for="content">Comment</label>
-        <input
-        class="comment-input"
-        type="text"
-        name="content"
-        id="content"
-        placeholder="What do you think of this ticket?">
-      <button class="primary-button">Post</button>
-  </form>
+  {{ comment_form.render_comment_form("ticket", "/tickets/{{ticket.id}}") }}
 {% endblock %}
