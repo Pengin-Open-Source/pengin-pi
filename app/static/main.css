@@ -335,11 +335,6 @@ h1,h2,h3,h4,h5,h6 {
   flex-direction: column;
   align-items: center;
 }
-/*
-.invisible-td { 
-  border: none;
-} /* Not sure if still used*/
-
 
 /* Paginate/ List1 */
 .page-items {
@@ -524,14 +519,6 @@ h1,h2,h3,h4,h5,h6 {
 .post-content {
   margin-top: 3rem;
 }
-
-/*
-.ticket-title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}  
-/* Not sure if used*/
 
 .comment-form {
   display: flex;
