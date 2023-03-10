@@ -1,5 +1,9 @@
 {% extends "layout/fullPageScroll.html" %}
 
+{% block pageDropDowns %}
+  <a href="/company/{{company.id}}/members/edit">Edit Members</a>
+{% endblock %}
+
 {% block pageContent %}
     <form class="form" method="POST" action="/company/{{company.id}}/edit">
       <input type="hidden" name="id" value="{{company.id}}">
@@ -49,6 +53,6 @@
           <input class="form-input" type="text" name="email" value="{{ company.email|e }}" placeholder="Email">
       </div>
       <button class="primary-button" type="submit">Save</button>
-      <a class="primary-button" href="/company/{{company.id}}/members/edit">Edit Members</a>
+      
     </form>
 {% endblock %}
