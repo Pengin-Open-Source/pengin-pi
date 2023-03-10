@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block leftContent %}
-  <article >
-    <p>{{post.content|commonmark|e}}</p>
-  </article>
+  {% include "blog/link_list.html" %}
 {% endblock %}
 
 {% block rightContent %}
-    {% include "blog/link_list.html" %}
+    <article >
+      <p>{{post.content|commonmark|e}}</p>
+    </article>
 {% endblock %}

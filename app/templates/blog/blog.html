@@ -1,9 +1,9 @@
 {% extends "layout/horizontal_split.html" %}
 
 {% block leftContent %}
-    <p>Please use the links to navigate to individual blog posts.</p>
+    {% include "blog/link_list.html" %}
 {% endblock %}
 
 {% block rightContent %}
-    {% include "blog/link_list.html" %}
+    <p>Please use the links to navigate to individual blog posts.</p>
 {% endblock %}
