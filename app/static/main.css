@@ -250,9 +250,16 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .horizontal-block {
-  width: 45%;
   border: 1px solid black;
   padding: 1rem;
+}
+
+.left-block {
+ width: 30%;
+}
+
+.right-block {
+  width: 60%;
 }
 
 /* Site-wide TODO: Check after GUI refactor to remove unused */
