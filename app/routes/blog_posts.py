@@ -31,8 +31,12 @@ def display_post(post_id):
         page = 1
     
     posts = paginate(BlogPost, page=page, key="title", pages=10)
+    author_date = post.date  # TODO blogPost model has no author attribute.
+    
     return render_template('blog/view.html', page=page, post=post, posts=posts,
-                           is_admin=admin_permission.can())
+                           is_admin=admin_permission.can(),
+                           left_title=post.title, right_title='Blog Posts',
+                           left_author_date_info=author_date)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
