@@ -1,5 +1,9 @@
 {% extends "layout/fullPageScroll.html" %}
 
+{% block pageDropDowns %}
+    <a href="/generate-prt">Forgot your password?</a>
+{% endblock %}
+
 {% block pageContent %}
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -23,5 +27,4 @@
         </div>
         <button class="primary-button" type="submit">Login</button>
     </form>
-
 {% endblock %}

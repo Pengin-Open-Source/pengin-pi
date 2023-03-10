@@ -2,8 +2,8 @@ from app.util.mail.config import Message as Mail
 import smtplib
 
 
-def send_mail(RECIPIENT, TOKEN):
-    mailer=Mail(RECIPIENT,TOKEN)
+def send_mail(RECIPIENT, TOKEN, TYPE="user_validation"):
+    mailer=Mail(RECIPIENT,TOKEN, TYPE)
     try:  
         with smtplib.SMTP_SSL(mailer.HOST, mailer.PORT) as server:
             server.login(mailer.USERNAME_SMTP, mailer.PASSWORD_SMTP)
