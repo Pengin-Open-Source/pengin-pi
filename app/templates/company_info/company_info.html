@@ -1,10 +1,15 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 {% import "macros/paginate.html" as pagination %}
-{% block oneDivContent %}
-  <div class="content-section">
-    <h1 class="profile-title">Company Information</h1>
+
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/company/{{company.id}}/edit">Edit Company</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
     <div class="company-info-table">
-      <table class="">
+      <table>
         <tr>
           <th>Company Name</th>
           <td>{{ company.name|e }}</td>
@@ -59,8 +64,4 @@
       </table>
       {{ pagination.render_pagination(members, "/company/" + company.id) }}
     </div>
-    {% if is_admin %}
-      <a class="primary-button" href="/company/{{company.id}}/edit">Edit Company</a>
-    {% endif %}
-  </div>
 {% endblock %}
