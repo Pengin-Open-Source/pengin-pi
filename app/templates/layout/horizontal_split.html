@@ -1,6 +1,20 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageContent %}
-  {% block leftContent %}{% endblock %}  
-  {% block rightContent %}{% endblock %}  
+  <div class="horizontal-split">
+    <div class="horizontal-block">
+      <div class="item-title-container">
+        <h3 class="item-title">{{left_title}}</h3>
+        <p class="author-date-info">{{left_author_date_info}}</p>
+      </div>
+      {% block leftContent %}{% endblock %} 
+    </div>
+    <div class="horizontal-block">
+      <div class="item-title-container">
+        <h3 class="item-title">{{right_title}}</h3>
+        <p class="author-date-info">{{right_author_date_info}}</p>
+      </div>
+      {% block rightContent %}{% endblock %}  
+    </div>
+  </div>
 {% endblock %}
