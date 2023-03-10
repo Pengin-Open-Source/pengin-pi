@@ -1,6 +1,7 @@
 {% extends "layout/alternating_color_table.html" %}
 {% import "macros/forum_tickets/comment_form.html" as comment_form %}
 {% import "macros/forum_tickets/comments_render.html" as comments_render %}
+{% import "macros/forum_tickets/post_ticket_content.html" as content %}
 
 {% block tags %}
   {% if ticket.tags %}
@@ -21,18 +22,7 @@
 {% endblock %}
 
 {% block beforeTableContent %}
-  <div class="post-container">
-    <div class="title-underline">
-      <h2 class="post-title">{{ticket.summary|e}}</h2>
-      <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
-      <p class="post-info">By: {{author|e}}</p>
-      <p class="post-info">Date: {{ticket.date|e}}</p>
-    </div>
-
-    <div class="post-content commonmark">
-      {{ticket.content|commonmark|e}}
-    </div>
-  </div>
+  {{ content.render_content(ticket.summary, author, ticket.date, ticket.content, ticket.resolution_status, ticket.resolution_date ) }}
 {% endblock %}
 
 {% block tableContent %}

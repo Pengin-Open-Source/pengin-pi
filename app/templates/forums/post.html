@@ -1,6 +1,7 @@
 {% extends "layout/alternating_color_table.html" %}
 {% import "macros/forum_tickets/comment_form.html" as comment_form %}
 {% import "macros/forum_tickets/comments_render.html" as comments_render %}
+{% import "macros/forum_tickets/post_ticket_content.html" as content %}
 
 {% block tags %}
   {% if post.tags %}
@@ -21,13 +22,7 @@
 
 
 {% block beforeTableContent %}
-  <div class="post-container">
-    <div class="title-underline ">
-      <h2 class="post-title">{{post.title|e}}</h2>
-      <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
-    </div>
-    <div class="post-content commonmark">{{post.content|commonmark|e}}</div>
-  </div>
+  {{ content.render_content(post.title, author, post.date, post.content) }}
 {% endblock %}
 
 {% block tableContent %}
