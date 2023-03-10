@@ -1,20 +1,23 @@
-{% extends "layout/twoAndOneThirdDivs.html" %}
+{% extends "layout/horizontal_split.html" %}
+
 {% block tags %}
   {% if post.tags %}
       <meta name="keywords" content="{{post.tags|e}}">
   {% endif %}
 {% endblock %}
-{% block twoThirdContent %}
-  <article class=" blog-content content-section">
-    <h2 class="title">{{post.title|e}}</h2>
-    <p>{{post.date|e}}</p>
-    <p>{{post.content|commonmark|e}}</p>
-  </article>
+
+{% block pageDropDowns%}
   {% if is_admin %}
-    <a class="primary-button" href="/blog/{{post.id}}/edit">Edit Post</a>
+    <a href="/blog/{{post.id}}/edit">Edit Post</a>
   {% endif %}
 {% endblock %}
 
-{% block oneThirdContent %}
+{% block leftContent %}
+  <article >
+    <p>{{post.content|commonmark|e}}</p>
+  </article>
+{% endblock %}
+
+{% block rightContent %}
     {% include "blog/link_list.html" %}
 {% endblock %}
