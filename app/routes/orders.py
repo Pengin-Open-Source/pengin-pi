@@ -22,7 +22,7 @@ def display_orders_home():
 @order_info.route('/<order_id>')
 @login_required
 def display_order_info(order_id):
-    order = orders.query.get_or_404(order_id)
+    order = Orders.query.get_or_404(order_id)
 
     return render_template('order_info/order_info.html', order=order)
 
