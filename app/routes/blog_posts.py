@@ -35,7 +35,7 @@ def display_post(post_id):
     
     return render_template('blog/view.html', page=page, post=post, posts=posts,
                            is_admin=admin_permission.can(),
-                           author_date_info=author_date)
+                           blog_author_date=author_date)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
