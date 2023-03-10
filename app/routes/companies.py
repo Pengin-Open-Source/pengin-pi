@@ -21,7 +21,7 @@ def display_companies_home():
                               pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can())
+                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
