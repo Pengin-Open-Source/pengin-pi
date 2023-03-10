@@ -18,8 +18,8 @@ def display_blog_home():
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/blog.html', posts=posts,
-                           is_admin=admin_permission.can())
+    return render_template('blog/blog.html', posts=posts, primary_title='Blog',
+                           is_admin=admin_permission.can(), right_title='Blog Posts')
 
 
 @blogPosts.route("/blog/<post_id>")
