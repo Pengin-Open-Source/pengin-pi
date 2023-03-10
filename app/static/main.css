@@ -245,21 +245,17 @@ h1,h2,h3,h4,h5,h6 {
   justify-content: space-between;
 }
 
-.split-title {
-  font-size: 2rem;
-}
-
 .horizontal-block {
-  border: 1px solid black;
   padding: 1rem;
 }
 
 .left-block {
- width: 30%;
+  margin-top: 1rem;
+  width: 20%;
 }
 
 .right-block {
-  width: 60%;
+  width: 70%;
 }
 
 /* Site-wide TODO: Check after GUI refactor to remove unused */
@@ -473,18 +469,13 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Blog */
-.blog-content p {
-  margin-bottom: 2rem;
-}
-.blog-content a {
+.blog-link-title {
   font-size: 1.5rem;
-  margin: 1rem 0;
-}
-.blog-links ul {
-  padding-left: unset;
-  list-style-type: none;
 }
 
+.blog-article {
+  border: 1px solid black;
+}
 
 /* Profile/ Company Info */
 .profile-info {
