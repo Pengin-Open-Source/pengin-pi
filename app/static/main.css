@@ -75,9 +75,6 @@ h1,h2,h3,h4,h5,h6 {
   justify-content: space-between;
 }
 
-
-
-
 /* Nav Bar */
 .hamburger {
   display: none;
@@ -238,6 +235,19 @@ h1,h2,h3,h4,h5,h6 {
 
 .alternating-colors-table tr:nth-child(even) a{
   color: black;
+}
+
+/* horizontal split  */
+
+.horizontal-split {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.horizontal-block {
+  width: 49%;
+  border: 1px solid black;
 }
 
 /* Site-wide TODO: Check after GUI refactor to remove unused */
