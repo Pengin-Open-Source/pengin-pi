@@ -85,7 +85,7 @@ def logout():
 
 @auth.route('/generate-prt')
 def generate_prt():
-    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"))
+    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"), primary_title='Forgot Password')
 
 
 @limiter.limit("2 per minute")
@@ -115,7 +115,7 @@ def generate_prt_post():
 def reset_password(token):
     user = User.query.filter_by(prt=token).first()
     if user:
-        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"))
+        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"), primary_title='Reset Password')
     
     abort(404)
 
