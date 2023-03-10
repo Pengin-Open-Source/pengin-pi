@@ -335,10 +335,11 @@ h1,h2,h3,h4,h5,h6 {
   flex-direction: column;
   align-items: center;
 }
-
-.invisible-td { /* Not sure if still used*/
+/*
+.invisible-td { 
   border: none;
-}
+} /* Not sure if still used*/
+*/
 
 /* Paginate/ List1 */
 .page-items {
@@ -444,43 +445,6 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Profile/ Company Info */
-.profile-info {
-  background: var(--main-blue);
-  padding: 1rem;
-  border: 1px solid white;
-  border-radius: 3px;
-  width: fit-content;
-  margin: 0 auto;
-  color: white;
-}
-
-.profile-side-info {
-  background: var(--main-blue);
-  padding: 1rem;
-  border: 1px solid white;
-  border-radius: 3px;
-  height: fit-content;
-  width: fit-content ;
-  color: white;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.profile-side-info a {
-  font-size: 1.5rem;
-}
-
-.profile-title {
-  font-size: 2rem;
-}
-
-.edit-profile-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
 .profile-info-container {
   margin: 1rem 0;
 }
@@ -561,11 +525,13 @@ h1,h2,h3,h4,h5,h6 {
   margin-top: 3rem;
 }
 
+/*
 .ticket-title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+}  
+/* Not sure if used*/
 
 .comment-form {
   display: flex;
@@ -583,13 +549,9 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 0.5rem;
 }
 
+/* Tablet (Not Currently Needed) */
 
-/* Commonmark (add styles in here to adjust the commonmark elements) */
-
-/* Tablet */
-
-/* Smartphone */
-
+/* Smartphone TODO:check if still works after GUI refactor */
 @media screen and (max-width: 480px) {
   .header-navigation{
     display: none;
