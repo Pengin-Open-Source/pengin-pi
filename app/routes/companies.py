@@ -82,7 +82,7 @@ def create_company():
         return redirect(url_for("company_info.display_company_info",
                                 company_id=new_company.id))
 
-    return render_template('company_info/company_info_create.html')
+    return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
 
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
@@ -106,7 +106,7 @@ def edit_company_info_post(company_id):
         return redirect(url_for('company_info.display_company_info',
                                 company_id=company.id))
 
-    return render_template('company_info/company_edit.html', company=company)
+    return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
 
 
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
