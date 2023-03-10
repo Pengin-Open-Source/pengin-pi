@@ -62,7 +62,7 @@ def create_order():
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
 
-    return render_template('order_info/order_info_create.html', products=products, customers_with_names=customers_with_names)
+    return render_template('order_info/order_info_create.html', primary_title='Create Order' products=products, customers_with_names=customers_with_names)
 
 
 @order_info.route('/<order_id>/edit', methods=['GET', 'POST'])
@@ -113,6 +113,6 @@ def edit_order(order_id):
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
 
-    return render_template('order_info/order_info_edit.html', products=products,
+    return render_template('order_info/order_info_edit.html', products=products, primary_title='Edit Order'
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
