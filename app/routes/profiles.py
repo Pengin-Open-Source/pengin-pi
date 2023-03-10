@@ -65,7 +65,7 @@ def validate(token):
 @login_required
 def edit_profile_get():
     return render_template('profile/profile_edit.html', name=current_user.name,
-                           email=current_user.email)
+                           email=current_user.email, primary_title='Edit Profile')
 
 
 @limiter.limit("2 per minute")
@@ -104,5 +104,5 @@ def edit_password():
 
         flash('Please check your password details.')  # does nothing fix later
 
-    return render_template('profile/password_edit.html',
+    return render_template('profile/password_edit.html', primary_title='Edit Password',
                            name=current_user.name, email=current_user.email)
