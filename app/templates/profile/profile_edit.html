@@ -1,9 +1,11 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block profilecontent %}
-  <h1 class="profile-title">Edit Profile</h1>
+{% block pageDropDowns %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
+
+{% block pageContent %}
   <form class="form" method="POST" action="/profile/edit_profile">
-    
     <input type="hidden" name="old_email" value="{{email|e}}">
     <div class="form-section">
         <label>Name</label>
@@ -15,8 +17,4 @@
     </div>
     <button class="primary-button" type="submit">Save</button>
   </form>
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
 {% endblock %}

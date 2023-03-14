@@ -42,7 +42,7 @@ def calendar():
         else:
             events_by_start_date[start_date] = [event]
 
-    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, events=events, current_user=current_user)
+    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, events=events, current_user=current_user, primary_title='Calendar')
 
 
 @calendar_blueprint.route("/create", methods=['GET', 'POST'])

@@ -1,8 +1,11 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block profilecontent %}
+{% block pageContent %}
 <div class="post-container">
-  <h2 class="title">{{event.title|e}}</h2>
+  <div class="title-underline">
+    <h2 class="post-title">{{event.title|e}}</h2>
+    <p class="post-info">Created by {{event.organizer|e}}  @ {{event.date_created|e}}</p>
+  </div>
   <p class="post-info">Role: {{event.role_info.name|e}}</p>
   <p class="post-info">Organizer: {{organizer.name|e}}</p>
   <p class="post-info">Start time: {{event.start_date|e}} @ {{event.start_time|e}}</p>

@@ -1,8 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-    <div class="content-section">
-      <h2 class="title">Create Order</h2>
+{% block pageContent %}
         <form class="form" method="POST" action="/orders/create">
           <div class="flex-between">
             <div class="form-section">
@@ -49,8 +47,6 @@
             </div>
             <button type="submit" class="primary-button">Create</button>
         </form>
-    </div>
-
 {% endblock %}
 
 

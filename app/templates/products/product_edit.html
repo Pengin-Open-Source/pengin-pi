@@ -1,7 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
+{% block pageContent %}
   <form class="form" method="POST" action="/products/edit/{{product.id}}" enctype=multipart/form-data>
     <div class="product-edit-container">
       <div class="form-section">
@@ -62,7 +61,4 @@
     </div>
       <button class="primary-button">Edit Product</button>
   </form>
-
-</div>
- 
 {% endblock %}

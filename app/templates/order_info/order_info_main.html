@@ -1,6 +1,10 @@
-{% extends "layout/oneDiv.html" %}
-{% block oneDivContent %}
-  <h1 class="profile-title">Orders</h1>
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns %}
+  {% include "right_window/profile_info.html" %}
+{% endblock %}
+
+{% block pageContent %}
   <ul>
     {% for order in orders %}
       <li><a href="/orders/{{ order.id }}">{{ order.id|e }}</a></li>

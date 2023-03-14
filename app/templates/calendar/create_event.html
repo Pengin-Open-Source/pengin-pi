@@ -1,33 +1,32 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-    <div class="content-section">
-        <form class="form" method="POST" action="/calendar/create">
-            <div class="form-section">
-                <label for="title">Title</label>
-                <input
-                class="form-input"
-                type="text"
-                name="title"
-                placeholder="Write some title..." required>
-            </div>
-            <div class="form-section">
-                <label for="description" >Description</label>
-                <textarea
-                cols="20"
-                class="form-input"
-                name="description"
-                id="description"
-                placeholder="Write some description..."></textarea>
-            </div>
-            <div class="form-section">
-                <label for="roles">Role: </label>
-                <select id="roles" class="form-input" name="role" required>
-                    {% for role in roles %}
-                        <option value="{{ role.id }}">{{ role.name|e }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+{% block pageContent %}
+    <form class="form" method="POST" action="/calendar/create">
+        <div class="form-section">
+            <label for="title">Title</label>
+            <input
+            class="form-input"
+            type="text"
+            name="title"
+            placeholder="Write some title..." required>
+        </div>
+        <div class="form-section">
+            <label for="description" >Description</label>
+            <textarea
+            cols="20"
+            class="form-input"
+            name="description"
+            id="description"
+            placeholder="Write some description..."></textarea>
+        </div>
+        <div class="form-section">
+            <label for="roles">Role: </label>
+            <select id="roles" class="form-input" name="role" required>
+                {% for role in roles %}
+                    <option value="{{ role.id }}">{{ role.name|e }}</option>
+                {% endfor %}
+            </select>
+        </div>
             <div class="form-section">
                 <label for="user_id"> Organizers </label>
                 <select id="user_id" class="form-input" name="user_id" required>
@@ -36,33 +35,30 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-section">
-                <label for="start_datetime">Start at</label>
-                <input
-                class="form-input"
-                type="datetime-local"
-                name="start_datetime" required>
-            </div>
-            <div class="form-section">
-                <label for="end_datetime">End at</label>
-                <input
-                class="form-input"
-                type="datetime-local"
-                name="end_datetime" required>
-            </div>
-            <div class="form-section">
-                <label for="location">Location</label>
-                <input
-                class="form-input"
-                type="text"
-                name="location"
-                id="location">
-            </div>
-            <button class="primary-button">Create</button>
-        </form>
-
-    </div>
-
+        <div class="form-section">
+            <label for="start_datetime">Start at</label>
+            <input
+            class="form-input"
+            type="datetime-local"
+            name="start_datetime" required>
+        </div>
+        <div class="form-section">
+            <label for="end_datetime">End at</label>
+            <input
+            class="form-input"
+            type="datetime-local"
+            name="end_datetime" required>
+        </div>
+        <div class="form-section">
+            <label for="location">Location</label>
+            <input
+            class="form-input"
+            type="text"
+            name="location"
+            id="location">
+        </div>
+        <button class="primary-button">Create</button>
+    </form>
 {% endblock %}
 
 

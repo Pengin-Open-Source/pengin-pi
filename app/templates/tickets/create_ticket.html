@@ -1,32 +1,32 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-        <form class="form" method="POST" action="/tickets/create">
-            <div class="form-section">
-                <label for="summary" >Summary</label>
-                <input
-                class="form-input"
-                type="text"
-                name="summary"
-                id="summary"
-                placeholder="Summary">
-            </div>
-            <div class="form-section">
-                <label for="content" >Content</label>
-                <textarea
-                class="form-input"
-                name="content"
-                id="content"
-                placeholder="Something enlightening..."></textarea>
-            </div>
-            <div class="form-section">
-                <label for="tags" >Tags</label>
-                <input
-                class="form-input"
-                type="text"
-                name="tags"
-                id="tags">
-            </div>
-            <button class="primary-button">Post</button>
-        </form>
+{% block pageContent %}
+    <form class="form" method="POST" action="/tickets/create">
+        <div class="form-section">
+            <label for="summary" >Summary</label>
+            <input
+            class="form-input"
+            type="text"
+            name="summary"
+            id="summary"
+            placeholder="Summary">
+        </div>
+        <div class="form-section">
+            <label for="content" >Content</label>
+            <textarea
+            class="form-input"
+            name="content"
+            id="content"
+            placeholder="Something enlightening..."></textarea>
+        </div>
+        <div class="form-section">
+            <label for="tags" >Tags</label>
+            <input
+            class="form-input"
+            type="text"
+            name="tags"
+            id="tags">
+        </div>
+        <button class="primary-button">Post</button>
+    </form>
 {% endblock %}

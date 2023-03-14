@@ -17,7 +17,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
 def login():
-    return render_template('authentication/login.html')
+    return render_template('authentication/login.html', primary_title='Login', item_title='Login', )
 
 @limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
@@ -39,7 +39,7 @@ def login_post():
 
 @auth.route('/signup')
 def signup():
-    return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"))
+    return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"), primary_title='Sign Up')
 
 
 @limiter.limit("3 per minute")
@@ -85,7 +85,7 @@ def logout():
 
 @auth.route('/generate-prt')
 def generate_prt():
-    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"))
+    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"), primary_title='Forgot Password')
 
 
 @limiter.limit("2 per minute")
@@ -115,7 +115,7 @@ def generate_prt_post():
 def reset_password(token):
     user = User.query.filter_by(prt=token).first()
     if user:
-        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"))
+        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"), primary_title='Reset Password')
     
     abort(404)
 

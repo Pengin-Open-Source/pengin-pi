@@ -1,8 +1,10 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-  <div class="content-section">
-    <h1 class="profile-title">Edit Company Information</h1>
+{% block pageDropDowns %}
+  <a href="/company/{{company.id}}/members/edit">Edit Members</a>
+{% endblock %}
+
+{% block pageContent %}
     <form class="form" method="POST" action="/company/{{company.id}}/edit">
       <input type="hidden" name="id" value="{{company.id}}">
 
@@ -51,7 +53,5 @@
           <input class="form-input" type="text" name="email" value="{{ company.email|e }}" placeholder="Email">
       </div>
       <button class="primary-button" type="submit">Save</button>
-      <a class="primary-button" href="/company/{{company.id}}/members/edit">Edit Members</a>
     </form>
-  </div>
 {% endblock %}

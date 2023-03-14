@@ -24,7 +24,7 @@ def view():
         logging.info('Image S3 URL accessed:' + about.image)
 
     return render_template('about/about_main.html', about=about,
-                           is_admin=is_admin, image=image)
+                           is_admin=is_admin, image=image, primary_title='About Us')
 
 
 @about_blueprint.route('/edit', methods=['GET', 'POST'])
@@ -34,7 +34,7 @@ def edit_about():
     # As there should only be one entry for about model it can be checked
     # whether this exists or not to allow creation or editing.
     exists = About.query.first() is not None
-    
+
     if exists:
         about = About.query.first()
         try:
@@ -73,7 +73,7 @@ def edit_about():
 
             return redirect(url_for("about_blueprint.view"))
 
-        return render_template('about/edit.html', about=about, image=image)
+        return render_template('about/edit.html', about=about, image=image, primary_title='Edit About Page')
     elif request.method == 'POST':
         name = request.form.get('name')
         article = request.form.get('article')
@@ -108,4 +108,4 @@ def edit_about():
 
         return redirect(url_for("about_blueprint.view"))
 
-    return render_template('about/create.html')
+    return render_template('about/create.html', primary_title='Create About Page')

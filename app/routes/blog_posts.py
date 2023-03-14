@@ -21,8 +21,8 @@ def display_blog_home():
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/blog.html', posts=posts,
-                           is_admin=admin_permission.can())
+    return render_template('blog/blog.html', posts=posts, primary_title='Blog',
+                           is_admin=admin_permission.can(), left_title='Blog Posts')
 
 
 @blogPosts.route("/blog/<post_id>")
@@ -34,8 +34,11 @@ def display_post(post_id):
         page = 1
     
     posts = paginate(BlogPost, page=page, key="title", pages=10)
+    author_date = post.date  # TODO blogPost model has no author attribute.
+    
     return render_template('blog/view.html', page=page, post=post, posts=posts,
-                           is_admin=admin_permission.can())
+                           is_admin=admin_permission.can(),
+                           blog_author_date=author_date)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])

@@ -8,7 +8,7 @@ import logging
 from werkzeug.utils import secure_filename
 
 home_blueprint = Blueprint('home_blueprint', __name__)
-
+section_title = 'Home'
 
 @home_blueprint.route("/")
 @home_blueprint.route("/index")
@@ -24,7 +24,8 @@ def home():
     if home:
         logging.info('S3 Image accessed: ' + home.image)
 
-    return render_template('home/home.html', is_admin=is_admin, home=home, image=image)
+    return render_template('home/home.html', is_admin=is_admin, home=home,
+                           image=image)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])
@@ -62,7 +63,10 @@ def home_edit():
 
             return redirect(url_for("home_blueprint.home"))
 
-        return render_template('home/edit.html', home=home, image=image)
+        return render_template('home/edit.html', section_title=section_title,
+                               item_title='Edit Home Page Info', home=home,
+                               image=image, primary_title='Edit Home Page')
+    
     elif request.method == 'POST':
             company_name = request.form.get('name')
             article = request.form.get('article')
@@ -81,4 +85,4 @@ def home_edit():
 
             return redirect(url_for("home_blueprint.home"))
 
-    return render_template('home/create.html')
+    return render_template('home/create.html', section_title=section_title, primary_title='Edit Home Page')

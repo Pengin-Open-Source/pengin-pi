@@ -1,0 +1,12 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+  <div class="horizontal-split">
+    <div class="horizontal-block left-block">
+      {% block leftContent %}{% endblock %} 
+    </div>
+    <div class="horizontal-block right-block">
+      {% block rightContent %}{% endblock %}  
+    </div>
+  </div>
+{% endblock %}

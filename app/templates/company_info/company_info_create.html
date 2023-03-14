@@ -1,8 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-    <div class="content-section">
-        <h1 class="profile-title">Create New Company</h1>
+{% block pageContent %}
         <form class="form" method="POST" action="/companies/create">
             <div class="form-section">
                 <label>Company Name*</label>
@@ -50,5 +48,4 @@
             </div>
             <button class="primary-button" type="submit">Save</button>
         </form>
-    </div>
 {% endblock %}

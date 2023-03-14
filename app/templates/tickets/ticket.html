@@ -1,73 +1,34 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/forum_tickets/comment_form.html" as comment_form %}
+{% import "macros/forum_tickets/comments_render.html" as comments_render %}
+{% import "macros/forum_tickets/post_ticket_content.html" as content %}
+
 {% block tags %}
   {% if ticket.tags %}
     <meta name="keywords" content="{{ticket.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns%}
+  {% if is_admin or can_delete_ticket(ticket.id).can() %}
+    <form method="post" action="/tickets/delete/ticket/{{ticket.id}}">
+      <button type="submit">Delete</button>
+    </form> 
+  {% endif %}
+  {% if is_admin or can_edit_ticket(ticket.id).can() %}
+    <a href="/tickets/edit/ticket/{{ticket.id}}">Edit</a>
+  {% endif %}
+  <a href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
+{% endblock %}
+
 {% block beforeTableContent %}
-  <div class="post-container">
-    <div class="title-underline">
-      <h2 class="title">{{ticket.summary|e}}</h2>
-      {% if current_user.is_authenticated %}
-        <div class="text-buttons-container">
-          {% if is_admin or can_delete_ticket(ticket.id).can() %}
-            <form class="delete-form" method="post" action="/tickets/delete/ticket/{{ticket.id}}">
-              <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-            </form> 
-            <span class="text-button">|</span>
-          {% endif %}
-          {% if is_admin or can_edit_ticket(ticket.id).can() %}
-            <a class="text-button" href="/tickets/edit/ticket/{{ticket.id}}">Edit</a>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
-    <p class="post-info">Status: {{ticket.resolution_status|upper|e}} {% if ticket.resolution_status == 'resolved' %} on {{ticket.resolution_date|e}}{% endif %}</p>
-    <p class="post-info">By: {{author|e}}</p>
-    <p class="post-info">Date: {{ticket.date|e}}</p>
-    <div class="post-content commonmark">
-      {{ticket.content|commonmark|e}}
-    </div>
-    
-  </div>
-  <div>
-    <a class="primary-button" style="margin-left: 0;"  href="/tickets/edit-status/{{ticket.id}}">Change Resolution Status</a>
-  </div>
+  {{ content.render_content(ticket.summary, author, ticket.date, ticket.content, ticket.resolution_status, ticket.resolution_date ) }}
 {% endblock %}
 
 {% block tableContent %}
-  {% for comment in comments %}
-    <tr><td>
-      <div class="comment-title-underline">
-        <div class="">by {{comment_authors[comment.author_id]|e}} at {{comment.date|e}}</div>
-          {% if current_user.is_authenticated %}
-            <div class="text-buttons-container">
-              {% if is_admin or can_delete_comment(comment.id).can() %}
-                <form class="delete-form" method="post" action="/tickets/delete/ticket-comment/{{comment.id}}">
-                  <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-                </form> 
-                <span class="text-button">|</span>
-              {% endif %}
-              {% if is_admin or can_edit_comment(comment.id).can() %}
-                <a class="text-button" href="/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}">Edit</a>
-              {% endif %}
-            </div>
-          {% endif %}
-      </div>
-      <p>{{comment.content}}</p>
-    </td></tr>
-  {% endfor %}
+  {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/tickets/delete/ticket-comment/{{comment.id}}", "/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}") }}
 {% endblock %}
 
 {% block postTableContent %}
-  <form class="comment-form" method="POST" action="/tickets/{{ticket.id}}">
-        <label for="content">Comment</label>
-        <input
-        class="comment-input"
-        type="text"
-        name="content"
-        id="content"
-        placeholder="What do you think of this ticket?">
-      <button class="primary-button">Post</button>
-  </form>
+  {{ comment_form.render_comment_form("ticket", "/tickets/{{ticket.id}}") }}
 {% endblock %}

@@ -1,68 +1,34 @@
 {% extends "layout/alternating_color_table.html" %}
+{% import "macros/forum_tickets/comment_form.html" as comment_form %}
+{% import "macros/forum_tickets/comments_render.html" as comments_render %}
+{% import "macros/forum_tickets/post_ticket_content.html" as content %}
+
 {% block tags %}
   {% if post.tags %}
     <meta name="keywords" content="{{post.tags|e}}">
   {% endif %}
 {% endblock %}
+
+{% block pageDropDowns%}
+  {% if is_admin or can_delete_post(post.id).can() %}
+    <form method="post" action="/forums/delete/post/{{post.id}}">
+      <button style="margin-left: 0;" type="submit">Delete</button>
+    </form> 
+  {% endif %}
+  {% if is_admin or can_edit_post(post.id).can() %}
+    <a href="/forums/{{thread_id}}/{{post.id}}/edit">Edit</a>
+  {% endif %}
+{% endblock %}
+
+
 {% block beforeTableContent %}
-  <div class="post-container">
-    <div class="title-underline ">
-      <h2 class="title">{{post.title|e}}</h2>
-      {% if current_user.is_authenticated %}
-        <div class="text-buttons-container">
-          {% if is_admin or can_delete_post(post.id).can() %}
-            <form class="delete-form" method="post" action="/forums/delete/post/{{post.id}}">
-              <button style="margin-left: 0;" class="text-button" type="submit">Delete</button>
-            </form> 
-            <span class="text-button">|</span>
-          {% endif %}
-          
-          {% if is_admin or can_edit_post(post.id).can() %}
-            <a class="text-button" href="/forums/{{thread_id}}/{{post.id}}/edit">Edit</a>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
-    <p class="post-info">By {{author|e}} ({{post.date|e}})</p>
-    <div class="post-content commonmark">{{post.content|commonmark|e}}</div>
-  </div>
+  {{ content.render_content(post.title, author, post.date, post.content) }}
 {% endblock %}
 
 {% block tableContent %}
-  {% for comment in comments %}
-  <tr><td>
-        <div class="comment-title-underline">
-          <p>by {{comment_authors[comment.author]|e}} at {{comment.date|e}}</p>
-          {% if current_user.is_authenticated %}
-            <div class="text-buttons-container">
-              {% if is_admin or can_delete_comment(comment.id).can() %}
-                <form class="delete-form" method="post" action="/forums/delete/comment/{{comment.id}}">
-                  <button class="text-button" type="submit">Delete</button>
-                </form>
-                <span class="text-button">|</span>
-              {% endif %}
-              {% if is_admin or can_edit_comment(comment.id).can() %}
-                <a class="text-button" href="/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit">Edit</a>
-              {% endif %}
-            </div>
-          {% endif %}
-        </div>
-        <p>{{comment.content|e}}</p>
-  </td></tr>
-  {% endfor %}
+  {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/forums/delete/comment/{{comment.id}}", "/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit") }}
 {% endblock %}
 
 {% block postTableContent %}
-
-  <form class="comment-form" method="POST" action="/forums/{{thread_id}}/{{post.id}}">
-          <label for="content">Comment</label>
-          <input
-          class="comment-input"
-          type="text"
-          name="content"
-          id="content"
-          placeholder="What do you think of this post?">
-      <button class="primary-button">Post</button>
-  </form>
-
+  {{ comment_form.render_comment_form("post", "/forums/{{thread_id}}/{{post.id}}") }}
 {% endblock %}
