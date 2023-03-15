@@ -7,7 +7,7 @@ from app.util.uuid import id as ID
 class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.String(36), default=ID, primary_key=True)
-    email = db.Column(db.String(100), unique=True)
+    email = db.Column(db.String(100), unique=False)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))
     validated = db.Column(db.Boolean, default=False, nullable=False)
