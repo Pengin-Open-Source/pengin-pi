@@ -1,7 +1,7 @@
 {% extends "layout/oneDiv.html" %}
 {% block tags %}
 {% endblock %}
-{% block oneDivContent %}
+{% block divMessage %}
     <style>
         .content-section {
             display: flex;
@@ -85,7 +85,7 @@
                 <div>
                     {% for user in users %}
                     <div class = 'message-grid-item'>
-                        {{user}}
+                        {{user['name']}}
                     </div>
                     {% endfor %}
                 </div>

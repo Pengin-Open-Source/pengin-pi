@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% block tags %}{% endblock %}
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'message.css')}}">
   {% if title %}
     <title>{{company_name|e}} - {{ title|e }} </title>
   {% else %}
@@ -32,6 +33,7 @@
             <a class="header-link" href="/blog">Blog</a>
             <a class="header-link" href="/tickets?status=all">Tickets</a>
             <a class="header-link" href="/calendar">Calendar</a>
+            <button onclick = "displayBtn()" id = 'message-btn'> Message </button>
             <div class="dropdown">
               <div class="dropdown-btn">Tools</div>
               <div class="dropdown-content">
@@ -74,6 +76,64 @@
       {% endwith %}
     #}
     {% block content %}{% endblock %}
+    <div id = 'message-layout'>
+      <div id = 'message-display'>
+      <div class="display-close">
+        <button onclick = "closeMessage()" id = 'close-message-btn'>
+          X
+        </button>
+      </div>
+      <article class="content-section">
+
+          <div class = 'content-section-div-1'>
+              <div>
+                <h2> Contact </h2>
+              </div>
+              <div class = 'message-grid-container'>
+                  <div>
+                      {% for user in users %}
+                      <div class = 'message-grid-item'>
+                          {{user['name']}}
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+          <div class = 'content-section-div-2'>
+              <div class ='message-display'>
+                  <div class = 'message-display-sender'>
+                      {% for text in messages['sender'] %}
+                      <div class = 'text-section'>
+                          <div class = 'text-section-s'>
+                              {{text}}
+                          </div>
+                          <div class = 'text-section-s'></div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  <div class = 'message-display-receiver'>
+                      {% for text in messages['receiver'] %}
+                      <div class = 'text-section'>
+                          <div class = 'text-section-r'></div>
+                          <div class = 'text-section-r'>
+                              {{text}}
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <form class = 'message-form' method="POST" action="/message/create">
+                  <div class="message-form-section">
+                      <textarea rows = '6'class="message-text" name="message" id="message" placeholder="Text your message..."></textarea>
+                  </div>
+                  <div class="message-form-section">
+                      <button> Send </button>
+                  </div>
+              </form>
+          </div>
+      </article>
+      </div>
+    </div>
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>

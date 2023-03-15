@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from app.db.models.home import Home
+from app.db.models.customer import User
 from app.db import db
 from flask_login import login_required
 from app.util.security import admin_permission
@@ -15,6 +16,8 @@ home_blueprint = Blueprint('home_blueprint', __name__)
 @home_blueprint.route("/home")
 def home():
     home = Home.query.first()
+    users = User.query.all()
+    sample_message = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
@@ -24,7 +27,7 @@ def home():
     if home:
         logging.info('S3 Image accessed: ' + home.image)
 
-    return render_template('home/home.html', is_admin=is_admin, home=home, image=image)
+    return render_template('home/home.html', is_admin=is_admin, home=home, image=image, messages = sample_message, users = users)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])

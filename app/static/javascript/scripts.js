@@ -24,3 +24,15 @@ const removeOrderRow = (event) => {
   }
   
 }
+
+function displayBtn() { 
+  messageBtn = document.getElementById("message-btn")
+    // let messageDisplay = false;
+  const messageModal = document.getElementById('message-display')
+  messageModal.style.display = "block"
+}
+
+function closeMessage() {
+  const messageModal = document.getElementById('message-display')
+  messageModal.style.display = "none";
+}

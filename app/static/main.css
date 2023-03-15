@@ -644,3 +644,12 @@ h1,h2,h3,h4,h5,h6 {
     align-items: center;
   }
 }
+
+/* message */
+#message-btn {
+  background-color: #1a6b99;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
