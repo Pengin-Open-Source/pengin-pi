@@ -36,16 +36,31 @@ def create_app():
     app = Flask(__name__, static_folder='static')
 
     # SQLAlchemy Config
-    app.config['SECRET_KEY'] = id()
-    app.config.update(config)
-    markup.init_app(app)
-    limiter.init_app(app)
+    # app.config['SECRET_KEY'] = id()
+    # app.config.update(config)
+    # markup.init_app(app)
+    # limiter.init_app(app)
+    # model.db.init_app(app)
+    # login_manager.init_app(app)
+    # principals.init_app(app)
+    # admin.init_app(app)
+    # login_manager.login_view = 'auth.login'
+    # migrate.init_app(app, model.db)
+    # SQLAlchemy Config - CONFIG FOR DEV ENV
+    app.config['SECRET_KEY'] = 'secret-key-goes-here'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    # adding to suppress warning, will delete later
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
+    commonmark.init_app(app)
     login_manager.login_view = 'auth.login'
-    migrate.init_app(app, model.db)
+
+    with app.app_context():
+        db.create_all()
 
     # Inject global variables to templates
     @app.context_processor
