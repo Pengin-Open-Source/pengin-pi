@@ -1,29 +1,46 @@
 <!-- Template inheritance: this template is the parent, while others are the children-->
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  {% block tags %}{% endblock %}
-  <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'message.css')}}">
-  {% if title %}
-    <title>{{company_name|e}} - {{ title|e }} </title>
-  {% else %}
-    <title>{{company_name|e}} </title>
-  {% endif %}
-  <script>
-    document.cookie = "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
-  </script>
-  <link rel="icon" type="image/png" href="/static/images/Favicon.png"/>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    {% block tags %}{% endblock %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for ('static', filename = 'main.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for ('static', filename = 'message.css')}}"
+    />
+    {% if title %}
+    <title>{{company_name|e}} - {{ title|e }}</title>
+    {% else %}
+    <title>{{company_name|e}}</title>
+    {% endif %}
+    <script>
+      document.cookie =
+        "time_zone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+    </script>
+    <link rel="icon" type="image/png" href="/static/images/Favicon.png" />
+  </head>
 
-<body>
-  <header>
-    <nav class="header-navbar-container">
+  <body>
+    <header>
+      <nav class="header-navbar-container">
         <a class="home-link" href="/">{{company_name|e}}</a>
         <div class="hamburger">
-          <img onclick="hamburgerToggle()" class="icon" src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}" alt="Hamburger Icon">
+          <img
+            onclick="hamburgerToggle()"
+            class="icon"
+            src="{{ url_for ('static', filename = 'icons/menu-icon.svg')}}"
+            alt="Hamburger Icon"
+          />
         </div>
         <div id="nav-id" class="header-navigation">
           <div class="main-nav-links">
@@ -33,109 +50,154 @@
             <a class="header-link" href="/blog">Blog</a>
             <a class="header-link" href="/tickets?status=all">Tickets</a>
             <a class="header-link" href="/calendar">Calendar</a>
+            <button onclick="displayBtn()" id="message-btn">Message</button>
             {% if is_admin %}
-              <div class="dropdown">
-                <div class="dropdown-btn">Tools</div>
-                <div class="dropdown-content">
-                  <a href="/company/editor">Company</a>
-                  <a href="/orders/editor">Orders</a>
-                  <a href="/customers/editor">Customers</a>
-                  <a href="/blog/create">New Blog</a>
-                </div>
+            <div class="dropdown">
+              <div class="dropdown-btn">Tools</div>
+              <div class="dropdown-content">
+                <a href="/company/editor">Company</a>
+                <a href="/orders/editor">Orders</a>
+                <a href="/customers/editor">Customers</a>
+                <a href="/blog/create">New Blog</a>
               </div>
+            </div>
             {% endif %}
           </div>
           <div class="main-nav-links">
             {% if current_user.is_authenticated %}
-              <a class="header-link" href="/profile">Profile</a>
-              <a class="header-link" href="{{ url_for('auth.logout') }}">Logout</a>
-            {% endif %}
-            {% if not current_user.is_authenticated %}
-              <a class="header-link" href="/login">Login</a>
-              <a class="header-link" href="/signup">Sign Up</a>
+            <a class="header-link" href="/profile">Profile</a>
+            <a class="header-link" href="{{ url_for('auth.logout') }}"
+              >Logout</a
+            >
+            {% endif %} {% if not current_user.is_authenticated %}
+            <a class="header-link" href="/login">Login</a>
+            <a class="header-link" href="/signup">Sign Up</a>
             {% endif %}
           </div>
         </div>
-    </nav>
-  </header>
-  <main>
-  <!-- Andy: Commented out alerts in layout.html. I'm currently putting alerts in the children templates. -->
-    {#
-      {%with messages = get_flashed_messages(with_categories = true) %}
-        {% if messages%}
-          {% for category, message in messages%}
-          <div class = "alert alert-{{category}}">
-            {{ message }} 
-          </div>
-          {%endfor%}
-        {% endif%}
-      {% endwith %}
-    #}
-    {% block content %}{% endblock %}
-    <!-- <div id = 'message-layout'>
-      <div id = 'message-display'>
-      <div class="display-close">
-        <button onclick = "closeMessage()" id = 'close-message-btn'>
-          X
-        </button>
-      </div>
-      <article class="content-section">
-
-          <div class = 'content-section-div-1'>
-              <div>
-                <h2> Contact </h2>
+      </nav>
+    </header>
+    <main>
+      <!-- Andy: Commented out alerts in layout.html. I'm currently putting alerts in the children templates. -->
+      {# {%with messages = get_flashed_messages(with_categories = true) %} {% if
+      messages%} {% for category, message in messages%}
+      <div class="alert alert-{{category}}">{{ message }}</div>
+      {%endfor%} {% endif%} {% endwith %} #} {% block content %}{% endblock %}
+      <div id="message-layout">
+        <div id="message-display" class="full-page-message">
+          <div class="full-page-scroll-container">
+            <div class="top-bar">
+              <h2 class="section-title"></h2>
+              <div class="main-nav-links"></div>
+              <div class="right-nav-container">
+                <button onclick="closeMessage()" id="close-message-btn">
+                  <strong> X </strong>
+                </button>
               </div>
-              <div class = 'message-grid-container'>
-                  <div>
+            </div>
+            <div class="full-page-scroll-content">
+              <div class="content-section">
+                <div class="content-section-div-1">
+                  <!-- <div>
+                    <h2>Contact</h2>
+                  </div>
+                  <div class="message-grid-container">
+                    <div>
                       {% for user in users %}
-                      <div class = 'message-grid-item'>
-                          {{user['name']}}
-                      </div>
+                      <div class="message-grid-item">{{user['name']}}</div>
                       {% endfor %}
+                    </div>
+                  </div> -->
+                  <div
+                    class="content-section-p"
+                    class="full-page-scroll-container"
+                    id="message-section"
+                  >
+                    <div class="message-top-bar">
+                      <p class="top-bar-title">USERS</p>
+                      <div class="main-nav-links"></div>
+                      <div class="right-nav-container">
+                        <button onclick="displayUser()" id="user-btn">_</button>
+                      </div>
+                    </div>
+                    <div class="message-grid-container" id="user-container">
+                      {% for user in users %}
+                      <div class="message-grid-item">{{user['name']}}</div>
+                      {% endfor %}
+                    </div>
                   </div>
-              </div>
-          </div>
-          <div class = 'content-section-div-2'>
-              <div class ='message-display'>
-                  <div class = 'message-display-sender'>
+                  <div
+                    class="content-section-p"
+                    class="full-page-scroll-container"
+                    id="group-section"
+                  >
+                    <div class="message-top-bar">
+                      <p class="top-bar-title">GROUPS</p>
+                      <div class="main-nav-links"></div>
+                      <div class="right-nav-container">
+                        <button onclick="displayGroup()" id="group-btn">
+                          _
+                        </button>
+                      </div>
+                    </div>
+                    <div class="message-grid-container" id="group-container">
+                      <div>
+                        {% for group in groups %}
+                        <div class="message-grid-item">{{group}}</div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-section-div-2">
+                  <div class="message-display">
+                    <div class="message-display-sender">
                       {% for text in messages['sender'] %}
-                      <div class = 'text-section'>
-                          <div class = 'text-section-s'>
-                              {{text}}
-                          </div>
-                          <div class = 'text-section-s'></div>
+                      <div class="text-section">
+                        <div class="text-section-s">{{text}}</div>
+                        <div class="text-section-s"></div>
                       </div>
                       {% endfor %}
-                  </div>
-                  <div class = 'message-display-receiver'>
+                    </div>
+                    <div class="message-display-receiver">
                       {% for text in messages['receiver'] %}
-                      <div class = 'text-section'>
-                          <div class = 'text-section-r'></div>
-                          <div class = 'text-section-r'>
-                              {{text}}
-                          </div>
+                      <div class="text-section">
+                        <div class="text-section-r"></div>
+                        <div class="text-section-r">{{text}}</div>
                       </div>
                       {% endfor %}
+                    </div>
                   </div>
+                  <form
+                    class="message-form"
+                    method="POST"
+                    action="/message/create"
+                  >
+                    <div class="message-form-section">
+                      <textarea
+                        rows="6"
+                        class="message-text"
+                        name="message"
+                        id="message"
+                        placeholder="Text your message..."
+                      ></textarea>
+                    </div>
+                    <div class="message-form-section">
+                      <button>Send</button>
+                    </div>
+                  </form>
+                </div>
               </div>
-              <form class = 'message-form' method="POST" action="/message/create">
-                  <div class="message-form-section">
-                      <textarea rows = '6'class="message-text" name="message" id="message" placeholder="Text your message..."></textarea>
-                  </div>
-                  <div class="message-form-section">
-                      <button> Send </button>
-                  </div>
-              </form>
+            </div>
           </div>
-      </article>
-      </div> -->
-    </div>
-  </main>
-  <footer>
-    <p>Tobu Pengin {{copyright|e}}</p>
-  </footer>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>Tobu Pengin {{copyright|e}}</p>
+    </footer>
 
-  <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
-  {% block captchaScript %}{% endblock %}
-</body>
+    <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
+    {% block captchaScript %}{% endblock %}
+  </body>
 </html>

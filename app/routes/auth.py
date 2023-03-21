@@ -17,7 +17,8 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
 def login():
-    return render_template('authentication/login.html', primary_title='Login', item_title='Login', )
+    sample_messages = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
+    return render_template('authentication/login.html', primary_title='Login', item_title='Login', messages = sample_messages)
 
 @limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])

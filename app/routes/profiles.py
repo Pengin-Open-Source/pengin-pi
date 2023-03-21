@@ -17,9 +17,10 @@ def profile():
     now = datetime.utcnow()
     delta = current_user.validation_date + timedelta(minutes=5)
     can_re_validate = True if not current_user.validated and now > delta else False
+    sample_messages = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
     return render_template('profile/profile.html', name=current_user.name,
                            email=current_user.email, can_do=can_re_validate,
-                           primary_title='Profile Information')
+                           primary_title='Profile Information', messages = sample_messages)
 
 @limiter.limit("2 per minute")
 @profiles.route('/send_email')

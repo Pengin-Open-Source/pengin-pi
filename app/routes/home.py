@@ -17,7 +17,9 @@ section_title = 'Home'
 def home():
     home = Home.query.first()
     users = User.query.all()
+    users += users
     sample_message = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
+    groups = ['SALES', 'MARKETING', 'SUPPORT', 'SERVICES', 'CONTACT']
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
@@ -28,7 +30,7 @@ def home():
         logging.info('S3 Image accessed: ' + home.image)
 
     return render_template('home/home.html', is_admin=is_admin, home=home,
-                           image=image, messages = sample_message, users = users)
+                           image=image, messages = sample_message, users = users, groups = groups)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])
