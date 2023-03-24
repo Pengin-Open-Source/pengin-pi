@@ -1,0 +1,13 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+  <div >
+    {% block beforeTableContent %} {% endblock %}
+    <table class="alternating-colors-table">
+      <tbody>
+        {% block tableContent %}{% endblock %}
+      </tbody>
+    </table>
+    {% block postTableContent %}{% endblock %}
+  </div>
+{% endblock %}

@@ -1,26 +1,30 @@
-{% extends "forums/alternating_color_table.html" %}
+{% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
+
+
+{% block pageDropDowns%}
+  <a href="/tickets/create">Create Ticket</a>
+{% endblock %}
 
 {% block beforeTableContent %}
-  <div class="flex-between">
-    <h2 class="forum-title">{{title}}</h2>
-    <div class="flex-center">
+    <div class="title-underline">
       <a class="text-button" href="/tickets?status=all">all</a>|
       <a class="text-button" href="/tickets?status=resolved">resolved</a>|
       <a class="text-button" href="/tickets?status=open">open</a>|
       <a class="text-button" href="/tickets?status=closed">closed</a>
     </div>
-  </div> 
 {% endblock %}
 
 {% block tableContent %}
   {% for ticket in tickets %}
-  <tr><td class="flex-between">
-    <a class="small-padding alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary}}</a>
-    <p class="small-padding flex-center">Resolution Status: {{ticket.resolution_status|upper}}</p>
+  <tr><td class="">
+    <a class="alternating-colors-table-links" href="/tickets/{{ticket.id}}">{{ticket.summary|e}}</a>
+    <p class="">Resolution Status: {{ticket.resolution_status|upper|e}}</p>
   </td></tr>
   {% endfor %}
 {% endblock %}
 
 {% block postTableContent %}
-  <a class="btn btn-primary" href="/tickets/create">Create Ticket</a>
+  {{ pagination.render_pagination(tickets, "") }}
+  
 {% endblock %}

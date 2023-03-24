@@ -4,27 +4,63 @@ from flask_principal import Permission, RoleNeed
 
 from app.db import db
 from app.db.models import BlogPost
+from app.db.util import paginate
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
-
 def get_links():
-    return BlogPost.query.all()
+    return []
 
 
-@blogPosts.route("/blog")
+@blogPosts.route("/blog", methods=["GET", "POST"])
 def display_blog_home():
-    posts = BlogPost.query.limit(15)
-    return render_template('blog/blog.html', posts=posts, links=get_links(),
-                           is_admin=admin_permission.can())
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/blog.html', posts=posts, primary_title='Blog',
+                           is_admin=admin_permission.can(), left_title='Blog Posts')
 
 
 @blogPosts.route("/blog/<post_id>")
 def display_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    return render_template('blog/view.html', post=post, links=get_links(),
-                           is_admin=admin_permission.can())
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+    
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    author_date = post.date  # TODO blogPost model has no author attribute.
+    
+    return render_template('blog/view.html', page=page, post=post, posts=posts,
+                           is_admin=admin_permission.can(),
+                           blog_author_date=author_date)
+
+
+@blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def edit_post(post_id):
+    post = BlogPost.query.filter_by(id=post_id).first()
+    if request.method == 'POST':
+        post.title = request.form.get('title')
+        post.content = request.form.get('content')
+        post.tags = request.form.get('tags')
+        
+        db.session.commit()
+
+        return redirect(url_for("blogPosts.display_post", post_id=post.id))
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -40,5 +76,10 @@ def create_post():
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=new_post.id))
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
 
-    return render_template('blog/create.html', newPost=1, links=get_links())
+    posts = paginate(BlogPost, page=page, key="title", pages=10)
+    return render_template('blog/create.html', newPost=1, posts=posts)

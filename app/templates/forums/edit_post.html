@@ -1,38 +1,34 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/forums/{{thread_id}}/{{post_id}}/edit">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input
-                class="form-control"
-                type="text"
-                name="title"
-                id="title"
-                value="{{post.title}}">
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea
-                class="form-control"
-                name="content"
-                id="content">{{post.content}}</textarea>
-            </div>
-            <div class="mb-2">
-                <label for="tags" class="form-label">Tags</label>
-                <input
-                class="form-control"
-                type="text"
-                name="tags"
-                value="{{post.tags}}"
-                id="tags">
-            </div>
-            <button class="btn btn-primary">Post</button>
-        </form>
-    </div>
-  </div>
+{% block pageContent %}
+    <form class="form" method="POST" action="/forums/{{thread_id}}/{{post_id}}/edit">
+        <div class="form-section">
+            <label for="title">Title</label>
+            <input
+            class="form-input"
+            type="text"
+            name="title"
+            id="title"
+            value="{{post.title|e}}">
+        </div>
+        <div class="form-section">
+            <label for="content">Content</label>
+            <textarea
+            class="form-input"
+            name="content"
+            id="content">{{post.content|e}}</textarea>
+        </div>
+        <div class="form-section">
+            <label for="tags">Tags</label>
+            <input
+            class="form-input"
+            type="text"
+            name="tags"
+            value="{{post.tags|e}}"
+            id="tags">
+        </div>
+        <button class="primary-button">Post</button>
+    </form>
 {% endblock %}
 
 

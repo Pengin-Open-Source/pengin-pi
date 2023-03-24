@@ -1,16 +1,17 @@
-{% extends "forums/alternating_color_table.html" %}
+{% extends "layout/alternating_color_table.html" %}
+{% import "macros/paginate.html" as pagination %}
 
-{% block beforeTableContent %}
-  <h2 class="forum-title">{{title}}</h2>
+{% block pageDropDowns%}
+  <a href="/forums/create">Create Thread</a>
 {% endblock %}
 
 {% block tableContent %}
   {% for thread in threads %}
-  <tr><td class="flex-between">
-    <a class="small-padding alternating-colors-table-links " href="/forums/{{thread.id}}">{{ thread.name }}</a>
+  <tr><td class="thread-container">
+    <a class="alternating-colors-table-links " href="/forums/{{thread.id}}">{{ thread.name|e }}</a>
       {% if is_admin %}
       <form method="post" action="/forums/delete/thread/{{thread.id}}">
-        <button class="btn" type="submit">Delete</button>
+        <button class="primary-button" type="submit">Delete</button>
       </form>
       {% endif %}
   </td></tr>
@@ -18,7 +19,5 @@
 {% endblock %}
 
 {% block postTableContent %}
-    {% if is_admin %}
-      <a class="btn btn-primary" href="/forums/create">Create Thread</a>
-    {% endif %}
+    {{ pagination.render_pagination(threads, "") }}
 {% endblock %}

@@ -1,0 +1,12 @@
+{% macro render_content(title, author, date, content, status, resolution_date) %}
+  <div class="post-container">
+    <div class="title-underline ">
+      <h2 class="post-title">{{title|e}}</h2>
+      {% if status %}
+        <p class="post-info">Status: {{status|upper|e}} {% if status == 'resolved' %} on {{resolution_date|e}}{% endif %}</p>
+      {% endif %}
+      <p class="post-info">By {{author|e}} ({{date|e}})</p>
+    </div>
+    <div class="post-content commonmark">{{content|commonmark|e}}</div>
+  </div>
+{% endmacro %}

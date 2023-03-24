@@ -5,28 +5,35 @@ from app.db import db
 from app.db.models import Product
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
-import os
+from app.db.util import paginate
 
 product_blueprint = Blueprint('product_blueprint',
                               __name__, url_prefix="/products")
 
 
-@product_blueprint.route('/')
+@product_blueprint.route('/', methods=["GET", "POST"])
 def products():
-    products = Product.query.filter_by().all()
+    is_admin = admin_permission.can()
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    products = paginate(Product, page=page, key="name", pages=9)
     for product in products:
         product.card_image_url = conn.get_URL(product.card_image_url)
 
-    return render_template('products/products.html', products=products)
-
+    return render_template('products/products.html', is_admin=is_admin,
+                           products=products, page=page,
+                           primary_title='Products')
 
 @product_blueprint.route('/<product_id>')
 def product(product_id):
+    is_admin = admin_permission.can()
     product = Product.query.filter_by(id=product_id).first()
     product.stock_image_url = conn.get_URL(product.stock_image_url)
 
-    return render_template('products/product.html', product=product)
-
+    return render_template('products/product.html', is_admin=is_admin, product=product, page=1, primary_title=product.name)
 
 @product_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -36,6 +43,7 @@ def create_product():
         name = request.form.get('name')
         price = request.form.get('price')
         description = request.form.get('description')
+        tags = request.form.get('tags')
 
         large_file = request.files["file-large"]
         small_file = request.files["file-small"]
@@ -53,7 +61,7 @@ def create_product():
             small_file.filename = secure_filename(small_file.filename)
             small_url = conn.create(small_file)
                 
-        product = Product(name=name, price=price, description=description,
+        product = Product(name=name, price=price, description=description, tags=tags,
                           card_image_url=small_url, stock_image_url=large_url)
 
         db.session.add(product)
@@ -61,7 +69,7 @@ def create_product():
 
         return redirect(url_for('product_blueprint.products'))
 
-    return render_template('products/product_create.html')
+    return render_template('products/product_create.html', primary_title='Create Product')
 
 
 @product_blueprint.route('/edit/<id>', methods=['GET', 'POST'])
@@ -75,6 +83,7 @@ def edit_product(id):
         product.name = request.form.get('name')
         product.price = request.form.get('price')
         product.description = request.form.get('description')
+        product.tags = request.form.get('tags')
 
         # Image create handling
         large_file = request.files["file-large"]
@@ -102,7 +111,7 @@ def edit_product(id):
     product.stock_image_url = conn.get_URL(product.stock_image_url)
     product.card_image_url = conn.get_URL(product.card_image_url)
 
-    return render_template('products/product_edit.html', product=product)
+    return render_template('products/product_edit.html', product=product, primary_title='Edit Product')
 
 
 @product_blueprint.route('/delete/<id>', methods=['POST'])

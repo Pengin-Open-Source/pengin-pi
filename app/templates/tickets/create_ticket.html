@@ -1,36 +1,32 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/tickets/create">
-            <div class="mb-3">
-                <label for="summary" class="form-label">Summary</label>
-                <input
-                class="form-control"
-                type="text"
-                name="summary"
-                id="summary"
-                placeholder="Summary">
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea
-                class="form-control"
-                name="content"
-                id="content"
-                placeholder="Something enlightening..."></textarea>
-            </div>
-            <div class="mb-2">
-                <label for="tags" class="form-label">Tags</label>
-                <input
-                class="form-control"
-                type="text"
-                name="tags"
-                id="tags">
-            </div>
-            <button class="btn btn-primary">Post</button>
-        </form>
-    </div>
-  </div>
+{% block pageContent %}
+    <form class="form" method="POST" action="/tickets/create">
+        <div class="form-section">
+            <label for="summary" >Summary</label>
+            <input
+            class="form-input"
+            type="text"
+            name="summary"
+            id="summary"
+            placeholder="Summary">
+        </div>
+        <div class="form-section">
+            <label for="content" >Content</label>
+            <textarea
+            class="form-input"
+            name="content"
+            id="content"
+            placeholder="Something enlightening..."></textarea>
+        </div>
+        <div class="form-section">
+            <label for="tags" >Tags</label>
+            <input
+            class="form-input"
+            type="text"
+            name="tags"
+            id="tags">
+        </div>
+        <button class="primary-button">Post</button>
+    </form>
 {% endblock %}

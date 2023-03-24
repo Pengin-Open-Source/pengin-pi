@@ -1,14 +1,25 @@
-{% extends "blog/blog_main.html" %}
+{% extends "layout/horizontal_split.html" %}
 
-{% block blogContent %}
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="#"></a>
-        <small class="text-muted">{{post.date}}</small>
-      </div>
-      <h2><a class="article-title" href="#">{{post.title}}</a></h2>
-      <p class="article-content">{{post.content}}</p>
-    </div>
-  </article>
-{% endblock blogContent %}
+{% block tags %}
+  {% if post.tags %}
+      <meta name="keywords" content="{{post.tags|e}}">
+  {% endif %}
+{% endblock %}
+
+{% block pageDropDowns%}
+  {% if is_admin %}
+    <a href="/blog/{{post.id}}/edit">Edit Post</a>
+  {% endif %}
+{% endblock %}
+
+{% block leftContent %}
+  {% include "blog/link_list.html" %}
+{% endblock %}
+
+{% block rightContent %}
+    <h3 class="blog-post-title">{{post.title|e}}</h3>
+    <article class="blog-article" >
+      <p class="blog-author-date">{{blog_author_date|e}}</p>
+      <p>{{post.content|commonmark|e}}</p>
+    </article>
+{% endblock %}

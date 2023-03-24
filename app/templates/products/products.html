@@ -1,20 +1,24 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
+{% import "macros/paginate.html" as pagination %}
 
-<h2 class="forum-title">Products</h2>
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/products/create">New Product</a>
+  {% endif %}
+{% endblock %}
 
-{% block oneDivContent %}
+{% block pageContent %}
   <div class="product-grid">
     {% for product in products %}
-    <a href="/products/{{product.id}}">
-      <div class="product-item">
-        <h3>{{product.name}} - {{product.price}}</h3>
-        <img src="{{product.card_image_url}}" alt="Product Image">
-      </div>    
-    </a>
+      <a href="/products/{{product.id}}">
+        {% if product.name %}
+          <div>{{product.name}}</div>
+        {% endif %}
+        <div class="product-item">
+          <img src="{{product.card_image_url|e}}" alt="Product Image">
+        </div>    
+      </a>
     {% endfor %}
   </div>
-
-  <a class="btn btn-primary" href="/products/create">New Product</a>
+  {{ pagination.render_pagination(products, "") }}
 {% endblock %} 
-
-

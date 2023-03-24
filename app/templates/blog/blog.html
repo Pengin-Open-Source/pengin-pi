@@ -1,16 +1,9 @@
-{% extends "blog/blog_main.html" %}
+{% extends "layout/horizontal_split.html" %}
 
-{% block blogContent %}
-<article class="media content-section">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="#"></a>
-        <small class="text-muted">Pengin Open Source</small>
-      </div>
-      <h2><a class="article-title" href="#">Blog</a></h2>
-      <p class="article-content">Welcome to the blog section. Feel free to click on an
-        article in the pane to the right</p>
-    </div>
-  </article>    
+{% block leftContent %}
+    {% include "blog/link_list.html" %}
+{% endblock %}
 
-{% endblock blogContent %}
+{% block rightContent %}
+    <p>Please use the links to navigate to individual blog posts.</p>
+{% endblock %}

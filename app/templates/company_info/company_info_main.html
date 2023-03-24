@@ -1,19 +1,17 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
+{% import "macros/paginate.html" as pagination %}
 
-{% block profilecontent %}
-  <h1 class="header">Companies</h1>
-  {% for company in companies %}
-    <table class="table table-bordered">
-      <tr>
-        <td><a href="/companies/{{ company.id }}">{{ company.name }}</a></td>
-      </tr>
-    </table>
-  {% endfor %}
-  {% if is_admin %}
-    <a href="/companies/create" class="btn btn-primary">Create New Company</a>
-  {% endif %}
-{% endblock %}
-
-{% block profileSideContent %}
+{% block pageDropDowns %}
   {% include "right_window/profile_info.html" %}
 {% endblock %}
+
+{% block pageContent %}
+  <p>Please click on a link below to view a specific company's information.</p>
+  <ul class="company-list">
+    {% for company in companies %}
+      <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
+    {% endfor %}
+  </ul>
+  {{ pagination.render_pagination(companies, "") }}
+{% endblock %}
+

@@ -1,0 +1,19 @@
+{% macro render_form(items, endpoint) %}
+  <form class="form" method="POST" action="{{endpoint}}">
+    {% for item in items %}
+      <div class="form-section">
+        <label for="{{item.name}}" >{{item.label}}</label>
+        <input
+          class="form-input"
+          type="{{item.type}}"
+          name="{{item.name}}"
+          id="{{item.name}}"
+          placeholder="{{item.placeholder}}"
+        >
+      </div>
+    {% endfor %}
+    <button class="primary-button">Save</button>
+  </form>
+{% endmacro %}
+
+<!-- items format:  [{name:"", label:"", type:"", placeholder:""}]  -->

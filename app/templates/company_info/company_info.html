@@ -1,54 +1,67 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
+{% import "macros/paginate.html" as pagination %}
 
-{% block profilecontent %}
-  <div id="company-info-table">
-  <h1 class="header">Company Information</h1>
-    <table class="table table-bordered">
-      <tr>
-        <th>Company Name</th>
-        <td>{{ company.name }}</td>
-      </tr>
-      <tr>
-        <th>Address 1</th>
-        <td>{{ company.address1 }}</td></a>
-      </tr>
-      <tr>
-        <th>Address 2</th>
-        <td>{{ company.address2 }}</td>
-      </tr>
-      <tr>
-        <th>City</th>
-        <td>{{ company.city }}</td>
-      </tr>
-      <tr>
-        <th>State</th>
-        <td>{{ company.state }}</td>
-      </tr>
-      <tr>
-        <th>ZIP Code</th>
-        <td>{{ company.zipcode }}</td>
-      </tr>
-      <tr>
-        <th>Country</th>
-        <td>{{ company.country }}</td>
-      </tr>
-      <tr>
-        <th>Phone Number</th>
-        <td>{{ company.phone }}</td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td>{{ company.email }}</td>
-      </tr>
-      <tr>
-        <th>Members</th>
-        <td>{{ company.members }}</td>
-      </tr>
-    </table>
-  <a class="btn btn-primary" href="/companies/edit_company_info/{{company.id}}">Edit Company Information</a>
-  </div>
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/company/{{company.id}}/edit">Edit Company</a>
+  {% endif %}
 {% endblock %}
 
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
+{% block pageContent %}
+    <div class="company-info-table">
+      <table>
+        <tr>
+          <th>Company Name</th>
+          <td>{{ company.name|e }}</td>
+        </tr>
+        <tr>
+          <th>Address 1</th>
+          <td>{{ company.address1|e }}</td></a>
+        </tr>
+        <tr>
+          <th>Address 2</th>
+          <td>{{ company.address2|e }}</td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td>{{ company.city|e }}</td>
+        </tr>
+        <tr>
+          <th>State</th>
+          <td>{{ company.state|e }}</td>
+        </tr>
+        <tr>
+          <th>ZIP Code</th>
+          <td>{{ company.zipcode|e }}</td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td>{{ company.country|e }}</td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td>{{ company.phone|e }}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{ company.email|e }}</td>
+        </tr>
+        
+      </table>
+    </br><h3>Members</h3></br>
+      <table>
+        <tr>
+        <th>Name</th>
+        <th>Email</th>
+        </tr>
+        
+        {% for member in members %}
+        <tr>
+          <td>{{ member.name|e }}</td>
+          <td>{{ member.email|e }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {{ pagination.render_pagination(members, "/company/" + company.id) }}
+    </div>
 {% endblock %}

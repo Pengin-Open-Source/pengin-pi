@@ -1,21 +1,30 @@
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
-from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
+from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
+from flask_migrate import Migrate
+from flask_commonmark import Commonmark
 
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import db, config
+from app.db import config,db
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need)
+from app.util.time.time import copyright, time_zone
+from app.util.uuid import id
+from app.util.security.limit import limiter
+from app.util.markup import markup
+from flask_commonmark import Commonmark
 
 from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
-
+migrate = Migrate()
+admin_permission = Permission(RoleNeed('admin'))
+commonmark = Commonmark()
 
 class DummyHome():
     company_name = ''
@@ -26,32 +35,24 @@ class DummyHome():
 def create_app():
     app = Flask(__name__, static_folder='static')
 
-
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
-
+    markup.init_app(app)
+    limiter.init_app(app)
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
-
-    
-
-    # Inject global variables to templates
-    @app.context_processor
-    def inject_globals():
-        company = model.Home.query.first() or DummyHome()
-        name = company.company_name
-        return dict(company_name=name)
+    migrate.init_app(app, model.db)
 
     # Inject global variables to templates
     @app.context_processor
     def inject_globals():
         company = model.Home.query.first() or DummyHome()
         name = company.company_name
-        return dict(company_name=name)
+        return dict(company_name=name, is_admin=admin_permission.can())
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -61,6 +62,10 @@ def create_app():
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
+        """Permissions loader function
+        This method loads all of the user permissions
+        to the user identity
+        """
         if not isinstance(identity, AnonymousIdentity):
             identity.user = current_user
             if hasattr(current_user, 'id'):
@@ -99,5 +104,7 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-
+    
+    app.context_processor(time_zone)
+    app.context_processor(copyright)
     return app

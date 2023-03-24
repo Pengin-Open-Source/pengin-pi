@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 from app.util.security import admin_permission
 import logging
-from app.util.security import admin_permission
 from app.db import db
 from app.db.models import About
 from app.util.s3 import conn
@@ -25,7 +24,7 @@ def view():
         logging.info('Image S3 URL accessed:' + about.image)
 
     return render_template('about/about_main.html', about=about,
-                           is_admin=is_admin, image=image)
+                           is_admin=is_admin, image=image, primary_title='About Us')
 
 
 @about_blueprint.route('/edit', methods=['GET', 'POST'])
@@ -35,7 +34,7 @@ def edit_about():
     # As there should only be one entry for about model it can be checked
     # whether this exists or not to allow creation or editing.
     exists = About.query.first() is not None
-    
+
     if exists:
         about = About.query.first()
         try:
@@ -61,6 +60,7 @@ def edit_about():
             about.city = request.form.get('city')
             about.state = request.form.get('state')
             about.country = request.form.get('country')
+            about.tags = request.form.get('tags')
             image = request.files["file"]
             url = image.filename if "file" in request.files and image.filename != "" else about.image
             if about.image != url:
@@ -73,7 +73,7 @@ def edit_about():
 
             return redirect(url_for("about_blueprint.view"))
 
-        return render_template('about/edit.html', about=about, image=image)
+        return render_template('about/edit.html', about=about, image=image, primary_title='Edit About Page')
     elif request.method == 'POST':
         name = request.form.get('name')
         article = request.form.get('article')
@@ -89,6 +89,7 @@ def edit_about():
         city = request.form.get('city')
         state = request.form.get('state')
         country = request.form.get('country')
+        tags = request.form.get('tags')
         image = request.files["file"]
         url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
         if image:
@@ -100,11 +101,11 @@ def edit_about():
                             linkedin=linkedin, youtube=youtube, phone=phone,
                             twitter=twitter, address1=address1,
                             address2=address2, city=city, state=state,
-                            country=country, image=url)
+                            country=country, tags=tags, image=url)
 
         db.session.add(new_about)
         db.session.commit()
 
         return redirect(url_for("about_blueprint.view"))
 
-    return render_template('about/create.html')
+    return render_template('about/create.html', primary_title='Create About Page')

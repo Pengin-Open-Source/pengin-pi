@@ -1,18 +1,15 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-  <div class="column">
-    <div class="box">
-        <form method="POST" action="/tickets/edit-status/{{ticket_id}}">
-            <div class="mb-3">
-              <label for="status" class="form-label">Change Ticket Status:</label>
-              <select id="status" name="status" class="form-control">
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
-                <option value="resolved">Resolved</option>
-              </select> 
-            <button class="btn btn-primary">Change Status</button>
-        </form>
-    </div>
-  </div>
+{% block pageContent %}
+  <form class="form" method="POST" action="/tickets/edit-status/{{ticket_id}}">
+      <div class="form-section">
+        <label for="status">Change Ticket Status:</label>
+        <select id="status" name="status" class="form-input">
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="resolved">Resolved</option>
+        </select> 
+      </div>
+      <button class="primary-button">Change Status</button>
+  </form>
 {% endblock %}

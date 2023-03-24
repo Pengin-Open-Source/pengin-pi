@@ -1,66 +1,51 @@
-{% extends "profile/profile_main.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block profilecontent %}
+{% block pageContent %}
+        <form class="form" method="POST" action="/companies/create">
+            <div class="form-section">
+                <label>Company Name*</label>
+                <input class="form-input" type="text" name="name" placeholder="Company Name" required>
+            </div>
 
-<!-- The company info for the user to enter -->
-<form id="create_company_info_form" method="POST" action="/companies/create">
+            <div class="form-section">
+                <label>Address 1*</label>
+                <input class="form-input" type="text" name="address1" placeholder="Address 1" required>
+            </div>
 
-    <h1 class="header">Edit Company Information</h1>
+            <div class="form-section">
+                <label>Address 2</label>
+                <input class="form-input" type="text" name="address2" placeholder="Address 2">
+            </div>
 
-    <div class="form-group">
-        <label>Company Name*</label>
-        <input class="form-control" type="text" name="name" placeholder="Company Name" required>
-    </div>
+            <div class="form-section">
+                <label>City*</label>
+                <input class="form-input" type="text" name="city" placeholder="City" required>
+            </div>
 
-    <div class="form-group">
-        <label>Address 1*</label>
-        <input class="form-control" type="text" name="address1" placeholder="Address 1" required>
-      </div>
+            <div class="form-section">
+                <label>State*</label>
+                <input class="form-input" type="text" name="state" placeholder="State">
+            </div>
 
-    <div class="form-group">
-        <label>Address 2</label>
-        <input class="form-control" type="text" name="address2" placeholder="Address 2">
-    </div>
+            <div class="form-section">
+                <label>ZIP*</label>
+                <input class="form-input" type="text" name="zipcode" placeholder="ZIP" required>
+            </div>
 
-    <div class="form-group">
-        <label>City*</label>
-        <input class="form-control" type="text" name="city" placeholder="City" required>
-    </div>
+            <div class="form-section">
+                <label>Country*</label>
+                <input class="form-input" type="text" name="country" placeholder="Country" required>
+            </div>
 
-    <div class="form-group">
-        <label>State*</label>
-        <input class="form-control" type="text" name="state" placeholder="State">
-      </div>
+            <div class="form-section">
+                <label>Phone</label>
+                <input class="form-input" type="text" name="phone" placeholder="Phone">
+            </div>
 
-    <div class="form-group">
-        <label>ZIP*</label>
-        <input class="form-control" type="text" name="zipcode" placeholder="ZIP" required>
-      </div>
-
-    <div class="form-group">
-        <label>Country*</label>
-        <input class="form-control" type="text" name="country" placeholder="Country" required>
-    </div>
-
-    <div class="form-group">
-        <label>Phone</label>
-        <input class="form-control" type="text" name="phone" placeholder="Phone">
-    </div>
-
-    <div class="form-group">
-        <label>Email</label>
-        <input class="form-control" type="text" name="email" placeholder="Email">
-    </div>
-
-    <!-- Buttons  -->
-    <div class="container d-flex justify-content-between px-0">
-      <button class="btn btn-success btn-md" type="submit">Save</button>
-    </div>
-
-</form>
-
-{% endblock %}
-
-{% block profileSideContent %}
-  {% include "right_window/profile_info.html" %}
+            <div class="form-section">
+                <label>Email</label>
+                <input class="form-input" type="text" name="email" placeholder="Email">
+            </div>
+            <button class="primary-button" type="submit">Save</button>
+        </form>
 {% endblock %}
