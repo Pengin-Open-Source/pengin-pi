@@ -12,7 +12,7 @@
 {% block pageDropDowns%}
   {% if is_admin or can_delete_post(post.id).can() %}
     <form method="post" action="/forums/delete/post/{{post.id}}">
-      <button style="margin-left: 0;" type="submit">Delete</button>
+      <button type="submit">Delete</button>
     </form> 
   {% endif %}
   {% if is_admin or can_edit_post(post.id).can() %}
