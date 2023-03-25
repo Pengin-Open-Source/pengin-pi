@@ -18,4 +18,4 @@ def message():
     is_admin = admin_permission.can()
     users = User.query.all()
     sample_message = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
-    return render_template('message/message.html', is_admin=is_admin, users = users, messages = sample_message)
+    return render_template('message/message.html', is_admin=is_admin, users = users, messages = sample_message
