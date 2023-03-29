@@ -6,6 +6,7 @@ from app.util.security import admin_permission
 from app.util.s3 import conn
 import logging
 from werkzeug.utils import secure_filename
+from app.util.xml.config import printText
 
 home_blueprint = Blueprint('home_blueprint', __name__)
 section_title = 'Home'
@@ -16,6 +17,7 @@ section_title = 'Home'
 def home():
     home = Home.query.first()
     is_admin = admin_permission.can()
+    a = printText()
     try:
         image = conn.get_URL(home.image)
     except:
@@ -25,7 +27,7 @@ def home():
         logging.info('S3 Image accessed: ' + home.image)
 
     return render_template('home/home.html', is_admin=is_admin, home=home,
-                           image=image)
+                           image=image,a=a)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])

@@ -13,9 +13,9 @@ class User(UserMixin, db.Model):
     validated = db.Column(db.Boolean, default=False, nullable=False)
     validation_date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
     validation_id = db.Column(db.String(36), default=ID, unique=True)
-    prt = db.Column(db.String(36), default=ID, unique=True)
-    prt_reset_date = db.Column(db.DateTime(timezone=True))
-    prt_consumption_date = db.Column(db.DateTime(timezone=True))
+    # prt = db.Column(db.String(36), default=ID, unique=True)
+    # prt_reset_date = db.Column(db.DateTime(timezone=True))
+    # prt_consumption_date = db.Column(db.DateTime(timezone=True))
 
 
 class Role(db.Model):

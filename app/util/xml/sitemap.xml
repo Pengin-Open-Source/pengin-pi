@@ -1,0 +1,20 @@
+<ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+<url>
+<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/</loc>
+<lastmod>2023-03-29</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1.0</priority><lastmod>2023-03-29</lastmod>
+<changefreq>weekly</changefreq><priority>1.0</priority>
+<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/forums</loc>
+<lastmod>2023-03-29</lastmod><changefreq>daily</changefreq>
+<priority>0.5</priority><lastmod>2023-03-29</lastmod>
+<changefreq>daily</changefreq><priority>0.5</priority>
+<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/about</loc>
+<lastmod>2023-03-29</lastmod><changefreq>weekly</changefreq>
+<priority>0.8</priority><lastmod>2023-03-29</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+
+</ns0:urlset>
