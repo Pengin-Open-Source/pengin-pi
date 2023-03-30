@@ -1,20 +1,80 @@
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-<url>
-<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/</loc>
-<lastmod>2023-03-29</lastmod>
-<changefreq>weekly</changefreq>
-<priority>1.0</priority><lastmod>2023-03-29</lastmod>
-<changefreq>weekly</changefreq><priority>1.0</priority>
-<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/forums</loc>
-<lastmod>2023-03-29</lastmod><changefreq>daily</changefreq>
-<priority>0.5</priority><lastmod>2023-03-29</lastmod>
-<changefreq>daily</changefreq><priority>0.5</priority>
-<loc>https://&lt;Element 'url' at 0x000001FD6B6E7290&gt;/about</loc>
-<lastmod>2023-03-29</lastmod><changefreq>weekly</changefreq>
-<priority>0.8</priority><lastmod>2023-03-29</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-</url>
 
-</ns0:urlset>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91733EC0&gt;/</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <loc>https://&lt;Element 'url' at 0x0000021D91733EC0&gt;/forums</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+        <loc>https://&lt;Element 'url' at 0x0000021D91733EC0&gt;/about</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C1D0&gt;/products/Test Product 1</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C360&gt;/products/Test Product 2</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C4F0&gt;/products/Test Product 3</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C680&gt;/products/Test Product 4</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C810&gt;/products/Test Product 5</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1C9A0&gt;/products/Test Product 6</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1CB30&gt;/products/Test Product 7</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1CCC0&gt;/products/Test Product 8</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://&lt;Element 'url' at 0x0000021D91B1CE50&gt;/products/Test Product 9</loc>
+        <lastmod>2023-03-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+<url><loc>https://&lt;Element 'url' at 0x000001989C83FCE0&gt;/</loc><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><loc>https://&lt;Element 'url' at 0x000001989C83FCE0&gt;/forums</loc><lastmod>2023-03-30</lastmod><changefreq>daily</changefreq><priority>0.5</priority><lastmod>2023-03-30</lastmod><changefreq>daily</changefreq><priority>0.5</priority><loc>https://&lt;Element 'url' at 0x000001989C83FCE0&gt;/about</loc><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EE930&gt;/products/Test Product 1</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EEAC0&gt;/products/Test Product 2</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EEC50&gt;/products/Test Product 3</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EEDE0&gt;/products/Test Product 4</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EEF70&gt;/products/Test Product 5</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EF100&gt;/products/Test Product 6</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EF290&gt;/products/Test Product 7</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EF420&gt;/products/Test Product 8</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001989C8EF5B0&gt;/products/Test Product 9</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE55C9800&gt;/</loc><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><loc>https://&lt;Element 'url' at 0x000001ECE55C9800&gt;/forums</loc><lastmod>2023-03-30</lastmod><changefreq>daily</changefreq><priority>0.5</priority><lastmod>2023-03-30</lastmod><changefreq>daily</changefreq><priority>0.5</priority><loc>https://&lt;Element 'url' at 0x000001ECE55C9800&gt;/about</loc><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>2023-03-30</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A0540&gt;/products/Test Product 1</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A06D0&gt;/products/Test Product 2</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A0860&gt;/products/Test Product 3</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A09F0&gt;/products/Test Product 4</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A0B80&gt;/products/Test Product 5</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A0D10&gt;/products/Test Product 6</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A0EA0&gt;/products/Test Product 7</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A1030&gt;/products/Test Product 8</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://&lt;Element 'url' at 0x000001ECE59A11C0&gt;/products/Test Product 9</loc><lastmod>2023-03-30</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url></ns0:urlset>

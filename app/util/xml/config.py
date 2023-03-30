@@ -4,6 +4,8 @@ load_dotenv()
 import xml.etree.ElementTree as ET
 import re
 from datetime import datetime
+from app.db.models import Product
+from app.db.models import BlogPost
 
 path = os.path.join(os.getcwd(), 'app\\util\\xml\\sitemap.xml')
 tree = ET.parse('C:\\Users\\trano\\Documents\\tobu\\pengin-pi\\app\\util\\xml\\sitemap.xml')
@@ -125,9 +127,14 @@ def save():
     tree.write(path)
 
 def printText():
+    products = Product.query.all()
+    blogs = BlogPost.query.all()
     load_defaults(url=domain, protocol='https')
+    load_products(products=products, url=domain, protocol='https')
+    load_blogs(blogs=blogs,url=domain,protocol='https')
     save()
-    return ("abc")
+    products_title = [product.name for product in products]
+    return (products_title)
 if __name__ == "__main__":
     """Used for running a manual config option"""
     pass
