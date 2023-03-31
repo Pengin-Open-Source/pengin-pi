@@ -4,10 +4,10 @@ from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed,
                              identity_loaded)
 from flask_migrate import Migrate
 from flask_commonmark import Commonmark
-from app.util.xml.config import printText
 
 import app.db.models as model
 import app.routes as route
+import app.util.xml as loadXML
 from app.admin import admin, admin_blueprint
 from app.db import config,db
 from app.util.security import (delete_comment_need, delete_post_need,
@@ -37,31 +37,16 @@ def create_app():
     app = Flask(__name__, static_folder='static')
 
     # SQLAlchemy Config
-    # app.config['SECRET_KEY'] = id()
-    # app.config.update(config)
-    # markup.init_app(app)
-    # limiter.init_app(app)
-    # model.db.init_app(app)
-    # login_manager.init_app(app)
-    # principals.init_app(app)
-    # admin.init_app(app)
-    # login_manager.login_view = 'auth.login'
-    # migrate.init_app(app, model.db)
-    # SQLAlchemy Config - CONFIG FOR DEV ENV
-    app.config['SECRET_KEY'] = 'secret-key-goes-here'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    # adding to suppress warning, will delete later
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
+    app.config['SECRET_KEY'] = id()
+    app.config.update(config)
+    markup.init_app(app)
+    limiter.init_app(app)
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
     admin.init_app(app)
-    commonmark.init_app(app)
     login_manager.login_view = 'auth.login'
-
-    with app.app_context():
-        db.create_all()
+    migrate.init_app(app, model.db)
 
     # Inject global variables to templates
     @app.context_processor
@@ -120,7 +105,8 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-    
+    with app.app_context():
+        loadXML.createSitemapXML()
     app.context_processor(time_zone)
     app.context_processor(copyright)
     return app
