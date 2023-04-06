@@ -619,8 +619,11 @@ h1,h2,h3,h4,h5,h6 {
 
 /* message */
 #message-btn {
-  background-color: #1a6b99;
-  border: none;
+  position: fixed;
+  bottom: 10px;
+  right: 24px;
+  border: 2px solid white;
+  background-color: var(--main-blue);
   color: white;
   font-size: 16px;
   cursor: pointer;

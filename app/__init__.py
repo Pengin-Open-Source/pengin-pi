@@ -46,6 +46,7 @@ def create_app():
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
+       
 
     # Inject global variables to templates
     @app.context_processor
