@@ -2,6 +2,7 @@
 {% block tags %}
 {% endblock %}
 {% block divMessage %}
+
     <style>
         .content-section {
             display: flex;
@@ -86,6 +87,7 @@
                     {% for user in users %}
                     <div class = 'message-grid-item'>
                         {{user['name']}}
+
                     </div>
                     {% endfor %}
                 </div>
