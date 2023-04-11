@@ -1,16 +1,17 @@
 from app.db import db
-from app.db.models.blog import BlogPost
-from app.db.models.customer import User, UserRoles, Role, Company, CompanyMembers
-from app.db.models.forum import ForumComment, ForumPost, Thread, ThreadRoles
-from app.db.models.product import Product
-from app.db.models.orders import Contracts, Orders, ShippingAddress, Customer, OrdersList
-from app.db.models.ticket import TicketComment, TicketForum, Resolution
-from app.db.models.calendar import Event
-from app.db.models.home import Home
-from app.db.models.about import About
+from .blog import BlogPost
+from .customer import User, UserRoles, Role, Company, CompanyMembers
+from .forum import ForumComment, ForumPost, Thread, ThreadRoles
+from .product import Product
+from .orders import Contracts, Orders, ShippingAddress, Customer, OrdersList
+from .ticket import TicketComment, TicketForum, Resolution
+from .calendar import Event
+from .home import Home
+from .about import About
+from .message import Message
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
-
+from datetime import datetime
 
 #Company
 Company.customer = db.relationship('Customer')
@@ -100,3 +101,36 @@ TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
 #OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+#Message
+User.tx_message = db.relationship('Message')
+User.rx_message = db.relationship('Message')
+
+Company.tx_message = db.relationship('Message')
+Company.rx_message = db.relationship('Message')
+
+Role.tx_message = db.relationship('Message')
+Role.rx_message = db.relationship('Message')
+
+Thread.tx_message = db.relationship('Message')
+Thread.rx_message = db.relationship('Message')
+
+
+
+Message.__table_args__ = (
+        schema.CheckConstraint('NOT(tx_user_id IS NULL AND tx_company_id IS NULL AND tx_role_id IS NULL AND tx_thread_id IS NULL)'),
+        schema.CheckConstraint('NOT(rx_user_id IS NULL AND rx_company_id IS NULL AND rx_role_id IS NULL AND rx_thread_id IS NULL)'),
+    )
+
+Message.tx_user_id = db.Column(db.String(36), db.ForeignKey('user.id',ondelete='CASCADE'), nullable=False)
+Message.tx_company_id = db.Column(db.String(36), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
+Message.tx_role_id = db.Column(db.String(36), db.ForeignKey('role.id', ondelete='CASCADE'), nullable=False)
+Message.tx_thread_id = db.Column(db.String(36), db.ForeignKey('thread.id', ondelete='CASCADE'), nullable=False)
+
+Message.rx_user_id = db.Column(db.String(36), db.ForeignKey('user.id',ondelete='CASCADE'), nullable=False)
+Message.rx_company_id = db.Column(db.String(36), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
+Message.rx_role_id = db.Column(db.String(36), db.ForeignKey('role.id', ondelete='CASCADE'), nullable=False)
+Message.rx_thread_id = db.Column(db.String(36), db.ForeignKey('thread.id', ondelete='CASCADE'), nullable=False)
+    
+Message.sent_at = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
+Message.read_at = db.Column(db.DateTime(timezone=True), nullable=True)

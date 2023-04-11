@@ -1,5 +1,6 @@
 from app.db import db
 from app.util.uuid import id
+from datetime import datetime
 
 
 class ForumPost(db.Model):
@@ -8,14 +9,14 @@ class ForumPost(db.Model):
     title = db.Column(db.String(50))
     content = db.Column(db.Text)
     tags = db.Column(db.String(150))
-    date = db.Column(db.String(100))
+    date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
 
 
 class ForumComment(db.Model):
     __tablename__ = "forum_comment"
     id = db.Column(db.String(36), default=id, primary_key=True)
     content = db.Column(db.Text)
-    date = db.Column(db.String(100))
+    date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
     zipcode = db.Column(db.String(100))
 
 

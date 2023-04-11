@@ -22,7 +22,7 @@ def display_blog_home():
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     return render_template('blog/blog.html', posts=posts, primary_title='Blog',
-                           is_admin=admin_permission.can(), left_title='Blog Posts')
+                           is_admin=admin_permission.can())
 
 
 @blogPosts.route("/blog/<post_id>")
@@ -38,7 +38,7 @@ def display_post(post_id):
     
     return render_template('blog/view.html', page=page, post=post, posts=posts,
                            is_admin=admin_permission.can(),
-                           blog_author_date=author_date)
+                           blog_author_date=author_date, primary_title=post.title)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def edit_post(post_id):
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
+    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can(), primary_title="Edit Blog")
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -82,4 +82,4 @@ def create_post():
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/create.html', newPost=1, posts=posts)
+    return render_template('blog/create.html', newPost=1, posts=posts, primary_title="Create Blog")
