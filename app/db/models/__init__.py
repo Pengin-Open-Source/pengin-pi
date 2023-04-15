@@ -103,34 +103,31 @@ OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 #Message
-User.tx_message = db.relationship('Message')
-User.rx_message = db.relationship('Message')
-
-Company.tx_message = db.relationship('Message')
-Company.rx_message = db.relationship('Message')
-
-Role.tx_message = db.relationship('Message')
-Role.rx_message = db.relationship('Message')
-
-Thread.tx_message = db.relationship('Message')
-Thread.rx_message = db.relationship('Message')
-
-
-
 Message.__table_args__ = (
         schema.CheckConstraint('NOT(tx_user_id IS NULL AND tx_company_id IS NULL AND tx_role_id IS NULL AND tx_thread_id IS NULL)'),
         schema.CheckConstraint('NOT(rx_user_id IS NULL AND rx_company_id IS NULL AND rx_role_id IS NULL AND rx_thread_id IS NULL)'),
+        schema.CheckConstraint('NOT(tx_message IS NULL AND rx_message NULL)'),
     )
 
-Message.tx_user_id = db.Column(db.String(36), db.ForeignKey('user.id',ondelete='CASCADE'), nullable=False)
+
+Message.tx_user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 Message.tx_company_id = db.Column(db.String(36), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
 Message.tx_role_id = db.Column(db.String(36), db.ForeignKey('role.id', ondelete='CASCADE'), nullable=False)
 Message.tx_thread_id = db.Column(db.String(36), db.ForeignKey('thread.id', ondelete='CASCADE'), nullable=False)
 
-Message.rx_user_id = db.Column(db.String(36), db.ForeignKey('user.id',ondelete='CASCADE'), nullable=False)
+Message.rx_user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 Message.rx_company_id = db.Column(db.String(36), db.ForeignKey('company.id', ondelete='CASCADE'), nullable=False)
 Message.rx_role_id = db.Column(db.String(36), db.ForeignKey('role.id', ondelete='CASCADE'), nullable=False)
 Message.rx_thread_id = db.Column(db.String(36), db.ForeignKey('thread.id', ondelete='CASCADE'), nullable=False)
     
 Message.sent_at = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
 Message.read_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+User.tx_message = db.relationship('Message', foreign_keys=[Message.tx_user_id])
+User.rx_message = db.relationship('Message', foreign_keys=[Message.rx_user_id])
+
+Company.tx_message = db.relationship('Message', foreign_keys=[Message.tx_company_id])
+Company.rx_message = db.relationship('Message', foreign_keys=[Message.rx_company_id])
+
+Thread.tx_message = db.relationship('Message', foreign_keys=[Message.tx_thread_id])
+Thread.rx_message = db.relationship('Message', foreign_keys=[Message.rx_thread_id])

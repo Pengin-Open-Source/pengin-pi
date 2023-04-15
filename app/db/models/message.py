@@ -5,5 +5,5 @@ from datetime import datetime
 
 class Message(db.Model):
     id = db.Column(db.String(36), default=id, primary_key=True)
-    content = db.Column(db.Text)
+    message = db.Column(db.Text)
     date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
