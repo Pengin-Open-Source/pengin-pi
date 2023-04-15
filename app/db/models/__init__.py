@@ -106,7 +106,6 @@ OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 Message.__table_args__ = (
         schema.CheckConstraint('NOT(tx_user_id IS NULL AND tx_company_id IS NULL AND tx_role_id IS NULL AND tx_thread_id IS NULL)'),
         schema.CheckConstraint('NOT(rx_user_id IS NULL AND rx_company_id IS NULL AND rx_role_id IS NULL AND rx_thread_id IS NULL)'),
-        schema.CheckConstraint('NOT(tx_message IS NULL AND rx_message NULL)'),
     )
 
 
