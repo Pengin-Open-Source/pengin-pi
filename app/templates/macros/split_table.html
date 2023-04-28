@@ -1,0 +1,28 @@
+{% macro render_table(items) %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        {% for item in items %}
+          {% for key in item.__dict__.keys() %}
+            {% if key != '_sa_instance_state' %}
+              <th>{{ key }}</th>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          {% for key, value in item.__dict__.items() %}
+            {% if key != '_sa_instance_state' %}
+              <td>{{ value }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endmacro %}
