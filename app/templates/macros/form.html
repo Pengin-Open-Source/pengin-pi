@@ -8,12 +8,10 @@
           type="{{item.type}}"
           name="{{item.name}}"
           id="{{item.name}}"
-          placeholder="{{item.placeholder}}"
+          {% if item.placeholder is defined %}placeholder="{{item.placeholder}}"{% endif %}
         >
       </div>
     {% endfor %}
     <button class="primary-button">Save</button>
   </form>
 {% endmacro %}
-
-<!-- items format:  [{name:"", label:"", type:"", placeholder:""}]  -->
