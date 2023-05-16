@@ -7,17 +7,17 @@ from app.util.s3 import conn
 from app.db.util import paginate
 
 job_blueprint = Blueprint('job_blueprint',
-                          __name__, url_prefix="/jobs")  # A dunder method that returns name of the current module
+                          __name__, url_prefix='/jobs')  # A dunder method that returns name of the current module
 
-@job_blueprint.route('/', methods=["GET", "POST"])
+@job_blueprint.route('/', methods=['GET', 'POST'])
 def jobs():
     is_admin = admin_permission.can()
-    if request.method == "POST":
+    if request.method == 'POST':
         page = (request.form.get('page_number', 1)) 
     else:
         page =1
     
-    jobs = paginate(Job, page=page, key="job_title", pages=9) # I'm not sure why pages=9
+    jobs = paginate(Job, page=page, key='job_title', pages=9) # I'm not sure why pages=9
     
     return render_template('jobs/jobs.html', is_admin=is_admin,
                            jobs=jobs, page=page,
@@ -77,7 +77,7 @@ def edit_job(job_id):
     return render_template('jobs/job_edit.html', job=job, primary_title='Edit Job')
 
 
-@create_job.route('/delete/<id>', methods=['POST'])
+@create_job.route('/delete/<job_id>', methods=['POST'])
 @login_required
 @admin_permission.require()
 def delete_job(job_id):
