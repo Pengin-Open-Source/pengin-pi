@@ -17,7 +17,7 @@ def jobs():
     else:
         page =1
     
-    jobs = paginate(Job, page=page, key='job_title', pages=9) # I'm not sure why pages=9
+    jobs = paginate(Job, page=page, key='job_title', pages=9) # Allows 9 jobs per page
     
     return render_template('jobs/jobs.html', is_admin=is_admin,
                            jobs=jobs, page=page,
