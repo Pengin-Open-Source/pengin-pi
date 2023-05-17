@@ -7,7 +7,7 @@ from app.util.s3 import conn
 from app.db.util import paginate
 
 job_blueprint = Blueprint('job_blueprint',
-                          __name__, url_prefix='/jobs')  # A dunder method that returns name of the current module
+                          __name__, url_prefix='/jobs')
 
 @job_blueprint.route('/', methods=['GET', 'POST'])
 def jobs():
@@ -77,7 +77,7 @@ def edit_job(job_id):
     return render_template('jobs/job_edit.html', job=job, primary_title='Edit Job')
 
 
-@create_job.route('/delete/<job_id>', methods=['POST'])
+@job_blueprint.route('/delete/<job_id>', methods=['POST'])
 @login_required
 @admin_permission.require()
 def delete_job(job_id):
