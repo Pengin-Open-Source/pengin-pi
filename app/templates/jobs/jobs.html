@@ -1,0 +1,20 @@
+{% extends "layout/fullPageScroll.html" %}
+{% import "macros/paginate.html" as pagination %}
+
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/jobs/create">New Job</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
+  <div class="job-grid">
+    {% for job in jobs %}
+      <a href="/jobs/{{job.id}}">
+        <div>{{job.job_title}}</div>
+        <div>{{job.date_posted}}</div>    
+      </a>
+    {% endfor %}
+  </div>
+  {{ pagination.render_pagination(jobs, "") }}
+{% endblock %} 

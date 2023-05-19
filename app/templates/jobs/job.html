@@ -1,0 +1,21 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a  href="/jobs/edit/{{job.id}}">Edit Job</a>
+    <form method="post" action="/jobs/delete/{{job.id}}">
+      <button  type="submit">Delete</button>
+    </form>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
+    <p>{{job.job_title|e}}</p>
+    <div class="commonmark">{{job.short_description|commonmark|e}}</div>
+    <p>{{job.department|e}}</p>
+    <p>{{job.salary|e}}</p>
+    <p>{{job.location|e}}</p>
+    <div class="commonmark">{{job.long_description|commonmark|e}}</div>
+    <p>{{job.hiring_manager|e}}</p>
+    <p>{{job.date_posted|e}}</p>
+{% endblock %} 
