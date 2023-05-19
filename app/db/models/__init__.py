@@ -7,6 +7,7 @@ from app.db.models.orders import Contracts, Orders, ShippingAddress, Customer, O
 from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
+from app.db.models.job import Job
 from app.db.models.about import About
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
