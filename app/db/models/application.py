@@ -1,9 +1,8 @@
-#399-application-crm
 from app.db import db
 from app.util.uuid import id
 from job import Job
 
-class Application(db.Model):
+class Application(db.Model): #399-application-crm
     __tablename__ = 'application'
     id = db.Column(db.String(36), default=id, primary_key=True)
     job_id = db.Column(db.String(36), db.ForeignKey(Job.id)) #matches the id of the job for which the applicant is applying
