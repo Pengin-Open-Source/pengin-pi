@@ -9,11 +9,11 @@ from app.db.util import paginate
 job_blueprint = Blueprint('job_blueprint',
                           __name__, url_prefix='/jobs')
 
-jobs_per_page = 9
 
 @job_blueprint.route('/', methods=['GET', 'POST'])
 def jobs():
     is_admin = admin_permission.can()
+    jobs_per_page = 9
     if request.method == 'POST':
         page = (request.form.get('page_number', 1)) 
     else:
