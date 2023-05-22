@@ -1,5 +1,6 @@
 from app.db import db
 from app.util.uuid import id
+from datetime import datetime
 
 class Job(db.Model):
     __tablename__ = 'job'
@@ -11,4 +12,4 @@ class Job(db.Model):
     salary = db.Column(db.String(100))
     location = db.Column(db.String(100))
     hiring_manager = db.Column(db.String(100))
-    date_posted = db.Column(db.DateTime(timezone=True), nullable=True)
+    date_posted = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
