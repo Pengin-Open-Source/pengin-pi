@@ -9,6 +9,8 @@ from app.db.util import paginate
 job_blueprint = Blueprint('job_blueprint',
                           __name__, url_prefix='/jobs')
 
+jobs_per_page = 9
+
 @job_blueprint.route('/', methods=['GET', 'POST'])
 def jobs():
     is_admin = admin_permission.can()
@@ -17,7 +19,7 @@ def jobs():
     else:
         page =1
     
-    jobs = paginate(Job, page=page, key='job_title', pages=9) # Allows 9 jobs per page
+    jobs = paginate(Job, page=page, key='job_title', pages=jobs_per_page)
     
     return render_template('jobs/jobs.html', is_admin=is_admin,
                            jobs=jobs, page=page,
