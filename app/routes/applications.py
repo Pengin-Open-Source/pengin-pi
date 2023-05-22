@@ -20,8 +20,8 @@ def create_application(job_id):
         cover_letter_path = y #look at our images file framework for ideas
         
         application = Application(message_to_hiring_manager=message_to_hiring_manager,
-                                  location_of_candidate=location_of_candidate
-                                  resume_path=resume_path
+                                  location_of_candidate=location_of_candidate,
+                                  resume_path=resume_path,
                                   cover_letter_path=cover_letter_path)
         
         db.session.add(application)
