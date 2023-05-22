@@ -11,4 +11,4 @@ class Job(db.Model):
     salary = db.Column(db.String(100))
     location = db.Column(db.String(100))
     hiring_manager = db.Column(db.String(100))
-    date_posted = db.Column(db.String(100))
+    date_posted = db.Column(db.DateTime(timezone=True), nullable=True)
