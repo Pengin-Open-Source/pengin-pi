@@ -1,6 +1,12 @@
 {% extends "layout/fullPageScroll.html" %}
+{% import "macros/form2.html" as form %} <!--form 2 macro; I left form.html untouched-->
+<!-- If this works, replace job_edit.html code with macro, too-->
 
 {% block pageContent %}
+
+{{ form.render_form(Job, endpoint="/jobs/create") }}
+
+  <!-- the above macro should basically create the same as the following code:
   <form class="form" method="POST" action="/jobs/create">
     <div class="job-create-container">
       <div class="form-section">
@@ -66,10 +72,12 @@
         <input
         class="form-input"
         type="datetime-local"
-        name="date_posted" required>
+        name="date_posted" required
+        id="date_posted">
       </div>
     </div>
 
       <button class="primary-button">Create Job</button>
   </form>
+  -->
 {% endblock %}

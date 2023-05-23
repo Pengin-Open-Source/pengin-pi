@@ -1,0 +1,17 @@
+{% macro render_form(model, endpoint) %}
+  <form class="form" method="POST" action="{{ endpoint }}">
+    {% for column in model.__table__.columns %} <!--__table__ is SQLAlchemy only. It's list of column objects defined for the table-->
+      <div class="form-section">
+        <label for="{{ column.name }}">{{ column.name|replace('_', ' ').title() }}</label>
+        <input
+          class="form-input"
+          type="{{ column.type.python_type.__name__ }}"
+          name="{{ column.name }}"
+          id="{{ column.name }}"
+          {% if column.default is defined %}value="{{ column.default() }}"{% endif %}
+        >
+      </div>
+    {% endfor %}
+    <button class="primary-button">Save</button>
+  </form>
+{% endmacro %}
