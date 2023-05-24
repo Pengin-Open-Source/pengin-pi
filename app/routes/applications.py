@@ -42,4 +42,3 @@ def application(job_id):
                            page=1, primary_title=application.job_title + " Application") #hope this works
 
 
-
