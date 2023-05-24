@@ -2,7 +2,7 @@
 
 {% block pageDropDowns %}
   {% if is_admin %}
-    <a  href="/jobs/edit/{{job.id}}">Edit Job</a>
+    <a href="/jobs/edit/{{job.id}}">Edit Job</a>
     <form method="post" action="/jobs/delete/{{job.id}}">
       <button  type="submit">Delete</button>
     </form>
@@ -18,4 +18,7 @@
     <div class="commonmark">{{job.long_description|commonmark|e}}</div>
     <p>{{job.hiring_manager|e}}</p>
     <p>{{job.date_posted|e}}</p>
+    <p><a href="/applications/{{ application.job_id }}">Go to Application Page</a></p>
+    
+
 {% endblock %} 
