@@ -30,7 +30,7 @@ def create_application(job_id):
         db.session.add(application)
         db.session.commit()
         #flash('Your application has been submitted.') or something similar
-        return redirect(url_for(application_blueprint.application))
+        return redirect(url_for(application_blueprint.application, job_id=job_id))
     return render_template('applications/application_create.html', primary_title='Create Application')
 
 
