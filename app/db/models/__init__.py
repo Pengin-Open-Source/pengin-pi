@@ -8,7 +8,7 @@ from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
-from app.db.models.job import Job
+from app.db.models.job import Job #need to add to be called automatically when creating an instance of Job class
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
@@ -28,7 +28,7 @@ UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                 ondelete='CASCADE'))
-#Companmy Members
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
                         ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
