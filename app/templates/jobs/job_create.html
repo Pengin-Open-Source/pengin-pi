@@ -1,0 +1,83 @@
+{% extends "layout/fullPageScroll.html" %}
+{% import "macros/form2.html" as form %} <!--form 2 macro; I left form.html untouched-->
+<!-- If this works, replace job_edit.html code with macro, too-->
+
+{% block pageContent %}
+
+{{ form.render_form(Job, endpoint="/jobs/create") }}
+
+  <!-- the above macro should basically create the same as the following code:
+  <form class="form" method="POST" action="/jobs/create">
+    <div class="job-create-container">
+      <div class="form-section">
+        <label for="job_title">Job Title</label>
+        <input
+        class="form-input"
+        type="text"
+        name="job_title"
+        id="job_title"
+        placeholder="Job Title">
+      </div>
+      <div class="form-section">
+        <label for="short_description">Short Description</label>
+        <input
+        class="form-input"
+        type="text"
+        name="short_description"
+        id="short_description"
+        placeholder="Write a brief description">
+      </div>
+      <div class="form-section">
+        <label for="long_description">Long Description</label>
+        <input
+        class="form-input"
+        type="text"
+        name="long_description"
+        id="long_description">
+      </div>
+      <div class="form-section">
+        <label for="department">Department</label>
+        <input
+        class="form-input"
+        type="text"
+        name="department"
+        id="department">
+      </div>
+      <div class="form-section">
+        <label for="salary">Salary</label>
+        <input
+        class="form-input"
+        type="text"
+        name="salary"
+        id="salary">
+      </div>
+      <div class="form-section">
+        <label for="location">Location</label>
+        <input
+        class="form-input"
+        type="text"
+        name="location"
+        id="location">
+      </div>
+      <div class="form-section">
+        <label for="hiring_manager">Hiring Manager</label>
+        <input
+        class="form-input"
+        type="text"
+        name="hiring_manager"
+        id="hiring_manager">
+      </div>
+      <div class="form-section">
+        <label for="date_posted">Date Posted</label>
+        <input
+        class="form-input"
+        type="datetime-local"
+        name="date_posted" required
+        id="date_posted">
+      </div>
+    </div>
+
+      <button class="primary-button">Create Job</button>
+  </form>
+  -->
+{% endblock %}
