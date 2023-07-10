@@ -67,6 +67,8 @@ def create_product():
         db.session.add(product)
         db.session.commit()
 
+        print("Product created successfully")
+
         return redirect(url_for('product_blueprint.products'))
 
     return render_template('products/product_create.html', primary_title='Create Product')
@@ -106,6 +108,8 @@ def edit_product(id):
 
         db.session.commit()
 
+        print("Product edited successfully")
+
         return redirect(url_for('product_blueprint.product', product_id=id))
 
     product.stock_image_url = conn.get_URL(product.stock_image_url)
@@ -121,6 +125,8 @@ def delete_product(id):
     product = Product.query.filter_by(id=id).first()
     db.session.delete(product)
     db.session.commit()
+
+    print("Product deleted successfully")
 
     return redirect(url_for('product_blueprint.products'))
 
