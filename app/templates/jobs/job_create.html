@@ -1,9 +1,8 @@
 {% extends "layout/fullPageScroll.html" %}
 {% import "form.html" as form %}
 
-{% block pageContent %} <!--replace below with form macro-->
-  {{ form.render_job_edit_form(items, "/jobs/create") }}  
-
+{% block pageContent %}
+  {{ form.render_job_edit_form(job, "/jobs/create") }}  
 
 <!-- The above macro should be the same as the html below
   <form class="form" method="POST" action="/jobs/create">

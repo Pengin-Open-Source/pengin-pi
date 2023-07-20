@@ -1,5 +1,5 @@
 {% macro render_form(items, endpoint) %}
-  <form class="form" method="POST" action="{{endpoint}}">
+  <form class="form" method="POST" action="{{ url_for(endpoint) }}">
     {% for item in items %}
       <div class="form-section">
         <label for="{{item.name}}" >{{item.label}}</label>
