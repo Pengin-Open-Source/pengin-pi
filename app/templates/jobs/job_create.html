@@ -1,6 +1,11 @@
 {% extends "layout/fullPageScroll.html" %}
+{% import "form.html" as form %}
 
 {% block pageContent %} <!--replace below with form macro-->
+  {{ form.render_job_edit_form(items, "/jobs/create") }}  
+
+
+<!-- The above macro should be the same as the html below
   <form class="form" method="POST" action="/jobs/create">
     <div class="job-create-container">
       <div class="form-section">
@@ -71,5 +76,5 @@
     </div>
 
       <button class="primary-button">Create Job</button>
-  </form>
+  </form>-->
 {% endblock %}
