@@ -28,7 +28,7 @@ UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                 ondelete='CASCADE'))
-#Companmy Members
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
                         ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -101,3 +101,8 @@ TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
 #OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+#Job
+Job.department = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
+Job.hiring_manager = db.Column(db.String(36), db.ForeignKey('User.name'))
+Job.location = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
