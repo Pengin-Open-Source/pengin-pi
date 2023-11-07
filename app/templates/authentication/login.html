@@ -10,7 +10,7 @@
             </div>
         {% endif %}
         {% endwith %}
-        <form class="form" method="POST" action="/login">
+        <form class="authForm form" method="POST" action="/login">
             <div class="form-section">
                 <label>Email address</label>
                 <input class="form-input" type="email" name="email" placeholder="Your Email" autofocus="">
@@ -23,7 +23,16 @@
                 <input class="form-input" type="checkbox" name="remember">
                 <label> Remember me</label>
             </div>
-            <button class="primary-button" type="submit">Login</button>
+            <button class="primary-button g-recaptcha" type="submit" data-sitekey="{{ site_key }}" data-callback="onSubmit" data-action="submit">Login</button>
         </form>
 </div>
+{% endblock %}
+
+{% block captchaScript %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.querySelector(".authForm").submit();
+        }
+    </script>
 {% endblock %}
