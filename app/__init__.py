@@ -5,7 +5,7 @@ from flask_principal import (AnonymousIdentity, Principal, RoleNeed, UserNeed,
 from flask_migrate import Migrate
 import app.db.models as model
 import app.routes as route
-from app.admin import admin, admin_blueprint
+#from app.admin import admin, admin_blueprint
 from app.db import config
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
@@ -16,7 +16,6 @@ from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
 
-from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
@@ -38,7 +37,7 @@ def create_app():
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
-    admin.init_app(app)
+    #admin.init_app(app)
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
 
@@ -98,7 +97,7 @@ def create_app():
     for blueprint in route.blueprints:
         app.register_blueprint(blueprint)
 
-    app.register_blueprint(admin_blueprint)
+    #app.register_blueprint(admin_blueprint)
 
     app.context_processor(time_zone)
     app.context_processor(copyright)
