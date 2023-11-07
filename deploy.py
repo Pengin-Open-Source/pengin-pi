@@ -92,7 +92,7 @@ if __name__ == "__main__":
     container = 'pos'
     label = docker+get_input()
     profile = 'pos-test'
-    build(docker)
+    #build(docker)
     push_image(profile, service, docker+':latest', label)
     data = get_container(profile, service)
     containers(data, container)
