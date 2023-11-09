@@ -8,12 +8,14 @@ from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
+from app.db.models.jobs import Application, Job
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
 
 #Company
 Company.customer = db.relationship('Customer')
+
 #User
 User.roles = db.relationship('Role', secondary='user_roles')
 User.posts = db.relationship('ForumPost')
@@ -22,12 +24,23 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
+User.posts = db.relationship('Application')
+
+#Job
+Job.application_id = db.relationship('Application')
+
+#Application
+Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                   ondelete='CASCADE'))
+Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
+                                                ondelete='CASCADE'))
+
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                 ondelete='CASCADE'))
-#Companmy Members
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
                         ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
