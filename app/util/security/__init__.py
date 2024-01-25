@@ -18,8 +18,9 @@ delete_post_need = set_need("delete_post")
 edit_post_need = set_need("edit_post")
 delete_ticket_need = set_need("delete_ticket")
 delete_ticket_comment_need = set_need("delete_ticket_comment")
-edit_ticket_need = set_need("edit_ticket_comment")
-edit_ticket_comment_need = set_need("edit_ticket")
+edit_ticket_need = set_need("edit_ticket")
+edit_ticket_comment_need = set_need("edit_ticket_comment")
+
 
 
 # DONE put into proper functions do not assign lamda expression
