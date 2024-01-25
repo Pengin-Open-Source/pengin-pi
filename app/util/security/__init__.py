@@ -22,7 +22,6 @@ edit_ticket_need = set_need("edit_ticket")
 edit_ticket_comment_need = set_need("edit_ticket_comment")
 
 
-
 # DONE put into proper functions do not assign lamda expression
 def delete_comment_permission(post_id):
     return RoutePermission(delete_comment_need, post_id)
