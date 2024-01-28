@@ -13,3 +13,4 @@ instance
 *.DS_Store
 migrations
 Favicon.png
+/venv_311
