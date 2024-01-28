@@ -15,9 +15,11 @@ from datetime import datetime, timedelta
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/login')
 def login():
     return render_template('authentication/login.html', primary_title='Login', item_title='Login', )
+
 
 @limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
@@ -57,8 +59,10 @@ def signup_post():
         flash('Email address already exists')
 
         return redirect(url_for('auth.signup'))
+    # Update code to use a somewhat more secure hash
     new_user = User(email=email, name=name,
-                    password=generate_password_hash(password, method='sha256'),
+                    password=generate_password_hash(
+                        password, method='pbkdf2:sha256:600000'),
                     validation_date=datetime.utcnow())
     db.session.add(new_user)
     db.session.commit()
@@ -83,6 +87,7 @@ def logout():
 
     return redirect(url_for('home_blueprint.home'))
 
+
 @auth.route('/generate-prt')
 def generate_prt():
     return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"), primary_title='Forgot Password')
@@ -97,26 +102,26 @@ def generate_prt_post():
     if not user:
         flash('Email does not exist.')
         return redirect(url_for("auth.generate_prt"))
-    
+
     # allow password reset to validated users only
     if not user.validated:
         flash('This account is not validated.')
         return redirect(url_for("auth.generate_prt"))
-    
+
     user.prt = id()
     user.prt_reset_date = datetime.utcnow()
     db.session.commit()
-    
+
     send_mail(user.email, user.prt, "password_reset")
     return redirect(url_for('auth.login'))
-    
+
 
 @auth.route('/reset-password/<token>')
 def reset_password(token):
     user = User.query.filter_by(prt=token).first()
     if user:
         return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"), primary_title='Reset Password')
-    
+
     abort(404)
 
 
@@ -135,15 +140,21 @@ def reset_password_post(token):
         if datetime.utcnow() > prt_expire_date:
             flash('Token expired.')
             return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"))
-        
+
         if new_password != confirm_new_password:
             flash('Passwords do not match.')
             return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"))
-        
+
         user.prt_consumption_date = datetime.utcnow()
+        # Michele Strom: updated becuase SHA will not work for Werkzeug's 3.0.1 version.
+        # This breaks our registration and login code.
+        # Werkzeug 3.0.1 will not allow SHA256 because it is a plain hash, and less secure.
+        # PLEASE NOTE: Comments in the Werkzueg's security.py file on lines 75-83
+        # lead me to believe that there may still be a problem in the future
+        # and we may need to update to an even more secure method.
         user.password = generate_password_hash(new_password,
-                                                method='sha256')
+                                               method='pbkdf2:sha256:600000')
         db.session.commit()
         return redirect(url_for('auth.login'))
-    
+
     abort(404)
