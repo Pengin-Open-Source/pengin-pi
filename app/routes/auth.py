@@ -59,7 +59,7 @@ def signup_post():
         flash('Email address already exists')
 
         return redirect(url_for('auth.signup'))
-    # Update code to use a somewhat more secure hash
+    # Updated code to use a somewhat more secure hash that can work with Werkzeug 3.0.0 +
     new_user = User(email=email, name=name,
                     password=generate_password_hash(
                         password, method='pbkdf2:sha256:600000'),
@@ -146,12 +146,12 @@ def reset_password_post(token):
             return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"))
 
         user.prt_consumption_date = datetime.utcnow()
-        # Michele Strom: updated becuase SHA will not work for Werkzeug's 3.0.1 version.
+        # updated becuase SHA will not work for Werkzeug's 3.0.1 version.
         # This breaks our registration and login code.
         # Werkzeug 3.0.1 will not allow SHA256 because it is a plain hash, and less secure.
         # PLEASE NOTE: Comments in the Werkzueg's security.py file on lines 75-83
-        # lead me to believe that there may still be a problem in the future
-        # and we may need to update to an even more secure method.
+        # indicate that it may be be better to use script instead of pbkdf2
+        # pbkdf2 is less secure - so it's possible it may be deprecated in the future
         user.password = generate_password_hash(new_password,
                                                method='pbkdf2:sha256:600000')
         db.session.commit()
