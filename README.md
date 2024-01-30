@@ -1,5 +1,4 @@
 # pengin-pi
-# Michele Strom here,  adding in an insignificant edit
 PENGIN PI!
 Is a copyright of Tobu Pengin, 2022.
 
