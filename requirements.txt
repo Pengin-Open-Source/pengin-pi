@@ -1,4 +1,4 @@
-flask<3.0.0
+flask<3.0.0(Werkzeug==2.3.8)
 jinja2
 flask-sqlalchemy
 flask-login
