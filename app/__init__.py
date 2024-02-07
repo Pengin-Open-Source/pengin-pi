@@ -1,4 +1,6 @@
 from flask import Flask, request, send_from_directory
+from flask_socketio import SocketIO, emit, send, join_room
+chatSocket = SocketIO()
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
@@ -26,6 +28,7 @@ migrate = Migrate()
 admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
 
+
 class DummyHome():
     company_name = ''
     article = ''
@@ -46,9 +49,9 @@ def create_app():
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
-       
 
     # Inject global variables to templates
+
     @app.context_processor
     def inject_globals():
         company = model.Home.query.first() or DummyHome()
@@ -105,7 +108,9 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-    
+
     app.context_processor(time_zone)
     app.context_processor(copyright)
+
+    chatSocket.init_app(app)
     return app

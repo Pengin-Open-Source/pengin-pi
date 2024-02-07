@@ -3,127 +3,169 @@
 {% endblock %}
 {% block divMessage %}
 
-    <style>
-        .content-section {
-            display: flex;
-            flex-direction: row;
-            padding: 0px;
-            height: 540px;
-        }
-        .content-section-div-1 {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 12px;
-        }
-        .content-section-div-2 {
-            display: flex;
-            flex-direction: column;
-            padding: 12px;
-            flex: 2;
-        }
-        .message-form {
-            flex: 1;
-            margin: 4px 8px;
-        }
-        .message-text {
-            width: 100%;
-            height: 100%;
-        }
-        .message-display {
-            flex: 8;
-            display: flex;
-            flex-direction: row;
-            background-color: #dddddd;
-            margin: 4px;
-        }
-        .message-grid-container {
-            display: grid;
-            grid-template-columns: auto;
-            overflow-y: auto;
-        }
-        .message-grid-item {
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            padding: 10px 30px;
-            text-align: center;
-        }
-        .message-grid-item:nth-child(even) {
-            background-color: #dddddd;
-        }
-        .message-display-sender, .message-display-receiver {
-            flex: 1;
-            height: 100%;
-        }
-        .text-section {
-            color: black;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-        .text-section-s, .text-section-r {
-            flex: 1;
-            padding: 6px 10px;
-            margin: 12px 8px;
-        }
-        .text-section-s:nth-child(odd) {
-            border-radius: 4px;
-            background-color: black;
-            color: #dddddd;
-        }
-        .text-section-r:nth-child(even) {
-            border-radius: 4px;
-            background-color: #1a6b99;
-            color: #dddddd;
-        }
-    </style>
-    <article class="content-section">
-        <div class = 'content-section-div-1'>
-            <div>
-                <h2> Contact </h2>
-            </div>
-            <div class = 'message-grid-container'>
-                <div>
-                    {% for user in users %}
-                    <div class = 'message-grid-item'>
-                        {{user['name']}}
+HI I'm HERE
+<style>
+    .content-section {
+        display: flex;
+        flex-direction: row;
+        padding: 0px;
+        height: 540px;
+    }
 
-                    </div>
-                    {% endfor %}
+    .content-section-div-1 {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .content-section-div-2 {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        flex: 2;
+    }
+
+    .message-form {
+        flex: 1;
+        margin: 4px 8px;
+    }
+
+    .message_text {
+        width: 100%;
+        height: 100%;
+    }
+
+    .message-display {
+        flex: 8;
+        display: flex;
+        flex-direction: row;
+        background-color: #dddddd;
+        margin: 4px;
+    }
+
+    .message-grid-container {
+        display: grid;
+        grid-template-columns: auto;
+        overflow-y: auto;
+    }
+
+    .message-grid-item {
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 10px 30px;
+        text-align: center;
+    }
+
+    .message-grid-item:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    .message-display-sender,
+    .message-display-receiver {
+        flex: 1;
+        height: 100%;
+    }
+
+    .text-section {
+        color: black;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .text-section-s,
+    .text-section-r {
+        flex: 1;
+        padding: 6px 10px;
+        margin: 12px 8px;
+    }
+
+    .text-section-s:nth-child(odd) {
+        border-radius: 4px;
+        background-color: black;
+        color: #dddddd;
+    }
+
+    .text-section-r:nth-child(even) {
+        border-radius: 4px;
+        background-color: #1a6b99;
+        color: #dddddd;
+    }
+</style>
+<article class="content-section">
+    <div class='content-section-div-1'>
+        <div>
+            <h2> Contact </h2>
+        </div>
+        <div class='message-grid-container'>
+            <div>
+                {% for user in users %}
+                <div class='message-grid-item'>
+                    {{user['name']}}
+
                 </div>
+                {% endfor %}
             </div>
         </div>
-        <div class = 'content-section-div-2'>
-            <div class ='message-display'>
-                <div class = 'message-display-sender'>
-                    {% for text in messages['sender'] %}
-                    <div class = 'text-section'>
-                        <div class = 'text-section-s'>
-                            {{text}}
-                        </div>
-                        <div class = 'text-section-s'></div>
+    </div>
+    <div class='content-section-div-2'>
+        <div class='message-display'>
+            <div class='message-display-sender'>
+                {% for text in messages['sender'] %}
+                <div class='text-section'>
+                    <div class='text-section-s'>
+                        {{text}}
                     </div>
-                    {% endfor %}
+                    <div class='text-section-s'></div>
                 </div>
-                <div class = 'message-display-receiver'>
-                    {% for text in messages['receiver'] %}
-                    <div class = 'text-section'>
-                        <div class = 'text-section-r'></div>
-                        <div class = 'text-section-r'>
-                            {{text}}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
-            <form class = 'message-form' method="POST" action="/message/create">
-                <div class="message-form-section">
-                    <textarea rows = '6'class="message-text" name="message" id="message" placeholder="Text your message..."></textarea>
+            <div class='message-display-receiver'>
+                {% for text in messages['receiver'] %}
+                <div class='text-section'>
+                    <div class='text-section-r'></div>
+                    <div class='text-section-r'>
+                        {{text}}
+                    </div>
                 </div>
-                <div class="message-form-section">
-                    <button> Send </button>
-                </div>
-            </form>
+                {% endfor %}
+            </div>
         </div>
-    </article>
+        <form class='message-form' method="POST" action="/">
+            <div class="message-form-section">
+                <input type="text" class="display_name" placeholder="Display Name:">
+                <textarea rows='6' class="message_text" name="message" id="message"
+                    placeholder="Text your message..."></textarea>
+
+            </div>
+            <div class="message-form-section">
+                <input type="submit" value="Send" />
+            </div>
+        </form>
+    </div>
+</article>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script type="text/javascript">
+    const socket = io();
+    socket.on('connect', function () {
+        socket.emit('new connection', {
+            data: 'A user has connected'
+        })
+        const form = $('message-form').on('submit', function (e) {
+            e.preventDefault()
+            let user_name = $('input.display-name').val();
+            let user_input = $('input.message_text').val();
+            socket.emit('messenge sent', {
+                user_name: display_name,
+                message: message_text
+            })
+            $('input.message_text').val('').focus()
+        })
+    })
+
+</script>
+
 {% endblock %}
