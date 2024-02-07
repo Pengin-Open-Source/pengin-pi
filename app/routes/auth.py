@@ -142,7 +142,7 @@ def reset_password_post(token):
         
         user.prt_consumption_date = datetime.utcnow()
         user.password = generate_password_hash(new_password,
-                                                method='sha256')
+                                                method='pbkdf2:sha256:600000')
         db.session.commit()
         return redirect(url_for('auth.login'))
     
