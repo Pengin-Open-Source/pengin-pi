@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.String(36), default=ID, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(102))
     name = db.Column(db.String(100))
     validated = db.Column(db.Boolean, default=False, nullable=False)
     validation_date = db.Column(db.DateTime(timezone=True), default=datetime.utcnow())
