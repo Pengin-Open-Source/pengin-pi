@@ -7,6 +7,7 @@ from app.db import db
 from app.db.models import User, Role, UserRoles
 from app.util.mail import send_mail
 from app.util.security.limit import limiter
+from app import chat_messages
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -17,10 +18,11 @@ def profile():
     now = datetime.utcnow()
     delta = current_user.validation_date + timedelta(minutes=5)
     can_re_validate = True if not current_user.validated and now > delta else False
-    sample_messages = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
+    # sample_messages = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
     return render_template('profile/profile.html', name=current_user.name,
                            email=current_user.email, can_do=can_re_validate,
-                           primary_title='Profile Information', messages = sample_messages)
+                           primary_title='Profile Information', messages=chat_messages)
+
 
 @limiter.limit("2 per minute")
 @profiles.route('/send_email')
@@ -34,9 +36,10 @@ def send_email():
         user.validation_date = now
         user.validate_id = id()
         db.session.commit()
-        
+
         send_mail(user.email, user.validation_id)
     return redirect(url_for('profiles.profile'))
+
 
 @limiter.limit("2 per minute")
 @profiles.route('/validate/<token>')
@@ -51,15 +54,12 @@ def validate(token):
             db.session.commit()
             return redirect(url_for('profiles.profile'))
         else:
-            #TODO: track IP and validate attempt count for blocking
+            # TODO: track IP and validate attempt count for blocking
             abort(404)
 
-        
-    
     except Exception as e:
         print(e)
         abort(404)
-        
 
 
 @profiles.route('/edit_profile', methods=['GET'])
@@ -82,7 +82,6 @@ def edit_profile_post():
     db.session.commit()
 
     return redirect(url_for('profiles.profile'))
-
 
 
 @limiter.limit("2 per minute")
