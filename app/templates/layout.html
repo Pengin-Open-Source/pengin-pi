@@ -145,13 +145,11 @@
                     {% endfor %}
                   </div>
                 </div>
-                <form class="message-form" method="POST" action="/">
+                <form class="message-form" method="POST" action="">
                   <div class="message-form-section">
                     <input type="text" class="display_name" placeholder="Display Name:">
                     <textarea rows="6" class="message_text" name="message" id="message"
                       placeholder="Text your message..."></textarea>
-                  </div>
-                  <div class="message-form-section">
                     <input type="submit" value="Send" />
                   </div>
                 </form>
@@ -177,6 +175,10 @@
 
     socket.on('connect', function () {
       console.log("We have a new connection!")
+
+      const form = $('message-form-section').on('submit', function (e) {
+        console.log("We submitted something!")
+      })
     })
   </script>
 
