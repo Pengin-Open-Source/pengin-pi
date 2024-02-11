@@ -6,6 +6,7 @@ from app.db import db
 from app.db.models import About
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
+from app import chat_messages
 
 about_blueprint = Blueprint('about_blueprint', __name__,
                             url_prefix="/about")
@@ -24,7 +25,7 @@ def view():
         logging.info('Image S3 URL accessed:' + about.image)
 
     return render_template('about/about_main.html', about=about,
-                           is_admin=is_admin, image=image, primary_title='About Us')
+                           is_admin=is_admin, image=image, primary_title='About Us', messages=chat_messages)
 
 
 @about_blueprint.route('/edit', methods=['GET', 'POST'])
@@ -97,11 +98,11 @@ def edit_about():
             url = conn.create(image)
 
         new_about = About(name=name, article=article, facebook=facebook,
-                            instagram=instagram, whatsapp=whatsapp,
-                            linkedin=linkedin, youtube=youtube, phone=phone,
-                            twitter=twitter, address1=address1,
-                            address2=address2, city=city, state=state,
-                            country=country, tags=tags, image=url)
+                          instagram=instagram, whatsapp=whatsapp,
+                          linkedin=linkedin, youtube=youtube, phone=phone,
+                          twitter=twitter, address1=address1,
+                          address2=address2, city=city, state=state,
+                          country=country, tags=tags, image=url)
 
         db.session.add(new_about)
         db.session.commit()

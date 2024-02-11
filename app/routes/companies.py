@@ -4,7 +4,7 @@ from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
-
+from app import chat_messages
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
 
@@ -17,16 +17,16 @@ def display_companies_home():
     else:
         page = 1
 
-    companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
+    companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page,
                               pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
+                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies',  messages=chat_messages)
 
 
-@company_info.route('/<company_id>', methods=['POST','GET'])
+@company_info.route('/<company_id>', methods=['POST', 'GET'])
 @login_required
-def display_company_info(company_id:str) -> render_template:
+def display_company_info(company_id: str) -> render_template:
     """display company info method
     This method handles the company/company_id route and returns a company information view.
 
@@ -39,20 +39,20 @@ def display_company_info(company_id:str) -> render_template:
         company_info.html, company query, paginated company members
     """
 
-    #Get company from database
+    # Get company from database
     company = Company.query.get_or_404(company_id)
-    #If POST, get page number from form button
+    # If POST, get page number from form button
     if request.method == "POST":
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
 
-    #custom paginate method to join two tables and paginate results.  Gets users where members of company_id
-    members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
-                            pages=10, filters={'company_id':company_id})
+    # custom paginate method to join two tables and paginate results.  Gets users where members of company_id
+    members = paginate_join(User, CompanyMembers, User.id == CompanyMembers.user_id, page=page,
+                            pages=10, filters={'company_id': company_id})
 
     return render_template('company_info/company_info.html', primary_title='Company Info',
-                           company=company, members=members, is_admin=admin_permission.can())
+                           company=company, members=members, is_admin=admin_permission.can(), messages=chat_messages)
 
 
 @company_info.route('/create', methods=['GET', 'POST'])
@@ -120,7 +120,8 @@ def edit_company_members(company_id):
         page = 1
 
     users = paginate(User, page=page, pages=10)
-    members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+    members_ids = CompanyMembers.query.with_entities(
+        CompanyMembers.user_id).filter_by(company_id=company.id).all()
     members_ids_list = [i for i in members_ids for i in i]
 
     return render_template('company_info/edit_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
@@ -136,7 +137,8 @@ def edit_company_members_post(company_id):
         checkbox_values = request.form.getlist('member-checkbox')
         page_num = request.form.get('page-number')
         users_for_delete = paginate(User, int(page_num), pages=9)
-        members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+        members_ids = CompanyMembers.query.with_entities(
+            CompanyMembers.user_id).filter_by(company_id=company.id).all()
         members_ids_list = [i for i in members_ids for i in i]
 
         # clear members so only those with checkboxes are left in DB.

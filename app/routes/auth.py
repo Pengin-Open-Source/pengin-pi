@@ -43,7 +43,7 @@ def login_post():
 
 @auth.route('/signup')
 def signup():
-    return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"), primary_title='Sign Up')
+    return render_template('authentication/signup.html', site_key=os.getenv("SITE_KEY"), primary_title='Sign Up,', messages=chat_messages)
 
 
 @limiter.limit("3 per minute")
@@ -90,7 +90,7 @@ def logout():
 
 @auth.route('/generate-prt')
 def generate_prt():
-    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"), primary_title='Forgot Password')
+    return render_template('authentication/generate_prt_form.html', site_key=os.getenv("SITE_KEY"), primary_title='Forgot Password', messages=chat_messages)
 
 
 @limiter.limit("2 per minute")
@@ -120,7 +120,7 @@ def generate_prt_post():
 def reset_password(token):
     user = User.query.filter_by(prt=token).first()
     if user:
-        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"), primary_title='Reset Password')
+        return render_template('authentication/reset_password_form.html', email=user.email, token=token, site_key=os.getenv("SITE_KEY"), primary_title='Reset Password', messages=chat_messages)
 
     abort(404)
 

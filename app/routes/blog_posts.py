@@ -5,9 +5,11 @@ from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models import BlogPost
 from app.db.util import paginate
+from app import chat_messages
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
+
 
 def get_links():
     return []
@@ -22,7 +24,7 @@ def display_blog_home():
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     return render_template('blog/blog.html', posts=posts, primary_title='Blog',
-                           is_admin=admin_permission.can(), left_title='Blog Posts')
+                           is_admin=admin_permission.can(), left_title='Blog Posts', messages=chat_messages)
 
 
 @blogPosts.route("/blog/<post_id>")
@@ -32,13 +34,13 @@ def display_post(post_id):
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
+
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     author_date = post.date  # TODO blogPost model has no author attribute.
-    
+
     return render_template('blog/view.html', page=page, post=post, posts=posts,
                            is_admin=admin_permission.can(),
-                           blog_author_date=author_date)
+                           blog_author_date=author_date, messages=chat_messages)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
@@ -50,7 +52,7 @@ def edit_post(post_id):
         post.title = request.form.get('title')
         post.content = request.form.get('content')
         post.tags = request.form.get('tags')
-        
+
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=post.id))
@@ -60,7 +62,7 @@ def edit_post(post_id):
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
+    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can(), messages=chat_messages)
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -82,4 +84,4 @@ def create_post():
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/create.html', newPost=1, posts=posts)
+    return render_template('blog/create.html', newPost=1, posts=posts, messages=chat_messages)
