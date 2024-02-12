@@ -30,3 +30,9 @@ def message():
 def process_message(json):
     print('received json: ' + str(json))
     print("Message.py did something with a socket!")
+
+
+@chatSocket.on('message sent')
+def process_message2(json, methods=['GET', 'POST']):
+    print('received json: ' + str(json))
+    print("Message.py did something with a Message!")

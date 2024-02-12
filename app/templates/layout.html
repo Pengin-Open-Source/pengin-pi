@@ -147,9 +147,9 @@
                 </div>
                 <form class="message-form" method="POST" action="">
                   <div class="message-form-section">
-                    <input type="text" class="display_name" placeholder="Display Name:">
-                    <textarea rows="6" class="message_text" name="message" id="message"
-                      placeholder="Text your message..."></textarea>
+                    <input type="text" class="display_name" name="chat_name" id="chat_name" placeholder="Display Name:">
+                    <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
+                      placeholder="Text your message..."> </textarea>
                     <input type="submit" value="Send" />
                   </div>
                 </form>
@@ -169,15 +169,29 @@
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
   <script type="text/javascript">
     const socket = io();
 
     socket.on('connect', function () {
       console.log("We have a new connection!")
 
-      const form = $('message-form-section').on('submit', function (e) {
+      const form = $('form').on('submit', function (e) {
+        e.preventDefault()
         console.log("We submitted something!")
+        let display_name = $('input.display_name').val()
+        let message_text = $('textarea.message_text').val()
+        console.log("Display Name")
+        console.log(display_name)
+        console.log("Text To be Sent is:")
+        console.log(message_text)
+        socket.emit('message sent', {
+          chat_name: display_name,
+          chat_message: message_text
+        })
+        $('input.message_text').val('').focus()
       })
     })
   </script>
