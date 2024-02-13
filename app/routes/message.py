@@ -27,12 +27,14 @@ def message():
 
 
 @chatSocket.on('connect')
-def process_message(json):
+def on_connect(json):
     print('received json: ' + str(json))
-    print("Message.py did something with a socket!")
+    print("We have a new connection!")
 
 
 @chatSocket.on('message sent')
-def process_message2(json, methods=['GET', 'POST']):
+def process_message(json, methods=['GET', 'POST']):
     print('received json: ' + str(json))
     print("Message.py did something with a Message!")
+    # This may never be used.
+    # chatSocket.emit('update messages', json, callback)
