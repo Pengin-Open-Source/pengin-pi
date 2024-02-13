@@ -9,13 +9,13 @@ import logging
 from werkzeug.utils import secure_filename
 from app import chatSocket
 from app import chat_messages
-message_blueprint = Blueprint(
-    'message_blueprint', __name__,  url_prefix="/chat")
+chat_blueprint = Blueprint(
+    'chat_blueprint', __name__,  url_prefix="/chat")
 
 
-@message_blueprint.route("/")
-@message_blueprint.route("/index")
-@message_blueprint.route("/message")
+@chat_blueprint.route("/")
+@chat_blueprint.route("/index")
+@chat_blueprint.route("/chat")
 def message():
     is_admin = admin_permission.can()
     users = User.query.all()
@@ -32,9 +32,12 @@ def on_connect(json):
     print("We have a new connection!")
 
 
-@chatSocket.on('message sent')
-def process_message(json, methods=['GET', 'POST']):
-    print('received json: ' + str(json))
-    print("Message.py did something with a Message!")
+@chat_blueprint.route("/create", methods=['POST'])
+def create_message():
+    # display_name = request.form.get("display_name")
+    chat_message = request.form.get("message_text")
+    print("Recieved this message" + str(chat_message))
+    # print("Message.py did something with a Message!")
+    # chatSocket.emit('update_messages')
     # This may never be used.
     # chatSocket.emit('update messages', json, callback)
