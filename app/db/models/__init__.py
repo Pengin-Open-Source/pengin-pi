@@ -23,7 +23,7 @@ User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
 User.messages = db.relationship("Message", backref="author", lazy=True)
-User.rooms = db.relationship('Room', secondary='user_room', backref='users')
+User.rooms = db.relationship('Room', secondary='user_room', backref='members')
 
 # User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -110,7 +110,7 @@ Message.user_id = db.Column(db.String(36), db.ForeignKey('user.id'), ondelete="C
 Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id'), ondelete="CASCADE", nullable=False)
 
 # Room
-Room.users = db.relationship('User', secondary='user_room', backref='rooms')
+Room.members = db.relationship('User', secondary='user_room', backref='rooms')
 
 # User Room
 UserRoom.user_id = db.Column(db.String(36), db.ForeignKey('user.id'), primary_key=True)
