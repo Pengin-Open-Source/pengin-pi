@@ -21,7 +21,6 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
-#User Roles
 
 # User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -93,8 +92,8 @@ Event.role_info = db.relationship("Role", back_populates="event_info", lazy=True
 TicketForum.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                              ondelete='CASCADE'))
 TicketForum.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
-                                                ondelete='CASCADE'))
-#TicketComment
+                                                                 ondelete='CASCADE'))
+# TicketComment
 TicketComment.ticket_id = db.Column(db.String(36), db.ForeignKey('ticket_forum.id',
                                                                  ondelete='CASCADE'))
 TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
