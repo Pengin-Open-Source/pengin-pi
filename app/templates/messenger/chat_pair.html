@@ -1,0 +1,58 @@
+{% extends "messenger/base.html" %}
+
+{% block content %}
+
+<p>Hey {{ session.current_user_id }}, you are now chatting with {{ user }}</p>
+<p>Room #{{ room }}</p>
+
+<h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
+<div id="message-holder"></div>
+
+<form action="/" method="POST">
+    <input type="text" class="message" id="message" placeholder="Type your message..."/>
+    <button type="button" name="send" id="send-btn" onClick="sendMessage()">
+      Send
+    </button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script type="text/javascript">
+    const socketio = io();
+
+    const message_holder = $("#message-holder")[0];
+
+    const createMessage = (name, msg, timestamp) => {
+        if(typeof name !== 'undefined') {
+            $('h3').remove()
+            const newMessage = document.createElement('div');
+            newMessage.className = "text"
+            newMessage.innerHTML = `
+                <span>
+                    <strong>${name}</strong>: ${msg}
+                </span>
+                <span class="muted">
+                    ${timestamp}
+                </span>
+            `;
+            message_holder.appendChild(newMessage);
+        }
+    };
+
+    socketio.on("json", (data) => {
+        createMessage(data.name, data.message, data.timestamp);
+    });
+
+    const sendMessage = () => {
+        const message = $("#message")[0];
+        if (message.value === "") return;
+        socketio.emit("json", { message: message.value });
+        message.value = "";
+    };
+</script>
+{% for msg in messages %}
+<script type="text/javascript">
+    createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.timestamp}}");
+</script>
+{% endfor %}
+{% endblock %}
