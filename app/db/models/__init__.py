@@ -106,7 +106,7 @@ OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 # Message
-Message.user_id = db.Column(db.String(36), db.ForeignKey('user.id'), ondelete="CASCADE", nullable=False)
+Message.author_id = db.Column(db.String(36), db.ForeignKey('user.id'), ondelete="CASCADE", nullable=False)
 Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id'), ondelete="CASCADE", nullable=False)
 
 # Room
