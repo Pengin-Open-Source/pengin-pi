@@ -8,6 +8,7 @@ from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
+from app.db.models.message import Message, Room, UserRoom
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
@@ -21,6 +22,8 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
+User.messages = db.relationship("Message", backref="author", lazy=True)
+User.rooms = db.relationship('Room', secondary='user_room', backref='users')
 
 # User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -101,3 +104,14 @@ TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
 # OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+# Message
+Message.user_id = db.Column(db.String(36), db.ForeignKey('user.id'), ondelete="CASCADE", nullable=False)
+Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id'), ondelete="CASCADE", nullable=False)
+
+# Room
+Room.users = db.relationship('User', secondary='user_room', backref='rooms')
+
+# User Room
+UserRoom.user_id = db.Column(db.String(36), db.ForeignKey('user.id'), primary_key=True)
+UserRoom.room_id = db.Column(db.String(36), db.ForeignKey('room.id'), primary_key=True)
