@@ -45,6 +45,10 @@
     flex: 2;
 }
 
+.message-display {
+    overflow: auto;
+}
+
 .message-form {
     flex: 1;
     margin: 4px 8px;

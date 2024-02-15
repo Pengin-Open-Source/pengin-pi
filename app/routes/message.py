@@ -36,5 +36,4 @@ def on_connect(json):
 def process_message(json, methods=['GET', 'POST']):
     print('received json: ' + str(json))
     print("Message.py did something with a Message!")
-    # This may never be used.
-    # chatSocket.emit('update messages', json, callback)
+    chatSocket.emit('update chat', json)
