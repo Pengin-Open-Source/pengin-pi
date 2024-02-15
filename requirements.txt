@@ -1,7 +1,8 @@
+Werkzeug==2.3.8
 bidict==0.22.1
 blinker==1.7.0
 click==8.1.7
-flask
+flask<3.0.0
 jinja2
 flask-sqlalchemy
 flask-login
