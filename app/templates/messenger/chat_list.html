@@ -2,13 +2,13 @@
 
 {% block content %}
 <h2>Chat</h2>
-<p>{{ greeting }}</p>
+<p>Greetings, {{ current_user.name }}</p>
 {% if users|length > 1 %}
     <ul>Present users:</ul>
     {% for user in users %}
         {% if session.current_user_id != user %}
             <li>
-                <a href="{{ url_for('chat', other_user=user) }}" id="btn-chat-{{ user }}">Chat with {{ users[user]['username'] }}</a>
+                <a href="{{ url_for('chat', other_user=user.id) }}" id="btn-chat-{{ user.id }}">Chat with {{ user.name }}</a>
             </li>
         {% endif %}
     {% endfor %}

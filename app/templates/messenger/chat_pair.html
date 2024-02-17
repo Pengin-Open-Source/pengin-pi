@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<p>Hey {{ session.current_user_id }}, you are now chatting with {{ user }}</p>
-<p>Room #{{ room }}</p>
+<p>Hey {{ current_user.name }}, you are now chatting with {{ user }}</p>
+<p>Room #{{ room.name }}</p>
 
 <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
 <div id="message-holder"></div>
@@ -22,14 +22,14 @@
 
     const message_holder = $("#message-holder")[0];
 
-    const createMessage = (name, msg, timestamp) => {
-        if(typeof name !== 'undefined') {
+    const createMessage = (author, content, timestamp) => {
+        if(typeof author !== 'undefined') {
             $('h3').remove()
             const newMessage = document.createElement('div');
             newMessage.className = "text"
             newMessage.innerHTML = `
                 <span>
-                    <strong>${name}</strong>: ${msg}
+                    <strong>${author}</strong>: ${content}
                 </span>
                 <span class="muted">
                     ${timestamp}
@@ -40,19 +40,19 @@
     };
 
     socketio.on("json", (data) => {
-        createMessage(data.name, data.message, data.timestamp);
+        createMessage(data.author_name, data.content, data.timestamp);
     });
 
     const sendMessage = () => {
         const message = $("#message")[0];
         if (message.value === "") return;
-        socketio.emit("json", { message: message.value });
+        socketio.emit("json", { author_id: "{{current_user.id}}", content: message.value });
         message.value = "";
     };
 </script>
 {% for msg in messages %}
 <script type="text/javascript">
-    createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.timestamp}}");
+    createMessage("{{msg.author.name}}", "{{msg.content}}", "{{msg.timestamp}}");
 </script>
 {% endfor %}
 {% endblock %}
