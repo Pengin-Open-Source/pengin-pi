@@ -22,8 +22,8 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
-User.messages = db.relationship("Message", backref="author", lazy=True)
-User.rooms = db.relationship('Room', secondary='user_room', backref='room_members')
+User.messages = db.relationship("Message", back_populates="author")
+User.rooms = db.relationship('Room', secondary='user_room')
 
 # User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -107,7 +107,12 @@ OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 # Message
 Message.author_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+Message.author = db.relationship("User", back_populates="messages")
 Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id', ondelete="CASCADE"), nullable=False)
+Message.room = db.relationship("Room", back_populates="messages")
+
+# Room
+Room.messages = db.relationship("Message", back_populates="room", order_by='Message.timestamp')
 
 # User Room
 UserRoom.user_id = db.Column(db.String(36), db.ForeignKey('user.id'))

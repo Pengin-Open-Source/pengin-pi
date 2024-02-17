@@ -6,7 +6,7 @@ class Message(db.Model):
     __tablename__ = "message"
     id = db.Column(db.String(36), default=ID, primary_key=True)
     content = db.Column(db.Text)
-    date = db.Column(db.String(100))
+    timestamp = db.Column(db.String(100))
     # author must be linked in __init__.py
     # room must be linked in __init__.py
 
