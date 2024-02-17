@@ -17,7 +17,10 @@ from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from app.util.messenger import messenger
 from flask_commonmark import Commonmark
+
+from flask_socketio import SocketIO
 
 from app.util.uuid import id
 principals = Principal()
@@ -46,6 +49,10 @@ def create_app():
     admin.init_app(app)
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
+
+    socketio = SocketIO(app, debug=True)
+    messenger.init_app(app, socketio)
+    # socketio.run(app)
 
     # Inject global variables to templates
     @app.context_processor
