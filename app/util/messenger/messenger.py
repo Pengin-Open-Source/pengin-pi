@@ -12,118 +12,126 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, Blueprint, render_template, redirect, url_for, request, session
 from flask_socketio import SocketIO, join_room, leave_room, send
+from flask_login import current_user, login_required
 import os
 import datetime
+from app.db import db
+from app.db.models import Message, User, Room
+
 
 # import config.object
 
 
 class Messenger:
-    def __init__(self, socketio, rooms, config=None):
+    def __init__(self, socketio, config=None):
         # create messenger properties
         self.socketio = socketio
-        self.rooms = rooms
+        self.current_room = None
         # apply optional configs
         pass
 
     def connection_handler(self, auth):
         print("you're in socketio.on('connect')")
-        room = session.get("room")
-        username = session.get("username")
-        if not room or not username:
+        print(f"room: {self.current_room}")
+        if self.current_room is None:
+            print("no room")
             return
-        if room not in self.rooms:
-            leave_room(room)
-            return
-
-        join_room(room)
-        content = {
-            "name": session.get("username"),
-            "message": "has entered the room",
+        # if self.current_room not in self.rooms:
+        #     print(f"room {self.current_room} is not in rooms {self.rooms}")
+        #     leave_room(self.current_room)
+        #     self.current_room = None
+        #     return
+        join_room(self.current_room)
+        context = {
+            "author_name": current_user.name,
+            "content": "has entered the room",
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
-        send(content, json=True, to=room)
-        print(f"{username} joined room {room}")
+        send(context, json=True, to=self.current_room)
+        print(f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
 
     def message_json(self, data):
-        room = session.get("room")
-        if room not in self.rooms:
-            print(f"room {room} not in rooms {self.rooms}")
+        # room_id = request.sid
+        # room = Room.query.get(room_id)
+        print(f"room: {self.current_room}")
+        # print(f"room_id: {room_id}")
+        if self.current_room is None:
+            print("in message_json, room does not exist")
             return
-        content = {
-            "name": session.get("username"),
-            "message": data["message"],
-            "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        message = Message(
+            author_id=data['author_id'],
+            timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            room=self.current_room,
+            content=data['content']
+        )
+        db.session.add(message)
+        db.session.commit()
+
+        context = {
+            "author_id": message.author_id,
+            "author_name": User.query.get(message.author_id).name,
+            "content": message.content,
+            "timestamp": message.timestamp,
         }
-        send(content, json=True, to=room)
-        self.rooms[room]["messages"].append(content)
+        send(context, json=True, to=self.current_room)
 
     def disconnect_handler(self):
         pass
 
 
+messenger_blueprint = Blueprint('messenger_blueprint', __name__,
+                                url_prefix="/messenger")
+
+
 def init_app(app, socketio):
-    # TODO: the init app method for flask.
+    messenger = Messenger(socketio)
 
-    # TODO: get rooms from the database
-    rooms = {}
-    messenger = Messenger(socketio, rooms)
-
-    @app.route("/", methods=["GET", "POST"])
-    def login():
-        if request.method == "POST":
-            # For now, the user_id is the username
-            # TODO: Change the user_id to be the user's ID from the database
-            user_id = request.form["username"].strip()
-            username = request.form["username"].strip()
-            session["greeting"] = ""
-            if username == "" or username is None:
-                return render_template("messenger/login.html")
-            session["username"] = username
-            # TODO: handle users from the database, not the session
-            if "users" not in session:
-                # If there is no users yet
-                session["users"] = {}
-
-            # Handle a user coming back (their username is already in the session["users"] dictionary)
-            if user_id in session["users"]:
-                session["greeting"] = f"Welcome back {username}"
-            else:
-                # Add the user to the session["users"] dictionary
-                session["users"][user_id] = {"username": username}
-                session["greeting"] = f"Welcome {username}"
-
-            session["current_user_id"] = user_id
-            return redirect(url_for("chat_list"))
-
-        return render_template("messenger/login.html")
-
-    @app.route("/chat/")
+    @messenger_blueprint.route("/")
+    @login_required
     def chat_list():
-        users = session.get("users")
-        greeting = session.get("greeting", "")
-        return render_template(
-            "messenger/chat_list.html", users=users, greeting=greeting
-        )
+        # TODO get user's company members
+        # For now, get all users except current user
+        co_workers = User.query.filter(User.id != current_user.id)
+
+        def user_data(user):
+            return {
+                "id": user.id,
+                "name": user.name,
+            }
+
+        co_workers = list(map(user_data, co_workers))
+        return render_template("messenger/chat_list.html", users=co_workers)
 
     def create_room_id(user1, user2):
         attendees = [user1, user2]
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
 
-    @app.route("/chat/<other_user>/")
+    @messenger_blueprint.route("/chat/<other_user>/")
+    @login_required
     def chat(other_user):
-        room = create_room_id(session["current_user_id"], other_user)
-        if room not in rooms:
-            rooms[room] = {"messages": []}
-        session["room"] = room
+        other_user_name = User.query.get(other_user).name
+        room_id = create_room_id(current_user.name, other_user_name)
+        room = Room.query.get(room_id)
+        if room is None:
+            room = Room(id=room_id, name=create_room_id(current_user.name,
+                                                        other_user_name))
+            db.session.add(room)
+            db.session.commit()
+            print(f"room {room_id} did not exist, it is now created:")
+            print(f"room name: {room.name}")
+
+        messenger.current_room = room
+        for message in room.messages:
+            print(message.__dict__)
+
         return render_template(
             "messenger/chat_pair.html",
-            user=other_user,
+            user=other_user_name,
             room=room,
-            messages=rooms[room]["messages"],
+            messages=room.messages
         )
 
     socketio.on_event("connect", messenger.connection_handler)
