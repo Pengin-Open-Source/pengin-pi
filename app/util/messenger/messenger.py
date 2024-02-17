@@ -109,7 +109,7 @@ def init_app(app, socketio):
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
 
-    @messenger_blueprint.route("/chat/<other_user>/")
+    @messenger_blueprint.route("/<other_user>")
     @login_required
     def chat(other_user):
         other_user_name = User.query.get(other_user).name
