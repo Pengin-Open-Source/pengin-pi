@@ -64,82 +64,11 @@
 
     {% block content %}{% endblock %}
     <div id="message-layout">
-      <div id="message-display" class="full-page-message">
-        <div class="full-page-scroll-container">
-          <div class="top-bar">
-            <h2 class="section-title"></h2>
-            <div class="main-nav-links"></div>
-            <div class="right-nav-container">
-              <button onclick="closeMessage()" id="close-message-btn">
-                <strong> X </strong>
-              </button>
-            </div>
-          </div>
-          <div class="full-page-scroll-content">
-            <div class="content-section">
-              <div class="content-section-div-1">
-                <div class="content-section-p" class="full-page-scroll-container" id="user-section">
-                  <div class="message-top-bar">
-                    <p class="top-bar-title">USERS</p>
-                    <div class="main-nav-links"></div>
-                    <div class="right-nav-container">
-                      <button onclick="displayUser()" id="user-btn">_</button>
-                    </div>
-                  </div>
-                  <div class="message-grid-container" id="user-container">
-                    {% for user in users %}
-                    <div class="message-grid-item">{{user['name']}}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <div class="content-section-p" class="full-page-scroll-container" id="group-section">
-                  <div class="message-top-bar">
-                    <p class="top-bar-title">GROUPS</p>
-                    <div class="main-nav-links"></div>
-                    <div class="right-nav-container">
-                      <button onclick="displayGroup()" id="group-btn">
-                        _
-                      </button>
-                    </div>
-                  </div>
-                  <div class="message-grid-container" id="group-container">
-                    <div>
-                      {% for group in groups %}
-                      <div class="message-grid-item">{{group}}</div>
-                      {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="content-section-div-2">
-                <div class="message-display">
-                  <div class="message-display-sender" class="full-page-scroll-container">
-                    <!-- Content Now Dynamically Filled in by JS SCRIPT-->
-                  </div>
-                  <div class="message-display-receiver">
-                    <!-- Content Now Dynamically Filled in by JS SCRIPT-->
-                  </div>
-                </div>
-                <form class="message-form" method="POST" action="">
-                  <div class="message-form-section">
-                    <input type="text" class="display_name" name="chat_name" id="chat_name" placeholder="Display Name:">
-                    <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
-                      placeholder="Text your message..."> </textarea>
-                    <input type="submit" value="Send" />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      { % block overlay % } { % endblock % }
     </div>
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>
-    <div>
-      <button onclick="displayBtn()" id="message-btn">Chat</button>
-    </div>
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
