@@ -150,7 +150,7 @@
   <script type="text/javascript">
     const socket = io();
     const sent_messages = document.querySelector(".message-display-sender");
-
+    const received_messages = document.querySelector(".message-display-receiver");
 
 
     socket.on('connect', function () {
@@ -165,13 +165,13 @@
           chat_name: display_name,
           chat_message: message_text
         })
-        $('input.message_text').val('').focus()
+        $('textarea.message_text').val('').focus()
       })
     })
 
 
+    function createMessageSender(data) {
 
-    socket.on('update chat', function (data) {
       const msgSection = document.createElement('div');
       msgSection.className = "text-section";
       const newMessage = document.createElement('div');
@@ -185,7 +185,32 @@
       msgSection.appendChild(msgSpace)
       sent_messages.appendChild(msgSection)
 
+    }
 
+
+    function createMessageReceiver(data) {
+
+      const msgSection = document.createElement('div');
+      msgSection.className = "text-section";
+
+      const msgSpace = document.createElement('div');
+      msgSpace.className = "text-section-r";
+
+
+      const newMessage = document.createElement('div');
+      newMessage.className = "text-section-r"
+      newMessage.innerHTML = data.chat_message;
+
+      msgSection.appendChild(msgSpace)
+      msgSection.appendChild(newMessage)
+      received_messages.appendChild(msgSection)
+
+    }
+
+    socket.on('update chat', function (data) {
+
+      createMessageSender(data)
+      createMessageReceiver({ 'chat_message': 'Auto-reply: We will respond soon' })
       //updateChat();
     });
 
