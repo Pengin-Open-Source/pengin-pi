@@ -6,7 +6,6 @@ from app.db.models import Product
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
 from app.db.util import paginate
-from app import chat_messages
 
 product_blueprint = Blueprint('product_blueprint',
                               __name__, url_prefix="/products")
@@ -26,7 +25,7 @@ def products():
 
     return render_template('products/products.html', is_admin=is_admin,
                            products=products, page=page,
-                           primary_title='Products',  messages=chat_messages)
+                           primary_title='Products')
 
 
 @product_blueprint.route('/<product_id>')
@@ -35,7 +34,7 @@ def product(product_id):
     product = Product.query.filter_by(id=product_id).first()
     product.stock_image_url = conn.get_URL(product.stock_image_url)
 
-    return render_template('products/product.html', is_admin=is_admin, product=product, page=1, primary_title=product.name, messages=chat_messages)
+    return render_template('products/product.html', is_admin=is_admin, product=product, page=1, primary_title=product.name)
 
 
 @product_blueprint.route('/create', methods=['GET', 'POST'])
@@ -71,7 +70,7 @@ def create_product():
 
         return redirect(url_for('product_blueprint.products'))
 
-    return render_template('products/product_create.html', primary_title='Create Product',  messages=chat_messages)
+    return render_template('products/product_create.html', primary_title='Create Product')
 
 
 @product_blueprint.route('/edit/<id>', methods=['GET', 'POST'])
@@ -112,7 +111,7 @@ def edit_product(id):
     product.stock_image_url = conn.get_URL(product.stock_image_url)
     product.card_image_url = conn.get_URL(product.card_image_url)
 
-    return render_template('products/product_edit.html', product=product, primary_title='Edit Product',  messages=chat_messages)
+    return render_template('products/product_edit.html', product=product, primary_title='Edit Product')
 
 
 @product_blueprint.route('/delete/<id>', methods=['POST'])
@@ -157,4 +156,4 @@ def create_file(id):
             return redirect(url_for('product_blueprint.product',
                                     product_id=id))
 
-    return render_template('products/product_image_create.html',   messages=chat_messages)
+    return render_template('products/product_image_create.html')

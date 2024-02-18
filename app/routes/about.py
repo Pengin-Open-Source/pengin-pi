@@ -6,7 +6,6 @@ from app.db import db
 from app.db.models import About
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
-from app import chat_messages
 
 about_blueprint = Blueprint('about_blueprint', __name__,
                             url_prefix="/about")
@@ -25,7 +24,7 @@ def view():
         logging.info('Image S3 URL accessed:' + about.image)
 
     return render_template('about/about_main.html', about=about,
-                           is_admin=is_admin, image=image, primary_title='About Us', messages=chat_messages)
+                           is_admin=is_admin, image=image, primary_title='About Us')
 
 
 @about_blueprint.route('/edit', methods=['GET', 'POST'])

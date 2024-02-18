@@ -61,11 +61,6 @@
     </nav>
   </header>
   <main>
-    <!-- Andy: Commented out alerts in layout.html. I'm currently putting alerts in the children templates. -->
-    { <!-- {%with messages = get_flashed_messages(with_categories = true) %} {% if
-      messages%} {% for category, message in messages%}
-      <div class="alert alert-{{category}}">{{ message }}</div>
-      {%endfor%} {% endif%} {% endwith %} # --> }
 
     {% block content %}{% endblock %}
     <div id="message-layout">
@@ -83,16 +78,6 @@
           <div class="full-page-scroll-content">
             <div class="content-section">
               <div class="content-section-div-1">
-                <!-- <div>
-                    <h2>Contact</h2>
-                  </div>
-                  <div class="message-grid-container">
-                    <div>
-                      {% for user in users %}
-                      <div class="message-grid-item">{{user['name']}}</div>
-                      {% endfor %}
-                    </div>
-                  </div> -->
                 <div class="content-section-p" class="full-page-scroll-container" id="user-section">
                   <div class="message-top-bar">
                     <p class="top-bar-title">USERS</p>
@@ -129,20 +114,10 @@
               <div class="content-section-div-2">
                 <div class="message-display">
                   <div class="message-display-sender" class="full-page-scroll-container">
-                    {% for text in messages['sender'] %}
-                    <div class="text-section">
-                      <div class="text-section-s">{{text}}</div>
-                      <div class="text-section-s"></div>
-                    </div>
-                    {% endfor %}
+                    <!-- Content Now Dynamically Filled in by JS SCRIPT-->
                   </div>
                   <div class="message-display-receiver">
-                    {% for text in messages['receiver'] %}
-                    <div class="text-section">
-                      <div class="text-section-r"></div>
-                      <div class="text-section-r">{{text}}</div>
-                    </div>
-                    {% endfor %}
+                    <!-- Content Now Dynamically Filled in by JS SCRIPT-->
                   </div>
                 </div>
                 <form class="message-form" method="POST" action="">
@@ -183,14 +158,9 @@
 
       const form = $('form').on('submit', function (e) {
         e.preventDefault()
-        //console.log("We submitted something!")  #Debug msg
         let display_name = $('input.display_name').val()
         let message_text = $('textarea.message_text').val()
-        /*  DEBUG MSGs
-        console.log("Display Name")
-        console.log(display_name)
-        console.log("Text To be Sent is:")
-        console.log(message_text) */
+
         socket.emit('message sent', {
           chat_name: display_name,
           chat_message: message_text
@@ -198,8 +168,6 @@
         $('input.message_text').val('').focus()
       })
     })
-
-
 
 
 
@@ -211,7 +179,7 @@
       newMessage.innerHTML = data.chat_message;
       const msgSpace = document.createElement('div');
       msgSpace.className = "text-section-s";
-      //msgSection.append('<div class="text-section-s">' + data.chat_message + '</div>');
+
 
       msgSection.appendChild(newMessage)
       msgSection.appendChild(msgSpace)

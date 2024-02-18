@@ -7,7 +7,7 @@ from app.db import db
 from app.db.models import Event, Role, User
 from app.db.util import paginate
 from sqlalchemy import asc
-from app import chat_messages
+
 
 calendar_blueprint = Blueprint('calendar_blueprint', __name__,
                                url_prefix="/calendar")
@@ -44,7 +44,7 @@ def calendar():
         else:
             events_by_start_date[start_date] = [event]
 
-    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, events=events, current_user=current_user, primary_title='Calendar', messages=chat_messages)
+    return render_template('calendar/calendar.html', events_by_start_date=events_by_start_date, events=events, current_user=current_user, primary_title='Calendar')
 
 
 @calendar_blueprint.route("/create", methods=['GET', 'POST'])
@@ -65,7 +65,7 @@ def calendar_create():
         # add "organizer" input later. Assume organizer = event creator for now
         # already update the organizer of event after selecting user from 'creat-event-form'
         new_event = Event(user_id=member, organizer=member, role=role, title=title,
-                          description=description, location=location, start_datetime=start_datetime, end_datetime=end_datetime, messages=chat_messages)
+                          description=description, location=location, start_datetime=start_datetime, end_datetime=end_datetime)
         db.session.add(new_event)
         db.session.commit()
 
@@ -76,7 +76,7 @@ def calendar_create():
     # query all users to select the organizer of a new upcoming event
     users = User.query.all()
     return render_template('calendar/create_event.html',
-                           current_user=current_user, roles=roles, users=users, messages=chat_messages)
+                           current_user=current_user, roles=roles, users=users)
 
 
 @calendar_blueprint.route("/<event_id>")
@@ -88,4 +88,4 @@ def calendar_event(event_id):
     organizer = User.query.filter_by(id=event.organizer).first()
 
     return render_template('calendar/event.html', event=event,
-                           current_user=current_user, organizer=organizer, messages=chat_messages)
+                           current_user=current_user, organizer=organizer)

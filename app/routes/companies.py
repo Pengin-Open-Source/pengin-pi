@@ -4,7 +4,6 @@ from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
-from app import chat_messages
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
 
@@ -21,7 +20,7 @@ def display_companies_home():
                               pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies',  messages=chat_messages)
+                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 
 @company_info.route('/<company_id>', methods=['POST', 'GET'])
@@ -52,7 +51,7 @@ def display_company_info(company_id: str) -> render_template:
                             pages=10, filters={'company_id': company_id})
 
     return render_template('company_info/company_info.html', primary_title='Company Info',
-                           company=company, members=members, is_admin=admin_permission.can(), messages=chat_messages)
+                           company=company, members=members, is_admin=admin_permission.can())
 
 
 @company_info.route('/create', methods=['GET', 'POST'])

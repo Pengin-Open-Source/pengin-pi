@@ -9,7 +9,6 @@ from app.db.util import paginate
 from app.util.security import (admin_permission, delete_comment_permission,
                                delete_post_permission, edit_comment_permission,
                                edit_post_permission, user_permission)
-from app import chat_messages
 
 forums_blueprint = Blueprint('forums_blueprint', __name__,
                              url_prefix="/forums")

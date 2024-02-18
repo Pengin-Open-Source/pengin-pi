@@ -1,7 +1,6 @@
 from flask import Flask, request, send_from_directory
 from flask_socketio import SocketIO, emit, send, join_room
 chatSocket = SocketIO()
-chat_messages =  {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)

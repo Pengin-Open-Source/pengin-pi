@@ -7,7 +7,6 @@ from app.util.security import admin_permission
 from app.util.s3 import conn
 import logging
 from werkzeug.utils import secure_filename
-from app import chat_messages
 home_blueprint = Blueprint('home_blueprint', __name__)
 section_title = 'Home'
 
@@ -31,7 +30,7 @@ def home():
         logging.info('S3 Image accesed: ' + home.image)
 
     return render_template('home/home.html', is_admin=is_admin, home=home,
-                           image=image, messages=chat_messages, users=users, groups=groups)
+                           image=image, users=users, groups=groups)
 
 
 @home_blueprint.route("/home/edit", methods=['GET', 'POST'])

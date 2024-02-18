@@ -7,7 +7,6 @@ from app.db import db
 from app.db.models import User, Role, UserRoles
 from app.util.mail import send_mail
 from app.util.security.limit import limiter
-from app import chat_messages
 
 profiles = Blueprint('profiles', __name__, url_prefix="/profile")
 
@@ -21,7 +20,7 @@ def profile():
     # sample_messages = {'sender': ['hi', 'how are you'], 'receiver': ['hello', "i'm good"]}
     return render_template('profile/profile.html', name=current_user.name,
                            email=current_user.email, can_do=can_re_validate,
-                           primary_title='Profile Information', messages=chat_messages)
+                           primary_title='Profile Information')
 
 
 @limiter.limit("2 per minute")

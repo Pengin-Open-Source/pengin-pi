@@ -5,7 +5,6 @@ from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models import BlogPost
 from app.db.util import paginate
-from app import chat_messages
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
@@ -24,7 +23,7 @@ def display_blog_home():
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     return render_template('blog/blog.html', posts=posts, primary_title='Blog',
-                           is_admin=admin_permission.can(), left_title='Blog Posts', messages=chat_messages)
+                           is_admin=admin_permission.can(), left_title='Blog Posts')
 
 
 @blogPosts.route("/blog/<post_id>")
@@ -40,7 +39,7 @@ def display_post(post_id):
 
     return render_template('blog/view.html', page=page, post=post, posts=posts,
                            is_admin=admin_permission.can(),
-                           blog_author_date=author_date, messages=chat_messages)
+                           blog_author_date=author_date)
 
 
 @blogPosts.route('/blog/<post_id>/edit', methods=['GET', 'POST'])
@@ -62,7 +61,7 @@ def edit_post(post_id):
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can(), messages=chat_messages)
+    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -84,4 +83,4 @@ def create_post():
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/create.html', newPost=1, posts=posts, messages=chat_messages)
+    return render_template('blog/create.html', newPost=1, posts=posts)

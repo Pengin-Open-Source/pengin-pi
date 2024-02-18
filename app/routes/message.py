@@ -8,7 +8,6 @@ from app.util.s3 import conn
 import logging
 from werkzeug.utils import secure_filename
 from app import chatSocket
-from app import chat_messages
 chat_blueprint = Blueprint(
     'chat_blueprint', __name__,  url_prefix="/chat")
 
@@ -20,7 +19,7 @@ def message():
     is_admin = admin_permission.can()
     users = User.query.all()
     # sample_message = {'sender': ['hi', 'how are you'],'receiver': ['hello', "i'm good"]}
-    return render_template('message/message.html', is_admin=is_admin, users=users, messages=chat_messages)
+    return render_template('message/message.html', is_admin=is_admin, users=users)
 
 # Should I add this to the blueprint?  IT's not a route/view, nobody
 # "navigates to" a URL address  to hit this method.
