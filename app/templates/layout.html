@@ -86,7 +86,7 @@
     socket.on('connect', function () {
       console.log("We have a new connection!")
 
-      const form = $('form').on('submit', function (e) {
+      const chatForm = $('#chat-form').on('submit', function (e) {
         e.preventDefault()
         let display_name = $('input.display_name').val()
         let message_text = $('textarea.message_text').val()
