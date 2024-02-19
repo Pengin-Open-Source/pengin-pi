@@ -1,6 +1,6 @@
 from app.db import db
 from app.util.uuid import id
-from job import Job
+from .job import Job
 
 class Application(db.Model): #399-application-crm
     __tablename__ = 'application'
@@ -9,5 +9,5 @@ class Application(db.Model): #399-application-crm
     message_to_hiring_manager = db.Column(db.Text)
     date_applied = db.Column(db.String(100))
     location_of_candidate = db.Column(db.String(100))
-    resume_path = x #look at our images file framework for ideas
-    cover_letter_path = y #look at our images file framework for ideas
+    # resume_path = x #look at our images file framework for ideas
+    # cover_letter_path = y #look at our images file framework for ideas

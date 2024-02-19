@@ -9,6 +9,7 @@ from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
 from app.db.models.job import Job
+from app.db.models.application import Application
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
