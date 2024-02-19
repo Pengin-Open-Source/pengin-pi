@@ -64,11 +64,12 @@
 
     {% block content %}{% endblock %}
     <div id="message-layout">
-      { % block overlay % } { % endblock % }
+      {% block overlay %} {% endblock %}
     </div>
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>
+    {% block chatbtn %} {% endblock %}
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
