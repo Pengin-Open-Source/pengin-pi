@@ -23,6 +23,7 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
+User.jobs = db.relationship('Job')
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
@@ -104,5 +105,6 @@ OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 #Job
 Job.department = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
-Job.hiring_manager = db.Column(db.String(36), db.ForeignKey('User.name'))
+Job.hiring_manager = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                ondelete='CASCADE'))
 Job.location = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
