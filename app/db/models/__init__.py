@@ -7,6 +7,7 @@ from app.db.models.orders import Contracts, Orders, ShippingAddress, Customer, O
 from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
+from app.db.models.job import Job
 from app.db.models.about import About
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
@@ -22,12 +23,13 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
+User.jobs = db.relationship('Job')
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                 ondelete='CASCADE'))
-#Companmy Members
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
                         ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
@@ -100,3 +102,9 @@ TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
 #OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+#Job
+Job.department = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
+Job.hiring_manager = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                ondelete='CASCADE'))
+Job.location = db.Column(db.String(36), db.ForeignKey('ABC.xyz'))
