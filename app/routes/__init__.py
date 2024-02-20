@@ -12,7 +12,7 @@ from app.routes.calendar import calendar_blueprint
 from app.routes.products import product_blueprint
 from app.routes.about import about_blueprint
 from app.routes.orders import order_info as order_blueprint
-from app.routes.jobs import jobs_blueprint
+from app.routes.jobs import job_blueprint
 
 
 # Blueprints variable is a list of blueprints in this current directory
