@@ -137,9 +137,15 @@
     }
 
     socket.on('update chat', function (data) {
+      if (data.chat_name == $('input.display_name').val()) {
+        createMessageSender(data)
+      }
+      else {
+        createMessageReceiver(data)
+      }
 
-      createMessageSender(data)
-      createMessageReceiver({ 'chat_message': 'Auto-reply: We will respond soon' })
+
+
       //updateChat();
     });
 
