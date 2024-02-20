@@ -51,9 +51,24 @@
                     <div class="message-display">
                         <div class="message-display-sender" class="full-page-scroll-container">
                             <!-- Content Now Dynamically Filled in by JS SCRIPT-->
+                            {% if messages %}
+                            {% for text in messages['sender'] %}
+                            <div class="text-section">
+                                <div class="text-section-s">{{text}}</div>
+                                <div class="text-section-s"></div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
                         <div class="message-display-receiver">
-                            <!-- Content Now Dynamically Filled in by JS SCRIPT-->
+                            {% if messages %}
+                            {% for text in messages['receiver'] %}
+                            <div class="text-section">
+                                <div class="text-section-r"></div>
+                                <div class="text-section-r">{{text}}</div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                     <form id="chat-form" class="message-form" method="POST" action="">
