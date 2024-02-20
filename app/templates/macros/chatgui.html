@@ -1,4 +1,4 @@
-{% macro ui() %}
+{% macro chatgui() %}
 
 <div id="message-display" class="full-page-message">
     <div class="full-page-scroll-container">
@@ -69,5 +69,11 @@
             </div>
         </div>
     </div>
+</div>
+{% endmacro %}
+
+{% macro chatbutton() %}
+<div>
+    <button onclick="displayBtn()" id="message-btn">Chat</button>
 </div>
 {% endmacro %}

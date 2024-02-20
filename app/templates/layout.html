@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   {% block tags %}{% endblock %}
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'message.css')}}" />
   {% if title %}
   <title>{{company_name|e}} - {{ title|e }}</title>
   {% else %}
@@ -64,12 +63,12 @@
 
     {% block content %}{% endblock %}
     <div id="message-layout">
-      {% block overlay %} {% endblock %}
+      {% include "message/overlay.html" %}
     </div>
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>
-    {% block chatbtn %} {% endblock %}
+    {% include "message/chatbutton.html" %}
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
