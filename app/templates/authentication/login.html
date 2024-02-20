@@ -1,38 +1,30 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
-    <h1 class="title center-title">Login</h3>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert alert-danger center-title">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form class="authForm form" method="POST" action="/login">
-            <div class="form-section">
-                <label>Email address</label>
-                <input class="form-input" type="email" name="email" placeholder="Your Email" autofocus="">
-            </div>
-            <div class="form-section">
-                <label>Password</label>
-                <input class="form-input" type="password" name="password" placeholder="Your Password">
-            </div>
-            <div class="form-section">
-                <input class="form-input" type="checkbox" name="remember">
-                <label> Remember me</label>
-            </div>
-            <button class="primary-button g-recaptcha" type="submit" data-sitekey="{{ site_key }}" data-callback="onSubmit" data-action="submit">Login</button>
-        </form>
-</div>
+{% block pageDropDowns %}
+    <a href="/generate-prt">Forgot your password?</a>
 {% endblock %}
 
-{% block captchaScript %}
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script>
-        function onSubmit(token) {
-            document.querySelector(".authForm").submit();
-        }
-    </script>
+{% block pageContent %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-danger center-title">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <form class="form" method="POST" action="/login">
+        <div class="form-section">
+            <label>Email address</label>
+            <input class="form-input" type="email" name="email" placeholder="Your Email" autofocus="">
+        </div>
+        <div class="form-section">
+            <label>Password</label>
+            <input class="form-input" type="password" name="password" placeholder="Your Password">
+        </div>
+        <div class="form-section">
+            <input class="form-input" type="checkbox" name="remember">
+            <label> Remember me</label>
+        </div>
+        <button class="primary-button" type="submit">Login</button>
+    </form>
 {% endblock %}

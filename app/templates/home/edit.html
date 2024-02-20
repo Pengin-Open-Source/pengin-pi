@@ -1,8 +1,6 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-<div class="content-section">
-    <h1 class="title">Update Home</h1>
+{% block pageContent %}
     <form class="form" method="POST" action="/home/edit" enctype="multipart/form-data">
         <div class="form-section">
             <label for="name" class="form-label">Name</label>
@@ -41,5 +39,4 @@
 
         <button class="primary-button">Update</button>
     </form>
-</div>
 {% endblock %}

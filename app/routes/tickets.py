@@ -33,7 +33,7 @@ def tickets():
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
-                           current_user=current_user)
+                           current_user=current_user, primary_title='Tickets')
 
 
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
@@ -89,7 +89,7 @@ def ticket(ticket_id):
                            can_edit_ticket=edit_ticket_permission,
                            can_edit_comment=edit_ticket_comment_permission,
                            comment_authors=comment_authors, ticket=ticket,
-                           comments=comments)
+                           comments=comments, primary_title='Ticket')
 
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])

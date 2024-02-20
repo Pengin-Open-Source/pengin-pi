@@ -51,7 +51,7 @@ def forums():
     
     threads = paginate(Thread, page=page, key="name", pages=10)
 
-    return render_template('forums/threads.html', title='Forum',
+    return render_template('forums/threads.html', primary_title='Forum',
                             threads=threads, is_admin=is_admin)
 
 
@@ -99,8 +99,8 @@ def thread(thread_id):
                            is_admin=admin_permission.can(),
                            can_delete=delete_post_permission,
                            can_edit=edit_post_permission,
-                           thread_id=thread_id, title=thread.name,
-                           posts=posts, current_user=current_user)
+                           thread_id=thread_id, posts=posts, 
+                           current_user=current_user , primary_title=thread.name)
 
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])

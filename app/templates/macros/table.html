@@ -1,0 +1,20 @@
+{% macro render_table(items) %}
+  <table class="table">
+    <thead>
+      <tr>
+        {% for key in items[0].__dict__.keys() %}
+          <th>{{ key }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          {% for value in item.__dict__.values() %}
+            <td>{{ value }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endmacro %}

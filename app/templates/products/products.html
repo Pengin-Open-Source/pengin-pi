@@ -1,9 +1,13 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 {% import "macros/paginate.html" as pagination %}
 
-{% block oneDivContent %}
-<div class="content-section">
-  <h2 class="title">Products</h2>
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/products/create">New Product</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
   <div class="product-grid">
     {% for product in products %}
       <a href="/products/{{product.id}}">
@@ -17,9 +21,4 @@
     {% endfor %}
   </div>
   {{ pagination.render_pagination(products, "") }}
-  {% if is_admin %}
-  <a class="primary-button" href="/products/create">New Product</a>
-  {% endif %}
-</div>
-
 {% endblock %} 

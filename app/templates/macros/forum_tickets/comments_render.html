@@ -1,0 +1,23 @@
+{% macro render_comments(comments,comment_authors, current_user, can_delete_comment, can_edit_comment, action_url, edit_url) %}
+  {% for comment in comments %}
+  <tr><td>
+    <div class="comment-title-underline">
+      <div >by {{comment_authors[comment.author_id]|e}} at {{comment.date|e}}</div>
+        {% if current_user.is_authenticated %}
+          <div class="text-buttons-container">
+            {% if is_admin or can_delete_comment(comment.id).can() %}
+              <form class="delete-form" method="post" action="{{action_url}}">
+                <button class="text-button" type="submit">Delete</button>
+              </form> 
+              <span class="text-button">|</span>
+            {% endif %}
+            {% if is_admin or can_edit_comment(comment.id).can() %}
+              <a class="text-button" href="{{edit_url}}">Edit</a>
+            {% endif %}
+          </div>
+        {% endif %}
+    </div>
+    <p>{{comment.content}}</p>
+  </td></tr>
+  {% endfor %}
+{% endmacro %}

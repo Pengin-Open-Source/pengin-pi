@@ -1,0 +1,27 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-danger center-title">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form class="form" method="POST" action="/generate-prt">
+            <div class="form-section">
+                <label>Email address</label>
+                <input class="form-input" type="email" name="email" placeholder="Your Email" autofocus="" required>
+            </div>
+            <button class="primary-button g-recaptcha" type="submit" data-sitekey="{{ site_key }}" data-callback="onSubmit" data-action="submit">Send Link</button>
+        </form>
+{% endblock %}
+
+{% block captchaScript %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.querySelector(".form").submit();
+        }
+    </script>
+{% endblock %}

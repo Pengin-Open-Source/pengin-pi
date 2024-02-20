@@ -1,15 +1,14 @@
-{% extends "layout/oneDiv.html" %}
+{% extends "layout/fullPageScroll.html" %}
 
-{% block oneDivContent %}
-
-        <form class="form" method="POST" action="/tickets/edit/ticket-comment/{{ticket_id}}/{{comment.id}}">
-            <div class="form-section">
-                <label for="content">Content</label>
-                <textarea
-                class="form-input"
-                name="content"
-                id="content">{{comment.content|e}}</textarea>
-            </div>
-            <button class="primary-button">Post Comment</button>
-        </form>
+{% block pageContent %}
+    <form class="form" method="POST" action="/tickets/edit/ticket-comment/{{ticket_id}}/{{comment.id}}">
+        <div class="form-section">
+            <label for="content">Content</label>
+            <textarea
+            class="form-input"
+            name="content"
+            id="content">{{comment.content|e}}</textarea>
+        </div>
+        <button class="primary-button">Post Comment</button>
+    </form>
 {% endblock %}

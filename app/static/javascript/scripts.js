@@ -6,7 +6,6 @@ const hamburgerToggle= () => {
   } else {
     nav.className = 'header-navigation'
   }
-  console.log('test')
 }
 
 const addOrderRow = () => {
@@ -18,9 +17,19 @@ const addOrderRow = () => {
 
 const removeOrderRow = (event) => {
   const orders = document.querySelectorAll('.order');
-  console.log(orders.length)
   if (orders.length > 1) {
     event.parentElement.parentElement.remove();
   }
   
+}
+
+const adminHamburgerToggle= () => {
+  // TODO this is all wrong it needs sorting for mobile admin toggle
+  const admin_nav = document.querySelector('#nav-id');
+
+  if (admin_nav.className === 'header-navigation') {
+    admin_nav.className = 'responsive-nav'
+  } else {
+    admin_nav.className = 'header-navigation'
+  }
 }

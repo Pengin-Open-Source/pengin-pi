@@ -18,7 +18,8 @@ def profile():
     delta = current_user.validation_date + timedelta(minutes=5)
     can_re_validate = True if not current_user.validated and now > delta else False
     return render_template('profile/profile.html', name=current_user.name,
-                           email=current_user.email, can_do=can_re_validate)
+                           email=current_user.email, can_do=can_re_validate,
+                           primary_title='Profile Information')
 
 @limiter.limit("2 per minute")
 @profiles.route('/send_email')
@@ -64,7 +65,7 @@ def validate(token):
 @login_required
 def edit_profile_get():
     return render_template('profile/profile_edit.html', name=current_user.name,
-                           email=current_user.email)
+                           email=current_user.email, primary_title='Edit Profile')
 
 
 @limiter.limit("2 per minute")
@@ -103,5 +104,5 @@ def edit_password():
 
         flash('Please check your password details.')  # does nothing fix later
 
-    return render_template('profile/password_edit.html',
+    return render_template('profile/password_edit.html', primary_title='Edit Password',
                            name=current_user.name, email=current_user.email)

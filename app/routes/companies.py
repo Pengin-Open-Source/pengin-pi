@@ -21,7 +21,7 @@ def display_companies_home():
                               pages=10, filters={'user_id': current_user.id})
 
     return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can())
+                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
@@ -51,21 +51,8 @@ def display_company_info(company_id:str) -> render_template:
     members = paginate_join(User, CompanyMembers, User.id==CompanyMembers.user_id, page=page, 
                             pages=10, filters={'company_id':company_id})
 
-    return render_template('company_info/company_info.html', company=company, members=members, is_admin=admin_permission.can())
-
-
-@company_info.route('/editor', methods=['GET', 'POST'])
-@login_required
-@admin_permission.require()
-def company_editor():
-    if request.method == "POST":
-        page = int(request.form.get('page_number', 1))
-    else:
-        page = 1
-
-    companies = paginate(Company, key="id", page=page, pages=10)
-
-    return render_template('company_info/company_editor.html', companies=companies, is_admin=admin_permission.can())
+    return render_template('company_info/company_info.html', primary_title='Company Info',
+                           company=company, members=members, is_admin=admin_permission.can())
 
 
 @company_info.route('/create', methods=['GET', 'POST'])
@@ -95,7 +82,7 @@ def create_company():
         return redirect(url_for("company_info.display_company_info",
                                 company_id=new_company.id))
 
-    return render_template('company_info/company_info_create.html')
+    return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
 
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
@@ -119,7 +106,7 @@ def edit_company_info_post(company_id):
         return redirect(url_for('company_info.display_company_info',
                                 company_id=company.id))
 
-    return render_template('company_info/company_edit.html', company=company)
+    return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
 
 
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
