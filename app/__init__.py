@@ -1,7 +1,8 @@
 from flask import Flask, request, send_from_directory
 from flask_socketio import SocketIO, emit, send, join_room
 chatSocket = SocketIO()
-from flask_login import LoginManager, current_user
+chat_available = False
+from flask_login import LoginManager, current_user, login_required
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
@@ -97,6 +98,20 @@ def create_app():
                     identity.provides.add(
                         edit_ticket_comment_need(comment.id)
                     )
+           
+
+    #def bool_test():
+    #	return {'chat_bool': chat_available}
+    
+    #@app.before_request
+    #@login_required      
+    #def update_bool_value(app, **kwargs):
+    #	global chat_available
+    #	chat_available = True
+    	
+
+
+
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
@@ -109,6 +124,7 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
 
+    #app.context_processor(bool_test)
     app.context_processor(time_zone)
     app.context_processor(copyright)
 

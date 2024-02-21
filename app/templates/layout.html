@@ -68,7 +68,9 @@
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>
+    {# if chat_bool #}
     {% include "message/chatbutton.html" %}
+    {# endif #}
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
