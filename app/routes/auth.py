@@ -22,7 +22,6 @@ def login():
 
 @limiter.limit("10 per minute")
 @auth.route('/login', methods=['POST'])
-@verify_response
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
