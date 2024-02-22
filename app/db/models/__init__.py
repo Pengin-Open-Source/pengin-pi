@@ -8,6 +8,7 @@ from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
+from app.db.models.message import Message, Room, UserRoom
 from app.db.models.job import Job
 from app.db.models.application import Application
 from sqlalchemy.orm import with_polymorphic
@@ -25,7 +26,9 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
-User.posts = db.relationship('Application')
+User.jobs = db.relationship('Application')
+User.messages = db.relationship("Message", back_populates="author")
+User.rooms = db.relationship('Room', secondary='user_room')
 
 #Job
 Job.application_id = db.relationship('Application')
@@ -114,3 +117,16 @@ TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
 #OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+# Message
+Message.author_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+Message.author = db.relationship("User", back_populates="messages")
+Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id', ondelete="CASCADE"), nullable=False)
+Message.room = db.relationship("Room", back_populates="messages")
+
+# Room
+Room.messages = db.relationship("Message", back_populates="room", order_by='Message.timestamp')
+
+# User Room
+UserRoom.user_id = db.Column(db.String(36), db.ForeignKey('user.id'))
+UserRoom.room_id = db.Column(db.String(36), db.ForeignKey('room.id'))

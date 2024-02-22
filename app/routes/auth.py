@@ -1,4 +1,5 @@
 import os
+import re
 from flask import (Blueprint, current_app, flash, redirect, render_template,
                    request, session, url_for, abort)
 from flask_login import login_required, login_user, logout_user
