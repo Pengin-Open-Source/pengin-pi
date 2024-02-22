@@ -59,24 +59,24 @@ def create_job():
 
     return render_template('jobs/job_create.html', primary_title='Create Job')
 
-@job_blueprint.route('/edit/<job_id>', methods=['GET', 'POST'])
+@job_blueprint.route('/<job_id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
 def edit_job(job_id):
     job = Job.query.filter_by(id=job_id).first()
 
     if request.method == 'POST':
-        job_title = request.form.get('job_title')
-        short_description = request.form.get('short_description')
-        long_description = request.form.get('long_description')
-        department = request.form.get('department')
-        salary = request.form.get('salary')
-        location = request.form.get('location')
-        hiring_manager = request.form.get('hiring_manager')
+        job.job_title = request.form.get('job_title')
+        job.short_description = request.form.get('short_description')
+        job.long_description = request.form.get('long_description')
+        job.department = request.form.get('department')
+        job.salary = request.form.get('salary')
+        job.location = request.form.get('location')
+        job.hiring_manager = request.form.get('hiring_manager')
 
         db.session.commit()
 
-        return redirect(url_for('job_blueprint.job', job_id=id))
+        return redirect(url_for('job_blueprint.job', job_id=job.id))
     
     return render_template('jobs/job_edit.html', job=job, primary_title='Edit Job')
 

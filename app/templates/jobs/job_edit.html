@@ -1,7 +1,9 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageContent %}
-  <form class="form" method="POST" action="/jobs/edit/{{job.id}}">
+  <form class="form" method="POST" action="/jobs/{{job.id}}/edit">
+    <input type="hidden" name="id" value="{{job.id}}">
+
     <div class="job-edit-container">
       <div class="form-section">
         <label for="job_title">Job Title</label>
@@ -46,7 +48,7 @@
         type="text"
         name="salary"
         id="salary"
-        value="{{job.salary|e}}">>
+        value="{{job.salary|e}}">
       </div>
       <div class="form-section">
         <label for="location">Location</label>
@@ -55,7 +57,7 @@
         type="text"
         name="location"
         id="location"
-        value="{{job.location|e}}">>
+        value="{{job.location|e}}">
       </div>
       <div class="form-section">
         <label for="hiring_manager">Hiring Manager</label>
@@ -64,10 +66,10 @@
         type="text"
         name="hiring_manager"
         id="hiring_manager"
-        value="{{job.hiring_manager|e}}">>
+        value="{{job.hiring_manager|e}}">
       </div>
     </div>
 
-      <button class="primary-button">Edit Job</button>
+      <button class="primary-button">Update</button>
   </form>
 {% endblock %}
