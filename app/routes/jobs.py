@@ -81,7 +81,7 @@ def edit_job(job_id):
     return render_template('jobs/job_edit.html', job=job, primary_title='Edit Job')
 
 
-@job_blueprint.route('/delete/<job_id>', methods=['POST'])
+@job_blueprint.route('/<job_id>/delete', methods=['POST'])
 @login_required
 @admin_permission.require()
 def delete_job(job_id):

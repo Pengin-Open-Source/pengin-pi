@@ -3,7 +3,7 @@
 {% block pageDropDowns %}
   {% if is_admin %}
     <a  href="/jobs/{{job.id}}/edit">Edit Job</a>
-    <form method="post" action="/jobs/delete/{{job.id}}">
+    <form method="post" action="/jobs/{{job.id}}/delete">
       <button  type="submit">Delete</button>
     </form>
   {% endif %}
@@ -18,7 +18,12 @@
     <div class="commonmark">{{job.long_description|commonmark|e}}</div>
     <p>{{job.hiring_manager|e}}</p>
     <p>Posted on {{ job.date_posted.strftime('%B %d, %Y') }}</p>
+
+    {% if not is_admin %}
+    <h2>Apply for this job</h2>    
     <form method="get" action="/applications/{{job.id}}/application">
       <button type="submit">Apply</button>
     </form>
+    {% endif %}
+
 {% endblock %} 
