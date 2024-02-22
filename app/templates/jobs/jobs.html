@@ -12,7 +12,7 @@
     {% for job in jobs %}
       <a href="/jobs/{{job.id}}">
         <div>{{job.job_title}}</div>
-        <div>{{job.date_posted}}</div>    
+        <div>Posted on {{ job.date_posted.strftime('%B %d, %Y') }}</div>    
       </a>
     {% endfor %}
   </div>

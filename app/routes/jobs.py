@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 from app.util.security import admin_permission
@@ -45,10 +46,11 @@ def create_job():
         salary = request.form.get('salary')
         location = request.form.get('location')
         hiring_manager = request.form.get('hiring_manager')
+        date_posted = datetime.now()
 
         job = Job(job_title=job_title, short_description=short_description,
                   long_description=long_description, department=department,
-                  salary=salary, location=location,hiring_manager=hiring_manager)
+                  salary=salary, location=location,hiring_manager=hiring_manager, date_posted=date_posted)
 
         db.session.add(job)
         db.session.commit()
