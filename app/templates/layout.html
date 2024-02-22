@@ -139,6 +139,8 @@
     }
 
     socket.on('update chat', function (data) {
+      console.log(data)
+      console.log($('input.display_name').val())
       if (data.chat_name == $('input.display_name').val()) {
         createMessageSender(data)
       }

@@ -13,7 +13,7 @@ DONE -- create the if name == main function and create a basic flask app to run 
 
 # import flask-socketIO
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, session
-from flask_socketio import SocketIO, join_room, leave_room, send
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_login import current_user, login_required
 import os
 import datetime
@@ -50,7 +50,8 @@ class Messenger:
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
         send(context, json=True, to=self.current_room)
-        print(f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
+        print(
+            f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
 
     def message_json(self, data):
         # room_id = request.sid
@@ -79,6 +80,11 @@ class Messenger:
 
     def disconnect_handler(self):
         pass
+
+    def process_message(self, json, methods=['GET', 'POST']):
+        print('received json: ' + str(json))
+        print("Message.py did something with a Message!")
+        emit('update chat', json)
 
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
@@ -137,6 +143,7 @@ def init_app(app, socketio):
     socketio.on_event("connect", messenger.connection_handler)
     socketio.on_event("json", messenger.message_json)
     socketio.on_event("disconnect", messenger.disconnect_handler)
+    socketio.on_event("message sent", messenger.process_message)
 
 
 if __name__ == "__main__":

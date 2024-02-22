@@ -1,6 +1,6 @@
 from flask import Flask, request, send_from_directory
 from flask_socketio import SocketIO, emit, send, join_room
-chatSocket = SocketIO()
+#chatSocket = SocketIO()
 chat_available = False
 from flask_login import LoginManager, current_user, login_required
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
@@ -23,7 +23,7 @@ from app.util.markup import markup
 from app.util.messenger import messenger
 from flask_commonmark import Commonmark
 
-from flask_socketio import SocketIO
+#from flask_socketio import SocketIO
 
 from app.util.uuid import id
 principals = Principal()
@@ -135,5 +135,5 @@ def create_app():
     app.context_processor(time_zone)
     app.context_processor(copyright)
 
-    chatSocket.init_app(app, debug = True)
+    #chatSocket.init_app(app, debug = True)
     return app

@@ -7,7 +7,6 @@ from app.util.security import admin_permission
 from app.util.s3 import conn
 import logging
 from werkzeug.utils import secure_filename
-from app import chatSocket
 chat_blueprint = Blueprint(
     'chat_blueprint', __name__,  url_prefix="/chat")
 
@@ -24,15 +23,15 @@ def message():
 # Should I add this to the blueprint?  IT's not a route/view, nobody
 # "navigates to" a URL address  to hit this method.
 
+#
+# @socketio.on('connect')
+# def on_connect(json):
+#     print('received json: ' + str(json))
+#     print("We have a new connection!") """ """
 
-@chatSocket.on('connect')
-def on_connect(json):
-    print('received json: ' + str(json))
-    print("We have a new connection!")
 
-
-@chatSocket.on('message sent')
-def process_message(json, methods=['GET', 'POST']):
-    print('received json: ' + str(json))
-    print("Message.py did something with a Message!")
-    chatSocket.emit('update chat', json)
+# @socketio.on('message sent')
+# def process_message(json, methods=['GET', 'POST']):
+#     print('received json: ' + str(json))
+#     print("Message.py did something with a Message!")
+#     chatSocket.emit('update chat', json)
