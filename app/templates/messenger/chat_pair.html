@@ -3,16 +3,14 @@
 {% block content %}
 
 <p>Hey {{ current_user.name }}, you are now chatting with {{ user }}</p>
-<p>Room #{{ room.name }}</p>
+<p>Room #{{ room_name }}</p>
 
 <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
 <div id="message-holder"></div>
 
-<form action="/" method="POST">
+<form onsubmit="sendMessage();return false">
     <input type="text" class="message" id="message" placeholder="Type your message..."/>
-    <button type="button" name="send" id="send-btn" onClick="sendMessage()">
-      Send
-    </button>
+    <input type="submit" name="send" id="send-btn" value="send"/>
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -22,7 +20,8 @@
 
     const message_holder = $("#message-holder")[0];
 
-    const createMessage = (author, content, timestamp) => {
+    {# Add new message to message holder in page #}
+    function createMessage(author, content, timestamp) {
         if(typeof author !== 'undefined') {
             $('h3').remove()
             const newMessage = document.createElement('div');
@@ -37,22 +36,28 @@
             `;
             message_holder.appendChild(newMessage);
         }
-    };
+    }
 
-    socketio.on("json", (data) => {
-        createMessage(data.author_name, data.content, data.timestamp);
-    });
-
-    const sendMessage = () => {
+    {# Send message to the server #}
+    function sendMessage() {
         const message = $("#message")[0];
         if (message.value === "") return;
-        socketio.emit("json", { author_id: "{{current_user.id}}", content: message.value });
+        socketio.emit("save_message", { author_id: "{{current_user.id}}", content: message.value, room_id: "{{room_id}}"});
         message.value = "";
-    };
+    }
+
+    {# Listening for saved data from the server #}
+    socketio.on('saved_message', (message) => {
+        {# Trigger function to add message in page #}
+        console.log("saved_message from " + "{{current_user.name}}")
+        createMessage(message.author_name, message.content, message.timestamp);
+    });
 </script>
+    
 {% for msg in messages %}
 <script type="text/javascript">
     createMessage("{{msg.author.name}}", "{{msg.content}}", "{{msg.timestamp}}");
 </script>
 {% endfor %}
+    
 {% endblock %}
