@@ -54,6 +54,10 @@ def create_app():
     messenger.init_app(app, socketio)
     # socketio.run(app)
 
+    # Use this to create tables from models
+    # with app.app_context():
+    #     db.create_all()
+
     # Inject global variables to templates
     @app.context_processor
     def inject_globals():
