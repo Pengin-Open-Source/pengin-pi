@@ -49,7 +49,6 @@
     {# Listening for saved data from the server #}
     socketio.on('saved_message', (message) => {
         {# Trigger function to add message in page #}
-        console.log("saved_message from " + "{{current_user.name}}")
         createMessage(message.author_name, message.content, message.timestamp);
     });
 </script>
