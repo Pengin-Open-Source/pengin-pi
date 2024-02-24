@@ -7,6 +7,7 @@ from app.db.models import Application
 from app.db.models import Job
 from app.util.s3 import conn
 from app.db.util import paginate
+from werkzeug.utils import secure_filename
 
 applications = Blueprint('applications', __name__, url_prefix='/applications')
 
@@ -32,5 +33,35 @@ def application(job_id):
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
 def create_application(job_id):
-    print('Create application function')
-    return 'Application sent!'
+    if request.method == 'POST':
+        resume = request.files['resume']
+        cover_letter = request.form.get('cover_letter')
+        message = request.form.get('message')
+        location = request.form.get('location')
+
+        if not resume:
+            return 'Resume is required', 400
+
+        filename = secure_filename(resume.filename)
+        resume_path = conn.create(resume, filename)
+
+        if cover_letter:
+            filename = secure_filename(cover_letter.filename)
+            cover_letter_path = conn.create(cover_letter, filename)
+        else:
+            cover_letter_path = None
+
+        new_application = Application(
+            resume_path=resume_path, 
+            cover_letter_path=cover_letter_path, 
+            message=message, 
+            location=location, 
+            job_id=job_id
+            )
+        
+        db.session.add(new_application)
+        db.session.commit()
+
+        return redirect(url_for('applications.application', job_id=job_id))
+    
+    return render_template('applications/create_application.html', job_id=job_id, primary_title='Create Application')        
