@@ -23,13 +23,13 @@ that will take the information provided by the application form and store it in 
 Application GET
 Application POST'''
 
-@applications.route('/<job_id>/application')
+@applications.route('/<job_id>/application', methods=['GET'])
 @login_required
 def application(job_id):
     is_admin = admin_permission.can()
     application = Application.query.filter_by(job_id=job_id).first()
-
-    return render_template('applications/application.html', is_admin=is_admin, application=application, job_id=job_id,primary_title='Application')
+  
+    return render_template('applications/application.html', is_admin=is_admin, application=application, primary_title='Application')
 
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
@@ -95,3 +95,13 @@ def application_view(job_id, application_id):
 
     print('JOB.TITLE: ', job.job_title)
     return render_template('applications/application_view.html', job=job, application=application, resume_url=resume_url, cover_letter_url=cover_letter_url, primary_title='Application')
+
+@applications.route('/my-applications', methods=['GET'])
+@login_required
+def my_applications():
+    applications_per_page = 9
+    page = 1
+    applications = paginate(Application, page=page, key="date_applied", pages=applications_per_page)
+    for application in applications:
+        print('JOB ID: ', application.job_id)
+    return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')

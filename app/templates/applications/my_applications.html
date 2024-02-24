@@ -1,0 +1,28 @@
+
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+  <a href="/applications/my-applications">My Applications</a>
+{% endblock %}
+
+{% block pageContent %}
+<h2>My Applications</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date Applied</th>
+        <th>Job Title</th>
+        <!-- Add more columns as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in applications %}
+        <tr>
+          <td>{{ application.date_applied.strftime('%B %d, %Y') }}</td>
+          <!-- <td>{{ application.job_id }}</td> -->
+          <!-- Add more columns as needed -->
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
