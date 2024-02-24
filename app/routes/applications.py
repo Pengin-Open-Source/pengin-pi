@@ -43,12 +43,12 @@ def create_application(job_id):
         if not resume:
             return 'Resume is required', 400
 
-        filename = secure_filename(resume.filename)
-        resume_path = conn.create(resume, filename)
+        resume.filename = secure_filename(resume.filename)
+        resume_path = conn.create(resume)
 
         if cover_letter:
-            filename = secure_filename(cover_letter.filename)
-            cover_letter_path = conn.create(cover_letter, filename)
+            cover_letter.filename = secure_filename(cover_letter.filename)
+            cover_letter_path = conn.create(cover_letter)
         else:
             cover_letter_path = None
 
@@ -60,7 +60,7 @@ def create_application(job_id):
             date_applied=datetime.now()
             )
         
-        print(new_application)
+        print('NEW APPLICATION: ', new_application)
         db.session.add(new_application)
         db.session.commit()
 
