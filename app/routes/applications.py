@@ -60,6 +60,7 @@ def create_application(job_id):
             date_applied=datetime.now()
             )
         
+        print(new_application)
         db.session.add(new_application)
         db.session.commit()
 
