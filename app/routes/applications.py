@@ -88,5 +88,10 @@ def application_view(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     job = Job.query.filter_by(id=job_id).first()
 
+    resume_url = conn.get_URL(application.resume_path)
+
+    if application.cover_letter_path:
+        cover_letter_url = conn.get_URL(application.cover_letter_path)
+
     print('JOB.TITLE: ', job.job_title)
-    return render_template('applications/application_view.html', job=job, application=application, primary_title='Application')
+    return render_template('applications/application_view.html', job=job, application=application, resume_url=resume_url, cover_letter_url=cover_letter_url, primary_title='Application')

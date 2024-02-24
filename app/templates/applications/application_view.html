@@ -5,10 +5,20 @@
 {% endblock %}
 
 {% block pageContent %}
+  {% if application %}
     <h1>My Application for {{ job.job_title }}</h1>
-    <p>Applied on  {{ application.date_applied }}</p>
-    <p>Resume: {{ application.resume_path }}</p>
-    <p>Cover letter: {{ application.cover_letter_path }}</p>
+    <p>Applied on  {{ application.date_applied.strftime('%B %d, %Y') }}</p>
+    <p>Resume: <a href="{{ resume_url }}" target="_blank"> Download</a></p>
+    <p> Cover Letter:
+      {% if not application.cover_letter_path %}
+        None provided
+      {% else %}
+        <a href="{{ cover_letter_url }}" target="_blank"> Download</a>
+      {% endif %}
     <p>Message: {{ application.message }}</p>
     <p>Location: {{ application.location }}</p>
+  {% else %}
+    <h1>Application Not Found</h1>
+    <p>Sorry, we could not find the application you are looking for.</p>
+  {% endif %}
 {% endblock %}
