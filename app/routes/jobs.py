@@ -30,19 +30,10 @@ def jobs():
 def job(job_id):
     is_admin = admin_permission.can()
     job = Job.query.filter_by(id=job_id).first()
-    
-    # Accessing the applications associated with the job
+
     applications = job.applications
-
-    if applications:
-        # Print information about each application
-        for application in applications:
-            print(f"Application ID: {application.id}, User ID: {application.user_id}")
-    else:
-        print("No applications for this job.")
-
-
-    return render_template('jobs/job.html', is_admin=is_admin, job=job, page=1,
+    
+    return render_template('jobs/job.html', is_admin=is_admin, job=job, applications=applications, page=1,
                            primary_title=job.job_title)
 
 @job_blueprint.route('/create', methods=['GET','POST'])

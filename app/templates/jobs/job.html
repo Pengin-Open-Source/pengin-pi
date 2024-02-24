@@ -20,10 +20,12 @@
     <p>Posted on {{ job.date_posted.strftime('%B %d, %Y') }}</p>
 
     {% if not is_admin %}
-    <h2>Apply for this job</h2>    
     <form method="get" action="/applications/{{job.id}}/application">
       <button type="submit">Apply</button>
     </form>
-    {% endif %}
+    {% else %}
+      <p>This job has received {{ applications|length }} applications</p>
+      <a href="">View Applications</a>
+  {% endif %}
 
 {% endblock %} 
