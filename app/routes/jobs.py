@@ -3,8 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 from app.util.security import admin_permission
 from app.db import db
-from app.db.models import Job
-from app.util.s3 import conn
+from app.db.models import Job, Application, User
 from app.db.util import paginate
 
 job_blueprint = Blueprint('job_blueprint',
@@ -93,3 +92,20 @@ def delete_job(job_id):
     db.session.commit()
 
     return redirect(url_for('job_blueprint.jobs'))
+
+@job_blueprint.route('/<job_id>/applications', methods=['GET'])
+@login_required
+@admin_permission.require()
+def job_applications(job_id):
+    job = Job.query.filter_by(id=job_id).first()
+    applications = Application.query.filter_by(job_id=job_id).all()
+    
+    for application in applications:
+        user = User.query.filter_by(id=application.user_id).first()
+        if user:
+            print(f"Application ID: {application.id}, Created by: {user.name}")
+        else:
+            print(f"Application ID: {application.id}, User not found for user_id: {application.user_id}")
+
+
+    return render_template('jobs/job_applications.html', job=job, applications=applications, primary_title='Job Applications')

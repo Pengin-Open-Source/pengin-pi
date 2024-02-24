@@ -36,11 +36,12 @@ Job.user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCAD
 Job.applications = db.relationship('Application', back_populates="job")
 
 #Application
+Application.user = db.relationship('User', back_populates='applications')
+Application.job = db.relationship('Job', back_populates='applications')
 Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
                                                 ondelete='CASCADE'))
-Application.job = db.relationship('Job', back_populates='applications')
 
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',

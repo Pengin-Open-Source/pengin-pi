@@ -1,6 +1,6 @@
 #398-application-route
 from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required
+from flask_login import current_user, login_required
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Application
@@ -58,7 +58,8 @@ def create_application(job_id):
             message=message, 
             location=location, 
             date_applied=datetime.now(),
-            job_id=job_id
+            job_id=job_id,
+            user_id=current_user.id
             )
         
         db.session.add(new_application)
