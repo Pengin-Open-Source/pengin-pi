@@ -1,0 +1,14 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+    <!-- <a href="/about/edit">Edit About Page</a> -->
+{% endblock %}
+
+{% block pageContent %}
+    <h1>My Application for {{ job.job_title }}</h1>
+    <p>Applied on  {{ application.date_applied }}</p>
+    <p>Resume: {{ application.resume_path }}</p>
+    <p>Cover letter: {{ application.cover_letter_path }}</p>
+    <p>Message: {{ application.message }}</p>
+    <p>Location: {{ application.location }}</p>
+{% endblock %}

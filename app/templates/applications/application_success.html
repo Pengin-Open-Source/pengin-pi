@@ -1,0 +1,11 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+    <!-- <a href="/about/edit">Edit About Page</a> -->
+{% endblock %}
+
+{% block pageContent %}
+    <h1>Application Submitted!</h1>
+    <p>Thank you for submitting your application. We will be in touch soon.</p>
+    <p><a href="{{ url_for('applications.application_view', job_id=job_id, application_id=application_id) }}">View My Application</a></p>
+    {% endblock %}

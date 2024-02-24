@@ -64,6 +64,29 @@ def create_application(job_id):
         db.session.add(new_application)
         db.session.commit()
 
-        return redirect(url_for('applications.application', job_id=job_id))
+        return redirect(url_for(
+            'applications.application_success', 
+            job_id=job_id,
+            application_id=new_application.id
+            ))
     
     return render_template('applications/create_application.html', job_id=job_id, primary_title='Create Application')        
+
+@applications.route('/<job_id>/application/<application_id>/success', methods=['GET'])
+@login_required
+def application_success(job_id, application_id):
+    return render_template(
+        'applications/application_success.html', 
+        primary_title='Application Success',
+        job_id=job_id,
+        application_id=application_id
+        )
+
+@applications.route('/<job_id>/application/<application_id>', methods=['GET'])
+@login_required
+def application_view(job_id, application_id):
+    application = Application.query.filter_by(id=application_id).first()
+    job = Job.query.filter_by(id=job_id).first()
+
+    print('JOB.TITLE: ', job.job_title)
+    return render_template('applications/application_view.html', job=job, application=application, primary_title='Application')
