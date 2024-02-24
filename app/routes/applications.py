@@ -8,6 +8,7 @@ from app.db.models import Job
 from app.util.s3 import conn
 from app.db.util import paginate
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 applications = Blueprint('applications', __name__, url_prefix='/applications')
 
@@ -35,7 +36,7 @@ def application(job_id):
 def create_application(job_id):
     if request.method == 'POST':
         resume = request.files['resume']
-        cover_letter = request.form.get('cover_letter')
+        cover_letter = request.files['cover_letter']
         message = request.form.get('message')
         location = request.form.get('location')
 
@@ -56,7 +57,7 @@ def create_application(job_id):
             cover_letter_path=cover_letter_path, 
             message=message, 
             location=location, 
-            job_id=job_id
+            date_applied=datetime.now()
             )
         
         db.session.add(new_application)
