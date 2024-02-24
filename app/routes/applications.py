@@ -29,7 +29,7 @@ def application(job_id):
     is_admin = admin_permission.can()
     application = Application.query.filter_by(job_id=job_id).first()
   
-    return render_template('applications/application.html', is_admin=is_admin, application=application, primary_title='Application')
+    return render_template('applications/application.html', is_admin=is_admin, application=application, job_id=job_id, primary_title='Application')
 
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
@@ -57,10 +57,10 @@ def create_application(job_id):
             cover_letter_path=cover_letter_path, 
             message=message, 
             location=location, 
-            date_applied=datetime.now()
+            date_applied=datetime.now(),
+            job_id=job_id
             )
         
-        print('NEW APPLICATION: ', new_application)
         db.session.add(new_application)
         db.session.commit()
 
