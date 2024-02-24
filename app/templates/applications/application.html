@@ -48,7 +48,6 @@ location-->
     }
   ] %}
 
-  {# Use the render_form macro with the defined form fields and an endpoint #}
-  {{ form.render_form(application_items, url_for('application_blueprint.create_application', job_id=job_id)) }}
+  {{ form.render_form(application_items, url_for('applications.create_application', job_id=job_id)) }}
 
 {% endblock %} 

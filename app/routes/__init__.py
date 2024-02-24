@@ -13,7 +13,7 @@ from app.routes.products import product_blueprint
 from app.routes.about import about_blueprint
 from app.routes.orders import order_info as order_blueprint
 from app.routes.jobs import job_blueprint
-from app.routes.applications import application_blueprint
+from app.routes.applications import applications as application_blueprint
 
 
 # Blueprints variable is a list of blueprints in this current directory
