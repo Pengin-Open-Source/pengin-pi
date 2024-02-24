@@ -92,8 +92,9 @@ def application_view(job_id, application_id):
 
     if application.cover_letter_path:
         cover_letter_url = conn.get_URL(application.cover_letter_path)
+    else:
+        cover_letter_url = None
 
-    print('JOB.TITLE: ', job.job_title)
     return render_template('applications/application_view.html', job=job, application=application, resume_url=resume_url, cover_letter_url=cover_letter_url, primary_title='Application')
 
 @applications.route('/my-applications', methods=['GET'])
