@@ -26,18 +26,21 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
-User.jobs = db.relationship('Application')
 User.messages = db.relationship("Message", back_populates="author")
 User.rooms = db.relationship('Room', secondary='user_room')
+User.jobs = db.relationship('Job')
+User.applications = db.relationship('Application')
 
 #Job
-Job.application_id = db.relationship('Application')
+Job.user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'))
+Job.applications = db.relationship('Application', back_populates="job")
 
 #Application
 Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
                                                 ondelete='CASCADE'))
+Application.job = db.relationship('Job', back_populates='applications')
 
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
