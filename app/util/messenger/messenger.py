@@ -84,7 +84,7 @@ class Messenger:
     def process_message(self, json, methods=['GET', 'POST']):
         print('received json: ' + str(json))
         print("Message.py did something with a Message!")
-        emit('update chat', json)
+        emit('update chat', json,  broadcast=True)
 
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
