@@ -98,7 +98,21 @@
         })
         $('textarea.message_text').val('').focus()
       })
+
+      const userPick = $('#chat-with-user').on('submit', function (e) {
+        e.preventDefault()
+        let display_name = "Placeholder Name"
+        let message_text = "Placeholder Message"
+
+        socket.emit('message sent', {
+          chat_name: display_name,
+          chat_message: message_text
+        })
+        $('textarea.message_text').val('').focus()
+      })
     })
+
+
 
 
     function createMessageSender(data) {

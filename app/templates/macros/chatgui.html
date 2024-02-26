@@ -23,9 +23,13 @@
                             </div>
                         </div>
                         <div class="message-grid-container" id="user-container">
-                            {% for user in chat_users %}
-                            <div class="message-grid-item">{{user['name']}}</div>
-                            {% endfor %}
+                            <form id="chat-with-user" method="POST" action="">
+                                {% for user in chat_users %}
+                                <div class="message-grid-item">
+                                    <input type="submit" value="{{user['name']}}" />
+                                </div>
+                                {% endfor %}
+                            </form>
                         </div>
                     </div>
                     <div class="content-section-p" class="full-page-scroll-container" id="group-section">
