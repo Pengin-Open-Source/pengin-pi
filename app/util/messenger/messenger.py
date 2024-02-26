@@ -13,7 +13,7 @@ DONE -- create the if name == main function and create a basic flask app to run 
 
 # import flask-socketIO
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, session
-from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
 import datetime
@@ -33,50 +33,42 @@ class Messenger:
         pass
 
     def connection_handler(self, auth):
-        print("you're in socketio.on('connect')")
-        print(f"room: {self.current_room}")
         if self.current_room is None:
             print("no room")
             return
-        # if self.current_room not in self.rooms:
-        #     print(f"room {self.current_room} is not in rooms {self.rooms}")
-        #     leave_room(self.current_room)
-        #     self.current_room = None
-        #     return
+
         join_room(self.current_room)
         context = {
             "author_name": current_user.name,
             "content": "has entered the room",
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
-        send(context, json=True, to=self.current_room)
-        print(
-            f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
+        emit("saved_message", context, to=self.current_room)
+        print(f"{current_user.name} joined room {self.current_room}")
 
-    def message_json(self, data):
-        # room_id = request.sid
-        # room = Room.query.get(room_id)
-        print(f"room: {self.current_room}")
-        # print(f"room_id: {room_id}")
+    def save_message(self, data):
         if self.current_room is None:
-            print("in message_json, room does not exist")
+            print("in save_message, room does not exist")
             return
-        message = Message(
-            author_id=data['author_id'],
-            timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            room=self.current_room,
-            content=data['content']
-        )
-        db.session.add(message)
-        db.session.commit()
+        with db.session.no_autoflush:
+            message = Message(
+                author_id=data["author_id"],
+                timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                room_id=data["room_id"],
+                content=data["content"]
+            )
+            db.session.add(message)
+            db.session.commit()
+        self.send_message(message)
 
+    def send_message(self, message):
         context = {
-            "author_id": message.author_id,
-            "author_name": User.query.get(message.author_id).name,
+            "author_name": message.author.name,
             "content": message.content,
             "timestamp": message.timestamp,
         }
-        send(context, json=True, to=self.current_room)
+        emit("saved_message", context, to=message.room.id)
+        # emit("saved_message", context, to=self.current_room)
 
     def disconnect_handler(self):
         pass
@@ -115,7 +107,7 @@ def init_app(app, socketio):
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
 
-    @messenger_blueprint.route("/<other_user>")
+    @messenger_blueprint.route("/<other_user>", methods=["GET", "POST"])
     @login_required
     def chat(other_user):
         other_user_name = User.query.get(other_user).name
@@ -129,19 +121,19 @@ def init_app(app, socketio):
             print(f"room {room_id} did not exist, it is now created:")
             print(f"room name: {room.name}")
 
-        messenger.current_room = room
-        for message in room.messages:
-            print(message.__dict__)
+        messenger.current_room = room_id
 
+        # Return only the 100 last messages
         return render_template(
             "messenger/chat_pair.html",
             user=other_user_name,
-            room=room,
+            room_id=room_id,
+            room_name=room.name,
             messages=room.messages
         )
 
     socketio.on_event("connect", messenger.connection_handler)
-    socketio.on_event("json", messenger.message_json)
+    socketio.on_event("save_message", messenger.save_message)
     socketio.on_event("disconnect", messenger.disconnect_handler)
     socketio.on_event("message sent", messenger.process_message)
 
