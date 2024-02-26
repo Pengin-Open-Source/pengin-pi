@@ -86,20 +86,6 @@ class Messenger:
         print("Message.py did something with a Message!")
         emit('update chat', json,  broadcast=True)
 
-    def filtered_chat_users(self):
-        # TODO get user's company members
-        # For now, get all users except current user
-        co_workers = User.query.filter(User.id != current_user.id)
-
-        def user_data(user):
-            return {
-                "id": user.id,
-                "name": user.name,
-            }
-
-        co_workers = list(map(user_data, co_workers))
-        return {'chat_users': co_workers}
-
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
                                 url_prefix="/messenger")

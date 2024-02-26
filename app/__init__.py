@@ -115,10 +115,26 @@ def create_app():
     #def update_bool_value(app, **kwargs):
     #	global chat_available
     #	chat_available = True
-    	
 
+    def filtered_chat_users():
+    # TODO get user's company members
+    # For now, get all users except current user
+        if current_user.is_authenticated:
+            co_workers = model.User.query.filter(model.User.id != current_user.id)
 
+            def user_data(user):
+                return {
+                    "id": user.id,
+                    "name": user.name,
+                }
 
+            co_workers = list(map(user_data, co_workers))
+        else:
+            co_workers = []
+
+        return {'chat_users': co_workers}
+
+     
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
@@ -134,6 +150,7 @@ def create_app():
     #app.context_processor(bool_test)
     app.context_processor(time_zone)
     app.context_processor(copyright)
+    app.context_processor(filtered_chat_users)
 
     #chatSocket.init_app(app, debug = True)
     return app
