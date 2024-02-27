@@ -99,17 +99,17 @@
         $('textarea.message_text').val('').focus()
       })
 
-      const userPick = $('#chat-with-user').on('submit', function (e) {
-        e.preventDefault()
-        let display_name = "Placeholder Name"
-        let message_text = "Placeholder Message"
 
-        socket.emit('message sent', {
-          chat_name: display_name,
-          chat_message: message_text
+      const userPick = $('#chat-with-user').on("click", ".other-chat-user", function (e) {
+        e.preventDefault()
+        const user_picked = $(this).data("userId");
+
+        socket.emit('user selected', {
+          other_user: user_picked
         })
-        $('textarea.message_text').val('').focus()
+
       })
+
     })
 
 

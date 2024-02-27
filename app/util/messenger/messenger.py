@@ -73,10 +73,40 @@ class Messenger:
     def disconnect_handler(self):
         pass
 
+    def create_room_id(self, user1, user2):
+        attendees = [user1, user2]
+        attendees.sort()
+        return f"{attendees[0]}_{attendees[1]}"
+
     def process_message(self, json, methods=['GET', 'POST']):
         print('received json: ' + str(json))
         print("Message.py did something with a Message!")
         emit('update chat', json,  broadcast=True)
+
+    def chat_with(self, json, methods=['GET', 'POST']):
+        print(f"user id in overlay: {json}")
+        other_user_name = User.query.get(json['other_user']).name
+        room_id = self.create_room_id(current_user.name, other_user_name)
+        room = Room.query.get(room_id)
+        if room is None:
+            room = Room(id=room_id, name=self.create_room_id(current_user.name,
+                                                             other_user_name))
+            db.session.add(room)
+            db.session.commit()
+            print(f"room {room_id} did not exist, it is now created:")
+            print(f"room name: {room.name}")
+
+        self.current_room = room_id
+        print(f"messages: {room.messages[0]} ")
+
+        # Return only the 100 last messages
+        # return render_template(
+        #     "messenger/chat_pair.html",
+        #     user=other_user_name,
+        #     room_id=room_id,
+        #     room_name=room.name,
+        #     messages=room.messages
+        # )
 
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
@@ -102,20 +132,16 @@ def init_app(app, socketio):
         co_workers = list(map(user_data, co_workers))
         return render_template("messenger/chat_list.html", users=co_workers)
 
-    def create_room_id(user1, user2):
-        attendees = [user1, user2]
-        attendees.sort()
-        return f"{attendees[0]}_{attendees[1]}"
-
     @messenger_blueprint.route("/<other_user>", methods=["GET", "POST"])
     @login_required
     def chat(other_user):
+        print(f"user id in regular messenger: {other_user}")
         other_user_name = User.query.get(other_user).name
-        room_id = create_room_id(current_user.name, other_user_name)
+        room_id = messenger.create_room_id(current_user.name, other_user_name)
         room = Room.query.get(room_id)
         if room is None:
-            room = Room(id=room_id, name=create_room_id(current_user.name,
-                                                        other_user_name))
+            room = Room(id=room_id, name=messenger.create_room_id(current_user.name,
+                                                                  other_user_name))
             db.session.add(room)
             db.session.commit()
             print(f"room {room_id} did not exist, it is now created:")
@@ -136,6 +162,7 @@ def init_app(app, socketio):
     socketio.on_event("save_message", messenger.save_message)
     socketio.on_event("disconnect", messenger.disconnect_handler)
     socketio.on_event("message sent", messenger.process_message)
+    socketio.on_event("user selected", messenger.chat_with)
 
 
 if __name__ == "__main__":
