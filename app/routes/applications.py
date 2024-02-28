@@ -3,8 +3,8 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user, login_required
 from app.util.security import admin_permission
 from app.db import db
-from app.db.models import Application
-from app.db.models import Job
+from app.db.models import Application, Job
+from app.util.mail import send_mail
 from app.util.s3 import conn
 from app.db.util import paginate
 from werkzeug.utils import secure_filename
@@ -64,6 +64,11 @@ def create_application(job_id):
         
         db.session.add(new_application)
         db.session.commit()
+
+        try:
+            send_mail(current_user.email, new_application.id, "job_application")
+        except Exception as e:
+            print('Error: ', e)
 
         return redirect(url_for(
             'applications.application_success', 

@@ -53,6 +53,20 @@ class Message(Mailer):
             </body>
             </html>
             """
+        elif TYPE == "job_application":
+            self.SUBJECT="Application Confirmation"
+            BODY_TEXT = ("Thank you for your application\r\n"
+                        "This email is an automated message."
+                        "We will be in touch soon."
+                        )
+            BODY_HTML = f"""<html>
+            <head></head>
+            <body>
+            <h1>Application Confirmation</h1>
+            <p>This email is an automated message. We will be in touch soon.</p>
+            </body>
+            </html>
+            """
 
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
