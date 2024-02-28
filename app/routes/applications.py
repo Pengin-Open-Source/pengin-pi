@@ -104,6 +104,4 @@ def my_applications():
     applications_per_page = 9
     page = 1
     applications = paginate(Application, page=page, key="date_applied", pages=applications_per_page)
-    for application in applications:
-        print('JOB ID: ', application.job_id)
     return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')

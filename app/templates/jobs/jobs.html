@@ -4,7 +4,9 @@
 {% block pageDropDowns %}
   {% if is_admin %}
     <a href="/jobs/create">New Job</a>
-  {% endif %}
+    {% else %}
+    <a href="/applications/my-applications">My Applications</a>
+    {% endif %}
 {% endblock %}
 
 {% block pageContent %}

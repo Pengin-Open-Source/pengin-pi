@@ -6,6 +6,8 @@
     <form method="post" action="/jobs/{{job.id}}/delete">
       <button  type="submit">Delete</button>
     </form>
+    {% else %}
+    <a href="/applications/my-applications">My Applications</a>
   {% endif %}
 {% endblock %}
 
