@@ -13,15 +13,13 @@
       <tr>
         <th>Date Applied</th>
         <th>Job Title</th>
-        <!-- Add more columns as needed -->
       </tr>
     </thead>
     <tbody>
       {% for application in applications %}
         <tr>
           <td>{{ application.date_applied.strftime('%B %d, %Y') }}</td>
-          <!-- <td>{{ application.job_id }}</td> -->
-          <!-- Add more columns as needed -->
+          <td><a href="/applications/{{ application.job_id }}/application/{{ application.id }}">{{ application.job.job_title }}</a></td>
         </tr>
       {% endfor %}
     </tbody>
