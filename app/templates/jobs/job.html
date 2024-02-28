@@ -26,7 +26,7 @@
         <button type="submit">Apply</button>
       </form>
     {% else %}
-      <p>You have already applied for this job.</p>
+      <p>You have already applied for this job. <a href="/applications/{{ job.id }}/application/{{ user_application_id }}">View Application</a></p>
     {% endif %}
 
     

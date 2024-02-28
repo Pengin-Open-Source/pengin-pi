@@ -34,8 +34,9 @@ def job(job_id):
 
     applications = job.applications
     user_applied = any(application.user_id == current_user.id for application in applications)
-    
-    return render_template('jobs/job.html', is_admin=is_admin, job=job, applications=applications, user_applied=user_applied, page=1,
+    user_application_id = next((application.id for application in applications if application.user_id == current_user.id), None)
+
+    return render_template('jobs/job.html', is_admin=is_admin, job=job, applications=applications, user_applied=user_applied, user_application_id=user_application_id, page=1,
                            primary_title=job.job_title)
 
 @job_blueprint.route('/create', methods=['GET','POST'])
