@@ -14,8 +14,9 @@ location-->
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageDropDowns%}
-    <a href="/applications/my-applications">My Applications</a>
-{% endblock %}
+{% if not is_admin %}
+  <a href="/applications/my-applications">My Applications</a>
+  {% endif %}{% endblock %}
 
 {% block pageContent %}
     

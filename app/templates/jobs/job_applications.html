@@ -21,7 +21,7 @@
         <td>{{ application.date_applied.strftime('%B %d, %Y') }}</td>
         <td>
           {% if application.user %}
-            {{ application.user.name }}
+            <a href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
           {% else %}
             no name
           {% endif %}
