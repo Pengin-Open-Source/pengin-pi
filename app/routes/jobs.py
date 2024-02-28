@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Job, Application, User
@@ -11,6 +11,7 @@ job_blueprint = Blueprint('job_blueprint',
 
 
 @job_blueprint.route('/', methods=['GET', 'POST'])
+@login_required
 def jobs():
     is_admin = admin_permission.can()
     jobs_per_page = 9
@@ -26,13 +27,15 @@ def jobs():
                            primary_title='Jobs')
 
 @job_blueprint.route('/<job_id>')
+@login_required
 def job(job_id):
     is_admin = admin_permission.can()
     job = Job.query.filter_by(id=job_id).first()
 
     applications = job.applications
+    user_applied = any(application.user_id == current_user.id for application in applications)
     
-    return render_template('jobs/job.html', is_admin=is_admin, job=job, applications=applications, page=1,
+    return render_template('jobs/job.html', is_admin=is_admin, job=job, applications=applications, user_applied=user_applied, page=1,
                            primary_title=job.job_title)
 
 @job_blueprint.route('/create', methods=['GET','POST'])

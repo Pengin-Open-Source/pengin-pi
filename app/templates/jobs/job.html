@@ -21,13 +21,13 @@
     <p>{{job.hiring_manager|e}}</p>
     <p>Posted on {{ job.date_posted.strftime('%B %d, %Y') }}</p>
 
-    {% if not is_admin %}
-    <form method="get" action="/applications/{{job.id}}/application">
-      <button type="submit">Apply</button>
-    </form>
+    {% if not user_applied %}
+      <form method="get" action="/applications/{{job.id}}/application">
+        <button type="submit">Apply</button>
+      </form>
     {% else %}
-      <p>This job has received {{ applications|length }} applications</p>
-      <a href="/jobs/{{ job.id }}/applications">View Applications</a>
-  {% endif %}
+      <p>You have already applied for this job.</p>
+    {% endif %}
 
+    
 {% endblock %} 
