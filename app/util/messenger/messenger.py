@@ -12,7 +12,7 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import Flask, Blueprint, render_template, redirect, url_for, request, session
+from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
@@ -97,7 +97,15 @@ class Messenger:
             print(f"room name: {room.name}")
 
         self.current_room = room_id
-        print(f"messages: {room.messages[0]} ")
+        for message in room.messages:
+            context = {
+                "author_name": message.author.name,
+                "content": message.content,
+                "timestamp": message.timestamp,
+            }
+            emit('load chat', context, broadcast=True)
+
+        # print(f"messages: {room.messages[0]} ")
 
         # Return only the 100 last messages
         # return render_template(

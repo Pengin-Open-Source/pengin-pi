@@ -103,6 +103,11 @@
       const userPick = $('#chat-with-user').on("click", ".other-chat-user", function (e) {
         e.preventDefault()
         const user_picked = $(this).data("userId");
+        //empty the chat box messages
+        $('div.message-display-sender').empty();
+        $("div.message-display-receiver").empty();
+        sent_messages.content = document.querySelector(".message-display-sender");
+        received_messages.content = document.querySelector(".message-display-receiver");
 
         socket.emit('user selected', {
           other_user: user_picked
@@ -115,13 +120,13 @@
 
 
 
-    function createMessageSender(data) {
+    function createMessageSender(message) {
 
       const msgSection = document.createElement('div');
       msgSection.className = "text-section";
       const newMessage = document.createElement('div');
       newMessage.className = "text-section-s"
-      newMessage.innerHTML = data.chat_message;
+      newMessage.innerHTML = message.content;
       const msgSpace = document.createElement('div');
       msgSpace.className = "text-section-s";
 
@@ -133,7 +138,7 @@
     }
 
 
-    function createMessageReceiver(data) {
+    function createMessageReceiver(message) {
 
       const msgSection = document.createElement('div');
       msgSection.className = "text-section";
@@ -144,13 +149,28 @@
 
       const newMessage = document.createElement('div');
       newMessage.className = "text-section-r"
-      newMessage.innerHTML = data.chat_message;
+      newMessage.innerHTML = message.content;
 
       msgSection.appendChild(msgSpace)
       msgSection.appendChild(newMessage)
       received_messages.appendChild(msgSection)
 
     }
+
+
+
+    socket.on('load chat', function (message) {
+      console.log(message.content)
+      console.log($('input.display_name').val())
+      console.log(message.author_name)
+      if (message.author_name == $('input.display_name').val()) {
+        createMessageSender(message)
+      }
+      else {
+        createMessageReceiver(message)
+      }
+    });
+
 
     socket.on('update chat', function (data) {
       console.log(data)
@@ -161,10 +181,6 @@
       else {
         createMessageReceiver(data)
       }
-
-
-
-      //updateChat();
     });
 
 
