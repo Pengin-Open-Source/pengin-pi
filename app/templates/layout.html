@@ -102,7 +102,7 @@
 
       const userPick = $('#chat-with-user').on("click", ".other-chat-user", function (e) {
         e.preventDefault()
-        const user_picked = $(this).data("userId");
+        const user_picked = $(this).val();
         //empty the chat box messages
         $('div.message-display-sender').empty();
         $("div.message-display-receiver").empty();

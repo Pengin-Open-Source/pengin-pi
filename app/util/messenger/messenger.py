@@ -84,26 +84,28 @@ class Messenger:
         emit('update chat', json,  broadcast=True)
 
     def chat_with(self, json, methods=['GET', 'POST']):
-        print(f"user id in overlay: {json}")
-        other_user_name = User.query.get(json['other_user']).name
-        room_id = self.create_room_id(current_user.name, other_user_name)
-        room = Room.query.get(room_id)
-        if room is None:
-            room = Room(id=room_id, name=self.create_room_id(current_user.name,
-                                                             other_user_name))
-            db.session.add(room)
-            db.session.commit()
-            print(f"room {room_id} did not exist, it is now created:")
-            print(f"room name: {room.name}")
+        print(f"user name in overlay: {json}")
+        other_user = User.query.filter_by(name=json['other_user']).first()
+        if other_user:
+            other_user_name = other_user.name
+            room_id = self.create_room_id(current_user.name, other_user_name)
+            room = Room.query.get(room_id)
+            if room is None:
+                room = Room(id=room_id, name=self.create_room_id(current_user.name,
+                                                                 other_user_name))
+                db.session.add(room)
+                db.session.commit()
+                print(f"room {room_id} did not exist, it is now created:")
+                print(f"room name: {room.name}")
 
-        self.current_room = room_id
-        for message in room.messages:
-            context = {
-                "author_name": message.author.name,
-                "content": message.content,
-                "timestamp": message.timestamp,
-            }
-            emit('load chat', context, broadcast=True)
+            self.current_room = room_id
+            for message in room.messages:
+                context = {
+                    "author_name": message.author.name,
+                    "content": message.content,
+                    "timestamp": message.timestamp,
+                }
+                emit('load chat', context, broadcast=True)
 
         # print(f"messages: {room.messages[0]} ")
 

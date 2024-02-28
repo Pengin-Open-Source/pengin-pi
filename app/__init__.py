@@ -124,7 +124,6 @@ def create_app():
 
             def user_data(user):
                 return {
-                    "id": user.id,
                     "name": user.name,
                 }
 
