@@ -18,7 +18,7 @@ from flask_login import current_user, login_required
 import os
 import datetime
 from app.db import db
-from app.db.models import Message, User, Room
+from app.db.models import Message, User, Room,  UserRoom
 
 
 # import config.object
@@ -86,19 +86,34 @@ class Messenger:
     def chat_with(self, json, methods=['GET', 'POST']):
         print(f"user name in overlay: {json}")
         other_user = User.query.filter_by(name=json['other_user']).first()
+        print(current_user.id)
+        # available_rooms = UserRoom.query.filter_by( user_id=current_user.id).all()
+        available_rooms = UserRoom.query.all()
+        print(available_rooms)
+
         if other_user:
             other_user_name = other_user.name
-            room_id = self.create_room_id(current_user.name, other_user_name)
-            room = Room.query.get(room_id)
+            chat_room_id = self.create_room_id(
+                current_user.name, other_user_name)
+            room = Room.query.get(chat_room_id)
             if room is None:
-                room = Room(id=room_id, name=self.create_room_id(current_user.name,
-                                                                 other_user_name))
+                room = Room(id=chat_room_id, name=self.create_room_id(current_user.name,
+                                                                      other_user_name))
                 db.session.add(room)
                 db.session.commit()
-                print(f"room {room_id} did not exist, it is now created:")
+                print(f"room {chat_room_id} did not exist, it is now created:")
                 print(f"room name: {room.name}")
 
-            self.current_room = room_id
+            user_room = UserRoom.query.get(chat_room_id)
+            if user_room is None:
+                user_room = UserRoom(room_id=chat_room_id,
+                                     user_id=current_user.id)
+                db.session.add(user_room)
+                db.session.commit()
+                print(
+                    f"User-room link for room {chat_room_id}  and user {current_user.name} did not exist, it is now created:")
+
+            self.current_room = chat_room_id
             for message in room.messages:
                 context = {
                     "author_name": message.author.name,
