@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user, login_required
 from app.util.security import admin_permission
 from app.db import db
-from app.db.models import Application, Job
+from app.db.models import Application, Job, User
 from app.util.mail import send_application_mail
 from app.util.s3 import conn
 from app.db.util import paginate
@@ -115,3 +115,19 @@ def my_applications():
     #     job = Job.query.filter_by(id=application.job_id).first()
 
     return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
+
+@applications.route('/<job_id>', methods=['GET'])
+@login_required
+@admin_permission.require()
+def job_applications(job_id):
+    job = Job.query.filter_by(id=job_id).first()
+    applications = Application.query.filter_by(job_id=job_id).all()
+
+    for application in applications:
+        user = User.query.filter_by(id=application.user_id).first()
+        if user:
+            print(f"Application ID: {application.id}, Created by: {user.name}")
+        else:
+            print(f"Application ID: {application.id}, User not found for user_id: {application.user_id}")
+
+    return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')
