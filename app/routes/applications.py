@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Application, Job, User
+from app.db.models.application import ApplicationStatusCode
 from app.util.mail import send_application_mail
 from app.util.s3 import conn
 from app.db.util import paginate
@@ -137,10 +138,26 @@ def job_applications(job_id):
 
     return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')
 
-@applications.route('/<job_id>/<application_id>/edit-status', methods=['GET'])
+@applications.route('/<job_id>/<application_id>/edit-status', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
-def edit_application_status(job_id, application_id):
+def edit_status(job_id, application_id):
     job = Job.query.filter_by(id=job_id).first()
     application = Application.query.filter_by(id=application_id).first()
+
+    if request.method == 'POST':
+        status_code = request.form.get('status_code')
+        if status_code == ApplicationStatusCode.REJECTED.value:
+            application.reject_application()
+        elif status_code == ApplicationStatusCode.ACCEPTED.value:
+            application.accept_application()
+        elif status_code == ApplicationStatusCode.MAYBE.value:
+            application.maybe_application()
+        elif status_code == ApplicationStatusCode.DELETED.value:
+            application.delete_application()
+
+        db.session.commit()
+
+        return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
+
     return render_template('applications/edit_application.html', job=job, application=application, primary_title='Edit Application')
