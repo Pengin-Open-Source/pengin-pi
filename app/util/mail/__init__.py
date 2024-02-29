@@ -22,3 +22,15 @@ def send_application_mail(RECIPIENT, TOKEN, user_name, job_title):
 
     except Exception as e:
         print('Error: ', e)
+
+def send_accept_mail(RECIPIENT, TOKEN, user_name, job_title):
+    try:
+        send_mail(RECIPIENT, TOKEN, TYPE="accept_notification", user_name=user_name, job_title=job_title)
+    except Exception as e:
+        print('Error: ', e)
+
+def send_reject_mail(RECIPIENT, TOKEN, user_name, job_title):
+    try:
+        send_mail(RECIPIENT, TOKEN, TYPE="reject_notification", user_name=user_name, job_title=job_title)
+    except Exception as e:
+        print('Error: ', e)

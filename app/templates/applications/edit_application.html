@@ -11,10 +11,25 @@
     <option value="rejected" {% if application.status_code.value == 'rejected' %}selected{% endif %}>Rejected</option>
     <option value="deleted" {% if application.status_code.value == 'deleted' %}selected{% endif %}>Deleted</option>
   </select>
-  <button type="submit">Update Status</button>
+  <br><br>
+  <button type="submit">Update</button>
 </form>
-
-<p>Current Status: {{ application.status_code.value|e }}</p>
+<br><br>
+<form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/accept">
+  <label for="accept-subject">Subject</label><br>
+  <input id="accept-subject" type="text" value="Thank you for your application!"><br>
+  <label for="accept-body">Message</label> <br>
+  <textarea id="accept-body">Thank you for your interest. We have reviewed your application and would like to move forward with an interview. Please reply with your availability."</textarea><br>
+  <button type="submit">Send</button>
+</form>
+<br><br>
+<form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/reject">
+  <label for="reject-subject">Subject</label><br>
+  <input id="reject-subject" type="text" value="Thank you for your application"><br>
+  <label for="reject-body">Message</label> <br>
+  <textarea id="reject-body">"Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
+  <button type="submit">Send</button>
+</form>
 {% endblock %}
 
 

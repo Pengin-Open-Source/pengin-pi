@@ -161,3 +161,27 @@ def edit_status(job_id, application_id):
         return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
 
     return render_template('applications/edit_application.html', job=job, application=application, primary_title='Edit Application')
+
+@applications.route('/<job_id>/<application_id>/contact', methods=['POST'])
+@login_required
+@admin_permission.require()
+def contact_applicant(job_id, application_id):
+    application = Application.query.filter_by(id=application_id).first()
+
+    # Send email to applicant
+
+    return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
+
+@applications.route('/<job_id>/<application_id>/reject', methods=['POST'])
+@login_required
+@admin_permission.require()
+def reject_applicant(job_id, application_id):
+    application = Application.query.filter_by(id=application_id).first()
+
+    # Send rejection email to applicant
+
+    # Mark the candidate as rejected
+    application.reject_application()
+    db.session.commit()
+
+    return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))

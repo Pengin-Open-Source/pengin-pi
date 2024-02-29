@@ -81,14 +81,39 @@ class Message(Mailer):
                 </body>
                 </html>
             """
+        elif TYPE == "accept_notification":
+            self.SUBJECT="Thank you for your application!"
+            BODY_TEXT = ("Thank you for your application for the position of {self.job_title}. We have reviewed your application and would like to move forward with the next steps. Please reply with your availability for an interview.") 
+            BODY_HTML = f"""<html>
+                <head></head>
+                <body>
+                <h1>Thank you for your application!</h1>
+                <p>Thank you for your application for the position of {self.job_title}. We have reviewed your application and would like to move forward with the next steps. Please reply with your availability for an interview.</p>
+                </body>
+                </html>
+            """
+        elif TYPE == "reject_notification":
+            self.SUBJECT="Thank you for your application"
+            BODY_TEXT = ("Thank you for your application for the position of {self.job_title}. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.") 
+            BODY_HTML = f"""<html>
+                <head></head>
+                <body>
+                <h1>Thank you for your application</h1>
+                <p>Thank you for your application for the position of {self.job_title}. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</p>
+                </body>
+                </html>
+            """
 
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = self.SUBJECT
         self.msg['From'] = email.utils.formataddr((self.SENDER_NAME, self.SENDER))
 
-        if TYPE == "application_confirmation" or TYPE == "application_notification":
+        if TYPE == "application_confirmation" or TYPE == "application_notification" or TYPE == 'reject_notification':
             self.msg['From'] = email.utils.formataddr(('Tobu Pengin', 'no-reply@tobupengin.com'))
+
+        if TYPE == 'accept_notification':
+            self.msg['From'] = email.utils.formataddr(('Tobu Pengin', os.getenv('HIRING_EMAIL')))
 
         self.msg['To'] = RECIPIENT
 
