@@ -5,7 +5,7 @@ from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import ApplicationStatusCode
-from app.util.mail import send_application_mail
+from app.util.mail import send_application_mail, send_accept_mail, send_reject_mail
 from app.util.s3 import conn
 from app.db.util import paginate
 from werkzeug.utils import secure_filename
@@ -162,13 +162,21 @@ def edit_status(job_id, application_id):
 
     return render_template('applications/edit_application.html', job=job, application=application, primary_title='Edit Application')
 
-@applications.route('/<job_id>/<application_id>/contact', methods=['POST'])
+@applications.route('/<job_id>/<application_id>/accept', methods=['POST'])
 @login_required
 @admin_permission.require()
 def contact_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
+    accept_subject = request.form.get('accept-subject')
+    accept_body = request.form.get('accept-body')
+    print('accept_subject: ', accept_subject)
+    print('accept_body: ', accept_body)
 
     # Send email to applicant
+    try:
+        send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
+    except Exception as e:
+        print('Error: ', e)
 
     return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
 
