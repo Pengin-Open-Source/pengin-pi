@@ -1,0 +1,20 @@
+
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+<form method="POST" action="{{ url_for('applications.edit_application_status', job_id=job.id, application_id=application.id) }}">
+  <label for="status">Change Status:</label>
+  <select name="status" id="status">
+    <option value="pending" {% if application.status_code == 'pending' %}selected{% endif %}>Pending</option>
+    <option value="maybe" {% if application.status_code == 'maybe' %}selected{% endif %}>Maybe</option>
+    <option value="accepted" {% if application.status_code == 'accepted' %}selected{% endif %}>Accepted</option>
+    <option value="rejected" {% if application.status_code == 'rejected' %}selected{% endif %}>Rejected</option>
+    <option value="deleted" {% if application.status_code == 'deleted' %}selected{% endif %}>Deleted</option>
+  </select>
+  <button type="submit">Update Status</button>
+</form>
+
+<p>Current Status: {{ application.status_code.value|e }}</p>
+{% endblock %}
+
+

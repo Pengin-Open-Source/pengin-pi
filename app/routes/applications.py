@@ -136,3 +136,11 @@ def job_applications(job_id):
         applications = paginate(Application, page=page, pages=20, filters={"status_code": status})
 
     return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')
+
+@applications.route('/<job_id>/<application_id>/edit-status', methods=['GET'])
+@login_required
+@admin_permission.require()
+def edit_application_status(job_id, application_id):
+    job = Job.query.filter_by(id=job_id).first()
+    application = Application.query.filter_by(id=application_id).first()
+    return render_template('applications/edit_application.html', job=job, application=application, primary_title='Edit Application')

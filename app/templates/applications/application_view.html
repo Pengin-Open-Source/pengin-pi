@@ -1,14 +1,19 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageDropDowns%}
-{% if not is_admin %}
-  <a href="/applications/my-applications">My Applications</a>
+  {% if is_admin %}
+    <a href="/applications/{{ job.id }}/{{ application.id }}/edit-status">Edit Status</a>
+  {% else %}
+    <a href="/applications/my-applications">My Applications</a>
   {% endif %}
 {% endblock %}
 
 {% block pageContent %}
   {% if application %}
     <h1>Application for {{ job.job_title }}</h1>
+    {% if is_admin %}
+    <p>Status: {{ application.status_code.value|upper|e }}</p>
+    {% endif %}
     <p>Applied on  {{ application.date_applied.strftime('%B %d, %Y') }}</p>
     <p>Resume: <a href="{{ resume_url }}" target="_blank"> Download</a></p>
     <p> Cover Letter:
