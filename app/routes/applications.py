@@ -59,10 +59,12 @@ def create_application(job_id):
             location=location, 
             date_applied=datetime.now(),
             job_id=job_id,
-            user_id=current_user.id
+            user_id=current_user.id,
+            status_code='pending'
             )
         
         db.session.add(new_application)
+        print(new_application.status_code)
         db.session.commit()
 
         try:
@@ -116,18 +118,22 @@ def my_applications():
 
     return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
 
-@applications.route('/<job_id>', methods=['GET'])
+@applications.route('/<job_id>/job-applications', methods=['GET'])
 @login_required
 @admin_permission.require()
 def job_applications(job_id):
     job = Job.query.filter_by(id=job_id).first()
-    applications = Application.query.filter_by(job_id=job_id).all()
+    status = request.args.get('status')
 
-    for application in applications:
-        user = User.query.filter_by(id=application.user_id).first()
-        if user:
-            print(f"Application ID: {application.id}, Created by: {user.name}")
-        else:
-            print(f"Application ID: {application.id}, User not found for user_id: {application.user_id}")
+    if request.method == 'POST':
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    if status == 'all':
+        applications = paginate(Application, page=page, pages=20)
+
+    else:
+        applications = paginate(Application, page=page, pages=20, filters={"status_code": status})
 
     return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')

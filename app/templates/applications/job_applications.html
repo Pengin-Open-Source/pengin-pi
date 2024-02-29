@@ -5,29 +5,33 @@
 
   {% endif %}
 {% endblock %}
-
 {% block pageContent %}
-  <h2>Applications for {{ job.job_title }}</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Date Applied</th>
-        <th>Applicant Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for application in applications %}
-      <tr>
-        <td>{{ application.date_applied.strftime('%B %d, %Y') }}</td>
-        <td>
-          {% if application.user %}
-            <a href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
-          {% else %}
-            no name
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
+
+{% block beforeTableContent %}
+    <div class="title-underline">
+      <a class="text-button" href="/job_applications?status=all">all</a>|
+      <a class="text-button" href="/job_applications?status=pending">pending</a>|
+      <a class="text-button" href="/job_applications?status=maybe">maybe</a>|
+      <a class="text-button" href="/job_applications?status=accepted">accepted</a>
+      <a class="text-button" href="/job_applications?status=rejected">rejected</a>
+      <a class="text-button" href="/job_applications?status=deleted">deleted</a>
+    </div>
+{% endblock %}
+
+{% block tableContent %}
+  {% for application in applications %}
+    {% if application.job_id == job.id %}
+      <tr><td class="">
+        <a class="alternating-colors-table-links" href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
+        <p class="">Received {{ application.date_applied.strftime('%B %d, %Y') }}</p>
+        <p class="">Status: {{ application.status_code }}</p>
+      </td></tr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% endblock %}
+{% block postTableContent %}
+  {{ applications.items | pprint }}
+  {{ pagination.render_pagination(applications.items, "") }}
 {% endblock %}
