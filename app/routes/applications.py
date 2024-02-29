@@ -64,7 +64,6 @@ def create_application(job_id):
             )
         
         db.session.add(new_application)
-        print(new_application.status_code)
         db.session.commit()
 
         try:
