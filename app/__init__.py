@@ -151,5 +151,4 @@ def create_app():
     app.context_processor(copyright)
     app.context_processor(filtered_chat_users)
 
-    #chatSocket.init_app(app, debug = True)
     return app

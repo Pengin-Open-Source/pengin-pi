@@ -12,7 +12,7 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, jsonify
+from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, abort
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
@@ -135,7 +135,6 @@ def init_app(app, socketio):
 
         def user_data(user):
             return {
-                "id": user.id,
                 "name": user.name,
             }
 
@@ -145,28 +144,34 @@ def init_app(app, socketio):
     @messenger_blueprint.route("/<other_user>", methods=["GET", "POST"])
     @login_required
     def chat(other_user):
-        print(f"user id in regular messenger: {other_user}")
-        other_user_name = User.query.get(other_user).name
-        room_id = messenger.create_room_id(current_user.name, other_user_name)
-        room = Room.query.get(room_id)
-        if room is None:
-            room = Room(id=room_id, name=messenger.create_room_id(current_user.name,
-                                                                  other_user_name))
-            db.session.add(room)
-            db.session.commit()
-            print(f"room {room_id} did not exist, it is now created:")
-            print(f"room name: {room.name}")
+        print(f"user NAME in regular messenger: {other_user}")
+        other_user = User.query.filter_by(name=other_user).first()
+        print(other_user)
+        if other_user:
+            other_user_name = other_user.name
+            room_id = messenger.create_room_id(
+                current_user.name, other_user_name)
+            room = Room.query.get(room_id)
+            if room is None:
+                room = Room(id=room_id, name=messenger.create_room_id(current_user.name,
+                                                                      other_user_name))
+                db.session.add(room)
+                db.session.commit()
+                print(f"room {room_id} did not exist, it is now created:")
+                print(f"room name: {room.name}")
 
-        messenger.current_room = room_id
+            messenger.current_room = room_id
 
-        # Return only the 100 last messages
-        return render_template(
-            "messenger/chat_pair.html",
-            user=other_user_name,
-            room_id=room_id,
-            room_name=room.name,
-            messages=room.messages
-        )
+            # Return only the 100 last messages
+            return render_template(
+                "messenger/chat_pair.html",
+                user=other_user_name,
+                room_id=room_id,
+                room_name=room.name,
+                messages=room.messages
+            )
+
+        abort(404)
 
     socketio.on_event("connect", messenger.connection_handler)
     socketio.on_event("save_message", messenger.save_message)

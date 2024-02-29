@@ -4,15 +4,14 @@
 <h2>Chat</h2>
 <p>Greetings, {{ current_user.name }}</p>
 {% if users|length > 1 %}
-    <ul>Present users:</ul>
-    {% for user in users %}
-        {% if session.current_user_id != user %}
-            <li>
-                <a href="{{ url_for('messenger_blueprint.chat', other_user=user.id) }}" id="btn-chat-{{ user.id }}">Chat with {{ user.name }}</a>
-            </li>
-        {% endif %}
-    {% endfor %}
-{%  endif %}
+<ul>Present users:</ul>
+{% for user in users %}
+<li>
+    <a href="{{ url_for('messenger_blueprint.chat', other_user=user.name) }}" id="btn-chat-{{ user.name }}">Chat with {{
+        user.name }}</a>
+</li>
+{% endfor %}
+{% endif %}
 
 
 {% endblock %}
