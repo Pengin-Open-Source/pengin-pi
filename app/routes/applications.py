@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from app.util.security import admin_permission
 from app.db import db
 from app.db.models import Application, Job
-from app.util.mail import send_mail
+from app.util.mail import send_application_mail
 from app.util.s3 import conn
 from app.db.util import paginate
 from werkzeug.utils import secure_filename
@@ -66,7 +66,8 @@ def create_application(job_id):
         db.session.commit()
 
         try:
-            send_mail(current_user.email, new_application.id, "job_application")
+            job = Job.query.filter_by(id=job_id).first()
+            send_application_mail(current_user.email, new_application.id, current_user.name, job.job_title)
         except Exception as e:
             print('Error: ', e)
 
