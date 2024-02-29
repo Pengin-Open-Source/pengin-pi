@@ -23,16 +23,14 @@
                             </div>
                         </div>
                         <div class="message-grid-container" id="user-container">
-                            <form id="chat-with-user" method="POST" action="">
-                                {% for user in chat_users %}
-                                <div class="message-grid-item">
-                                    <input type="submit" value="{{user['name']}}" class="other-chat-user" />
-                                </div>
-                                {% endfor %}
-                            </form>
+                            {% for user in chat_users %}
+                                <button class="message-grid-item btn-select-room other-chat-user" data-other-userx`="{{ user['name'] }}">
+                                    {{user['name']}}
+                                </button>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="content-section-p" class="full-page-scroll-container" id="group-section">
+                    <div class="content-section-p full-page-scroll-container" id="group-section">
                         <div class="message-top-bar">
                             <p class="top-bar-title">GROUPS</p>
                             <div class="main-nav-links"></div>
@@ -75,14 +73,18 @@
                             {% endif %}
                         </div>
                     </div>
-                    <form id="chat-form" class="message-form" method="POST" action="">
-                        <div class="message-form-section">
-                            <input type="text" class="display_name" name="chat_name" id="chat_name"
-                                placeholder="Display Name:">
-                            <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
-                                placeholder="Text your message..."> </textarea>
-                            <input type="submit" value="Send" />
-                        </div>
+{#                    <form id="chat-form" class="message-form" method="POST" action="">#}
+{#                        <div class="message-form-section">#}
+{#                            <input type="text" class="display_name" name="chat_name" id="chat_name"#}
+{#                                placeholder="Display Name:">#}
+{#                            <textarea rows="6" class="message_text" name="chat_message" id="chat_message"#}
+{#                                placeholder="Text your message..."> </textarea>#}
+{#                            <input type="submit" value="Send" />#}
+{#                        </div>#}
+{#                    </form>#}
+                     <form onsubmit="sendMessage();return false">
+                        <input type="text" class="message" id="message" placeholder="Type your message..."/>
+                        <input type="submit" name="send" id="send-btn" value="send"/>
                     </form>
                 </div>
             </div>

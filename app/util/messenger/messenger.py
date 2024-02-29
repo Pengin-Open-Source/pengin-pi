@@ -12,7 +12,16 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, jsonify
+from flask import (
+    Flask,
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    request,
+    session,
+    jsonify,
+)
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
@@ -38,24 +47,54 @@ class Messenger:
             return
 
         join_room(self.current_room)
+        room = Room.query.get(self.current_room)
+        messages = []
+        for message in room.messages:
+            messages.append(
+                {
+                    "author_name": message.author.name,
+                    "content": message.content,
+                    "timestamp": message.timestamp,
+                }
+            )
+
         context = {
             "author_name": current_user.name,
             "content": "has entered the room",
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
-        emit("saved_message", context, to=self.current_room)
+        emit("saved_message", messages, context, to=self.current_room)
         print(f"{current_user.name} joined room {self.current_room}")
 
+    def on_join(self, data):
+        other_user = data["other_user"]
+        room_id = self.create_room_id(current_user.name, other_user)
+        room = Room.query.get(room_id)
+        if room is None:
+            room = Room(
+                id=room_id,
+                name=self.create_room_id(current_user.name, other_user),
+            )
+            db.session.add(room)
+            db.session.commit()
+            print(f"room {room_id} did not exist, it is now created:")
+            print(f"room name: {room.name}")
+        join_room(room.id)
+        message = f"{current_user.name} has joined the room."
+        room_id = room.id
+        print(f"{current_user.name} joined room {room.id}")
+        emit("joined_message", {"message": message, "room_id": room_id}, to=room.id)
+
     def save_message(self, data):
-        if self.current_room is None:
-            print("in save_message, room does not exist")
-            return
+        # if self.current_room is None:
+        #     print("in save_message, room does not exist")
+        #     return
         with db.session.no_autoflush:
             message = Message(
                 author_id=data["author_id"],
                 timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 room_id=data["room_id"],
-                content=data["content"]
+                content=data["content"],
             )
             db.session.add(message)
             db.session.commit()
@@ -67,7 +106,8 @@ class Messenger:
             "content": message.content,
             "timestamp": message.timestamp,
         }
-        emit("saved_message", context, to=message.room.id)
+        print(f"rooms id = {message.room_id}")
+        emit("saved_message", context, to=message.room_id)
         # emit("saved_message", context, to=self.current_room)
 
     def disconnect_handler(self):
@@ -78,21 +118,23 @@ class Messenger:
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
 
-    def process_message(self, json, methods=['GET', 'POST']):
-        print('received json: ' + str(json))
+    def process_message(self, json, methods=["GET", "POST"]):
+        print("received json: " + str(json))
         print("Message.py did something with a Message!")
-        emit('update chat', json,  broadcast=True)
+        emit("update chat", json, broadcast=True)
 
-    def chat_with(self, json, methods=['GET', 'POST']):
+    def chat_with(self, json, methods=["GET", "POST"]):
         print(f"user name in overlay: {json}")
-        other_user = User.query.filter_by(name=json['other_user']).first()
+        other_user = User.query.filter_by(name=json["other_user"]).first()
         if other_user:
             other_user_name = other_user.name
             room_id = self.create_room_id(current_user.name, other_user_name)
             room = Room.query.get(room_id)
             if room is None:
-                room = Room(id=room_id, name=self.create_room_id(current_user.name,
-                                                                 other_user_name))
+                room = Room(
+                    id=room_id,
+                    name=self.create_room_id(current_user.name, other_user_name),
+                )
                 db.session.add(room)
                 db.session.commit()
                 print(f"room {room_id} did not exist, it is now created:")
@@ -105,7 +147,7 @@ class Messenger:
                     "content": message.content,
                     "timestamp": message.timestamp,
                 }
-                emit('load chat', context, broadcast=True)
+                emit("load chat", context, broadcast=True)
 
         # print(f"messages: {room.messages[0]} ")
 
@@ -119,8 +161,9 @@ class Messenger:
         # )
 
 
-messenger_blueprint = Blueprint('messenger_blueprint', __name__,
-                                url_prefix="/messenger")
+messenger_blueprint = Blueprint(
+    "messenger_blueprint", __name__, url_prefix="/messenger"
+)
 
 
 def init_app(app, socketio):
@@ -150,8 +193,10 @@ def init_app(app, socketio):
         room_id = messenger.create_room_id(current_user.name, other_user_name)
         room = Room.query.get(room_id)
         if room is None:
-            room = Room(id=room_id, name=messenger.create_room_id(current_user.name,
-                                                                  other_user_name))
+            room = Room(
+                id=room_id,
+                name=messenger.create_room_id(current_user.name, other_user_name),
+            )
             db.session.add(room)
             db.session.commit()
             print(f"room {room_id} did not exist, it is now created:")
@@ -160,12 +205,20 @@ def init_app(app, socketio):
         messenger.current_room = room_id
 
         # Return only the 100 last messages
-        return render_template(
-            "messenger/chat_pair.html",
-            user=other_user_name,
-            room_id=room_id,
-            room_name=room.name,
-            messages=room.messages
+        # return render_template(
+        #     "messenger/chat_pair.html",
+        #     user=other_user_name,
+        #     room_id=room_id,
+        #     room_name=room.name,
+        #     messages=room.messages,
+        # )
+        return jsonify(
+            {
+                "user": other_user_name,
+                "room_id": room_id,
+                "room_name": room.name,
+                "messages": room.messages,
+            }
         )
 
     socketio.on_event("connect", messenger.connection_handler)
@@ -173,6 +226,7 @@ def init_app(app, socketio):
     socketio.on_event("disconnect", messenger.disconnect_handler)
     socketio.on_event("message sent", messenger.process_message)
     socketio.on_event("user selected", messenger.chat_with)
+    socketio.on_event("join_room", messenger.on_join)
 
 
 if __name__ == "__main__":
