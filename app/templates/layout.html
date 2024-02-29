@@ -89,12 +89,12 @@
 
       const chatForm = $('#chat-form').on('submit', function (e) {
         e.preventDefault()
-        let display_name = $('input.display_name').val()
+        let display_name = "{{current_user.name}}"
         let message_text = $('textarea.message_text').val()
 
         socket.emit('message sent', {
           chat_name: display_name,
-          chat_message: message_text
+          content: message_text
         })
         $('textarea.message_text').val('').focus()
       })
@@ -161,9 +161,8 @@
 
     socket.on('load chat', function (message) {
       console.log(message.content)
-      console.log($('input.display_name').val())
       console.log(message.author_name)
-      if (message.author_name == $('input.display_name').val()) {
+      if (message.author_name === "{{current_user.name}}") {
         createMessageSender(message)
       }
       else {
@@ -175,7 +174,7 @@
     socket.on('update chat', function (data) {
       console.log(data)
       console.log($('input.display_name').val())
-      if (data.chat_name == $('input.display_name').val()) {
+      if (data.chat_name === "{{current_user.name}}") {
         createMessageSender(data)
       }
       else {
