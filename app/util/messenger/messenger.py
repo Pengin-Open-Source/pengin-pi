@@ -80,15 +80,11 @@ class Messenger:
             print(f"room {room_id} did not exist, it is now created:")
             print(f"room name: {room.name}")
         join_room(room.id)
-        message = f"{current_user.name} has joined the room."
-        room_id = room.id
+
         print(f"{current_user.name} joined room {room.id}")
         emit("joined_message", {"message": message, "room_id": room_id}, to=room.id)
 
     def save_message(self, data):
-        # if self.current_room is None:
-        #     print("in save_message, room does not exist")
-        #     return
         with db.session.no_autoflush:
             message = Message(
                 author_id=data["author_id"],
