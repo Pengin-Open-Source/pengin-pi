@@ -24,10 +24,10 @@ function selectRoom(room) {
 }
 
 // Fetch all messages from the server DB
-function fetchMessage(other_user) {
-    console.log("fetching messages for " + other_user)
+function fetchMessage(room_id) {
+    console.log("fetching messages for " + room_id)
     // Send AJAX request to update instance status
-    fetch(`/chat/get_past_messages/${other_user}/`, {
+    fetch(`/chat/get_past_messages/${room_id}/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
