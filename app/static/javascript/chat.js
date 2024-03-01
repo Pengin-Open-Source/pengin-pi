@@ -27,7 +27,7 @@ function selectRoom(room) {
 function fetchMessage(other_user) {
     console.log("fetching messages for " + other_user)
     // Send AJAX request to update instance status
-    fetch(`/messenger/get_past_messages/${other_user}/`, {
+    fetch(`/chat/get_past_messages/${other_user}/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
