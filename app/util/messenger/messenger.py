@@ -221,6 +221,28 @@ def init_app(app, socketio):
             }
         )
 
+    @messenger_blueprint.route("/get_past_messages/<other_user>/")
+    @login_required
+    def get_past_messages(other_user):
+        room_id = Messenger.create_room_id(messenger, current_user.name, other_user)
+        room = Room.query.get(room_id)
+        if room is None:
+            return
+
+        # TODO paginate messages
+        past_messages = []
+        for message in room.messages:
+            past_messages.append(
+                {
+                    "author_name": message.author.name,
+                    "content": message.content,
+                    "timestamp": message.timestamp,
+                }
+            )
+        print(f"past messages: {past_messages}")
+        print(f"jsonified past messages: {jsonify(past_messages)}")
+        return jsonify(past_messages)
+
     socketio.on_event("connect", messenger.connection_handler)
     socketio.on_event("save_message", messenger.save_message)
     socketio.on_event("disconnect", messenger.disconnect_handler)
