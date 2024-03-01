@@ -82,7 +82,11 @@ class Messenger:
         join_room(room.id)
 
         print(f"{current_user.name} joined room {room.id}")
-        emit("joined_message", {"message": message, "room_id": room_id}, to=room.id)
+        emit(
+            "joined_message",
+            {"room_id": room.id},
+            to=room_id,
+        )
 
     def save_message(self, data):
         with db.session.no_autoflush:
