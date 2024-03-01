@@ -73,9 +73,7 @@ class Messenger:
             "content": message.content,
             "timestamp": message.timestamp,
         }
-        print(f"rooms id = {message.room_id}")
-        emit("saved_message", context, to=message.room_id)
-        # emit("saved_message", context, to=self.current_room)
+        emit("saved_message", context)
 
     def disconnect_handler(self):
         pass
