@@ -15,7 +15,6 @@ DONE -- create the if name == main function and create a basic flask app to run 
 from flask import (
     Flask,
     Blueprint,
-    jsonify,
 )
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
@@ -85,11 +84,6 @@ class Messenger:
         attendees = [user1, user2]
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
-
-
-messenger_blueprint = Blueprint(
-    "messenger_blueprint", __name__, url_prefix="/messenger"
-)
 
 
 def init_app(app, socketio):
