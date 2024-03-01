@@ -54,7 +54,6 @@ class Messenger:
         emit(
             "joined_message",
             {"room_id": room.id},
-            to=room_id,
         )
 
     def save_message(self, data):

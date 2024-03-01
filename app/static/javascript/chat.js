@@ -9,7 +9,6 @@ for (const button of selectRoomButtons) {
     button.addEventListener("click", function () {
         const room = this.dataset.room;
         selectRoom(room)
-        fetchMessage(room)
     });
 }
 
@@ -94,4 +93,5 @@ socketio.on('saved_message', (message) => {
 // TODO find alternative to avoid having the room id saved in the javascript
 socketio.on('joined_message', data => {
     room_id = data.room_id;
+    fetchMessage(data.room_id)
 });
