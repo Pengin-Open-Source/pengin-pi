@@ -1,4 +1,7 @@
 {% macro chatgui() %}
+{# empty div to send flask_login.current_user name and id to javascript #}
+{# optionally, can use fetch from JS instead   #}
+<div id="current-user" data-name="{{ current_user.name }}" data-id="{{ current_user.id }}"></div>
 
 <div id="message-display" class="full-page-message">
     <div class="full-page-scroll-container">
