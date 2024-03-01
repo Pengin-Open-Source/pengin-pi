@@ -84,6 +84,8 @@ class Messenger:
         emit('update chat', json,  broadcast=True)
 
     def chat_with(self, json, methods=['GET', 'POST']):
+        if self.current_room:
+            leave_room(self.current_room)
         print(f"user name in overlay: {json}")
         other_user = User.query.filter_by(name=json['other_user']).first()
 
@@ -131,13 +133,14 @@ class Messenger:
                     f"User-room link for room {chat_room_id}  and user {current_user.name} did not exist, it is now created:")
 
             self.current_room = chat_room_id
+            join_room(self.current_room)
             for message in room.messages:
                 context = {
                     "author_name": message.author.name,
                     "content": message.content,
                     "timestamp": message.timestamp,
                 }
-                emit('load chat', context, broadcast=True)
+                emit('load chat', context, to=message.room.id)
 
         # print(f"messages: {room.messages[0]} ")
 
