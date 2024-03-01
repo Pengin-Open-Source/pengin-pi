@@ -86,10 +86,13 @@ class Messenger:
     def chat_with(self, json, methods=['GET', 'POST']):
         print(f"user name in overlay: {json}")
         other_user = User.query.filter_by(name=json['other_user']).first()
-        print(current_user.id)
-        # available_rooms = UserRoom.query.filter_by( user_id=current_user.id).all()
-        available_rooms = UserRoom.query.all()
-        print(available_rooms)
+
+        # Test code
+        # print(current_user.id)
+        # # available_rooms = UserRoom.query.filter_by( user_id=current_user.id).all()
+        # available_rooms = UserRoom.query.all()
+        # for ar in available_rooms:
+        #     print(f"{ar.room_id} {ar.id}")
 
         if other_user:
             other_user_name = other_user.name
@@ -104,7 +107,21 @@ class Messenger:
                 print(f"room {chat_room_id} did not exist, it is now created:")
                 print(f"room name: {room.name}")
 
-            user_room = UserRoom.query.get(chat_room_id)
+            user_room = UserRoom.query.filter_by(
+                room_id=chat_room_id, user_id=current_user.id).first()
+
+            # Get rid of extra rooms that were created.
+            # for usr_room in UserRoom.query.filter_by(
+            #         room_id=chat_room_id, user_id=current_user.id).all():
+            #     if usr_room != user_room:
+            #         db.session.delete(usr_room)
+            #         db.session.commit()
+
+            # Test Code
+            # print(f"Chat Rooms Links for {chat_room_id} ")
+            # print(UserRoom.query.filter_by(
+            #     room_id=chat_room_id, user_id=current_user.id).all())
+
             if user_room is None:
                 user_room = UserRoom(room_id=chat_room_id,
                                      user_id=current_user.id)
