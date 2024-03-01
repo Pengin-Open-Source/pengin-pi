@@ -12,10 +12,9 @@ from app.routes.calendar import calendar_blueprint
 from app.routes.products import product_blueprint
 from app.routes.about import about_blueprint
 from app.routes.orders import order_info as order_blueprint
-from app.util.messenger.messenger import messenger_blueprint
-
 from app.routes.message import chat_blueprint
 
 # Blueprints variable is a list of blueprints in this current directory
-blueprints = [val for key, val in locals().items()
-              if isinstance(val, type(home_blueprint))]
+blueprints = [
+    val for key, val in locals().items() if isinstance(val, type(home_blueprint))
+]
