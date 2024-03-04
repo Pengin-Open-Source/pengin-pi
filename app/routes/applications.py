@@ -10,6 +10,7 @@ from app.util.s3 import conn
 from app.db.util import paginate
 from werkzeug.utils import secure_filename
 from datetime import datetime
+from sqlalchemy import not_
 
 applications = Blueprint('applications', __name__, url_prefix='/applications')
 
@@ -131,7 +132,7 @@ def job_applications(job_id):
         page = 1
 
     if status == 'all':
-        applications = paginate(Application, page=page, pages=20)
+        applications = paginate(Application, page=page, pages=20, filters={"status_code": not_('DELETED')})
 
     else:
         applications = paginate(Application, page=page, pages=20, filters={"status_code": status})
