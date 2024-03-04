@@ -8,7 +8,6 @@
     <option value="pending" {% if application.status_code.value == 'pending' %}selected{% endif %}>Pending</option>
     <option value="accepted" {% if application.status_code.value == 'accepted' %}selected{% endif %}>Accepted</option>
     <option value="rejected" {% if application.status_code.value == 'rejected' %}selected{% endif %}>Rejected</option>
-    <option value="deleted" {% if application.status_code.value == 'deleted' %}selected{% endif %}>Deleted</option>
   </select>
   <br><br>
   <button type="submit">Update</button>
@@ -28,6 +27,11 @@
   <label for="reject-body">Message</label> <br>
   <textarea id="reject-body" name="reject-body">Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
   <button type="submit">Send</button>
+</form>
+<br><br>
+<form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/delete">
+  <button type="submit">Delete Application</button>
+  <p><i>This action cannot be undone.</i></p>
 </form>
 {% endblock %}
 

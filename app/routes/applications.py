@@ -195,3 +195,17 @@ def reject_applicant(job_id, application_id):
         print('Error: ', e)
 
     return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
+
+@applications.route('/<job_id>/<application_id>/delete', methods=['POST'])
+@login_required
+@admin_permission.require()
+def delete_applicant(job_id, application_id):
+    application = Application.query.filter_by(id=application_id).first()
+
+    try:
+        application.delete_application()
+        db.session.commit()
+    except Exception as e:
+        print('Error: ', e)
+
+    return redirect(url_for('applications.job_applications', job_id=job_id))
