@@ -25,9 +25,9 @@
 <br><br>
 <form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/reject">
   <label for="reject-subject">Subject</label><br>
-  <input id="reject-subject" type="text" value="Thank you for your application"><br>
+  <input id="reject-subject" name="reject-subject" type="text" value="Thank you for your application"><br>
   <label for="reject-body">Message</label> <br>
-  <textarea id="reject-body">Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
+  <textarea id="reject-body" name="reject-body">Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
   <button type="submit">Send</button>
 </form>
 {% endblock %}

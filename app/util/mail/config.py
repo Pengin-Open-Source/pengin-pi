@@ -10,7 +10,7 @@ load_dotenv()
     
         
 class Message(Mailer):        
-    def __init__(self, RECIPIENT, TOKEN, TYPE, user_name=None, job_title=None, accept_subject=None, accept_body=None, URL=os.getenv('URL')):
+    def __init__(self, RECIPIENT, TOKEN, TYPE, user_name=None, job_title=None, accept_subject=None, accept_body=None,reject_subject=None, reject_body=None, URL=os.getenv('URL')):
         Mailer.__init__(self)
         self.RECIPIENT=RECIPIENT
         self.TOKEN=TOKEN
@@ -19,6 +19,8 @@ class Message(Mailer):
         self.job_title = job_title
         self.accept_subject = accept_subject
         self.accept_body = accept_body
+        self.reject_subject = reject_subject
+        self.reject_body = reject_body
         
         if TYPE == "user_validation":
             # The email body for recipients with non-HTML email clients.
@@ -95,13 +97,13 @@ class Message(Mailer):
                 </html>
             """
         elif TYPE == "reject_notification":
-            self.SUBJECT="Thank you for your application"
-            BODY_TEXT = ("Thank you for your application for the position of {self.job_title}. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.") 
+            self.SUBJECT = self.reject_subject
+            BODY_TEXT = self.reject_body
             BODY_HTML = f"""<html>
                 <head></head>
                 <body>
                 <h1>Thank you for your application</h1>
-                <p>Thank you for your application for the position of {self.job_title}. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</p>
+                <p>{ self.reject_body }</p>
                 </body>
                 </html>
             """
@@ -110,10 +112,9 @@ class Message(Mailer):
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = self.SUBJECT
         
-
         if TYPE == "application_confirmation" or TYPE == "application_notification" or TYPE == 'reject_notification':
             self.msg['From'] = email.utils.formataddr(('Tobu Pengin', 'no-reply@tobupengin.com'))
-
+            
         elif TYPE == 'accept_notification':
             self.msg['From'] = email.utils.formataddr(('Tobu Pengin', os.getenv('HIRING_EMAIL')))
 

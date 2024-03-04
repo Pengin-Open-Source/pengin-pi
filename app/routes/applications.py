@@ -169,10 +169,7 @@ def contact_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     accept_subject = request.form.get('accept-subject')
     accept_body = request.form.get('accept-body')
-    print('accept_subject: ', accept_subject)
-    print('accept_body: ', accept_body)
 
-    # Send email to applicant
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
         application.accept_application()
@@ -187,11 +184,14 @@ def contact_applicant(job_id, application_id):
 @admin_permission.require()
 def reject_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
+    reject_subject = request.form.get('reject-subject')
+    reject_body = request.form.get('reject-body')
 
-    # Send rejection email to applicant
-
-    # Mark the candidate as rejected
-    application.reject_application()
-    db.session.commit()
+    try:
+        send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
+        application.reject_application()
+        db.session.commit()
+    except Exception as e:
+        print('Error: ', e)
 
     return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
