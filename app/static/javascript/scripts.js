@@ -1,4 +1,4 @@
-const hamburgerToggle= () => {
+const hamburgerToggle = () => {
   const nav = document.querySelector('#nav-id');
 
   if (nav.className === 'header-navigation') {
@@ -20,10 +20,10 @@ const removeOrderRow = (event) => {
   if (orders.length > 1) {
     event.parentElement.parentElement.remove();
   }
-  
+
 }
 
-const adminHamburgerToggle= () => {
+const adminHamburgerToggle = () => {
   // TODO this is all wrong it needs sorting for mobile admin toggle
   const admin_nav = document.querySelector('#nav-id');
 
@@ -34,9 +34,9 @@ const adminHamburgerToggle= () => {
   }
 }
 
-function displayBtn() { 
+function displayBtn() {
   messageBtn = document.getElementById("message-btn")
-    // let messageDisplay = false;
+  // let messageDisplay = false;
   const messageModal = document.getElementById('message-display')
   messageModal.style.display = "block"
 }
@@ -46,37 +46,43 @@ function closeMessage() {
   messageModal.style.display = "none";
 }
 
-let display_user = false
-let display_group = false
+let display_user = true
+let display_group = true
 function displayUser() {
   // const userBtn = document.getElementById('user-btn')
   // const groupBtn = document.getElementById('group-btn')
   display_user = !display_user
-  const userDiv = document.getElementById('user-container')
-  const groupDiv = document.getElementById('group-container')
-  if (display_group === true) display_group = !display_group
-  if ((display_user === true) && (display_group === false)) {
-    groupDiv.style.maxHeight = '0px'
-    userDiv.style.maxHeight = '200px'
-    userDiv.style.margin = '8px 0px'
-  } else {
-    groupDiv.style.maxHeight = '120px'
-    userDiv.style.maxHeight = '120px'
-  }
-  // const groupDiv = document.getElementById('group-container')
-  
+  displayGroupsAndUsers()
+
 }
+
 
 function displayGroup() {
   display_group = !display_group
+  displayGroupsAndUsers()
+
+}
+
+function displayGroupsAndUsers() {
   const userDiv = document.getElementById('user-container')
   const groupDiv = document.getElementById('group-container')
-  if (display_user === true) display_user = !display_user
+  //if (display_user === true) display_user = !display_user
   if ((display_group === true) && (display_user === false)) {
     userDiv.style.maxHeight = '0px'
     groupDiv.style.maxHeight = '200px'
     groupDiv.style.margin = '8px 0px'
-  } else {
+  }
+  else if ((display_group === false) && (display_user === true)) {
+    groupDiv.style.maxHeight = '0px'
+    userDiv.style.maxHeight = '200px'
+    userDiv.style.margin = '8px 0px'
+
+  } else if ((display_group === false) && (display_user === false)) {
+    groupDiv.style.maxHeight = '0px'
+    userDiv.style.maxHeight = '0px'
+  }
+
+  else {
     groupDiv.style.maxHeight = '120px'
     userDiv.style.maxHeight = '120px'
   }

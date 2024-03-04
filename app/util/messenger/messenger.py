@@ -83,18 +83,27 @@ class Messenger:
         print("Message.py did something with a Message!")
         emit('update chat', json,  broadcast=True)
 
+    def chat_group(self, json, methods=['GET', 'POST']):
+        if self.current_room:
+            leave_room(self.current_room)
+        print(f"group name in overlay: {json}")
+        room = Room.query.filter_by(name=json['room_name']).first()
+
+        self.current_room = room.id
+        join_room(self.current_room)
+        for message in room.messages:
+            context = {
+                "author_name": message.author.name,
+                "content": message.content,
+                "timestamp": message.timestamp,
+            }
+            emit('load chat', context, to=message.room.id)
+
     def chat_with(self, json, methods=['GET', 'POST']):
         if self.current_room:
             leave_room(self.current_room)
-        print(f"user name in overlay: {json}")
+        print(f"chat name in overlay: {json}")
         other_user = User.query.filter_by(name=json['other_user']).first()
-
-        # Test code
-        # print(current_user.id)
-        # # available_rooms = UserRoom.query.filter_by( user_id=current_user.id).all()
-        # available_rooms = UserRoom.query.all()
-        # for ar in available_rooms:
-        #     print(f"{ar.room_id} {ar.id}")
 
         if other_user:
             other_user_name = other_user.name
@@ -111,18 +120,6 @@ class Messenger:
 
             user_room = UserRoom.query.filter_by(
                 room_id=chat_room_id, user_id=current_user.id).first()
-
-            # Get rid of extra rooms that were created.
-            # for usr_room in UserRoom.query.filter_by(
-            #         room_id=chat_room_id, user_id=current_user.id).all():
-            #     if usr_room != user_room:
-            #         db.session.delete(usr_room)
-            #         db.session.commit()
-
-            # Test Code
-            # print(f"Chat Rooms Links for {chat_room_id} ")
-            # print(UserRoom.query.filter_by(
-            #     room_id=chat_room_id, user_id=current_user.id).all())
 
             if user_room is None:
                 user_room = UserRoom(room_id=chat_room_id,
@@ -141,17 +138,6 @@ class Messenger:
                     "timestamp": message.timestamp,
                 }
                 emit('load chat', context, to=message.room.id)
-
-        # print(f"messages: {room.messages[0]} ")
-
-        # Return only the 100 last messages
-        # return render_template(
-        #     "messenger/chat_pair.html",
-        #     user=other_user_name,
-        #     room_id=room_id,
-        #     room_name=room.name,
-        #     messages=room.messages
-        # )
 
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
@@ -213,6 +199,7 @@ def init_app(app, socketio):
     socketio.on_event("disconnect", messenger.disconnect_handler)
     socketio.on_event("message sent", messenger.process_message)
     socketio.on_event("user selected", messenger.chat_with)
+    socketio.on_event("room selected", messenger.chat_group)
 
 
 if __name__ == "__main__":

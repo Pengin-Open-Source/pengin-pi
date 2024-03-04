@@ -132,6 +132,21 @@ def create_app():
             co_workers = []
 
         return {'chat_users': co_workers}
+    
+    def filtered_chat_rooms():
+        if current_user.is_authenticated:
+            user_rooms = model.UserRoom.query.filter(model.UserRoom.user_id == current_user.id)
+            def room_data(user_room):
+                room = model.Room.query.filter(model.Room.id == user_room.room_id).first()
+                return room.name
+             
+            rooms = list(map(room_data, user_rooms))
+        else:
+            rooms = []
+        print(rooms)
+        print(set(rooms))
+        print(tuple(set(rooms)))
+        return {'groups': rooms}
 
      
 
@@ -150,5 +165,7 @@ def create_app():
     app.context_processor(time_zone)
     app.context_processor(copyright)
     app.context_processor(filtered_chat_users)
+    app.context_processor(filtered_chat_rooms)
+
 
     return app

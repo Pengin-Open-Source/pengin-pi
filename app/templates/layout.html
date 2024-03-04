@@ -115,6 +115,22 @@
 
       })
 
+
+      const groupPick = $('#chat-with-group').on("click", ".chat-group", function (e) {
+        e.preventDefault()
+        const group_picked = $(this).val();
+        //empty the chat box messages
+        $('div.message-display-sender').empty();
+        $("div.message-display-receiver").empty();
+        sent_messages.content = document.querySelector(".message-display-sender");
+        received_messages.content = document.querySelector(".message-display-receiver");
+
+        socket.emit('room selected', {
+          room_name: group_picked
+        })
+
+      })
+
     })
 
 

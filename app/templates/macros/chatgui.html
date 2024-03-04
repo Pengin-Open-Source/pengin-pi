@@ -43,11 +43,13 @@
                             </div>
                         </div>
                         <div class="message-grid-container" id="group-container">
-                            <div>
+                            <form id="chat-with-group" method="POST" action="">
                                 {% for group in groups %}
-                                <div class="message-grid-item">{{group}}</div>
+                                <div class="message-grid-item">
+                                    <input type="submit" value="{{group}}" class="chat-group" />
+                                </div>
                                 {% endfor %}
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
