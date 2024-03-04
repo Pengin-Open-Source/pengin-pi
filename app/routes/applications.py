@@ -175,6 +175,8 @@ def contact_applicant(job_id, application_id):
     # Send email to applicant
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
+        application.accept_application()
+        db.session.commit()
     except Exception as e:
         print('Error: ', e)
 
