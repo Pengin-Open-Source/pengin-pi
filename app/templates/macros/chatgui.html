@@ -26,7 +26,7 @@
                             <form id="chat-with-user" method="POST" action="">
                                 {% for user in chat_users %}
                                 <div class="message-grid-item">
-                                    <input type="submit" value="{{user['name']}}" class="other-chat-user" />
+                                    <input type="submit" value="{{user}}" class="other-chat-user" />
                                 </div>
                                 {% endfor %}
                             </form>

@@ -123,15 +123,12 @@ def create_app():
             co_workers = model.User.query.filter(model.User.id != current_user.id)
 
             def user_data(user):
-                return {
-                    "name": user.name,
-                }
-
+                return user.name
             co_workers = list(map(user_data, co_workers))
         else:
             co_workers = []
 
-        return {'chat_users': co_workers}
+        return {'chat_users': tuple(co_workers)}
     
     def filtered_chat_rooms():
         if current_user.is_authenticated:
