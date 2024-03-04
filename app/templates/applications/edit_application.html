@@ -6,7 +6,6 @@
   <label for="status_code">Change Status:</label>
   <select name="status_code" id="status_code">
     <option value="pending" {% if application.status_code.value == 'pending' %}selected{% endif %}>Pending</option>
-    <option value="maybe" {% if application.status_code.value == 'maybe' %}selected{% endif %}>Maybe</option>
     <option value="accepted" {% if application.status_code.value == 'accepted' %}selected{% endif %}>Accepted</option>
     <option value="rejected" {% if application.status_code.value == 'rejected' %}selected{% endif %}>Rejected</option>
     <option value="deleted" {% if application.status_code.value == 'deleted' %}selected{% endif %}>Deleted</option>

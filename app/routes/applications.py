@@ -147,12 +147,12 @@ def edit_status(job_id, application_id):
 
     if request.method == 'POST':
         status_code = request.form.get('status_code')
-        if status_code == ApplicationStatusCode.REJECTED.value:
+        if status_code == ApplicationStatusCode.PENDING.value:
+            application.pending_application()
+        elif status_code == ApplicationStatusCode.REJECTED.value:
             application.reject_application()
         elif status_code == ApplicationStatusCode.ACCEPTED.value:
             application.accept_application()
-        elif status_code == ApplicationStatusCode.MAYBE.value:
-            application.maybe_application()
         elif status_code == ApplicationStatusCode.DELETED.value:
             application.delete_application()
 
