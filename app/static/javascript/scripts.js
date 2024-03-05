@@ -34,6 +34,15 @@ const adminHamburgerToggle = () => {
   }
 }
 
+/// >>>>>>>>>>>>>>>>>>>>> CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
+let display_user = true
+let display_group = true
+let display_chosen_group = false
+let display_group_users = false
+let in_room_now = false
+
+
+
 function displayBtn() {
   messageBtn = document.getElementById("message-btn")
   // let messageDisplay = false;
@@ -46,8 +55,7 @@ function closeMessage() {
   messageModal.style.display = "none";
 }
 
-let display_user = true
-let display_group = true
+
 function displayUser() {
   // const userBtn = document.getElementById('user-btn')
   // const groupBtn = document.getElementById('group-btn')
@@ -66,7 +74,11 @@ function displayGroup() {
 function displayGroupsAndUsers() {
   const userDiv = document.getElementById('user-container')
   const groupDiv = document.getElementById('group-container')
-  //if (display_user === true) display_user = !display_user
+
+  // In case you want a different message when lists are collapsed
+  //const userHeader = document.getElementById('user-list-head')
+  //const groupHeader = document.getElementById('group-list-head')
+
   if ((display_group === true) && (display_user === false)) {
     userDiv.style.maxHeight = '0px'
     groupDiv.style.maxHeight = '200px'
@@ -87,3 +99,32 @@ function displayGroupsAndUsers() {
     userDiv.style.maxHeight = '120px'
   }
 }
+
+function closeLists() {
+  display_group = false
+  display_user = false
+  displayGroupsAndUsers()
+}
+
+// In case this is needed...
+function openLists() {
+  display_group = true
+  display_user = true
+  displayGroupsAndUsers()
+
+}
+
+function roomSelected() {
+  in_room_now = true
+  closeLists()
+}
+
+//In case this is needed later... Leave chat without opening a new one
+//Reverse of displayRoomSelected.  Just in case you want a Leave Chat button at some point
+function leaveChatRoom() {
+  in_room_now = false
+  openLists()
+}
+
+
+///  >>>>>>>>>>>>>>>>>>>>>>>> END CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
