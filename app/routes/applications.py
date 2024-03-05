@@ -1,7 +1,7 @@
 #398-application-route
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user, login_required
-from app.util.security import admin_permission
+from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission)
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import ApplicationStatusCode
@@ -13,17 +13,6 @@ from datetime import datetime
 from sqlalchemy import not_
 
 applications = Blueprint('applications', __name__, url_prefix='/applications')
-
-'''
-The actual job needs to have an apply button that uses this route.
-The page needs to load our application view for that job.
-The GET method will need to render the application form.
-NOTE: We must require someone to be authenticated.
-The authenticated user decorator must be applied to the application route.
-Secondly, we need another route that handles the POST method
-that will take the information provided by the application form and store it in the application table.
-Application GET
-Application POST'''
 
 @applications.route('/<job_id>/application', methods=['GET'])
 @login_required
@@ -113,9 +102,6 @@ def my_applications():
     applications_per_page = 9
     page = 1
     applications = paginate(Application, page=page, key="date_applied", pages=applications_per_page)
-
-    # for application in applications:
-    #     job = Job.query.filter_by(id=application.job_id).first()
 
     return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
 
