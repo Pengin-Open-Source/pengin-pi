@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block tableContent %}
-  {% for application in applications %}
+  {% for application in applications.items %}
     {% if application.job_id == job.id %}
       <tr><td class="">
         <a class="alternating-colors-table-links" href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
@@ -30,6 +30,6 @@
 
 {% endblock %}
 {% block postTableContent %}
-  {{ applications.items | pprint }}
+  <!-- {{ applications.items | pprint }} -->
   {{ pagination.render_pagination(applications.items, "") }}
 {% endblock %}

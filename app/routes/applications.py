@@ -124,7 +124,7 @@ def my_applications():
 @admin_permission.require()
 def job_applications(job_id):
     job = Job.query.filter_by(id=job_id).first()
-    status = request.args.get('status')
+    status = request.args.get('status', 'all') # default to 'all' if status is not provided
 
     if request.method == 'POST':
         page = int(request.form.get('page_number', 1))
@@ -132,10 +132,21 @@ def job_applications(job_id):
         page = 1
 
     if status == 'all':
-        applications = paginate(Application, page=page, pages=20, filters={"status_code": not_('DELETED')})
-
+        applications = paginate(
+            Application, 
+            page=page, 
+            pages=20, 
+            filters={"status_code": not_('deleted')}
+            )
+        # retrieve applications with all status codes except 'deleted'
     else:
-        applications = paginate(Application, page=page, pages=20, filters={"status_code": status})
+        applications = paginate(
+            Application, 
+            page=page, 
+            pages=20, 
+            filters={"status_code": status}
+            )
+        # retrieve applications with the specified status code
 
     return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')
 
