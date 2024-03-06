@@ -1,13 +1,7 @@
 from app.db import db
 from app.util.uuid import id
 from app.db.models.job import Job
-from enum import Enum
 from datetime import datetime
-class ApplicationStatusCode(Enum):
-    PENDING = 'pending' # default status when application is created
-    ACCEPTED = 'accepted'
-    REJECTED = 'rejected'
-    DELETED = 'deleted' # deletes from view but keeps in database
 class Application(db.Model):
     __tablename__ = 'application'
     id = db.Column(db.String(36), default=id, primary_key=True)
@@ -16,22 +10,33 @@ class Application(db.Model):
     message = db.Column(db.Text)
     location = db.Column(db.String(100))
     date_applied = db.Column(db.DateTime(timezone=True), nullable=True)
-    status_code = db.Column(db.Enum(ApplicationStatusCode), default=ApplicationStatusCode.PENDING)
+    status_code = db.Column(db.String(20), default='pending')
     status_code_date_change = db.Column(db.DateTime(timezone=True), nullable=True)
-
-    # Methods to handle application status code changes
+    
+    def set_status_code(self, code):
+        if code in ApplicationStatus.status_codes.values(): # check for valid code
+            self.status_code = ApplicationStatus.status_codes[code] # set the status_code attribute to the corresponding value
+            self.status_code_date_change = datetime.now()
+    
     def pending_application(self):
-        self.status_code = ApplicationStatusCode.PENDING
-        self.status_code_date_change = datetime.now()
-
+        self.set_status_code('pending')
+    
     def reject_application(self):
-        self.status_code = ApplicationStatusCode.REJECTED
-        self.status_code_date_change = datetime.now()
-
+        self.set_status_code('rejected')
+    
     def accept_application(self):
-        self.status_code = ApplicationStatusCode.ACCEPTED
-        self.status_code_date_change = datetime.now()
+        self.set_status_code('accepted')
     
     def delete_application(self):
-        self.status_code = ApplicationStatusCode.DELETED
-        self.status_code_date_change = datetime.now()
+        self.set_status_code('deleted')
+class ApplicationStatus(db.Model):
+    __tablename__ = 'application_status'
+    id = db.Column(db.String(36), default=id, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+
+    status_codes = {
+        'pending': 'pending',
+        'accepted': 'accepted',
+        'rejected': 'rejected',
+        'deleted': 'deleted'
+    }
