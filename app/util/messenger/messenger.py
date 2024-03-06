@@ -158,7 +158,7 @@ class Messenger:
             if other_user_room is None:
                 self.make_user_room_link(chat_room_id, other_user.id)
                 print(
-                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {user.name} did not exist, it is now created:")
+                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {other_user.name} did not exist, it is now created:")
 
             self.chat(room)
 

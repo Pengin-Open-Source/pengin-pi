@@ -106,6 +106,7 @@
       const userPick = $('#chat-with-user').on("click", ".other-chat-user", function (e) {
         e.preventDefault()
         const user_picked = $(this).val();
+        inChatUsers.innerHTML = ""  // clear list of users in group, if any
         //empty the chat box messages
         $('div.message-display-sender').empty();
         $("div.message-display-receiver").empty();
@@ -122,6 +123,7 @@
       const groupPick = $('#chat-with-group').on("click", ".chat-group", function (e) {
         e.preventDefault()
         const group_picked = $(this).val();
+        inChatUsers.innerHTML = ""  // clear list of users in group, if any
         //empty the chat box messages
         $('div.message-display-sender').empty();
         $("div.message-display-receiver").empty();
