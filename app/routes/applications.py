@@ -1,7 +1,7 @@
 #398-application-route
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, abort
 from flask_login import current_user, login_required
-from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission)
+from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import ApplicationStatus
@@ -110,15 +110,17 @@ def application_view(job_id, application_id):
 
 @applications.route('/my-applications', methods=['GET'])
 @login_required
-@user_permission.require()
 def my_applications():
-    if user_permission.can():
+    permission = my_applications_permission(current_user.id)
+    if permission.can():
         applications_per_page = 9
         page = 1
         applications = paginate(Application, page=page, key="date_applied", filters={"user_id": current_user.id}, pages=applications_per_page)
 
         return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
     
+    abort(403)
+
 @applications.route('/<job_id>/job-applications', methods=['GET'])
 @login_required
 @admin_permission.require()

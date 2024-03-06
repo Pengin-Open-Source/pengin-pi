@@ -27,6 +27,8 @@ contact_applicant_need = set_need('contact_applicant')
 reject_applicant_need = set_need('reject_applicant')
 delete_applicant_need = set_need('delete_applicant')
 
+my_applications_need = set_need('my_applications')
+
 # TODO put into proper functions do not assign lamda expressions
 delete_comment_permission = lambda post_id:RoutePermission(delete_comment_need,post_id) 
 edit_comment_permission = lambda post_id:RoutePermission(edit_comment_need,post_id)
@@ -42,6 +44,7 @@ contact_applicant_permission = lambda application_id:RoutePermission(contact_app
 reject_applicant_permission = lambda application_id:RoutePermission(reject_applicant_need,application_id)
 delete_applicant_permission = lambda application_id:RoutePermission(delete_applicant_need,application_id)
 
+my_applications_permission = lambda user_id:RoutePermission(my_applications_need, user_id)
 
 class RoutePermission(Permission):
     def __init__(self, func, id):
