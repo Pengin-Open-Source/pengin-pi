@@ -22,7 +22,7 @@
       <tr><td class="">
         <a class="alternating-colors-table-links" href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
         <p class="">Received {{ application.date_applied.strftime('%B %d, %Y')|e }}</p>
-        <p class="">Status: {{ application.status_code.value|upper|e }}</p>
+        <p class="">Status: {{ application.status_code|upper|e }}</p>
       </td></tr>
     {% endif %}
   {% endfor %}

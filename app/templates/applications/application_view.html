@@ -12,7 +12,7 @@
   {% if application %}
     <h1>Application for {{ job.job_title }}</h1>
     {% if is_admin %}
-    <p>Status: {{ application.status_code.value|upper|e }}</p>
+    <p>Status: {{ application.status_code|upper|e }}</p>
     {% endif %}
     <p>Applied on  {{ application.date_applied.strftime('%B %d, %Y') }}</p>
     <p>Resume: <a href="{{ resume_url }}" target="_blank"> Download</a></p>
