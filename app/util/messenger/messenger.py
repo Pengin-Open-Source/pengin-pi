@@ -17,6 +17,7 @@ from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
 import datetime
+import json
 from app.db import db
 from app.util.uuid import id
 from app.db.models import Message, User, Room,  UserRoom
@@ -98,16 +99,29 @@ class Messenger:
         # worked with some Google Gemini suggestions for getting all the selected User Rooms' user ids and names
         user_ids = user_rooms.with_entities(UserRoom.user_id).all()
 
-        print(user_ids)
+        # print(user_ids)
+        # for user_id in user_ids:
+        #     user = User.query.get(user_id)
+        #     if user:
+        #         context = {
+        #             "user_name":  user.name,
+        #             "room_name":  room.name,
+        #         }
+        #     emit('users in group', context, to=room.id)
+
+        users_in_list = []
         for user_id in user_ids:
             user = User.query.get(user_id)
             if user:
-                context = {
+                users_in_list.append({
                     "user_name":  user.name,
                     "room_name":  room.name,
-                }
+                })
 
-            emit('users in group', context, to=room.id)
+        jsonified_users = json.dumps(users_in_list)
+        print(jsonified_users)
+        # print(f"What's the context? {context}")
+        emit('users in group', jsonified_users, to=room.id)
 
         for message in room.messages:
             context = {
@@ -184,35 +198,6 @@ def init_app(app, socketio):
 
         co_workers = list(map(user_data, co_workers))
         return render_template("messenger/chat_list.html", users=co_workers)
-
-        print(f"user NAME in regular messenger: {other_user}")
-        other_user = User.query.filter_by(name=other_user).first()
-        print(other_user)
-        if other_user:
-            other_user_name = other_user.name
-            room_id = messenger.create_room_id(
-                current_user.name, other_user_name)
-            room = Room.query.get(room_id)
-            if room is None:
-                room = Room(id=room_id, name=messenger.create_room_id(current_user.name,
-                                                                      other_user_name))
-                db.session.add(room)
-                db.session.commit()
-                print(f"room {room_id} did not exist, it is now created:")
-                print(f"room name: {room.name}")
-
-            messenger.current_room = room_id
-
-            # Return only the 100 last messages
-            return render_template(
-                "messenger/chat_pair.html",
-                user=other_user_name,
-                room_id=room_id,
-                room_name=room.name,
-                messages=room.messages
-            )
-
-        abort(404)
 
     socketio.on_event("connect", messenger.connection_handler)
     socketio.on_event("save_message", messenger.save_message)
