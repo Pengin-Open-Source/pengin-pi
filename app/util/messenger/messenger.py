@@ -73,7 +73,7 @@ class Messenger:
             "content": message.content,
             "timestamp": message.timestamp,
         }
-        emit("saved_message", context)
+        emit("saved_message", context, to=message.room_id)
 
     def disconnect_handler(self):
         pass
