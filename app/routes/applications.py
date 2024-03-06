@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
 from app.db import db
 from app.db.models import Application, Job, User
-from app.db.models.application import ApplicationStatus
+from app.db.models.application import StatusCode
 from app.util.mail import send_application_mail, send_accept_mail, send_reject_mail
 from app.util.s3 import conn
 from app.db.util import paginate
@@ -41,6 +41,7 @@ def create_application(job_id):
         
         if not allowed_extension(resume.filename):
             return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
+        # check login for how to make a popup with the error message
         
         if not allowed_extension(cover_letter.filename):
             return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
@@ -126,14 +127,14 @@ def my_applications():
 @admin_permission.require()
 def job_applications(job_id):
     job = Job.query.filter_by(id=job_id).first()
-    status = request.args.get('status', 'all') # default to 'all' if status is not provided
+    status = request.args.get('status')
 
     if request.method == 'POST':
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
 
-    if status == 'all':
+    if status == 'all': # remove the condition here
         applications = paginate(
             Application, 
             page=page, 
