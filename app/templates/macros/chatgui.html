@@ -28,9 +28,8 @@
                         <div class="message-grid-container" id="user-container">
                             {% for user in chat_users %}
                                 <div class="message-grid-item">
-                                    <button class="btn-select-room other-chat-user" data-room="{{ user['name'] }}">
-                                        {{user['name']}}
-                                    </button>
+                                    <input class="btn-select-room other-chat-user" data-room="{{ user['name'] }}" type="submit" value="{{user['name']}}"/>
+
                                 </div>
                             {% endfor %}
                         </div>
