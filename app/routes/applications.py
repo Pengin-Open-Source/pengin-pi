@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission)
 from app.db import db
 from app.db.models import Application, Job, User
-from app.db.models.application import ApplicationStatusCode
+from app.db.models.application import ApplicationStatus
 from app.util.mail import send_application_mail, send_accept_mail, send_reject_mail
 from app.util.s3 import conn
 from app.db.util import paginate
@@ -51,9 +51,10 @@ def create_application(job_id):
             date_applied=datetime.now(),
             job_id=job_id,
             user_id=current_user.id,
-            status_code='pending'
             )
-        
+
+        new_application.set_status_code('pending')
+
         db.session.add(new_application)
         db.session.commit()
 
@@ -134,15 +135,7 @@ def edit_status(job_id, application_id):
 
     if request.method == 'POST':
         status_code = request.form.get('status_code')
-        if status_code == ApplicationStatusCode.PENDING.value:
-            application.pending_application()
-        elif status_code == ApplicationStatusCode.REJECTED.value:
-            application.reject_application()
-        elif status_code == ApplicationStatusCode.ACCEPTED.value:
-            application.accept_application()
-        elif status_code == ApplicationStatusCode.DELETED.value:
-            application.delete_application()
-
+        application.set_status_code(status_code)
         db.session.commit()
 
         return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
@@ -159,7 +152,7 @@ def contact_applicant(job_id, application_id):
 
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
-        application.accept_application()
+        application.set_status_code('accepted')
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
@@ -176,7 +169,7 @@ def reject_applicant(job_id, application_id):
 
     try:
         send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
-        application.reject_application()
+        application.set_status_code('rejected')
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
@@ -190,7 +183,7 @@ def delete_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
 
     try:
-        application.delete_application()
+        application.set_status_code('deleted')
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
