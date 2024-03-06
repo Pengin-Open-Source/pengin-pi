@@ -18,6 +18,7 @@ from flask_login import current_user, login_required
 import os
 import datetime
 from app.db import db
+from app.util.uuid import id
 from app.db.models import Message, User, Room,  UserRoom
 
 
@@ -73,24 +74,41 @@ class Messenger:
     def disconnect_handler(self):
         pass
 
-    def create_room_id(self, user1, user2):
+    def create_room_name(self, user1, user2):
         attendees = [user1, user2]
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
+
+    def make_user_room_link(self, chat_room_id, user_id):
+        user_room = UserRoom(room_id=chat_room_id, user_id=user_id)
+        db.session.add(user_room)
+        db.session.commit()
 
     def process_message(self, json, methods=['GET', 'POST']):
         print('received json: ' + str(json))
         print("Message.py did something with a Message!")
         emit('update chat', json,  broadcast=True)
 
-    def chat_group(self, json, methods=['GET', 'POST']):
-        if self.current_room:
-            leave_room(self.current_room)
-        print(f"group name in overlay: {json}")
-        room = Room.query.filter_by(name=json['room_name']).first()
-
+    def chat(self, room):
         self.current_room = room.id
         join_room(self.current_room)
+
+        user_rooms = UserRoom.query.filter_by(room_id=room.id)
+
+        # worked with some Google Gemini suggestions for getting all the selected User Rooms' user ids and names
+        user_ids = user_rooms.with_entities(UserRoom.user_id).all()
+
+        print(user_ids)
+        for user_id in user_ids:
+            user = User.query.get(user_id)
+            if user:
+                context = {
+                    "user_name":  user.name,
+                    "room_name":  room.name,
+                }
+
+            emit('users in group', context, to=room.id)
+
         for message in room.messages:
             context = {
                 "author_name": message.author.name,
@@ -98,6 +116,14 @@ class Messenger:
                 "timestamp": message.timestamp,
             }
             emit('load chat', context, to=message.room.id)
+
+    def chat_group(self, json, methods=['GET', 'POST']):
+        if self.current_room:
+            leave_room(self.current_room)
+        print(f"group name in overlay: {json}")
+        room = Room.query.filter_by(name=json['room_name']).first()
+
+        self.chat(room)
 
     def chat_with(self, json, methods=['GET', 'POST']):
         if self.current_room:
@@ -107,37 +133,34 @@ class Messenger:
 
         if other_user:
             other_user_name = other_user.name
-            chat_room_id = self.create_room_id(
+            chat_room_name = self.create_room_name(
                 current_user.name, other_user_name)
-            room = Room.query.get(chat_room_id)
+            room = Room.query.filter_by(name=chat_room_name).first()
             if room is None:
-                room = Room(id=chat_room_id, name=self.create_room_id(current_user.name,
-                                                                      other_user_name))
+                room = Room(id=id(), name=self.create_room_name(current_user.name,
+                                                                other_user_name))
                 db.session.add(room)
                 db.session.commit()
-                print(f"room {chat_room_id} did not exist, it is now created:")
+                print(f"room {room.id} did not exist, it is now created:")
                 print(f"room name: {room.name}")
 
+            chat_room_id = room.id
             user_room = UserRoom.query.filter_by(
                 room_id=chat_room_id, user_id=current_user.id).first()
+            other_user_room = UserRoom.query.filter_by(
+                room_id=chat_room_id, user_id=other_user.id).first()
 
             if user_room is None:
-                user_room = UserRoom(room_id=chat_room_id,
-                                     user_id=current_user.id)
-                db.session.add(user_room)
-                db.session.commit()
+                self.make_user_room_link(chat_room_id, current_user.id)
                 print(
-                    f"User-room link for room {chat_room_id}  and user {current_user.name} did not exist, it is now created:")
+                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {current_user.name} did not exist, it is now created:")
 
-            self.current_room = chat_room_id
-            join_room(self.current_room)
-            for message in room.messages:
-                context = {
-                    "author_name": message.author.name,
-                    "content": message.content,
-                    "timestamp": message.timestamp,
-                }
-                emit('load chat', context, to=message.room.id)
+            if other_user_room is None:
+                self.make_user_room_link(chat_room_id, other_user.id)
+                print(
+                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {user.name} did not exist, it is now created:")
+
+            self.chat(room)
 
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
@@ -162,9 +185,6 @@ def init_app(app, socketio):
         co_workers = list(map(user_data, co_workers))
         return render_template("messenger/chat_list.html", users=co_workers)
 
-    @messenger_blueprint.route("/<other_user>", methods=["GET", "POST"])
-    @login_required
-    def chat(other_user):
         print(f"user NAME in regular messenger: {other_user}")
         other_user = User.query.filter_by(name=other_user).first()
         print(other_user)

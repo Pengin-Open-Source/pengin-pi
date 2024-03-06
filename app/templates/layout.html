@@ -82,7 +82,10 @@
     const socket = io();
     const sent_messages = document.querySelector(".message-display-sender");
     const received_messages = document.querySelector(".message-display-receiver");
-
+    const user_section = document.querySelector("#user-section");
+    const group_section = document.querySelector("#group-section");
+    const inChatUserHeader = document.getElementById("users-per-chat-head")
+    const inChatUsers = document.getElementById("users-in-chat")
 
     socket.on('connect', function () {
       console.log("We have a new connection!")
@@ -186,6 +189,15 @@
       }
     });
 
+
+    socket.on('users in group', function (data) {
+      inChatUserHeader.innerHTML = "In Chat Room:  " + data.room_name
+      roomSelected()
+      const chatUser = document.createElement('div');
+      chatUser.className = "message-grid-item";
+      chatUser.innerHTML = data.user_name
+      inChatUsers.appendChild(chatUser)
+    });
 
     socket.on('update chat', function (data) {
       console.log(data)

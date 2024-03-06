@@ -668,6 +668,14 @@ th {
   justify-items: center;
 }
 
+#users-per-chat-head {
+  display: none;
+}
+
+#users-in-chat {
+  display: none;
+}
+
 .content-section {
   display: flex;
   flex-direction: row;
