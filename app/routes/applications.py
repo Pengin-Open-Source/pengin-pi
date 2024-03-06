@@ -25,6 +25,11 @@ def application(job_id):
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
 def create_application(job_id):
+    ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
+
+    def allowed_extension(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
     if request.method == 'POST':
         resume = request.files['resume']
         cover_letter = request.files['cover_letter']
@@ -33,6 +38,12 @@ def create_application(job_id):
 
         if not resume:
             return 'Resume is required', 400
+        
+        if not allowed_extension(resume.filename):
+            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
+        
+        if not allowed_extension(cover_letter.filename):
+            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
 
         resume.filename = secure_filename(resume.filename)
         resume_path = conn.create(resume)
