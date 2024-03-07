@@ -149,12 +149,10 @@ def job_applications(job_id):
 
     # retrieve applications with the specified status code
     if status:
-        applications = paginate(
-            Application, 
-            page=page, 
-            pages=20, 
-            filters={"status_code.code": status}
-            )
+        applications = Application.query\
+            .join(StatusCode, Application.status_code == StatusCode.id)\
+            .filter(StatusCode.code == status)\
+            .paginate(page=page, per_page=20, error_out=False)
 
     else:
         # retrieve applications with all status codes except 'deleted'
