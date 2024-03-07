@@ -1,7 +1,7 @@
 #398-application-route
 from flask import Blueprint, render_template, redirect, url_for, request, abort, flash
 from flask_login import current_user, login_required
-from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
+from app.util.security import (admin_permission, edit_status_permission, accept_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import StatusCode
@@ -112,7 +112,6 @@ def application_view(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     job = Job.query.filter_by(id=job_id).first()
     status_codes = StatusCode.query.all()
-    print('application.status_code: ', application.status_code)
     resume_url = conn.get_URL(application.resume_path)
 
     if application.cover_letter_path:
@@ -193,15 +192,24 @@ def edit_status(job_id, application_id):
 @applications.route('/<job_id>/<application_id>/accept', methods=['POST'])
 @login_required
 @admin_permission.require()
-def contact_applicant(job_id, application_id):
+def accept_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     accept_subject = request.form.get('accept-subject')
     accept_body = request.form.get('accept-body')
 
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
-        application.status_code = 'accepted'
-        db.session.commit()
+
+        new_status_code = StatusCode.query.filter_by(code='accepted').first()
+        if not new_status_code:
+            new_status_code = StatusCode(code='accepted')
+            db.session.add(new_status_code)
+            application.status_code = new_status_code.id
+            db.session.commit()
+        else:
+            application.status_code = new_status_code.id
+            db.session.commit()
+
     except Exception as e:
         print('Error: ', e)
 
@@ -217,8 +225,15 @@ def reject_applicant(job_id, application_id):
 
     try:
         send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
-        application.status_code = 'rejected'
-        db.session.commit()
+        new_status_code = StatusCode.query.filter_by(code='rejected').first()
+        if not new_status_code:
+            new_status_code = StatusCode(code='rejected')
+            db.session.add(new_status_code)
+            application.status_code = new_status_code.id
+            db.session.commit()
+        else:
+            application.status_code = new_status_code.id
+            db.session.commit()
     except Exception as e:
         print('Error: ', e)
 

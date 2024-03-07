@@ -23,7 +23,7 @@ edit_ticket_need = set_need("edit_ticket_comment")
 edit_ticket_comment_need = set_need("edit_ticket")
 
 edit_status_need = set_need('edit_status')
-contact_applicant_need = set_need('contact_applicant')
+accept_applicant_need = set_need('accept_applicant')
 reject_applicant_need = set_need('reject_applicant')
 delete_applicant_need = set_need('delete_applicant')
 
@@ -40,7 +40,7 @@ edit_ticket_permission = lambda ticket_id:RoutePermission(edit_ticket_need,ticke
 edit_ticket_comment_permission = lambda ticket_id:RoutePermission(edit_ticket_comment_need,ticket_id) 
 
 edit_status_permission = lambda application_id:RoutePermission(edit_status_need,application_id)
-contact_applicant_permission = lambda application_id:RoutePermission(contact_applicant_need,application_id)
+accept_applicant_permission = lambda application_id:RoutePermission(accept_applicant_need,application_id)
 reject_applicant_permission = lambda application_id:RoutePermission(reject_applicant_need,application_id)
 delete_applicant_permission = lambda application_id:RoutePermission(delete_applicant_need,application_id)
 

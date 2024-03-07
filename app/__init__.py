@@ -14,7 +14,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need,
                                edit_status_need, 
-                               contact_applicant_need,
+                               accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
                                my_applications_need)
 from app.util.time.time import copyright, time_zone
@@ -105,7 +105,7 @@ def create_app():
                         edit_status_need(application.id)
                     )
                     identity.provides.add(
-                        contact_applicant_need(application.id)
+                        accept_applicant_need(application.id)
                     )
                     identity.provides.add(
                         reject_applicant_need(application.id)
