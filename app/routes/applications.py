@@ -1,5 +1,5 @@
 #398-application-route
-from flask import Blueprint, render_template, redirect, url_for, request, abort
+from flask import Blueprint, render_template, redirect, url_for, request, abort, flash
 from flask_login import current_user, login_required
 from app.util.security import (admin_permission, edit_status_permission, contact_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
 from app.db import db
@@ -39,7 +39,9 @@ def create_application(job_id):
         location = request.form.get('location')
 
         if not resume:
-            return 'Resume is required', 400
+            flash('Resume is required')
+            return redirect(url_for('applications.application', job_id=job_id))
+        
         if not cover_letter:
             cover_letter_path = None
                 
@@ -48,12 +50,16 @@ def create_application(job_id):
             resume_path = conn.create(resume)
 
         elif allowed_extension(resume.filename) == False:
-            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
-            # check login for how to make a popup with the error message
+            flash('Invalid file type. Allowed formats: .pdf, .doc, .docx')
+            return redirect(url_for('applications.application', job_id=job_id))
         
         if allowed_extension(cover_letter.filename) == True:
             cover_letter.filename = secure_filename(cover_letter.filename)
             cover_letter_path = conn.create(cover_letter)
+
+        elif allowed_extension(cover_letter.filename) == False:
+            flash('Invalid file type. Allowed formats: .pdf, .doc, .docx')
+            return redirect(url_for('applications.application', job_id=job_id))
 
         # if 'pending' does not exist in db, create it
         pending = StatusCode.query.filter_by(code='pending').first()

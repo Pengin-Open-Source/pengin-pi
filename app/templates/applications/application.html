@@ -19,35 +19,41 @@ location-->
   {% endif %}{% endblock %}
 
 {% block pageContent %}
-    
-  <h2>Apply</h2>
-  {% set application_items = [
-    {
-      'label': 'Resume', 
-      'type': 'file', 
-      'name': 'resume', 
-      'placeholder': 'Upload your resume',
-      'required': true
-    },
-    {
-      'label': 'Cover Letter', 
-      'type': 'file', 
-      'name': 'cover_letter', 
-      'placeholder': 'Upload your cover letter'
-    },
-    {
-      'label': 'Message to Hiring Manager', 
-      'type': 'text', 
-      'name': 'message'
-    },
-    {
-      'label': 'Location', 
-      'type': 'text', 
-      'name': 'location', 
-      'placeholder': 'Enter your location'
-    }
+<h2>Apply</h2>
+{% set application_items = [
+  {
+    'label': 'Resume', 
+    'type': 'file', 
+    'name': 'resume', 
+    'placeholder': 'Upload your resume',
+    'required': true
+  },
+  {
+    'label': 'Cover Letter', 
+    'type': 'file', 
+    'name': 'cover_letter', 
+    'placeholder': 'Upload your cover letter'
+  },
+  {
+    'label': 'Message to Hiring Manager', 
+    'type': 'text', 
+    'name': 'message'
+  },
+  {
+    'label': 'Location', 
+    'type': 'text', 
+    'name': 'location', 
+    'placeholder': 'Enter your location'
+  }
   ] %}
-
+  
   {{ form.render_form(application_items, url_for('applications.create_application', job_id=job_id)) }}
-
+  
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="alert alert-danger center-title">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
 {% endblock %} 
