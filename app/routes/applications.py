@@ -25,6 +25,8 @@ def application(job_id):
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
 def create_application(job_id):
+
+
     ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
 
     def allowed_extension(filename):
@@ -38,22 +40,27 @@ def create_application(job_id):
 
         if not resume:
             return 'Resume is required', 400
-        
-        if not allowed_extension(resume.filename):
-            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
-        # check login for how to make a popup with the error message
-        
-        if not allowed_extension(cover_letter.filename):
-            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
+        if not cover_letter:
+            cover_letter_path = None
+                
+        if allowed_extension(resume.filename) == True:
+            resume.filename = secure_filename(resume.filename)
+            resume_path = conn.create(resume)
 
-        resume.filename = secure_filename(resume.filename)
-        resume_path = conn.create(resume)
-
-        if cover_letter:
+        elif allowed_extension(resume.filename) == False:
+            return 'Invalid file type. Allowed formats: .pdf, .doc, .docx', 400
+            # check login for how to make a popup with the error message
+        
+        if allowed_extension(cover_letter.filename) == True:
             cover_letter.filename = secure_filename(cover_letter.filename)
             cover_letter_path = conn.create(cover_letter)
-        else:
-            cover_letter_path = None
+
+        # if 'pending' does not exist in db, create it
+        pending = StatusCode.query.filter_by(code='pending').first()
+        if not pending:
+            pending = StatusCode(code='pending')
+            db.session.add(pending)
+            db.session.commit()
 
         new_application = Application(
             resume_path=resume_path, 
@@ -63,7 +70,7 @@ def create_application(job_id):
             date_applied=datetime.now(),
             job_id=job_id,
             user_id=current_user.id,
-            status_code='pending'
+            status_code=pending.id
             )
 
         db.session.add(new_application)
