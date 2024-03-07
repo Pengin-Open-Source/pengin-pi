@@ -140,30 +140,32 @@ def my_applications():
 def job_applications(job_id):
     job = Job.query.filter_by(id=job_id).first()
     status = request.args.get('status')
+    status_codes = StatusCode.query.all()
 
     if request.method == 'POST':
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
 
-    if status == 'all': # remove the condition here
+    # retrieve applications with the specified status code
+    if status:
         applications = paginate(
             Application, 
             page=page, 
             pages=20, 
-            filters={"status_code": not_('deleted')}
+            filters={"status_code.code": status}
             )
-        # retrieve applications with all status codes except 'deleted'
-    else:
-        applications = paginate(
-            Application, 
-            page=page, 
-            pages=20, 
-            filters={"status_code": status}
-            )
-        # retrieve applications with the specified status code
 
-    return render_template('applications/job_applications.html', job=job, applications=applications, primary_title='Job Applications')
+    else:
+        # retrieve applications with all status codes except 'deleted'
+        applications = paginate(
+            Application,
+            page=page, 
+            pages=20, 
+            filters={"status_code.code": not_('deleted')}
+            )
+
+    return render_template('applications/job_applications.html', job=job, applications=applications, status_codes=status_codes, primary_title='Job Applications')
 
 @applications.route('/<job_id>/<application_id>/edit-status', methods=['GET', 'POST'])
 @login_required

@@ -31,7 +31,7 @@
       {% endif %}
     {% else %}
       <p>This job has received {{ applications|length }} applications</p>
-      <a href="/applications/{{ job.id }}/job-applications?status=all">View Applications</a>
+      <a href="/applications/{{ job.id }}/job-applications">View Applications</a>
   {% endif %}
 
 {% endblock %} 

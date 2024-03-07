@@ -9,7 +9,7 @@
 
 {% block beforeTableContent %}
     <div class="title-underline">
-      <a class="text-button" href="/applications/{{ job.id }}/job-applications?status=all">all</a>|
+      <a class="text-button" href="/applications/{{ job.id }}/job-applications">all</a>|
       <a class="text-button" href="/applications/{{ job.id }}/job-applications?status=pending">pending</a>|
       <a class="text-button" href="/applications/{{ job.id }}/job-applications?status=accepted">accepted</a>|
       <a class="text-button" href="/applications/{{ job.id }}/job-applications?status=rejected">rejected</a>
@@ -22,7 +22,13 @@
       <tr><td class="">
         <a class="alternating-colors-table-links" href="/applications/{{ job.id }}/application/{{ application.id }}">{{ application.user.name }}</a>
         <p class="">Received {{ application.date_applied.strftime('%B %d, %Y')|e }}</p>
-        <p class="">Status: {{ application.status_code|upper|e }}</p>
+        <p class="">Status: 
+          {% for status_code in status_codes %}
+            {% if status_code.id == application.status_code %}
+                {{ status_code.code }}
+            {% endif %}
+        {% endfor %}
+        </p>
       </td></tr>
     {% endif %}
   {% endfor %}
