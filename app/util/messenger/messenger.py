@@ -123,13 +123,15 @@ class Messenger:
         # print(f"What's the context? {context}")
         emit('users in group', jsonified_users, to=room.id)
 
+        msgs = []
         for message in room.messages:
-            context = {
+            msgs.append({
                 "author_name": message.author.name,
                 "content": message.content,
                 "timestamp": message.timestamp,
-            }
-            emit('load chat', context, to=message.room.id)
+            })
+        jsonified_messages = json.dumps(msgs)
+        emit('load chat', jsonified_messages, to=room.id)
 
     def chat_group(self, json, methods=['GET', 'POST']):
         if self.current_room:

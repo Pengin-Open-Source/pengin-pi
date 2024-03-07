@@ -116,8 +116,6 @@
 
       const groupPick = $('#chat-with-group').on("click", ".chat-group", function (e) {
         e.preventDefault()
-        $('div.message-display-sender').empty();
-        $("div.message-display-receiver").empty();
         const group_picked = $(this).val();
         sent_messages.content = document.querySelector(".message-display-sender");
         received_messages.content = document.querySelector(".message-display-receiver");
@@ -129,13 +127,6 @@
 
     })
 
-    //clean up the screen to enter a new room
-    function clearHtml() {
-      // clear list of users in group, if any
-      inChatUsers.innerHTML = ""
-      //empty the chat box messages
-
-    }
 
     function createMessageSender(message) {
 
@@ -175,19 +166,28 @@
     }
 
 
-    socket.on('load chat', function (message) {
-      if (message.author_name === "{{current_user.name}}") {
-        createMessageSender(message)
-      }
-      else {
-        createMessageReceiver(message)
-      }
+    socket.on('load chat', function (messages) {
+
+      sent_messages.innerHTML = "";
+      received_messages.innerHTML = "";
+      const msgList = JSON.parse(messages);
+
+      msgList.forEach(message => {
+        if (message.author_name === "{{current_user.name}}") {
+          createMessageSender(message)
+        }
+        else {
+          createMessageReceiver(message)
+        }
+
+      });
+
     });
 
     socket.on('users in group', function (data) {
       const chatting = JSON.parse(data);
       inChatUserHeader.innerHTML = "In Chat Room:  " + chatting[0].room_name
-      inChatUsers.innerHtML = ""
+      inChatUsers.innerHTML = ""
       roomSelected()
       chatting.forEach(item => {
         const userName = item.user_name;
