@@ -63,9 +63,8 @@ def create_application(job_id):
             date_applied=datetime.now(),
             job_id=job_id,
             user_id=current_user.id,
+            status_code='pending'
             )
-
-        new_application.set_status_code('pending')
 
         db.session.add(new_application)
         db.session.commit()
@@ -162,7 +161,7 @@ def edit_status(job_id, application_id):
 
     if request.method == 'POST':
         status_code = request.form.get('status_code')
-        application.set_status_code(status_code)
+        application.status_code = status_code
         db.session.commit()
 
         return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
@@ -179,7 +178,7 @@ def contact_applicant(job_id, application_id):
 
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
-        application.set_status_code('accepted')
+        application.status_code = 'accepted'
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
@@ -196,7 +195,7 @@ def reject_applicant(job_id, application_id):
 
     try:
         send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
-        application.set_status_code('rejected')
+        application.status_code = 'rejected'
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
@@ -210,7 +209,7 @@ def delete_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
 
     try:
-        application.set_status_code('deleted')
+        application.status_code = 'deleted'
         db.session.commit()
     except Exception as e:
         print('Error: ', e)
