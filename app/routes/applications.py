@@ -111,6 +111,7 @@ def application_success(job_id, application_id):
 def application_view(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     job = Job.query.filter_by(id=job_id).first()
+    status_codes = StatusCode.query.all()
 
     resume_url = conn.get_URL(application.resume_path)
 
@@ -119,7 +120,7 @@ def application_view(job_id, application_id):
     else:
         cover_letter_url = None
 
-    return render_template('applications/application_view.html', job=job, application=application, resume_url=resume_url, cover_letter_url=cover_letter_url, primary_title='Application')
+    return render_template('applications/application_view.html', job=job, application=application, status_codes=status_codes, resume_url=resume_url, cover_letter_url=cover_letter_url, primary_title='Application')
 
 @applications.route('/my-applications', methods=['GET'])
 @login_required
