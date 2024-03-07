@@ -14,9 +14,9 @@
     {% if is_admin %}
     <p>Status: 
       {% for status_code in status_codes %}
-            {% if status_code.id == application.status_code %}
-                {{ status_code.code }}
-            {% endif %}
+          {% if status_code.id == application.status_code %}
+              {{ status_code.code }}
+          {% endif %}
         {% endfor %}
     </p>
     {% endif %}

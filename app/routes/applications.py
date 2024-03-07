@@ -112,7 +112,7 @@ def application_view(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     job = Job.query.filter_by(id=job_id).first()
     status_codes = StatusCode.query.all()
-
+    print('application.status_code: ', application.status_code)
     resume_url = conn.get_URL(application.resume_path)
 
     if application.cover_letter_path:
@@ -172,11 +172,19 @@ def job_applications(job_id):
 def edit_status(job_id, application_id):
     job = Job.query.filter_by(id=job_id).first()
     application = Application.query.filter_by(id=application_id).first()
-
+    
     if request.method == 'POST':
-        status_code = request.form.get('status_code')
-        application.status_code = status_code
-        db.session.commit()
+        form_status_code = request.form.get('status_code')
+        new_status_code = StatusCode.query.filter_by(code=form_status_code).first()
+
+        if not new_status_code:
+            new_status_code = StatusCode(code=form_status_code)
+            db.session.add(new_status_code)
+            application.status_code = new_status_code.id
+            db.session.commit()
+        else:
+            application.status_code = new_status_code.id
+            db.session.commit()
 
         return redirect(url_for('applications.application_view', job_id=job_id, application_id=application_id))
 

@@ -5,9 +5,9 @@
 <form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/edit-status">
   <label for="status_code">Change Status:</label>
   <select name="status_code" id="status_code">
-    <option value="pending" {% if application.status_code == 'pending' %}selected{% endif %}>Pending</option>
-    <option value="accepted" {% if application.status_code == 'accepted' %}selected{% endif %}>Accepted</option>
-    <option value="rejected" {% if application.status_code == 'rejected' %}selected{% endif %}>Rejected</option>
+    <option value="pending">Pending</option>
+    <option value="accepted">Accepted</option>
+    <option value="rejected">Rejected</option>
   </select>
   <br><br>
   <button type="submit">Update</button>
