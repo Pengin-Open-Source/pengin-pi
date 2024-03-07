@@ -200,6 +200,7 @@ def accept_applicant(job_id, application_id):
     try:
         send_accept_mail(application.user.email, application.id, application.user.name, application.job.job_title, accept_subject, accept_body)
 
+        # check whether 'accepted' code exists in db; if not, create it
         new_status_code = StatusCode.query.filter_by(code='accepted').first()
         if not new_status_code:
             new_status_code = StatusCode(code='accepted')
@@ -225,6 +226,8 @@ def reject_applicant(job_id, application_id):
 
     try:
         send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
+        
+        # check whether 'rejected' code exists in db; if not, create it
         new_status_code = StatusCode.query.filter_by(code='rejected').first()
         if not new_status_code:
             new_status_code = StatusCode(code='rejected')
@@ -234,6 +237,7 @@ def reject_applicant(job_id, application_id):
         else:
             application.status_code = new_status_code.id
             db.session.commit()
+
     except Exception as e:
         print('Error: ', e)
 
@@ -246,8 +250,17 @@ def delete_applicant(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
 
     try:
-        application.status_code = 'deleted'
-        db.session.commit()
+        # check whether 'deleted' code exists in db; if not, create it
+        new_status_code = StatusCode.query.filter_by(code='deleted').first()
+        if not new_status_code:
+            new_status_code = StatusCode(code='deleted')
+            db.session.add(new_status_code)
+            application.status_code = new_status_code.id
+            db.session.commit()
+        else:
+            application.status_code = new_status_code.id
+            db.session.commit()
+
     except Exception as e:
         print('Error: ', e)
 
