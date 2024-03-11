@@ -9,6 +9,7 @@ from app.db.util import paginate
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
 
+
 def get_links():
     return []
 
@@ -22,7 +23,7 @@ def display_blog_home():
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     return render_template('blog/blog.html', posts=posts, primary_title='Blog',
-                           is_admin=admin_permission.can(), left_title='Blog Posts')
+                           left_title='Blog Posts')
 
 
 @blogPosts.route("/blog/<post_id>")
@@ -32,12 +33,13 @@ def display_post(post_id):
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
+
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     author_date = post.date  # TODO blogPost model has no author attribute.
-    
+
+   # (Looks like is_admin is already defined in inject globals in app/__init__.py, so it doesn't need to be added,
+   # To the context processor again. we should just be able to remove references to is_admin elsewhere
     return render_template('blog/view.html', page=page, post=post, posts=posts,
-                           is_admin=admin_permission.can(),
                            blog_author_date=author_date)
 
 
@@ -50,7 +52,7 @@ def edit_post(post_id):
         post.title = request.form.get('title')
         post.content = request.form.get('content')
         post.tags = request.form.get('tags')
-        
+
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=post.id))
