@@ -1,23 +1,40 @@
 {% extends "layout/fullPageScroll.html" %}
 
+{% block pageDropDowns %}
+  {% if is_admin %}
+    <a href="/orders/{{order.id}}/edit">Edit Order</a>
+  {% endif %}
+{% endblock %}
+
 {% block pageContent %}
 <div class="post-container">
   <h2>Order ID: {{order.id|e}}</h2>
   <p>Customer ID: {{order.customer_id|e}}</p>
-  <p>Order Date: {{order.order_date|e}}</p>
+  <p>Order Date: {{order.order_date.strftime('%B %d, %Y')|e }}</p>
   
   {% if order.orders_list %}
-    <p>Items:</p>
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.orders_list %}
+        <tr>
+          {% set product = products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
   {% endif %}
-  
-  <ul>
-  {% for item in order.orders_list %}
-    <li>
-        <a href="/products/{{item.product_id}}">Product ID: {{item.product_id | e}}</a>
-        <p>Quantity: {{item.quantity | e}} </p>
-    </li>
-  {% endfor %}
-    </ul>
 
 </div>
 {% endblock %}

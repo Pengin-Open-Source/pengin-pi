@@ -23,8 +23,9 @@ def display_orders_home():
 @login_required
 def display_order_info(order_id):
     order = Orders.query.get_or_404(order_id)
+    products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
 
-    return render_template('order_info/order_info.html', order=order)
+    return render_template('order_info/order_info.html', order=order, products=products)
 
 
 @order_info.route('/create', methods=['GET', 'POST'])

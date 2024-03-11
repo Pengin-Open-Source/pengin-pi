@@ -1,7 +1,9 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageDropDowns %}
-  {% include "right_window/profile_info.html" %}
+  {% if is_admin %}
+    <a href="/orders/create">New Order</a>
+  {% endif %}
 {% endblock %}
 
 {% block pageContent %}
