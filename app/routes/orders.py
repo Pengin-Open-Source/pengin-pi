@@ -15,8 +15,20 @@ def get_orders():
 
 @order_info.route("/")
 def display_orders_home():
-    return render_template('order_info/order_info_main.html', primary_title='Orders',
-                           orders=get_orders(), is_admin=admin_permission.can())
+    orders = get_orders()
+    customers = {order.customer_id: Customer.query.get(order.customer_id) for order in orders}
+
+    for customer in customers.values():
+        customer.company = Company.query.get(customer.company_id)
+        customer.user = User.query.get(customer.user_id)
+        print(customer.company.name, customer.user.name)
+    
+    return render_template('order_info/order_info_main.html', 
+                           primary_title='Orders',
+                           orders=get_orders(), 
+                           is_admin=admin_permission.can(),
+                           customers=customers
+                           )
 
 
 @order_info.route('/<order_id>')

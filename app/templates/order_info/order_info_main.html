@@ -7,9 +7,22 @@
 {% endblock %}
 
 {% block pageContent %}
-  <ul>
     {% for order in orders %}
-      <li><a href="/orders/{{ order.id }}">{{ order.id|e }}</a></li>
+    <table>
+      <thead>
+        <tr>
+          <th>Order Date</th>
+          <th>Order ID</th>
+          <th>Customer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ order.order_date.strftime('%B %d, %Y')|e }}</td>
+          <td><a href="/orders/{{ order.id }}">{{ order.id|e }}</a></td>
+          <td>{{ customers[order.customer_id].user.name|default('Unknown User') }}</td>
+        </tr>
+      </tbody>
+    </table>
     {% endfor %}
-  </ul>
 {% endblock %}
