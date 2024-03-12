@@ -21,7 +21,6 @@ def display_orders_home():
     for customer in customers.values():
         customer.company = Company.query.get(customer.company_id)
         customer.user = User.query.get(customer.user_id)
-        print(customer.company.name, customer.user.name)
     
     return render_template('tickets/workflows/customer_orders_list.html', 
                            primary_title='Orders',
