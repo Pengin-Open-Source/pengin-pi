@@ -23,7 +23,7 @@ def display_orders_home():
         customer.user = User.query.get(customer.user_id)
         print(customer.company.name, customer.user.name)
     
-    return render_template('order_info/order_info_main.html', 
+    return render_template('tickets/workflows/customer_orders_list.html', 
                            primary_title='Orders',
                            orders=get_orders(), 
                            is_admin=admin_permission.can(),
@@ -36,8 +36,10 @@ def display_orders_home():
 def display_order_info(order_id):
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
+    print('products:', products)
+    print('order:', order)
 
-    return render_template('order_info/order_info.html', order=order, products=products)
+    return render_template('tickets/workflows/customer_order_info.html', order=order, products=products)
 
 
 @order_info.route('/create', methods=['GET', 'POST'])
@@ -74,7 +76,7 @@ def create_order():
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
 
-    return render_template('order_info/order_info_create.html', primary_title='Create Order', products=products, customers_with_names=customers_with_names)
+    return render_template('tickets/workflows/customer_order_create.html', primary_title='Create Order', products=products, customers_with_names=customers_with_names)
 
 
 @order_info.route('/<order_id>/edit', methods=['GET', 'POST'])
@@ -125,6 +127,6 @@ def edit_order(order_id):
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
 
-    return render_template('order_info/order_info_edit.html', products=products, primary_title='Edit Order',
+    return render_template('tickets/workflows/sales_order_edit.html', products=products, primary_title='Edit Order',
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
