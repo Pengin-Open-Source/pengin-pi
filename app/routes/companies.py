@@ -9,6 +9,25 @@ company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
 
 
+# Filtered for current_user
+#@company_info.route("/")
+#@login_required
+#def display_companies_home():
+    #if request.method == "POST":
+        #page = int(request.form.get('page_number', 1))
+    #else:
+        #page = 1
+
+    #companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
+                              #pages=10, filters={'user_id': current_user.id})
+
+    #print(companies)
+    #print(companies.items)
+
+    #return render_template('company_info/company_info_main.html',
+                           #companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
+
+#TO-DO: check to see if handles next page (passed 10 queries)
 @company_info.route("/")
 @login_required
 def display_companies_home():
@@ -17,11 +36,15 @@ def display_companies_home():
     else:
         page = 1
 
-    companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
-                              pages=10, filters={'user_id': current_user.id})
+    # Using direct pagination on Company model,
+    companies = Company.query.paginate(page=page, per_page=10, error_out=False)
+
+    print(companies)
+    print(companies.items)
 
     return render_template('company_info/company_info_main.html',
                            companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
+
 
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
