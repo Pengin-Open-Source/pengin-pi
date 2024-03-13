@@ -28,6 +28,7 @@ admin_permission = Permission(RoleNeed('admin'))
                            #companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 #TO-DO: check to see if handles next page (passed 10 queries)
+#       Re-visit for custom-pagination from db util
 @company_info.route("/")
 @login_required
 def display_companies_home():
@@ -38,9 +39,6 @@ def display_companies_home():
 
     # Using direct pagination on Company model,
     companies = Company.query.paginate(page=page, per_page=10, error_out=False)
-
-    print(companies)
-    print(companies.items)
 
     return render_template('company_info/company_info_main.html',
                            companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
@@ -78,6 +76,7 @@ def display_company_info(company_id:str) -> render_template:
                            company=company, members=members, is_admin=admin_permission.can())
 
 
+
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
@@ -108,6 +107,7 @@ def create_company():
     return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
 
+
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
@@ -130,6 +130,29 @@ def edit_company_info_post(company_id):
                                 company_id=company.id))
 
     return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
+
+
+# TO-DO: 
+# Current functionality displays per page the amount of checked members from members/edit route
+# i.e., 3 out of 10 total members present in company for page 1, thus displaying only 3 members
+# i.e., 6 out of 10 total members present in company for page 2, thus displaying only 6 members
+@company_info.route('/<company_id>/members', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def display_company_members(company_id):
+    company = Company.query.get_or_404(company_id)
+    
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    users = paginate(User, page=page, pages=10)
+    members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+    members_ids_list = [i for i in members_ids for i in i]
+    
+    return render_template('company_info/display_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
+
 
 
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
