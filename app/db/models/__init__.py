@@ -3,7 +3,7 @@ from app.db.models.blog import BlogPost
 from app.db.models.customer import User, UserRoles, Role, Company, CompanyMembers
 from app.db.models.forum import ForumComment, ForumPost, Thread, ThreadRoles
 from app.db.models.product import Product
-from app.db.models.orders import Contracts, Orders, ShippingAddress, Customer, OrdersList
+from app.db.models.orders import Contracts, Orders, OrderHistory, ShippingAddress, Customer, OrdersList
 from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
@@ -80,6 +80,10 @@ ShippingAddress.customer_id = db.Column(db.String(36),
 Orders.orders_list = db.relationship('OrdersList')
 Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
+
+#OrderHistory
+OrderHistory.order = db.relationship('Orders', back_populates='order_history')
+
 #Contracts
 Contracts.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))

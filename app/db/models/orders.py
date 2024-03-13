@@ -16,7 +16,11 @@ class Orders(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(timezone=True), nullable=True)
     
-
+class OrderHistory(db.Model):
+    __tablename__ = 'order_history'
+    id = db.Column(db.String(36), default=ID, primary_key=True)
+    order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    timestamp = db.Column(db.DateTime(timezone=True))
 class OrdersList(db.Model):
     __tablename__ = 'orders_list'
     id = db.Column(db.String(36), default=ID, primary_key=True)
