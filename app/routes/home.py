@@ -22,6 +22,7 @@ def home():
     try:
         image = conn.get_URL(home.image)
     except ParamValidationError:
+        image = default.image
 
     if home:
         logging.info("S3 Image accessed: " + home.image)
@@ -82,6 +83,7 @@ def home_edit():
         url = (
             image.filename
             if "file" in request.files and image.filename != ""
+            else default.image
         )
         if image:
             image.filename = secure_filename(image.filename)
