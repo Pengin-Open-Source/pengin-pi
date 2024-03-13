@@ -13,10 +13,14 @@
     <article>
         <div class="about-article-container">
             <div class="image-container commonmark">
-                {{about.article|commonmark|e}}
+                {% if about.article %}
+                    {{about.article|commonmark|e}}
+                {% endif %}
             </div>
             <div class="image-container">
-                <img src="{{image|e}}" alt="About Image" style="width: 100%; height: auto">
+                {% if image %}
+                    <img src="{{image|e}}" alt="About Image" style="width: 100%; height: auto">
+                {% endif %}
             </div>
         </div>
         <div class="address">
