@@ -40,10 +40,9 @@ def view():
 def edit_about():
     # As there should only be one entry for about model it can be checked
     # whether this exists or not to allow creation or editing.
-    exists = About.query.first() is not None
+    about = About.query.first()
 
-    if exists:
-        about = About.query.first()
+    if about is not None:
         try:
             image = conn.get_URL(about.image)
         except ParamValidationError:
