@@ -7,6 +7,7 @@ from app.util.security import admin_permission
 from app.util.s3 import conn
 import logging
 from werkzeug.utils import secure_filename
+from botocore.exceptions import ParamValidationError
 
 home_blueprint = Blueprint("home_blueprint", __name__)
 section_title = "Home"
@@ -20,8 +21,8 @@ def home():
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
-    except:
         image = "/static/images/test.png"
+    except ParamValidationError:
 
     if home:
         logging.info("S3 Image accessed: " + home.image)
