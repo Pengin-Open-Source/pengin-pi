@@ -26,11 +26,6 @@ migrate = Migrate()
 admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
 
-class DummyHome():
-    company_name = ''
-    article = ''
-    image = ''
-
 
 def create_app():
     app = Flask(__name__, static_folder='static')
