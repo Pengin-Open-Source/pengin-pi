@@ -80,6 +80,7 @@ ShippingAddress.customer_id = db.Column(db.String(36),
 Orders.orders_list = db.relationship('OrdersList')
 Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
+Orders.order_history = db.relationship('OrderHistory', back_populates='orders')
 
 #OrderHistory
 OrderHistory.order = db.relationship('Orders', back_populates='order_history')

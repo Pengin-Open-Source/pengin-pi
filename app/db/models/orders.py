@@ -48,6 +48,7 @@ class Customer(db.Model):
     date = db.Column(db.DateTime(timezone=True), nullable=True)
 
 def after_update_listener(mapper, connection, target):
+    print('after_update_listener')
     old_data = {column.name: getattr(target, column.name) for column in mapper.columns}
     order_history = OrderHistory(order_id=target.id, timestamp=datetime.now(timezone.utc), old_data=str(old_data))
 
