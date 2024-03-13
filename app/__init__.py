@@ -17,6 +17,7 @@ from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from app.util.defaults import default
 from flask_commonmark import Commonmark
 
 from app.util.uuid import id
@@ -45,7 +46,7 @@ def create_app():
     # Inject global variables to templates
     @app.context_processor
     def inject_globals():
-        company = model.Home.query.first() or DummyHome()
+        company = model.Home.query.first() or default.Home()
         name = company.company_name
         return dict(company_name=name, is_admin=admin_permission.can())
 
