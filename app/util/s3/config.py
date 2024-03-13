@@ -39,8 +39,6 @@ class File:
             self.conn.upload_fileobj(file, self.aws_bucket, filename)
             return filename
         except Exception as e:
-            print('Exception: ' + str(e))
-            return "/static/images/test.png"
             print("Exception: " + str(e))
             return default.image
 
