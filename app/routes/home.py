@@ -64,19 +64,6 @@ def home_edit():
 
             return redirect(url_for("home_blueprint.home"))
 
-        return render_template('home/edit.html', section_title=section_title,
-                               item_title='Edit Home Page Info', home=home,
-                               image=image, primary_title='Edit Home Page')
-    
-    elif request.method == 'POST':
-            company_name = request.form.get('name')
-            article = request.form.get('article')
-            tags = request.form.get('tags')
-            image = request.files["file"]
-            url = image.filename if "file" in request.files and image.filename != "" else '/static/images/test.png'
-            if image:
-                image.filename = secure_filename(image.filename)
-                url = conn.create(image)
         return render_template(
             "home/edit.html",
             section_title=section_title,
