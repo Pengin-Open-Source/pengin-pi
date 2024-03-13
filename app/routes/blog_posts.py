@@ -62,7 +62,7 @@ def edit_post(post_id):
         page = 1
 
     posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
+    return render_template('blog/edit.html', post=post, posts=posts)
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
