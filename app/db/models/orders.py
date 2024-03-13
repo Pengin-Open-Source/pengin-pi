@@ -10,7 +10,6 @@ class Contracts(db.Model):
     service_date = db.Column(db.DateTime(timezone=True), nullable=True)
     expiration_date = db.Column(db.DateTime(timezone=True), nullable=True)
 
-
 class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.String(36), default=ID, primary_key=True)
@@ -19,8 +18,10 @@ class Orders(db.Model):
 class OrderHistory(db.Model):
     __tablename__ = 'order_history'
     id = db.Column(db.String(36), default=ID, primary_key=True)
+    old_data = db.Column(db.String(255))
     order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
+
 class OrdersList(db.Model):
     __tablename__ = 'orders_list'
     id = db.Column(db.String(36), default=ID, primary_key=True)
@@ -43,3 +44,6 @@ class Customer(db.Model):
     __tablename__ = "customer"
     id = db.Column(db.String(36), default=ID, primary_key=True)
     date = db.Column(db.DateTime(timezone=True), nullable=True)
+
+def after_update_listener(mapper, connection, target):
+    pass
