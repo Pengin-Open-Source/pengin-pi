@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, flash
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
@@ -27,21 +27,35 @@ admin_permission = Permission(RoleNeed('admin'))
     #return render_template('company_info/company_info_main.html',
                            #companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
-#TO-DO: check to see if handles next page (passed 10 queries)
-#       Re-visit for custom-pagination from db util
+
+# -- display_companies_home() --
+# TO-DO: 
+# Rheck to see if handles next page (passed 10 queries)
+# Re-visit for custom-pagination from db util
+# TO-D0_2:
+# Check
 @company_info.route("/")
 @login_required
 def display_companies_home():
-    if request.method == "POST":
-        page = int(request.form.get('page_number', 1))
+    if admin_permission.can():
+        if request.method == "POST":
+            page = int(request.form.get('page_number', 1))
+        else:
+            page = 1
+
+        # Using direct pagination on Company model,
+        companies = Company.query.paginate(page=page, per_page=10, error_out=False)
+
+        return render_template('company_info/company_info_main.html',
+                            companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
     else:
-        page = 1
+        member_company = CompanyMembers.query.filter_by(user_id=current_user.id).first()
+        if member_company:
+            # If the user is a member of a company, redirect to that company's info
+            return redirect(url_for('company_info.display_company_info', company_id=member_company.company_id))
+        else:
+            return render_template('company_info/no_company.html')
 
-    # Using direct pagination on Company model,
-    companies = Company.query.paginate(page=page, per_page=10, error_out=False)
-
-    return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 
 
@@ -138,7 +152,6 @@ def edit_company_info_post(company_id):
 # i.e., 6 out of 10 total members present in company for page 2, thus displaying only 6 members
 @company_info.route('/<company_id>/members', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
 def display_company_members(company_id):
     company = Company.query.get_or_404(company_id)
     
