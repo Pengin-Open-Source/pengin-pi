@@ -4,6 +4,7 @@ from app.util.security import admin_permission
 import logging
 from app.db import db
 from app.db.models import About
+from app.util.defaults import default
 from app.util.s3 import conn
 from werkzeug.utils import secure_filename
 
@@ -13,7 +14,7 @@ about_blueprint = Blueprint("about_blueprint", __name__, url_prefix="/about")
 
 @about_blueprint.route("/")
 def view():
-    about = About.query.filter_by().first()
+    about = About.query.first() or default.About()
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(about.image)
@@ -104,6 +105,7 @@ def edit_about():
         url = (
             image.filename
             if "file" in request.files and image.filename != ""
+            else default.image
         )
         if image:
             image.filename = secure_filename(image.filename)
