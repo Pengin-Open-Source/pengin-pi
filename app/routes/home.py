@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from app.db.models.home import Home
 from app.db import db
 from flask_login import login_required
+from app.util.defaults import default
 from app.util.security import admin_permission
 from app.util.s3 import conn
 import logging
@@ -15,7 +16,7 @@ section_title = "Home"
 @home_blueprint.route("/index")
 @home_blueprint.route("/home")
 def home():
-    home = Home.query.first()
+    home = Home.query.first() or default.Home()
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
