@@ -21,7 +21,6 @@ def home():
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(home.image)
-        image = "/static/images/test.png"
     except ParamValidationError:
 
     if home:
