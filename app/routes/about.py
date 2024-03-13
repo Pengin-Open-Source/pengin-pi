@@ -19,8 +19,8 @@ def view():
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(about.image)
-        image = "/static/images/test.png"
     except ParamValidationError:
+        image = default.image
 
     if about:
         logging.info("Image S3 URL accessed:" + about.image)
@@ -46,8 +46,8 @@ def edit_about():
         about = About.query.first()
         try:
             image = conn.get_URL(about.image)
-            image = "/static/images/test.png"
         except ParamValidationError:
+            image = default.image
 
         logging.info("Image S3 URL accessed:" + about.image)
 
