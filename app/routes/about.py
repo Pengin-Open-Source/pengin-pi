@@ -6,6 +6,7 @@ from app.db import db
 from app.db.models import About
 from app.util.defaults import default
 from app.util.s3 import conn
+from botocore.exceptions import ParamValidationError
 from werkzeug.utils import secure_filename
 
 
@@ -18,8 +19,8 @@ def view():
     is_admin = admin_permission.can()
     try:
         image = conn.get_URL(about.image)
-    except:
         image = "/static/images/test.png"
+    except ParamValidationError:
 
     if about:
         logging.info("Image S3 URL accessed:" + about.image)
@@ -45,8 +46,8 @@ def edit_about():
         about = About.query.first()
         try:
             image = conn.get_URL(about.image)
-        except:
             image = "/static/images/test.png"
+        except ParamValidationError:
 
         logging.info("Image S3 URL accessed:" + about.image)
 
