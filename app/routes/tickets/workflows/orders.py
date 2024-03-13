@@ -80,7 +80,6 @@ def create_order():
 
 @order_info.route('/<order_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
 def edit_order(order_id):
     order = Orders.query.get_or_404(order_id)
     order_list = order.orders_list
@@ -126,6 +125,6 @@ def edit_order(order_id):
             name = User.query.filter_by(id=customer.user_id).first().name
             customers_with_names.append({customer: customer, name: name})
 
-    return render_template('tickets/workflows/sales_order_edit.html', products=products, primary_title='Edit Order',
+    return render_template('tickets/workflows/customer_order_edit.html', products=products, primary_title='Edit Order',
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)

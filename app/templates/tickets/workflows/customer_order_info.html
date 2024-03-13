@@ -1,9 +1,7 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageDropDowns %}
-  {% if is_admin %}
-    <a href="/orders/{{order.id}}/edit">Edit Order</a>
-  {% endif %}
+  <a href="/orders/{{order.id}}/edit">Edit</a>
 {% endblock %}
 
 {% block pageContent %}

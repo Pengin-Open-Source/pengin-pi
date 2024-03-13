@@ -4,7 +4,7 @@ from flask import Blueprint, abort, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from app.db import db
-from app.db.models import TicketComment, TicketForum, User
+from app.db.models import TicketComment, TicketForum, User, Orders, OrdersList
 from app.db.util import paginate
 from app.util.security import (admin_permission,
                                delete_ticket_comment_permission,
