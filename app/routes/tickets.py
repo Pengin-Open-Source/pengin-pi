@@ -29,7 +29,8 @@ def tickets():
         tickets = paginate(TicketForum, page=page, pages=20)
         # filter by company once company/customer model fixed
     else:
-        tickets = paginate(TicketForum, page=page, pages=20, filters={"resolution_status": status})
+        tickets = paginate(TicketForum, page=page, pages=20,
+                           filters={"resolution_status": status})
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
@@ -82,8 +83,7 @@ def ticket(ticket_id):
                        for j in tuple(set([comment.author_id
                                            for comment in comments]))}
 
-    return render_template('tickets/ticket.html',
-                           is_admin=admin_permission.can(), author=author,
+    return render_template('tickets/ticket.html', author=author,
                            can_delete_ticket=delete_ticket_permission,
                            can_delete_comment=delete_ticket_comment_permission,
                            can_edit_ticket=edit_ticket_permission,

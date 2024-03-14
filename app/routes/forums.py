@@ -30,17 +30,17 @@ def forums():
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-    
+
     # TODO: could've got all unique threads whose role is in current_user's roles with a complex query alone
     if is_admin:
         threads = Thread.query.all()
-    else:    
+    else:
         for role in current_user.roles:
             role_thread_ids = (
-                            ThreadRoles.query
-                            .with_entities(ThreadRoles.thread_id)
-                            .filter_by(role_id=role.id).all()
-                            )
+                ThreadRoles.query
+                .with_entities(ThreadRoles.thread_id)
+                .filter_by(role_id=role.id).all()
+            )
             thread_ids.extend(role_thread_ids)
 
         # Removes duplicates. TODO: return in ordered list
@@ -48,11 +48,11 @@ def forums():
         for thread_id_tuple in unique_thread_ids:
             thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
             threads.append(thread)
-    
+
     threads = paginate(Thread, page=page, key="name", pages=10)
 
     return render_template('forums/threads.html', primary_title='Forum',
-                            threads=threads, is_admin=is_admin)
+                           threads=threads)
 
 
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
@@ -70,13 +70,13 @@ def create_thread():
     if request.method == 'POST':
         thread = request.form.get('thread')
         role_id = request.form.get('role')
-        #role_id = Role.query.filter_by(name=role).first().id
+        # role_id = Role.query.filter_by(name=role).first().id
         thread_id = id()
         new_thread = Thread(id=thread_id, name=thread)
         db.session.add(new_thread)
         new_threadrole = ThreadRoles(thread_id=thread_id, role_id=role_id)
         db.session.add(new_threadrole)
-        db.session.commit()        
+        db.session.commit()
 
         return redirect(url_for("forums_blueprint.forums"))
     roles = Role.query.all()
@@ -96,11 +96,10 @@ def thread(thread_id):
     thread = Thread.query.filter_by(id=thread_id).first()
 
     return render_template('forums/thread.html',
-                           is_admin=admin_permission.can(),
                            can_delete=delete_post_permission,
                            can_edit=edit_post_permission,
-                           thread_id=thread_id, posts=posts, 
-                           current_user=current_user , primary_title=thread.name)
+                           thread_id=thread_id, posts=posts,
+                           current_user=current_user, primary_title=thread.name)
 
 
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
@@ -165,8 +164,7 @@ def post(post_id, thread_id):
                        for j in tuple(set([comment.author
                                            for comment in comments]))}
 
-    return render_template('forums/post.html', comment_authors=comment_authors,
-                           is_admin=admin_permission.can(), post_id=post_id,
+    return render_template('forums/post.html', comment_authors=comment_authors, post_id=post_id,
                            can_delete_comment=delete_comment_permission,
                            can_edit_comment=edit_comment_permission,
                            can_delete_post=edit_post_permission,

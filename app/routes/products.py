@@ -23,9 +23,10 @@ def products():
     for product in products:
         product.card_image_url = conn.get_URL(product.card_image_url)
 
-    return render_template('products/products.html', is_admin=is_admin,
+    return render_template('products/products.html',
                            products=products, page=page,
                            primary_title='Products')
+
 
 @product_blueprint.route('/<product_id>')
 def product(product_id):
@@ -33,7 +34,8 @@ def product(product_id):
     product = Product.query.filter_by(id=product_id).first()
     product.stock_image_url = conn.get_URL(product.stock_image_url)
 
-    return render_template('products/product.html', is_admin=is_admin, product=product, page=1, primary_title=product.name)
+    return render_template('products/product.html', product=product, page=1, primary_title=product.name)
+
 
 @product_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -52,15 +54,14 @@ def create_product():
         large_url = large_file.filename if "file-large" in request.files and large_file.filename != "" else '/static/images/test.png'
         small_url = small_file.filename if "file-small" in request.files and small_file.filename != "" else '/static/images/test.png'
 
-        
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
-            large_url = conn.create(large_file)  
+            large_url = conn.create(large_file)
 
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
             small_url = conn.create(small_file)
-                
+
         product = Product(name=name, price=price, description=description, tags=tags,
                           card_image_url=small_url, stock_image_url=large_url)
 
@@ -77,7 +78,6 @@ def create_product():
 @admin_permission.require()
 def edit_product(id):
     product = Product.query.filter_by(id=id).first()
-    
 
     if request.method == 'POST':
         product.name = request.form.get('name')
@@ -88,13 +88,13 @@ def edit_product(id):
         # Image create handling
         large_file = request.files["file-large"]
         small_file = request.files["file-small"]
-        
+
         if large_file:
             large_file.filename = secure_filename(large_file.filename)
             large = conn.create(large_file)
         else:
             large = product.stock_image_url
-        
+
         if small_file:
             small_file.filename = secure_filename(small_file.filename)
             small = conn.create(small_file)

@@ -16,7 +16,7 @@ def get_orders():
 @order_info.route("/")
 def display_orders_home():
     return render_template('order_info/order_info_main.html', primary_title='Orders',
-                           orders=get_orders(), is_admin=admin_permission.can())
+                           orders=get_orders())
 
 
 @order_info.route('/<order_id>')
@@ -36,14 +36,17 @@ def create_order():
         customer_id = request.form.get('customer_id')
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
-        orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
+        orders = [{'product': product, 'qty': qty}
+                  for product, qty in dict(zip(product_id, quantity)).items()]
         order_id = ID()
 
-        new_order = Orders(id=order_id, order_date=order_date, customer_id=customer_id)
+        new_order = Orders(id=order_id, order_date=order_date,
+                           customer_id=customer_id)
         db.session.add(new_order)
 
         for order in orders:
-            new_order_list = OrdersList(quantity=order['qty'], orders_id=order_id, product_id=order['product'])
+            new_order_list = OrdersList(
+                quantity=order['qty'], orders_id=order_id, product_id=order['product'])
             db.session.add(new_order_list)
         db.session.commit()
 
@@ -74,7 +77,8 @@ def edit_order(order_id):
     customer = Customer.query.filter_by(id=order.customer_id).first()
 
     if customer.company_id:
-        customer_name = Company.query.filter_by(id=customer.company_id).first().name
+        customer_name = Company.query.filter_by(
+            id=customer.company_id).first().name
     elif customer.user_id:
         customer_name = User.query.filter_by(id=customer.user_id).first().name
 
@@ -85,7 +89,8 @@ def edit_order(order_id):
         product_ids = request.form.getlist('product_id')
         quantities = request.form.getlist('quantity')
         order_list_ids = request.form.getlist('order-list-id')
-        order_list_update = dict(zip(order_list_ids, zip(quantities, product_ids)))
+        order_list_update = dict(
+            zip(order_list_ids, zip(quantities, product_ids)))
 
         for k, v in order_list_update.items():
             order_list = OrdersList.query.filter_by(id=k).first()
