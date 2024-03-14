@@ -1,7 +1,9 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+import datetime
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
+from app.db.models.orders import OrderChangeRequest
 from app.util.uuid import id as ID
 from app.db.models import Orders, OrdersList, Product, Customer, User, Company
 
@@ -91,21 +93,30 @@ def edit_order(order_id):
         customer_name = User.query.filter_by(id=customer.user_id).first().name
 
     if request.method == 'POST':
-        order.order_date = request.form.get('order_date')
-        order.customer_id = request.form.get('customer_id')
+        new_order_date = request.form.get('order_date')
+        new_customer_id = request.form.get('customer_id')
+        new_product_ids = request.form.getlist('product_id')
+        new_quantities = request.form.getlist('quantity')
 
-        product_ids = request.form.getlist('product_id')
-        quantities = request.form.getlist('quantity')
-        order_list_ids = request.form.getlist('order-list-id')
-        order_list_update = dict(zip(order_list_ids, zip(quantities, product_ids)))
+        change_request = OrderChangeRequest(
+            order_id=order_id,
+            order_date=new_order_date,
+            customer_id=new_customer_id,
+            timestamp=datetime.now(),
+            user_id=current_user.id
+        )
 
-        for k, v in order_list_update.items():
-            order_list = OrdersList.query.filter_by(id=k).first()
-            order_list.quantity = v[0]
-            order_list.product_id = v[1]
+        db.session.add(change_request)
+        db.session.commit()
+
+        for order_list_id, product_id, quantity in zip(request.form.getlist('order-list-id'), new_product_ids, new_quantities):
+            order_list = OrdersList.query.get_or_404(order_list_id)
+            order_list.quantity = quantity
+            order_list.product_id = product_id
 
         db.session.commit()
 
+        flash('Your order change request has been submitted for review.', 'success')
         return redirect(url_for("order_info.display_order_info",
                                 order_id=order_id))
 

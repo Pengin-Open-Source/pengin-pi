@@ -30,6 +30,8 @@ class OrderChangeRequest(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     data = db.Column(db.String(255))
     order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    order_date = db.Column(db.DateTime(timezone=True))
+    customer_id = db.Column(db.String(36), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
     user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 
