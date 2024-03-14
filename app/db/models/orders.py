@@ -17,14 +17,6 @@ class Orders(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(timezone=True), nullable=True)
     
-class OrderHistory(db.Model):
-    __tablename__ = 'order_history'
-    id = db.Column(db.String(36), default=ID, primary_key=True)
-    data = db.Column(db.String(255))
-    order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
-    timestamp = db.Column(db.DateTime(timezone=True))
-    user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-
 class OrderChangeRequest(db.Model):
     __tablename__ = 'order_change_request'
     id = db.Column(db.String(36), default=ID, primary_key=True)
@@ -39,6 +31,14 @@ class OrdersList(db.Model):
     __tablename__ = 'orders_list'
     id = db.Column(db.String(36), default=ID, primary_key=True)
     quantity = db.Column(db.Integer)
+
+class OrderHistory(db.Model):
+    __tablename__ = 'order_history'
+    id = db.Column(db.String(36), default=ID, primary_key=True)
+    data = db.Column(db.String(255))
+    order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 
 
 class ShippingAddress(db.Model):

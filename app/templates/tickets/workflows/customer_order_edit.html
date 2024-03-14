@@ -2,7 +2,7 @@
 
 {% block pageContent %}
 <p>Use this form to create a ticket to request changes to your order. Your changes will be reviewed by a sales administrator before going into effect.</p>
-  <form class="form" method="POST" action="/tickets/{{order.id}}/edit-order-request">
+  <form class="form" method="POST" action="/orders/{{order.id}}/edit">
     <div class="flex-between">
       <div class="form-section">
         <label for="customer">Customer ID</label>

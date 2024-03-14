@@ -82,10 +82,20 @@ Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
 Orders.order_history = db.relationship('OrderHistory', back_populates='order')
 Orders.order_change_request = db.relationship('OrderChangeRequest', back_populates='order')
-#OrderHistory
-OrderHistory.order = db.relationship('Orders', back_populates='order_history')
+
 #OrderChangeRequest
 OrderChangeRequest.order = db.relationship('Orders', back_populates='order_change_request')
+OrderChangeRequest.orders_list = db.relationship('OrdersList')
+
+#OrdersList
+OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
+OrdersList.order_change_request_id = db.Column(db.String(36), db.ForeignKey('order_change_request.id'))
+OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+#OrderHistory
+OrderHistory.order = db.relationship('Orders', back_populates='order_history')
+
+
 #Contracts
 Contracts.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
@@ -125,9 +135,6 @@ TicketComment.ticket_id = db.Column(db.String(36), db.ForeignKey('ticket_forum.i
                                                 ondelete='CASCADE'))
 TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                 ondelete='CASCADE'))
-#OrdersList
-OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
-OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 # Message
 Message.author_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)

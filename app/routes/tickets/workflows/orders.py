@@ -1,9 +1,10 @@
-import datetime
+from datetime import datetime
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
 from app.db.models.orders import OrderChangeRequest
+from app.db.models.ticket import TicketForum
 from app.util.uuid import id as ID
 from app.db.models import Orders, OrdersList, Product, Customer, User, Company
 
@@ -37,8 +38,6 @@ def display_orders_home():
 def display_order_info(order_id):
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
-    print('products:', products)
-    print('order:', order)
 
     return render_template('tickets/workflows/customer_order_info.html', order=order, products=products)
 
@@ -109,16 +108,32 @@ def edit_order(order_id):
         db.session.add(change_request)
         db.session.commit()
 
-        for order_list_id, product_id, quantity in zip(request.form.getlist('order-list-id'), new_product_ids, new_quantities):
-            order_list = OrdersList.query.get_or_404(order_list_id)
-            order_list.quantity = quantity
-            order_list.product_id = product_id
+        for product_id, quantity in zip(new_product_ids, new_quantities):
+            # create a new OrdersList object for each product
+            new_order_list = OrdersList(
+                quantity=quantity,
+                product_id=product_id,
+                order_change_request_id=change_request.id  # associate with the new OrderChangeRequest
+            )
+            db.session.add(new_order_list)
+        
+        db.session.commit()
 
+        ticket_summary = f"Order Change Request - Order ID: {order_id}"
+        ticket_content = f"Changes to Order ID {order_id} pending approval. Please review and approve or reject the changes."
+
+        ticket = TicketForum(
+            summary=ticket_summary,
+            content=ticket_content,
+            tags="order-change-request"
+        )
+
+        db.session.add(ticket)
         db.session.commit()
 
         flash('Your order change request has been submitted for review.', 'success')
         return redirect(url_for("order_info.display_order_info",
-                                order_id=order_id))
+                                order_id=order.id))
 
     products = Product.query.all()
     customers = Customer.query.all()
