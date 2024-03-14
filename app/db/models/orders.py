@@ -20,9 +20,18 @@ class Orders(db.Model):
 class OrderHistory(db.Model):
     __tablename__ = 'order_history'
     id = db.Column(db.String(36), default=ID, primary_key=True)
-    old_data = db.Column(db.String(255))
+    data = db.Column(db.String(255))
     order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+
+class OrderChangeRequest(db.Model):
+    __tablename__ = 'order_change_request'
+    id = db.Column(db.String(36), default=ID, primary_key=True)
+    data = db.Column(db.String(255))
+    order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    timestamp = db.Column(db.DateTime(timezone=True))
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 
 class OrdersList(db.Model):
     __tablename__ = 'orders_list'
