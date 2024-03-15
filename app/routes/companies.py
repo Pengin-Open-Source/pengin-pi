@@ -9,7 +9,7 @@ company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
 
 
-# Filtered for current_user
+# Filtered for current user & using paginate_join
 #@company_info.route("/")
 #@login_required
 #def display_companies_home():
@@ -28,33 +28,37 @@ admin_permission = Permission(RoleNeed('admin'))
                            #companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
 
 
-# -- display_companies_home() --
-# TO-DO: 
-# Rheck to see if handles next page (passed 10 queries)
-# Re-visit for custom-pagination from db util
-# TO-D0_2:
-# Check
-@company_info.route("/")
+# COMMENTS: 
+# 1. Check to see if handles next page (passed 10 queries)
+# 2. Re-do to use paginate_join from db util instead of flask built-in paginate? 
+# 3. admin_permissions.can() within function, inconsistency with admin decorator 
+        
+
+@company_info.route("/", methods=['GET', 'POST'])
 @login_required
 def display_companies_home():
-    if admin_permission.can():
+    def handle_admin_view():
         if request.method == "POST":
             page = int(request.form.get('page_number', 1))
         else:
             page = 1
-
-        # Using direct pagination on Company model,
         companies = Company.query.paginate(page=page, per_page=10, error_out=False)
-
         return render_template('company_info/company_info_main.html',
-                            companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
-    else:
+                               companies=companies, is_admin=True, primary_title='Companies')
+
+    def handle_user_view():
         member_company = CompanyMembers.query.filter_by(user_id=current_user.id).first()
         if member_company:
-            # If the user is a member of a company, redirect to that company's info
             return redirect(url_for('company_info.display_company_info', company_id=member_company.company_id))
-        else:
-            return render_template('company_info/no_company.html')
+        return render_template('company_info/no_company.html')
+
+    # Check if the user is an admin early on to keep logic straightforward
+    is_admin = admin_permission.can()
+
+    if is_admin:
+        return handle_admin_view()
+    else:
+        return handle_user_view()
 
 
 
