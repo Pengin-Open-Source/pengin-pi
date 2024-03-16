@@ -58,7 +58,7 @@ def signup_post():
 
         return redirect(url_for('auth.signup'))
     new_user = User(email=email, name=name,
-                    password=generate_password_hash(password, method='sha256'),
+                    password=generate_password_hash(password, method='pbkdf2:sha256:600000'),
                     validation_date=datetime.utcnow())
     db.session.add(new_user)
     db.session.commit()
@@ -142,7 +142,7 @@ def reset_password_post(token):
         
         user.prt_consumption_date = datetime.utcnow()
         user.password = generate_password_hash(new_password,
-                                                method='sha256')
+                                                method='pbkdf2:sha256:600000')
         db.session.commit()
         return redirect(url_for('auth.login'))
     
