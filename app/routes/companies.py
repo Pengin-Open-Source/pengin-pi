@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for, flash
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
@@ -7,31 +7,6 @@ from app.util.security.limit import limiter
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
-
-
-# Filtered for current user & using paginate_join
-#@company_info.route("/")
-#@login_required
-#def display_companies_home():
-    #if request.method == "POST":
-        #page = int(request.form.get('page_number', 1))
-    #else:
-        #page = 1
-
-    #companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
-                              #pages=10, filters={'user_id': current_user.id})
-
-    #print(companies)
-    #print(companies.items)
-
-    #return render_template('company_info/company_info_main.html',
-                           #companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
-
-
-# COMMENTS: 
-# 1. Check to see if handles next page (passed 10 queries)
-# 2. Re-do to use paginate_join from db util instead of flask built-in paginate? 
-# 3. admin_permissions.can() within function, inconsistency with admin decorator 
         
 
 @company_info.route("/", methods=['GET', 'POST'])
@@ -52,15 +27,12 @@ def display_companies_home():
             return redirect(url_for('company_info.display_company_info', company_id=member_company.company_id))
         return render_template('company_info/no_company.html')
 
-    # Check if the user is an admin early on to keep logic straightforward
     is_admin = admin_permission.can()
 
     if is_admin:
         return handle_admin_view()
     else:
         return handle_user_view()
-
-
 
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
@@ -150,10 +122,6 @@ def edit_company_info_post(company_id):
     return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
 
 
-# TO-DO: 
-# Current functionality displays per page the amount of checked members from members/edit route
-# i.e., 3 out of 10 total members present in company for page 1, thus displaying only 3 members
-# i.e., 6 out of 10 total members present in company for page 2, thus displaying only 6 members
 @company_info.route('/<company_id>/members', methods=['GET', 'POST'])
 @login_required
 def display_company_members(company_id):
