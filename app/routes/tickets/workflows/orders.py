@@ -156,3 +156,55 @@ def edit_order(order_id):
     return render_template('tickets/workflows/customer_order_edit.html', products=products, primary_title='Edit Order',
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
+
+@order_info.route('/<order_id>/cancel', methods=['GET', 'POST'])
+@login_required
+def cancel_order(order_id):
+    order = Orders.query.get_or_404(order_id)
+    order_list = order.orders_list
+    customer = Customer.query.filter_by(id=order.customer_id).first()
+
+    if customer.company_id:
+        customer_name = Company.query.filter_by(id=customer.company_id).first().name
+    elif customer.user_id:
+        customer_name = User.query.filter_by(id=customer.user_id).first().name
+
+    if request.method == 'POST':
+
+        ticket_summary = f"Cancel Order Request - Order ID: {order_id}"
+        ticket_content = f"Cancellation of Order ID {order_id} pending approval. Please review and approve or reject the cancellation."
+
+        ticket = TicketForum(
+            summary=ticket_summary,
+            content=ticket_content,
+            date=datetime.now(),
+            user_id=current_user.id,
+            tags="cancel-order-request"
+        )
+
+        db.session.add(ticket)
+        db.session.commit()
+
+        flash('Your request to cancel this order has been submitted for review.', 'success')
+        return redirect(url_for("order_info.display_order_info",
+                                order_id=order.id))
+
+    products = Product.query.all()
+    customers = Customer.query.all()
+    customers_with_names = []
+    product_names_by_id = {}
+
+    for product in products:
+        product_names_by_id[product.id] = product.name
+
+    for customer in customers:
+        if customer.company_id:
+            name = Company.query.filter_by(id=customer.company_id).first().name
+            customers_with_names.append({'customer': customer, 'name': name})
+        elif customer.user_id:
+            name = User.query.filter_by(id=customer.user_id).first().name
+            customers_with_names.append({customer: customer, name: name})
+
+    return render_template('tickets/workflows/customer_order_edit.html', products=products, primary_title='Edit Order',
+                           customers_with_names=customers_with_names, order=order,
+                           order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
