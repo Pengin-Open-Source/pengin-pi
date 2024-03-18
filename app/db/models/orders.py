@@ -1,3 +1,4 @@
+from copyreg import constructor
 from app.db import db
 from app.db.models.ticket import TicketForum
 from app.util.uuid import id as ID
@@ -58,21 +59,29 @@ class Customer(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     date = db.Column(db.DateTime(timezone=True), nullable=True)
 
+@constructor
+def init_on_load(self):
+    # Initialize any additional attributes that should be included in the after_update listener
+    self._original_data = {}
+
 def after_update_listener(mapper, connection, target):
     print('after_update_listener')
-    old_data = {column.name: getattr(target, column.name) for column in mapper.columns}
-    order_history = OrderHistory(order_id=target.id, timestamp=datetime.now(timezone.utc), old_data=str(old_data))
+    if hasattr(target, '_original_data'):
+        new_data = {column.name: getattr(target, column.name) for column in mapper.columns}
+        old_data = target._original_data
+        
+        # Check if there are any changes in the order data
+        if new_data != old_data:
+            order_history = OrderHistory(
+                order_id=target.id,
+                timestamp=datetime.now(timezone.utc),
+                old_data=str(old_data),
+                new_data=str(new_data)
+            )
+            db.session.add(order_history)
+            db.session.commit()
 
-    ticket_summary = f"Order Change Request - Order ID: {target.id}"
-    ticket_content = f"Changes to Order ID {target.id} pending approval. Please review and approve or reject the changes."
-
-    ticket = TicketForum(
-        summary=ticket_summary,
-        content=ticket_content,
-        tags="order-change-request"
-    )
-
-    db.session.add_all([order_history, ticket])
-    db.session.commit()
+            # Reset the original data to the new data
+            target._original_data = new_data
 
 listen(Orders, 'after_update', after_update_listener)

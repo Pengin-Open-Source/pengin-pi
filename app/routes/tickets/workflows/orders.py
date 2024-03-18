@@ -3,7 +3,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 from app.db import db
-from app.db.models.orders import OrderChangeRequest
+from app.db.models.orders import OrderChangeRequest, OrderHistory
 from app.db.models.ticket import TicketForum
 from app.util.uuid import id as ID
 from app.db.models import Orders, OrdersList, Product, Customer, User, Company
@@ -220,13 +220,26 @@ def review_order(order_id):
 
     return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products)
 
-@order_info.route('/<order_id>/approve_order_changes', methods=['GET', 'POST'])
+@order_info.route('/<order_id>/approve-order-changes', methods=['GET', 'POST'])
 @login_required
 def approve_order_changes(order_id):
     order = Orders.query.get_or_404(order_id)
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
 
     if request.method == 'POST':
-        pass
+        if order_change_request:
+            order.order_date = order_change_request.order_date
+            order.customer_id = order_change_request.customer_id
+            order.orders_list = order_change_request.orders_list
+
+            db.session.delete(order_change_request)
+            db.session.commit()
+
+            flash('Order changes approved successfully.', 'success')
+            return redirect(url_for("order_info.display_order_info", order_id=order_id))
+        
+        else:
+            flash('No order change request found for this order.', 'error')
+            return redirect(url_for("order_info.display_order_info", order_id=order_id))
 
     return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order, order_change_request=order_change_request)
