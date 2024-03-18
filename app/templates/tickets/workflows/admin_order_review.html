@@ -32,6 +32,7 @@
     </table>
   </div>
 {% endif %}
+{% if request_type == 'order-change-request' %}
 <div class="post-container">
   <h2>Requested Changes</h2>
   <h4>Order Change Request ID: {{order_change_request.id|e}}</h4>
@@ -63,8 +64,14 @@
       <button type="submit">Approve Changes</button>
     </form>
   </div>
-
   {% endif %}
+</div>
+{% endif %}
 
+{% if request_type == 'order-cancel-request' %}
+  <form class="form" action="/orders/{{order.id}}/approve-order-cancel" method="POST">
+    <button type="submit">Cancel Order</button>
+  </form>
+{% endif %}
 </div>
 {% endblock %}

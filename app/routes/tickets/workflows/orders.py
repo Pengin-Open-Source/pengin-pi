@@ -212,13 +212,17 @@ def cancel_order(order_id):
 @order_info.route('/<order_id>/review')
 @login_required
 def review_order(order_id):
+    request_type = request.args.get('type')
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
 
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
-    order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
+    order_change_request_products = {}
 
-    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products)
+    if order_change_request:
+        order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
+
+    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products, request_type=request_type)
 
 @order_info.route('/<order_id>/approve-order-changes', methods=['GET', 'POST'])
 @login_required
