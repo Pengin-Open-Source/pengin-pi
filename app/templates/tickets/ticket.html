@@ -27,7 +27,13 @@
 
 {% block tableContent %}
   {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/tickets/delete/ticket-comment/{{comment.id}}", "/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}") }}
+  {% if ticket.tags == 'order-change-request'%}
+    <a><button>Review Changes</button></a>
+  {% elif ticket.tags == 'order-cancel-request' %}
+    <a><button>Review Order</button></a>
+  {% endif %}
 {% endblock %}
+
 
 {% block postTableContent %}
   {{ comment_form.render_comment_form("ticket", "/tickets/{{ticket.id}}") }}

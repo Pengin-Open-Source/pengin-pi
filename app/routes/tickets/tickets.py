@@ -81,7 +81,7 @@ def ticket(ticket_id):
     comment_authors = {j: User.query.filter_by(id=j).first().name
                        for j in tuple(set([comment.author_id
                                            for comment in comments]))}
-
+    
     return render_template('tickets/ticket.html',
                            is_admin=admin_permission.can(), author=author,
                            can_delete_ticket=delete_ticket_permission,

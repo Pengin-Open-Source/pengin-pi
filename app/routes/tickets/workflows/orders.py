@@ -179,7 +179,7 @@ def cancel_order(order_id):
             content=ticket_content,
             date=datetime.now(),
             user_id=current_user.id,
-            tags="cancel-order-request"
+            tags="order-cancel-request"
         )
 
         db.session.add(ticket)
