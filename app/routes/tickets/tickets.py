@@ -61,7 +61,7 @@ def create_ticket():
 
 @ticket_blueprint.route("/<ticket_id>", methods=['GET', 'POST'])
 @login_required
-@user_permission.require()
+# @user_permission.require()
 def ticket(ticket_id):
     if request.method == 'POST':
         content = request.form.get('content')

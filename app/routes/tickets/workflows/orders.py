@@ -125,6 +125,8 @@ def edit_order(order_id):
         ticket = TicketForum(
             summary=ticket_summary,
             content=ticket_content,
+            date=datetime.now(),
+            user_id=current_user.id,
             tags="order-change-request"
         )
 
