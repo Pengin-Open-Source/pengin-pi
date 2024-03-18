@@ -59,6 +59,9 @@
         {% endfor %}
       </tbody>
     </table>
+    <form class="form" action="/orders/{{order_id}}/approve_order_changes" method="POST">
+      <button type="submit">Approve Changes</button>
+    </form>
   </div>
 
   {% endif %}

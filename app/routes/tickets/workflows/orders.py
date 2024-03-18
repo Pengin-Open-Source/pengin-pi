@@ -41,16 +41,6 @@ def display_order_info(order_id):
 
     return render_template('tickets/workflows/customer_order_info.html', order=order, products=products)
 
-@order_info.route('/<order_id>/review')
-@login_required
-def review_order(order_id):
-    order = Orders.query.get_or_404(order_id)
-    products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
-
-    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
-    order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
-
-    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products)
 
 @order_info.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -218,3 +208,25 @@ def cancel_order(order_id):
     return render_template('tickets/workflows/customer_order_edit.html', products=products, primary_title='Edit Order',
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
+
+@order_info.route('/<order_id>/review')
+@login_required
+def review_order(order_id):
+    order = Orders.query.get_or_404(order_id)
+    products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
+
+    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
+    order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
+
+    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products)
+
+@order_info.route('/<order_id>/approve_order_changes', methods=['GET', 'POST'])
+@login_required
+def approve_order_changes(order_id):
+    order = Orders.query.get_or_404(order_id)
+    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
+
+    if request.method == 'POST':
+        pass
+
+    return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order, order_change_request=order_change_request)
