@@ -1,0 +1,67 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns %}
+{% endblock %}
+
+{% block pageContent %}
+<div class="post-container">
+  <h2>Original Order</h2>
+  <h4>Order ID: {{order.id|e}}</h4>
+  <p>Customer ID: {{order.customer_id|e}}</p>
+  <p>Order Date: {{order.order_date.strftime('%B %d, %Y')|e }}</p>
+  
+  {% if order.orders_list %}
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.orders_list %}
+        <tr>
+          {% set product = products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+<div class="post-container">
+  <h2>Requested Changes</h2>
+  <h4>Order Change Request ID: {{order_change_request.id|e}}</h4>
+  <p>Customer ID: {{order_change_request.customer_id|e}}</p>
+  <p>User Requesting Change: {{order_change_request.user_id|e}}</p>
+  <p>Request Date: {{order_change_request.timestamp.strftime('%B %d, %Y')|e }}</p>
+  
+  {% if order_change_request.orders_list %}
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order_change_request.orders_list %}
+        <tr>
+          {% set product = order_change_request_products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}

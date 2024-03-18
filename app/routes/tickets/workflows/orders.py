@@ -41,6 +41,16 @@ def display_order_info(order_id):
 
     return render_template('tickets/workflows/customer_order_info.html', order=order, products=products)
 
+@order_info.route('/<order_id>/review')
+@login_required
+def review_order(order_id):
+    order = Orders.query.get_or_404(order_id)
+    products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
+
+    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
+    order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
+
+    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products)
 
 @order_info.route('/create', methods=['GET', 'POST'])
 @login_required

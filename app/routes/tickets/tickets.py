@@ -1,4 +1,5 @@
 from datetime import date
+import re
 
 from flask import Blueprint, abort, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
@@ -82,6 +83,10 @@ def ticket(ticket_id):
                        for j in tuple(set([comment.author_id
                                            for comment in comments]))}
     
+    order_id_match = re.search(r'Order ID: ([\w-]+)', ticket.summary)
+    order_id = order_id_match.group(1) if order_id_match else None
+    order = Orders.query.filter_by(id=order_id).first()
+    
     return render_template('tickets/ticket.html',
                            is_admin=admin_permission.can(), author=author,
                            can_delete_ticket=delete_ticket_permission,
@@ -89,7 +94,9 @@ def ticket(ticket_id):
                            can_edit_ticket=edit_ticket_permission,
                            can_edit_comment=edit_ticket_comment_permission,
                            comment_authors=comment_authors, ticket=ticket,
-                           comments=comments, primary_title='Ticket')
+                           comments=comments,
+                           order=order,
+                           primary_title='Ticket')
 
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
