@@ -84,21 +84,4 @@ def after_update_listener(mapper, connection, target):
             # Reset the original data to the new data
             target._original_data = new_data
 
-def after_delete_listener(mapper, connection, target):
-    orders_list = OrdersList.query.filter_by(order_id=target.id).all()
-    orders_list_data = [{'product_id': item.product_id, 'quantity': item.quantity} for item in orders_list]
-
-    order_history_entry = OrderHistory(
-        order_id=target.id,
-        timestamp=datetime.now(timezone.utc),
-        data={
-            'order_date': target.order_date,
-            'customer_id': target.customer_id,
-            'orders_list': orders_list_data,
-        }
-    )
-    db.session.add(order_history_entry)
-    db.session.commit()
-
 listen(Orders, 'after_update', after_update_listener)
-listen(Orders, 'after_delete', after_delete_listener)

@@ -247,3 +247,24 @@ def approve_order_changes(order_id):
             return redirect(url_for("order_info.display_order_info", order_id=order_id))
 
     return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order, order_change_request=order_change_request)
+
+@order_info.route('/<order_id>/approve-order-cancel', methods=['GET', 'POST'])
+@login_required
+def approve_order_cancel(order_id):
+    order = Orders.query.get_or_404(order_id)
+
+    if request.method == 'POST':        
+
+        new_order_history = OrderHistory(
+            order_id=order.id,
+            timestamp=datetime.now(),
+            user_id=current_user.id
+        )
+
+        db.session.add(new_order_history)
+        db.session.commit()
+
+        flash('Order cancelled successfully.', 'success')
+        return redirect(url_for("order_info.display_orders_home"))
+
+    return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order)
