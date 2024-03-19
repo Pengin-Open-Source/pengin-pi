@@ -7,6 +7,7 @@ from app.db.models.orders import OrderChangeRequest, OrderHistory
 from app.db.models.ticket import TicketForum
 from app.util.uuid import id as ID
 from app.db.models import Orders, OrdersList, Product, Customer, User, Company
+from app.util.security import (admin_permission, user_permission)
 
 order_info = Blueprint('order_info', __name__, url_prefix="/orders")
 admin_permission = Permission(RoleNeed('admin'))
@@ -17,6 +18,7 @@ def get_orders():
 
 @order_info.route("/")
 @login_required
+@user_permission.require()
 def display_orders_home():
     is_cancelled = request.args.get('is_cancelled')
 
@@ -41,6 +43,7 @@ def display_orders_home():
 
 @order_info.route('/<order_id>')
 @login_required
+@user_permission.require()
 def display_order_info(order_id):
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
@@ -50,6 +53,7 @@ def display_order_info(order_id):
 
 @order_info.route('/create', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def create_order():
     if request.method == 'POST':
         order_date = request.form.get('order_date')
@@ -92,6 +96,7 @@ def create_order():
 
 @order_info.route('/<order_id>/edit', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def edit_order(order_id):
     order = Orders.query.get_or_404(order_id)
     order_list = order.orders_list
@@ -170,6 +175,7 @@ def edit_order(order_id):
 
 @order_info.route('/<order_id>/cancel', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def cancel_order(order_id):
     order = Orders.query.get_or_404(order_id)
     order_list = order.orders_list
