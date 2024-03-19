@@ -10,6 +10,12 @@ instance
 .vscode
 .env
 /env
+containers.json
+public-endpoint.json
+app/static/robots.txt
+app/static/sitemap.xml
 *.DS_Store
 migrations
 Favicon.png
+/venv_311
+.idea

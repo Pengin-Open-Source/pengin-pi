@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
-from flask_login import current_user, login_required
+from flask_login import login_required
 from flask_principal import Permission, RoleNeed
-
 from app.db import db
 from app.db.models import BlogPost
 from app.db.util import paginate
@@ -59,8 +58,7 @@ def edit_post(post_id):
     else:
         page = 1
 
-    posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts, is_admin=admin_permission.can())
+    return render_template('blog/edit.html', post=post, is_admin=admin_permission.can())
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -81,5 +79,4 @@ def create_post():
     else:
         page = 1
 
-    posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/create.html', newPost=1, posts=posts)
+    return render_template('blog/create.html', newPost=1)

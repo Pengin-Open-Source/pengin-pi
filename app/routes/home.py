@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from app.db.models.home import Home
+from app.db.models.customer import User
 from app.db import db
 from flask_login import login_required
 from app.util.defaults import default
@@ -11,6 +12,7 @@ from botocore.exceptions import ParamValidationError
 
 home_blueprint = Blueprint("home_blueprint", __name__)
 section_title = "Home"
+
 
 
 @home_blueprint.route("/")
@@ -64,7 +66,7 @@ def home_edit():
 
             db.session.commit()
 
-            return redirect(url_for("home_blueprint.home"))
+        return redirect(url_for("home_blueprint.home"))
 
         return render_template(
             "home/edit.html",
