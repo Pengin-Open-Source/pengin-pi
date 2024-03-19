@@ -8,10 +8,9 @@
 {% block pageContent %}
   <p>Please click on a link below to view a specific company's information.</p>
   <ul class="company-list">
-    {% for company in companies %}
+    {% for company in companies.items %}
       <li><a href="/company/{{ company.id }}">{{ company.name|e }}</a></li>
     {% endfor %}
   </ul>
   {{ pagination.render_pagination(companies, "") }}
 {% endblock %}
-

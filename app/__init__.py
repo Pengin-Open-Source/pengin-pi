@@ -39,7 +39,7 @@ commonmark = Commonmark()
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-
+    
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
