@@ -17,8 +17,9 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_comment_need, edit_post_need,
                                edit_ticket_comment_need, edit_ticket_need,
                                edit_status_need, 
-                               contact_applicant_need,
-                               reject_applicant_need, delete_applicant_need)
+                               accept_applicant_need,
+                               reject_applicant_need, delete_applicant_need,
+                               my_applications_need)
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -105,12 +106,15 @@ def create_app():
                     )
 
             if hasattr(current_user, 'applications'):
+                identity.provides.add(
+                    my_applications_need(current_user.id)
+                    )
                 for application in current_user.applications:
                     identity.provides.add(
                         edit_status_need(application.id)
                     )
                     identity.provides.add(
-                        contact_applicant_need(application.id)
+                        accept_applicant_need(application.id)
                     )
                     identity.provides.add(
                         reject_applicant_need(application.id)

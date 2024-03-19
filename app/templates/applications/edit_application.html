@@ -5,27 +5,29 @@
 <form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/edit-status">
   <label for="status_code">Change Status:</label>
   <select name="status_code" id="status_code">
-    <option value="pending" {% if application.status_code.value == 'pending' %}selected{% endif %}>Pending</option>
-    <option value="accepted" {% if application.status_code.value == 'accepted' %}selected{% endif %}>Accepted</option>
-    <option value="rejected" {% if application.status_code.value == 'rejected' %}selected{% endif %}>Rejected</option>
+    <option value="pending">Pending</option>
+    <option value="accepted">Accepted</option>
+    <option value="rejected">Rejected</option>
   </select>
   <br><br>
   <button type="submit">Update</button>
 </form>
 <br><br>
+<h2>Accept</h2>
 <form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/accept">
   <label for="accept-subject">Subject</label><br>
   <input id="accept-subject" name="accept-subject" type="text" value="Thank you for your application!"><br>
   <label for="accept-body" >Message</label> <br>
-  <textarea id="accept-body" name="accept-body">Thank you for your interest. We have reviewed your application and would like to move forward with an interview. Please reply with your availability.</textarea><br>
+  <textarea id="accept-body" name="accept-body" rows="10" cols="30">Thank you for your interest. We have reviewed your application and would like to move forward with an interview. Please reply with your availability.</textarea><br>
   <button type="submit">Send</button>
 </form>
 <br><br>
+<h2>Reject</h2>
 <form method="POST" action="/applications/{{ job.id }}/{{ application.id }}/reject">
   <label for="reject-subject">Subject</label><br>
   <input id="reject-subject" name="reject-subject" type="text" value="Thank you for your application"><br>
   <label for="reject-body">Message</label> <br>
-  <textarea id="reject-body" name="reject-body">Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
+  <textarea id="reject-body" name="reject-body" rows="10" cols="30">Thank you for your application. We have reviewed your application and have decided not to move forward at this time. We appreciate your interest and wish you the best of luck in your job search.</textarea><br>
   <button type="submit">Send</button>
 </form>
 <br><br>

@@ -12,14 +12,14 @@
 {% endblock %}
 
 {% block pageContent %}
-    <p>{{job.job_title|e}}</p>
-    <div class="commonmark">{{job.short_description|commonmark|e}}</div>
-    <p>{{job.department|e}}</p>
-    <p>{{job.salary|e}}</p>
-    <p>{{job.location|e}}</p>
-    <div class="commonmark">{{job.long_description|commonmark|e}}</div>
-    <p>{{job.hiring_manager|e}}</p>
+    <p>Job Title: {{job.job_title|e}}</p>
     <p>Posted on {{ job.date_posted.strftime('%B %d, %Y') }}</p>
+    <div class="commonmark">Description: {{job.short_description|commonmark|e}}</div>
+    <p>Department: {{job.department|e}}</p>
+    <p>Salary: {{job.salary|e}}</p>
+    <p>Location: {{job.location|e}}</p>
+    <p>Hiring Manager: {{job.hiring_manager|e}}</p>
+    <div class="commonmark">More about this job: {{job.long_description|commonmark|e}}</div>
 
     {% if not is_admin %}
       {% if not user_applied %}
@@ -30,8 +30,15 @@
         <p>You have already applied for this job. <a href="/applications/{{ job.id }}/application/{{ user_application_id }}">View Application</a></p>
       {% endif %}
     {% else %}
-      <p>This job has received {{ applications|length }} applications</p>
-      <a href="/applications/{{ job.id }}/job-applications?status=all">View Applications</a>
+    {% if applications|length == 0 %}
+      <p>This job has received 0 applications.</p>
+    {% elif applications|length == 1 %}
+      <p>This job has received 1 application.</p>
+      <a href="/applications/{{ job.id }}/job-applications">View Applications</a>
+    {% else %}
+        <p>This job has received {{ applications|length }} applications.</p>
+        <a href="/applications/{{ job.id }}/job-applications">View Applications</a>
+{% endif %}
   {% endif %}
 
 {% endblock %} 

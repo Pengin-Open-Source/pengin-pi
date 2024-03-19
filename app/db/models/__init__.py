@@ -10,7 +10,7 @@ from app.db.models.home import Home
 from app.db.models.about import About
 from app.db.models.message import Message, Room, UserRoom
 from app.db.models.job import Job
-from app.db.models.application import Application
+from app.db.models.application import Application, StatusCode
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
@@ -40,6 +40,7 @@ Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                    ondelete='CASCADE'))
 Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
                                                 ondelete='CASCADE'))
+Application.status_code_id = db.Column(db.String(36), db.ForeignKey('status_code.id'))
 
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',

@@ -23,9 +23,11 @@ edit_ticket_need = set_need("edit_ticket_comment")
 edit_ticket_comment_need = set_need("edit_ticket")
 
 edit_status_need = set_need('edit_status')
-contact_applicant_need = set_need('contact_applicant')
+accept_applicant_need = set_need('accept_applicant')
 reject_applicant_need = set_need('reject_applicant')
 delete_applicant_need = set_need('delete_applicant')
+
+my_applications_need = set_need('my_applications')
 
 # TODO put into proper functions do not assign lamda expressions
 delete_comment_permission = lambda post_id:RoutePermission(delete_comment_need,post_id) 
@@ -38,10 +40,11 @@ edit_ticket_permission = lambda ticket_id:RoutePermission(edit_ticket_need,ticke
 edit_ticket_comment_permission = lambda ticket_id:RoutePermission(edit_ticket_comment_need,ticket_id) 
 
 edit_status_permission = lambda application_id:RoutePermission(edit_status_need,application_id)
-contact_applicant_permission = lambda application_id:RoutePermission(contact_applicant_need,application_id)
+accept_applicant_permission = lambda application_id:RoutePermission(accept_applicant_need,application_id)
 reject_applicant_permission = lambda application_id:RoutePermission(reject_applicant_need,application_id)
 delete_applicant_permission = lambda application_id:RoutePermission(delete_applicant_need,application_id)
 
+my_applications_permission = lambda user_id:RoutePermission(my_applications_need, user_id)
 
 class RoutePermission(Permission):
     def __init__(self, func, id):
