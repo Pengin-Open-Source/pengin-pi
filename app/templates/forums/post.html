@@ -26,9 +26,12 @@
 {% endblock %}
 
 {% block tableContent %}
-  {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/forums/delete/comment/{{comment.id}}", "/forums/{{thread_id}}/{{post_id}}/{{comment.id}}/edit") }}
+  {% for comment in comments %}
+    {{ comments_render.render_comments([comment], comment_authors, current_user, can_delete_comment, can_edit_comment, "/forums/delete/comment/" ~ comment.id, "/forums/" ~ thread_id ~ "/" ~ post_id ~ "/" ~ comment.id ~ "/edit") }}
+  {% endfor %}
 {% endblock %}
 
+
 {% block postTableContent %}
-  {{ comment_form.render_comment_form("post", "/forums/{{thread_id}}/{{post.id}}") }}
+{{ comment_form.render_comment_form("post", "/forums/" ~ thread_id ~ "/" ~ post.id) }}
 {% endblock %}
