@@ -219,7 +219,6 @@ def approve_order_changes(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
-    print('ticket:', ticket)
 
     if request.method == 'POST':
         if order_change_request:
@@ -228,7 +227,9 @@ def approve_order_changes(ticket_id, order_id):
             order.orders_list = order_change_request.orders_list
 
             db.session.delete(order_change_request)
+            ticket.resolution_status = 'resolved'
             db.session.commit()
+
 
             flash('Order changes approved successfully.', 'success')
             return redirect(url_for("order_info.display_order_info", order_id=order_id))
@@ -246,8 +247,6 @@ def approve_order_changes(ticket_id, order_id):
 def approve_order_cancel(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
-    print('ticket:', ticket)
-    print('ticket.resolution_status:', ticket.resolution_status)
 
     if request.method == 'POST':        
 
@@ -258,9 +257,10 @@ def approve_order_cancel(ticket_id, order_id):
         )
 
         db.session.add(new_order_history)
-        db.session.commit()
-        print('Order cancelled successfully.')
+        ticket.resolution_status = 'resolved'
         order.is_cancelled = True
+        db.session.commit()
+
 
         flash('Order cancelled successfully.', 'success')
         return redirect(url_for("order_info.display_orders_home"))
