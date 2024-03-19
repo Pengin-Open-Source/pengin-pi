@@ -63,6 +63,7 @@ def create_ticket():
 @login_required
 @user_permission.require()
 def ticket(ticket_id):
+    ticket = TicketForum.query.filter_by(id=ticket_id).first()
     if request.method == 'POST':
         content = request.form.get('content')
         today = date.today()
@@ -75,7 +76,7 @@ def ticket(ticket_id):
         return redirect(url_for("ticket_blueprint.ticket",
                                 ticket_id=ticket_id))
 
-    ticket = TicketForum.query.filter_by(id=ticket_id).first()
+    
     author = User.query.filter_by(id=ticket.user_id).first().name
     comments = TicketComment.query.filter_by(ticket_id=ticket_id).all()
     comment_authors = {j: User.query.filter_by(id=j).first().name
