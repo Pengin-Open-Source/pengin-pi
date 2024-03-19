@@ -4,7 +4,16 @@
   <a href="/orders/create">New Order</a>
 {% endblock %}
 
+
 {% block pageContent %}
+
+{% block beforeTableContent %}
+    <div class="title-underline">
+      <a class="text-button" href="/orders?is_cancelled=false">active</a>|
+      <a class="text-button" href="/orders?is_cancelled=true">cancelled</a>
+    </div>
+{% endblock %}
+
     {% for order in orders %}
     <table>
       <thead>

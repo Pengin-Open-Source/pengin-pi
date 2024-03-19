@@ -15,10 +15,16 @@ admin_permission = Permission(RoleNeed('admin'))
 def get_orders():
     return Orders.query.all()
 
-
 @order_info.route("/")
+@login_required
 def display_orders_home():
-    orders = get_orders()
+    is_cancelled = request.args.get('is_cancelled')
+
+    if is_cancelled == 'true':
+        orders = Orders.query.filter_by(user_id=current_user.id, is_cancelled=True).all()
+    elif is_cancelled == 'false' or is_cancelled is None:
+        orders = Orders.query.filter_by(user_id=current_user.id, is_cancelled=False).all()
+
     customers = {order.customer_id: Customer.query.get(order.customer_id) for order in orders}
 
     for customer in customers.values():
@@ -27,7 +33,7 @@ def display_orders_home():
     
     return render_template('tickets/workflows/customer_orders_list.html', 
                            primary_title='Orders',
-                           orders=get_orders(), 
+                           orders=orders, 
                            is_admin=admin_permission.can(),
                            customers=customers
                            )
