@@ -199,6 +199,7 @@ def edit_ticket_status(ticket_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/review')
 @login_required
+@admin_permission.require()
 def review_order(ticket_id, order_id):
     request_type = request.args.get('type')
     order = Orders.query.get_or_404(order_id)
@@ -215,6 +216,7 @@ def review_order(ticket_id, order_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve-order-changes', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def approve_order_changes(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
@@ -244,6 +246,7 @@ def approve_order_changes(ticket_id, order_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve-order-cancel', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require()
 def approve_order_cancel(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
