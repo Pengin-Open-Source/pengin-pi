@@ -1,4 +1,4 @@
-const hamburgerToggle= () => {
+const hamburgerToggle = () => {
   const nav = document.querySelector('#nav-id');
 
   if (nav.className === 'header-navigation') {
@@ -20,10 +20,10 @@ const removeOrderRow = (event) => {
   if (orders.length > 1) {
     event.parentElement.parentElement.remove();
   }
-  
+
 }
 
-const adminHamburgerToggle= () => {
+const adminHamburgerToggle = () => {
   // TODO this is all wrong it needs sorting for mobile admin toggle
   const admin_nav = document.querySelector('#nav-id');
 
@@ -34,9 +34,18 @@ const adminHamburgerToggle= () => {
   }
 }
 
-function displayBtn() { 
+/// >>>>>>>>>>>>>>>>>>>>> CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
+let display_user = true
+let display_group = true
+let display_chosen_group = false
+let display_group_users = false
+let in_room_now = false
+
+
+
+function displayBtn() {
   messageBtn = document.getElementById("message-btn")
-    // let messageDisplay = false;
+  // let messageDisplay = false;
   const messageModal = document.getElementById('message-display')
   messageModal.style.display = "block"
 }
@@ -46,38 +55,95 @@ function closeMessage() {
   messageModal.style.display = "none";
 }
 
-let display_user = false
-let display_group = false
+
 function displayUser() {
   // const userBtn = document.getElementById('user-btn')
   // const groupBtn = document.getElementById('group-btn')
   display_user = !display_user
-  const userDiv = document.getElementById('user-container')
-  const groupDiv = document.getElementById('group-container')
-  if (display_group === true) display_group = !display_group
-  if ((display_user === true) && (display_group === false)) {
-    groupDiv.style.maxHeight = '0px'
-    userDiv.style.maxHeight = '200px'
-    userDiv.style.margin = '8px 0px'
-  } else {
-    groupDiv.style.maxHeight = '120px'
-    userDiv.style.maxHeight = '120px'
-  }
-  // const groupDiv = document.getElementById('group-container')
-  
+  displayGroupsAndUsers()
+
 }
+
 
 function displayGroup() {
   display_group = !display_group
+  displayGroupsAndUsers()
+
+}
+
+function displayGroupsAndUsers() {
   const userDiv = document.getElementById('user-container')
   const groupDiv = document.getElementById('group-container')
-  if (display_user === true) display_user = !display_user
+  const inChatUserHeader = document.getElementById("users-per-chat-head")
+  const inChatUsers = document.getElementById("users-in-chat")
+
+  // In case you want a different message when lists are collapsed
+  //const userHeader = document.getElementById('user-list-head')
+  //const groupHeader = document.getElementById('group-list-head')
+
   if ((display_group === true) && (display_user === false)) {
     userDiv.style.maxHeight = '0px'
     groupDiv.style.maxHeight = '200px'
     groupDiv.style.margin = '8px 0px'
-  } else {
+    if (in_room_now) {
+      inChatUserHeader.style.display = "flex"
+      inChatUsers.style.display = "flex"
+    }
+  }
+  else if ((display_group === false) && (display_user === true)) {
+    groupDiv.style.maxHeight = '0px'
+    userDiv.style.maxHeight = '200px'
+    userDiv.style.margin = '8px 0px'
+    if (in_room_now) {
+      inChatUserHeader.style.display = "none"
+      inChatUsers.style.display = "none"
+    }
+
+
+  } else if ((display_group === false) && (display_user === false)) {
+    groupDiv.style.maxHeight = '0px'
+    userDiv.style.maxHeight = '0px'
+    if (in_room_now) {
+      inChatUserHeader.style.display = "flex"
+      inChatUsers.style.display = "flex"
+    }
+  }
+
+  else {
     groupDiv.style.maxHeight = '120px'
     userDiv.style.maxHeight = '120px'
+    if (in_room_now) {
+      inChatUserHeader.style.display = "none"
+      inChatUsers.style.display = "none"
+    }
   }
 }
+
+function closeLists() {
+  display_group = false
+  display_user = false
+  displayGroupsAndUsers()
+}
+
+// In case this is needed...
+function openLists() {
+  display_group = true
+  display_user = true
+  displayGroupsAndUsers()
+
+}
+
+function roomSelected() {
+  in_room_now = true
+  closeLists()
+}
+
+//In case this is needed later... Leave chat without opening a new one
+//Reverse of displayRoomSelected.  Just in case you want a Leave Chat button at some point
+function leaveChatRoom() {
+  in_room_now = false
+  openLists()
+}
+
+
+///  >>>>>>>>>>>>>>>>>>>>>>>> END CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<

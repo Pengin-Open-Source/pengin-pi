@@ -56,7 +56,15 @@ function createMessage(message) {
     const newMessage = document.createElement('div');
     const msgSpace = document.createElement('div');
     msgSection.className = "text-section";
-    newMessage.innerHTML = message.content;
+    newMessage.innerHTML = `
+    <p>
+        <strong>${message.author_name}</strong>:
+    </p>
+    <p> ${message.content} </p>
+    <p>
+       <i> ${message.timestamp} </i>
+    </p>`;
+
     if (isSender) {
         newMessage.className = "text-section-s"
         msgSpace.className = "text-section-s";
@@ -73,6 +81,38 @@ function createMessage(message) {
         received_messages.appendChild(msgSection)
     }
 }
+
+socket.on('load chat', function (messages) {
+
+    sent_messages.innerHTML = "";
+    received_messages.innerHTML = "";
+    const msgList = JSON.parse(messages);
+
+    msgList.forEach(message => {
+        createMessage(message)
+    });
+
+});
+
+socket.on('users in group', function (data) {
+    const chatting = JSON.parse(data);
+    inChatUserHeader.innerHTML = "In Chat Room:  " + chatting[0].room_name
+    inChatUsers.innerHTML = ""
+    roomSelected()
+    chatting.forEach(item => {
+        const userName = item.user_name;
+        const chatUser = document.createElement('div');
+        chatUser.className = "message-grid-item";
+        chatUser.innerHTML = item.user_name
+        inChatUsers.appendChild(chatUser)
+    });
+
+});
+
+socket.on('update chat', function (data) {
+    createMessage(data)
+});
+
 
 // Send message to the server
 function sendMessage() {
