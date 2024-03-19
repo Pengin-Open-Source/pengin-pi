@@ -17,6 +17,7 @@ class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.String(36), default=ID, primary_key=True)
     order_date = db.Column(db.DateTime(timezone=True), nullable=True)
+    is_cancelled = db.Column(db.Boolean, default=False)
     
 class OrderChangeRequest(db.Model):
     __tablename__ = 'order_change_request'

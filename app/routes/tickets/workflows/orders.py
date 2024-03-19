@@ -269,6 +269,8 @@ def approve_order_cancel(order_id):
         db.session.add(new_order_history)
         db.session.commit()
 
+        order.is_cancelled = True
+
         flash('Order cancelled successfully.', 'success')
         return redirect(url_for("order_info.display_orders_home"))
 
