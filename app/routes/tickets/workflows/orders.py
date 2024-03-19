@@ -53,7 +53,12 @@ def create_order():
         orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
         order_id = ID()
 
-        new_order = Orders(id=order_id, order_date=order_date, customer_id=customer_id)
+        new_order = Orders(
+            id=order_id, 
+            order_date=order_date, 
+            customer_id=customer_id,
+            user_id=current_user.id
+            )
         db.session.add(new_order)
 
         for order in orders:

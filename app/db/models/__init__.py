@@ -77,6 +77,8 @@ ShippingAddress.customer_id = db.Column(db.String(36),
                         db.ForeignKey('customer.id', ondelete='CASCADE'),
                         nullable=False)
 #Orders
+Orders.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                   ondelete='CASCADE'))
 Orders.orders_list = db.relationship('OrdersList')
 Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
                                                 ondelete='CASCADE'))
