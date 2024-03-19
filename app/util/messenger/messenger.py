@@ -17,7 +17,7 @@ from flask import (
     Blueprint,
     render_template
 )
-from flask_socketio import SocketIO, join_room, leave_room, emit
+from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from flask_login import current_user, login_required
 import os
 import datetime
@@ -58,6 +58,27 @@ class Messenger:
             {"room_id": room.id},
         )
 
+    def connection_handler(self, auth):
+        print("you're in socketio.on('connect')")
+        print(f"room: {self.current_room}")
+        if self.current_room is None:
+            print("no room")
+            return
+        # if self.current_room not in self.rooms:
+        #     print(f"room {self.current_room} is not in rooms {self.rooms}")
+        #     leave_room(self.current_room)
+        #     self.current_room = None
+        #     return
+        join_room(self.current_room)
+        context = {
+            "author_name": current_user.name,
+            "content": "has entered the room",
+            "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        send(context, json=True, to=self.current_room)
+        print(f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
+
+    
     def save_message(self, data):
         with db.session.no_autoflush:
             message = Message(
@@ -187,6 +208,8 @@ class Messenger:
 
 messenger_blueprint = Blueprint('messenger_blueprint', __name__,
                                 url_prefix="/messenger")
+
+
 
 
 def init_app(app, socketio):
