@@ -7,21 +7,32 @@ from app.util.security.limit import limiter
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
+        
 
-
-@company_info.route("/")
+@company_info.route("/", methods=['GET', 'POST'])
 @login_required
 def display_companies_home():
-    if request.method == "POST":
-        page = int(request.form.get('page_number', 1))
+    def handle_admin_view():
+        if request.method == "POST":
+            page = int(request.form.get('page_number', 1))
+        else:
+            page = 1
+        companies = Company.query.paginate(page=page, per_page=10, error_out=False)
+        return render_template('company_info/company_info_main.html',
+                               companies=companies, is_admin=True, primary_title='Companies')
+
+    def handle_user_view():
+        member_company = CompanyMembers.query.filter_by(user_id=current_user.id).first()
+        if member_company:
+            return redirect(url_for('company_info.display_company_info', company_id=member_company.company_id))
+        return render_template('company_info/no_company.html')
+
+    is_admin = admin_permission.can()
+
+    if is_admin:
+        return handle_admin_view()
     else:
-        page = 1
-
-    companies = paginate_join(Company, CompanyMembers, CompanyMembers.company_id == Company.id, page=page, 
-                              pages=10, filters={'user_id': current_user.id})
-
-    return render_template('company_info/company_info_main.html',
-                           companies=companies, is_admin=admin_permission.can(), primary_title='Companies')
+        return handle_user_view()
 
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
@@ -55,6 +66,7 @@ def display_company_info(company_id:str) -> render_template:
                            company=company, members=members, is_admin=admin_permission.can())
 
 
+
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
@@ -85,6 +97,7 @@ def create_company():
     return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
 
+
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
@@ -107,6 +120,24 @@ def edit_company_info_post(company_id):
                                 company_id=company.id))
 
     return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
+
+
+@company_info.route('/<company_id>/members', methods=['GET', 'POST'])
+@login_required
+def display_company_members(company_id):
+    company = Company.query.get_or_404(company_id)
+    
+    if request.method == "POST":
+        page = int(request.form.get('page_number', 1))
+    else:
+        page = 1
+
+    users = paginate(User, page=page, pages=10)
+    members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+    members_ids_list = [i for i in members_ids for i in i]
+    
+    return render_template('company_info/display_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
+
 
 
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
