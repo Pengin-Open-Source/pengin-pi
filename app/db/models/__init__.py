@@ -9,6 +9,8 @@ from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
 from app.db.models.message import Message, Room, UserRoom
+from app.db.models.job import Job
+from app.db.models.application import Application
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
@@ -24,13 +26,27 @@ User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
 User.messages = db.relationship("Message", back_populates="author")
 User.rooms = db.relationship('Room', secondary='user_room')
+User.jobs = db.relationship('Job')
+User.applications = db.relationship('Application')
 
-# User Roles
+#Job
+Job.user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'))
+Job.applications = db.relationship('Application', back_populates="job")
+
+#Application
+Application.user = db.relationship('User', back_populates='applications')
+Application.job = db.relationship('Job', back_populates='applications')
+Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                   ondelete='CASCADE'))
+Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
+                                                ondelete='CASCADE'))
+
+#User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
                                                            ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
-                                                           ondelete='CASCADE'))
-# Companmy Members
+                                                ondelete='CASCADE'))
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
                                                                    ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',

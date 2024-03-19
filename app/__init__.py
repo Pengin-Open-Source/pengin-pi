@@ -15,11 +15,15 @@ from app.db import config, db
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
-                               edit_ticket_comment_need, edit_ticket_need)
+                               edit_ticket_comment_need, edit_ticket_need,
+                               edit_status_need, 
+                               contact_applicant_need,
+                               reject_applicant_need, delete_applicant_need)
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from app.util.defaults import default
 from app.util.messenger import messenger
 from flask_commonmark import Commonmark
 
@@ -33,15 +37,9 @@ admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
 
 
-class DummyHome():
-    company_name = ''
-    article = ''
-    image = ''
-
-
 def create_app():
     app = Flask(__name__, static_folder='static')
-
+    
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)
@@ -50,7 +48,7 @@ def create_app():
     model.db.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
-    admin.init_app(app)
+    #admin.init_app(app)
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
 
@@ -62,7 +60,7 @@ def create_app():
 
     @app.context_processor
     def inject_globals():
-        company = model.Home.query.first() or DummyHome()
+        company = model.Home.query.first() or default.Home()
         name = company.company_name
         return dict(company_name=name, is_admin=admin_permission.can())
 
@@ -105,7 +103,21 @@ def create_app():
                     identity.provides.add(
                         edit_ticket_comment_need(comment.id)
                     )
-           
+
+            if hasattr(current_user, 'applications'):
+                for application in current_user.applications:
+                    identity.provides.add(
+                        edit_status_need(application.id)
+                    )
+                    identity.provides.add(
+                        contact_applicant_need(application.id)
+                    )
+                    identity.provides.add(
+                        reject_applicant_need(application.id)
+                    )
+                    identity.provides.add(
+                        delete_applicant_need(application.id)
+                    )
 
     #def bool_test():
     #	return {'chat_bool': chat_available}
@@ -144,8 +156,6 @@ def create_app():
         print(set(rooms))
         print(tuple(set(rooms)))
         return {'groups': rooms}
-
-     
 
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')

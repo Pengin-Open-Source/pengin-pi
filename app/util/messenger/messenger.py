@@ -12,7 +12,11 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import Flask, Blueprint, render_template, redirect, url_for, request, session, abort
+from flask import (
+    Flask,
+    Blueprint,
+    render_template
+)
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_login import current_user, login_required
 import os
@@ -32,32 +36,35 @@ class Messenger:
         self.socketio = socketio
         self.current_room = None
         # apply optional configs
-        pass
 
-    def connection_handler(self, auth):
-        if self.current_room is None:
-            print("no room")
-            return
+    def on_join(self, data):
+        other_user = data["other_user"]
+        room_id = self.create_room_id(current_user.name, other_user)
+        room = Room.query.get(room_id)
+        if room is None:
+            room = Room(
+                id=room_id,
+                name=self.create_room_id(current_user.name, other_user),
+            )
+            db.session.add(room)
+            db.session.commit()
+            print(f"room {room_id} did not exist, it is now created:")
+            print(f"room name: {room.name}")
+        join_room(room.id)
 
-        join_room(self.current_room)
-        context = {
-            "author_name": current_user.name,
-            "content": "has entered the room",
-            "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        }
-        emit("saved_message", context, to=self.current_room)
-        print(f"{current_user.name} joined room {self.current_room}")
+        print(f"{current_user.name} joined room {room.id}")
+        emit(
+            "joined_message",
+            {"room_id": room.id},
+        )
 
     def save_message(self, data):
-        if self.current_room is None:
-            print("in save_message, room does not exist")
-            return
         with db.session.no_autoflush:
             message = Message(
                 author_id=data["author_id"],
                 timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 room_id=data["room_id"],
-                content=data["content"]
+                content=data["content"],
             )
             db.session.add(message)
             db.session.commit()
@@ -69,8 +76,7 @@ class Messenger:
             "content": message.content,
             "timestamp": message.timestamp,
         }
-        emit("saved_message", context, to=message.room.id)
-        # emit("saved_message", context, to=self.current_room)
+        emit("saved_message", context, to=message.room_id)
 
     def disconnect_handler(self):
         pass

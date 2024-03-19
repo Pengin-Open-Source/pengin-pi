@@ -1,4 +1,5 @@
 import os
+import re
 from flask import (Blueprint, current_app, flash, redirect, render_template,
                    request, session, url_for, abort)
 from flask_login import login_required, login_user, logout_user
@@ -49,15 +50,23 @@ def signup():
 @auth.route('/signup', methods=['POST'])
 @verify_response
 def signup_post():
+    def is_valid_email(mail):
+        email_regex = re.compile(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}')
+        """Checks if the given email address is valid."""
+        email_valid = email_regex.match(mail) is not None
+        email_exists = True if User.query.filter_by(email=email).first() else False
+        
+        return (email_valid and not email_exists)
+        
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    email_exists = True if User.query.filter_by(email=email).first() else False
+    
     # if this returns a user, then the email already exists in database
-    if email_exists:
+    if not is_valid_email(email):
         # if a user is found, we want to redirect back to
         # signup page so user can try again
-        flash('Email address already exists')
+        flash('Email address already exists or invalid email.')
 
         return redirect(url_for('auth.signup'))
     new_user = User(email=email, name=name,

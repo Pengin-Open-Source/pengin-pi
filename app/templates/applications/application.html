@@ -1,0 +1,53 @@
+<!--
+Application Template #400
+This issue is for tracking the creation of the application view. An applicant follows the application route from a job posting and this page will be what is rendered to facilitate the data entry for the job application. This is a standard form that will resemble the about page or home page edit view.
+
+The user will need to be authenticated, and we will present a standard form to allow the user to input:
+
+attach resume
+attach cover letter
+message to hiring manager text field
+location-->
+
+{% import "macros/form.html" as form %}
+
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+{% if not is_admin %}
+  <a href="/applications/my-applications">My Applications</a>
+  {% endif %}{% endblock %}
+
+{% block pageContent %}
+    
+  <h2>Apply</h2>
+  {% set application_items = [
+    {
+      'label': 'Resume', 
+      'type': 'file', 
+      'name': 'resume', 
+      'placeholder': 'Upload your resume',
+      'required': true
+    },
+    {
+      'label': 'Cover Letter', 
+      'type': 'file', 
+      'name': 'cover_letter', 
+      'placeholder': 'Upload your cover letter'
+    },
+    {
+      'label': 'Message to Hiring Manager', 
+      'type': 'text', 
+      'name': 'message'
+    },
+    {
+      'label': 'Location', 
+      'type': 'text', 
+      'name': 'location', 
+      'placeholder': 'Enter your location'
+    }
+  ] %}
+
+  {{ form.render_form(application_items, url_for('applications.create_application', job_id=job_id)) }}
+
+{% endblock %} 

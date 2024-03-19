@@ -1,53 +1,52 @@
-const socket = io();
+const socketio = io();
 const sent_messages = document.querySelector(".message-display-sender");
 const received_messages = document.querySelector(".message-display-receiver");
-const user_section = document.querySelector("#user-section");
-const group_section = document.querySelector("#group-section");
-const inChatUserHeader = document.getElementById("users-per-chat-head")
-const inChatUsers = document.getElementById("users-in-chat")
+let room_id = "";
 
-socket.on('connect', function () {
-    console.log("We have a new connection!")
+// Add event listener to the room buttons (to open chat with other users)
+const selectRoomButtons = $(".btn-select-room");
+for (const button of selectRoomButtons) {
+    button.addEventListener("click", function () {
+        const room = this.dataset.room;
+        selectRoom(room)
+    });
+}
 
-    const chatForm = $('#chat-form').on('submit', function (e) {
-        e.preventDefault()
-        let display_name = "{{current_user.name}}"
-        let message_text = $('textarea.message_text').val()
+// Join current user to room with selected room
+function selectRoom(room) {
+    $('div.message-display-sender').empty();
+    $("div.message-display-receiver").empty();
+    sent_messages.content = document.querySelector(".message-display-sender");
+    received_messages.content = document.querySelector(".message-display-receiver");
 
-        socket.emit('message sent', {
-            chat_name: display_name,
-            content: message_text
-        })
-        $('textarea.message_text').val('').focus()
+    console.log("about to join room with " + room)
+    socketio.emit("join_room", { other_user: room });
+}
+
+// Fetch all messages from the server DB
+function fetchMessage(room_id) {
+    console.log("fetching messages for " + room_id)
+    // Send AJAX request to update instance status
+    fetch(`/chat/get_past_messages/${room_id}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
     })
-
-
-    const userPick = $('#chat-with-user').on("click", ".other-chat-user", function (e) {
-        e.preventDefault()
-        const user_picked = $(this).val();
-        sent_messages.content = document.querySelector(".message-display-sender");
-        received_messages.content = document.querySelector(".message-display-receiver");
-
-        socket.emit('user selected', {
-            other_user: user_picked
+        .then(response => response.json())
+        .then(data => {
+            // Update the status on the page
+            for (const message of data) {
+                // Trigger function to add message in page
+                createMessage({author_name: message.author_name, content: message.content, timestamp: message.timestamp});
+            }
         })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
-    })
-
-
-    const groupPick = $('#chat-with-group').on("click", ".chat-group", function (e) {
-        e.preventDefault()
-        const group_picked = $(this).val();
-        sent_messages.content = document.querySelector(".message-display-sender");
-        received_messages.content = document.querySelector(".message-display-receiver");
-        socket.emit('room selected', {
-            room_name: group_picked
-        })
-
-    })
-
-})
-
+// Create new message in the page
 function createMessage(message) {
 
     const currentUserName = document.getElementById('current-user').dataset.name;
@@ -115,3 +114,24 @@ socket.on('update chat', function (data) {
 });
 
 
+// Send message to the server
+function sendMessage() {
+    const message = $("#message")[0];
+    if (message.value === "") return;
+    const currentUserId = document.getElementById('current-user').dataset.id;
+    socketio.emit("save_message", { author_id: currentUserId, content: message.value, room_id: room_id});
+    message.value = "";
+}
+
+// Listening for new saved data from the server
+socketio.on('saved_message', (message) => {
+    // Trigger function to add message in page
+    createMessage({author_name: message.author_name, content: message.content, timestamp: message.timestamp});
+});
+
+// Adding room_id to the client
+// TODO find alternative to avoid having the room id saved in the javascript
+socketio.on('joined_message', data => {
+    room_id = data.room_id;
+    fetchMessage(data.room_id)
+});
