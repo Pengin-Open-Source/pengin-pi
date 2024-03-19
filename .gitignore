@@ -17,3 +17,5 @@ app/static/sitemap.xml
 *.DS_Store
 migrations
 Favicon.png
+/venv_311
+.idea

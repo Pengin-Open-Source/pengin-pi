@@ -14,8 +14,9 @@ from app.routes.about import about_blueprint
 from app.routes.orders import order_info as order_blueprint
 from app.routes.jobs import job_blueprint
 from app.routes.applications import applications as application_blueprint
-
+from app.routes.message import chat_blueprint
 
 # Blueprints variable is a list of blueprints in this current directory
-blueprints = [val for key, val in locals().items()
-              if isinstance(val, type(home_blueprint))]
+blueprints = [
+    val for key, val in locals().items() if isinstance(val, type(home_blueprint))
+]

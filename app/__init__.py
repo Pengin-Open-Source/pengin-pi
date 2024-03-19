@@ -1,5 +1,8 @@
 from flask import Flask, request, send_from_directory
-from flask_login import LoginManager, current_user
+from flask_socketio import SocketIO, emit, send, join_room
+#chatSocket = SocketIO()
+chat_available = False
+from flask_login import LoginManager, current_user, login_required
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
                              identity_loaded)
 from flask_migrate import Migrate
@@ -8,7 +11,7 @@ from flask_commonmark import Commonmark
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import config,db
+from app.db import config, db
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
@@ -20,13 +23,18 @@ from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
 from app.util.markup import markup
+from app.util.messenger import messenger
 from flask_commonmark import Commonmark
 
+#from flask_socketio import SocketIO
+
+from app.util.uuid import id
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
 admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
+
 
 class DummyHome():
     company_name = ''
@@ -49,7 +57,12 @@ def create_app():
     login_manager.login_view = 'auth.login'
     migrate.init_app(app, model.db)
 
+    socketio = SocketIO(app, debug=True)
+    messenger.init_app(app, socketio)
+    # socketio.run(app)
+
     # Inject global variables to templates
+
     @app.context_processor
     def inject_globals():
         company = model.Home.query.first() or DummyHome()
@@ -95,6 +108,7 @@ def create_app():
                     identity.provides.add(
                         edit_ticket_comment_need(comment.id)
                     )
+
             if hasattr(current_user, 'applications'):
                 for application in current_user.applications:
                     identity.provides.add(
@@ -110,6 +124,32 @@ def create_app():
                         delete_applicant_need(application.id)
                     )
 
+    #def bool_test():
+    #	return {'chat_bool': chat_available}
+    
+    #@app.before_request
+    #@login_required      
+    #def update_bool_value(app, **kwargs):
+    #	global chat_available
+    #	chat_available = True
+
+    def filtered_chat_users():
+    # TODO get user's company members
+    # For now, get all users except current user
+        if current_user.is_authenticated:
+            co_workers = model.User.query.filter(model.User.id != current_user.id)
+
+            def user_data(user):
+                return {
+                    "name": user.name,
+                }
+
+            co_workers = list(map(user_data, co_workers))
+        else:
+            co_workers = []
+
+        return {'chat_users': co_workers}
+
     @app.route('/robots.txt')
     @app.route('/sitemap.xml')
     def static_from_root():
@@ -120,7 +160,11 @@ def create_app():
         app.register_blueprint(blueprint)
 
     app.register_blueprint(admin_blueprint)
-    
+
+    #app.context_processor(bool_test)
     app.context_processor(time_zone)
     app.context_processor(copyright)
+    app.context_processor(filtered_chat_users)
+
+    #chatSocket.init_app(app, debug = True)
     return app

@@ -1,6 +1,6 @@
 from app import create_app
 from app import db
-from app.db.models import Thread, ThreadRoles, User, UserRoles, ForumPost, ForumComment, Home, About, Order, ShippingAddress, Customer, Company, CompanyMembers, Role, Contracts, Event, BlogPost
+from app.db.models import Thread, ThreadRoles, User, UserRoles, ForumPost, ForumComment, Home, About, Orders, ShippingAddress, Customer, Company, CompanyMembers, Role, Contracts, Event, BlogPost
 from datetime import datetime
 from app.util.uuid import id
 from werkzeug.security import generate_password_hash
