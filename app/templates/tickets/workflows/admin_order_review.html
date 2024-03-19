@@ -60,7 +60,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <form class="form" action="/orders/{{order.id}}/approve-order-changes" method="POST">
+    <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-changes" method="POST">
       <button type="submit">Approve Changes</button>
     </form>
   </div>
@@ -69,7 +69,7 @@
 {% endif %}
 
 {% if request_type == 'order-cancel-request' %}
-  <form class="form" action="/orders/{{order.id}}/approve-order-cancel" method="POST">
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-cancel" method="POST">
     <button type="submit">Cancel Order</button>
   </form>
 {% endif %}
