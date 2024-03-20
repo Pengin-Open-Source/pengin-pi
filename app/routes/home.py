@@ -14,7 +14,6 @@ home_blueprint = Blueprint("home_blueprint", __name__)
 section_title = "Home"
 
 
-
 @home_blueprint.route("/")
 @home_blueprint.route("/index")
 @home_blueprint.route("/home")
@@ -79,9 +78,9 @@ def home_edit():
         )
 
     elif request.method == "POST":
-            company_name = request.form.get('name')
-            article = request.form.get('article')
-            tags = request.form.get('tags')
+        company_name = request.form.get('name')
+        article = request.form.get('article')
+        tags = request.form.get('tags')
         image = request.files["file"]
         url = (
             image.filename
