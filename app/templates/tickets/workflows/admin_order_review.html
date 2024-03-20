@@ -4,8 +4,15 @@
 {% endblock %}
 
 {% block pageContent %}
+
+{% if request_type == 'order-cancel-request' %}
+<p>The customer is requesting to cancel the following order:</p>
+{% elif request_type == 'order-change-request' %}
+<p>The customer is requesting the following changes to the order:</p>
+{% endif %}
+
 <div class="post-container">
-  <h2>Original Order</h2>
+  <h2>Order</h2>
   <h4>Order ID: {{order.id|e}}</h4>
   <p>Customer ID: {{order.customer_id|e}}</p>
   <p>Order Date: {{order.order_date.strftime('%B %d, %Y')|e }}</p>
@@ -32,6 +39,8 @@
     </table>
   </div>
 {% endif %}
+</div>
+
 {% if request_type == 'order-change-request' %}
 <div class="post-container">
   <h2>Requested Changes</h2>
@@ -60,18 +69,29 @@
         {% endfor %}
       </tbody>
     </table>
-    <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-changes" method="POST">
-      <button type="submit">Approve Changes</button>
-    </form>
   </div>
   {% endif %}
 </div>
 {% endif %}
 
+{% if request_type == 'order-change-request' %}
+  {% if ticket.resolution_status == 'resolved' %}
+  <p>Request has been resolved.</p>
+  {% else %}
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-changes" method="POST">
+    <button type="submit">Approve Changes</button>
+  </form>
+  {% endif %}
+{% endif %}
+
 {% if request_type == 'order-cancel-request' %}
+  {% if ticket.resolution_status == 'resolved' %}
+  <p>Order has been cancelled.</p>
+  {% else %}
   <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-cancel" method="POST">
     <button type="submit">Cancel Order</button>
   </form>
+  {% endif %}
 {% endif %}
-</div>
+
 {% endblock %}

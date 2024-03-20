@@ -81,6 +81,8 @@ def ticket(ticket_id):
                                 ticket_id=ticket_id))
 
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
+    print('ticket.resolution_status: ', ticket.resolution_status)
+    print('ticket.tags: ', ticket.tags)
     author = User.query.filter_by(id=ticket.user_id).first().name
     comments = TicketComment.query.filter_by(ticket_id=ticket_id).all()
     comment_authors = {j: User.query.filter_by(id=j).first().name
@@ -207,6 +209,7 @@ def review_order(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
+    print('ticket.resolution_status: ', ticket.resolution_status)
 
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
     order_change_request_products = {}
@@ -232,6 +235,7 @@ def approve_order_changes(ticket_id, order_id):
 
             db.session.delete(order_change_request)
             ticket.resolution_status = 'resolved'
+            ticket.resolution_date = date.today()
             db.session.commit()
 
 
@@ -263,6 +267,7 @@ def approve_order_cancel(ticket_id, order_id):
 
         db.session.add(new_order_history)
         ticket.resolution_status = 'resolved'
+        ticket.resolution_date = date.today()
         order.is_cancelled = True
         db.session.commit()
 

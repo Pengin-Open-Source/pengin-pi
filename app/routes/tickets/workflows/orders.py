@@ -137,6 +137,7 @@ def edit_order(order_id):
 
         ticket_summary = f"Order Change Request - Order ID: {order_id}"
         ticket_content = f"Changes to Order ID {order_id} pending approval. Please review and approve or reject the changes."
+        ticket.resolution_status = 'open'
 
         ticket = TicketForum(
             summary=ticket_summary,
