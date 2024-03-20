@@ -1,7 +1,7 @@
 #398-application-route
 from flask import Blueprint, render_template, redirect, url_for, request, abort, flash
 from flask_login import current_user, login_required
-from app.util.security import (admin_permission, edit_status_permission, accept_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission)
+from app.util.security import (admin_permission, edit_status_permission, accept_applicant_permission, reject_applicant_permission, delete_applicant_permission, my_application_permission, user_permission)
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import StatusCode
@@ -133,7 +133,7 @@ def my_applications():
     applications = paginate(Application, page=page, key="date_applied", filters={"user_id": current_user.id}, pages=applications_per_page)
 
     return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
-    
+        
 
 @applications.route('/<job_id>/job-applications', methods=['GET'])
 @login_required

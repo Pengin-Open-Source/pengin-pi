@@ -66,7 +66,7 @@ def create_ticket():
 
 @ticket_blueprint.route("/<ticket_id>", methods=['GET', 'POST'])
 @login_required
-# @user_permission.require()
+@user_permission.require()
 def ticket(ticket_id):
     if request.method == 'POST':
         content = request.form.get('content')
@@ -106,7 +106,6 @@ def ticket(ticket_id):
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
 def delete_ticket(id):
-    # this is the older way of establishing tickets; we should use a decorator instead: @decorated_with_permission.require()
     permission = delete_ticket_permission(id)
     if permission.can() or admin_permission.can():
         ticket = TicketForum.query.filter_by(id=id).first()
