@@ -238,13 +238,7 @@ def approve_order_changes(ticket_id, order_id):
             ticket.resolution_date = date.today()
             db.session.commit()
 
-
-            flash('Order changes approved successfully.', 'success')
-            return redirect(url_for("order_info.display_order_info", order_id=order_id))
-        
-        else:
-            flash('No order change request found for this order.', 'error')
-            return redirect(url_for("order_info.display_order_info", order_id=order_id))
+            return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
 
     return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order, order_change_request=order_change_request)
 
@@ -271,8 +265,6 @@ def approve_order_cancel(ticket_id, order_id):
         order.is_cancelled = True
         db.session.commit()
 
-
-        flash('Order cancelled successfully.', 'success')
-        return redirect(url_for("order_info.display_orders_home"))
+        return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
 
     return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order)
