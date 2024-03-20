@@ -195,15 +195,14 @@ def cancel_order(order_id):
             content=ticket_content,
             date=datetime.now(),
             user_id=current_user.id,
-            tags="order-cancel-request"
+            tags="order-cancel-request",
+            resolution_status = 'open'
         )
 
         db.session.add(ticket)
         db.session.commit()
 
-        flash('Your request to cancel this order has been submitted for review.', 'success')
-        return redirect(url_for("order_info.display_order_info",
-                                order_id=order.id))
+        return render_template('tickets/workflows/customer_order_success.html', primary_title='Request Submitted', order=order, ticket=ticket)
 
     products = Product.query.all()
     customers = Customer.query.all()
