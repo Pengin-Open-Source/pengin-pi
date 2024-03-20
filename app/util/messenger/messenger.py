@@ -12,19 +12,14 @@ DONE -- create the if name == main function and create a basic flask app to run 
 """
 
 # import flask-socketIO
-from flask import (
-    Flask,
-    Blueprint,
-    render_template
-)
+from flask import Flask, Blueprint, render_template
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from flask_login import current_user, login_required
 import os
 import datetime
-import json
 from app.db import db
 from app.util.uuid import id
-from app.db.models import Message, User, Room,  UserRoom
+from app.db.models import Message, User, Room
 
 
 # import config.object
@@ -38,51 +33,47 @@ class Messenger:
         # apply optional configs
 
     def on_join(self, data):
-        other_user = data["other_user"]
-        room_id = self.create_room_id(current_user.name, other_user)
-        room = Room.query.get(room_id)
-        if room is None:
-            room = Room(
-                id=room_id,
-                name=self.create_room_id(current_user.name, other_user),
-            )
-            db.session.add(room)
-            db.session.commit()
-            print(f"room {room_id} did not exist, it is now created:")
-            print(f"room name: {room.name}")
+        print(f"on_join data: {data}")
+        if "room_id" in data:
+            room_id = data["room_id"]
+            room = Room.query.get_or_404(room_id)
+        elif "user_id" in data:
+            user_id = data["user_id"]
+            user = User.query.get_or_404(user_id)
+
+            # Get room from DB if it both users are members
+            # For now, look for a room with both users
+            # TODO: add attribute to Room model to indicate room is a default 2-user room or a room created by a user
+            room = Room.query.filter(
+                Room.members.any(User.id == current_user.id),
+                Room.members.any(User.id == user.id),
+            ).first()
+            if room is None:
+                room = Room(
+                    id=id(),
+                    name=self.create_room_name(current_user.name, user.name),
+                )
+                current_user.rooms.append(room)
+                user.rooms.append(room)
+                db.session.add(room)
+                db.session.commit()
+                print(f"room {room.id} did not exist, it is now created:")
+                print(f"room name: {room.name}")
+        else:
+            print("No room_id or user_id in data")
+            return
         join_room(room.id)
 
-        print(f"{current_user.name} joined room {room.id}")
+        print(f"{current_user.name} joined room {room.name}, id: {room.id}")
         emit(
             "joined_message",
             {"room_id": room.id},
         )
 
-    def connection_handler(self, auth):
-        print("you're in socketio.on('connect')")
-        print(f"room: {self.current_room}")
-        if self.current_room is None:
-            print("no room")
-            return
-        # if self.current_room not in self.rooms:
-        #     print(f"room {self.current_room} is not in rooms {self.rooms}")
-        #     leave_room(self.current_room)
-        #     self.current_room = None
-        #     return
-        join_room(self.current_room)
-        context = {
-            "author_name": current_user.name,
-            "content": "has entered the room",
-            "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        }
-        send(context, json=True, to=self.current_room)
-        print(f"{current_user.name} joined room {self.current_room.name}, {self.current_room.id}")
-
-    
     def save_message(self, data):
         with db.session.no_autoflush:
             message = Message(
-                author_id=data["author_id"],
+                author_id=current_user.id,
                 timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 room_id=data["room_id"],
                 content=data["content"],
@@ -107,135 +98,18 @@ class Messenger:
         attendees.sort()
         return f"{attendees[0]}_{attendees[1]}"
 
-    def make_user_room_link(self, chat_room_id, user_id):
-        user_room = UserRoom(room_id=chat_room_id, user_id=user_id)
-        db.session.add(user_room)
-        db.session.commit()
 
-    def process_message(self, json, methods=['GET', 'POST']):
-        print('received json: ' + str(json))
-        print("Message.py did something with a Message!")
-        emit('update chat', json,  broadcast=True)
-
-    def chat(self, room):
-        self.current_room = room.id
-        join_room(self.current_room)
-
-        user_rooms = UserRoom.query.filter_by(room_id=room.id)
-
-        # worked with some Google Gemini suggestions for getting all the selected User Rooms' user ids and names
-        user_ids = user_rooms.with_entities(UserRoom.user_id).all()
-
-        # print(user_ids)
-        # for user_id in user_ids:
-        #     user = User.query.get(user_id)
-        #     if user:
-        #         context = {
-        #             "user_name":  user.name,
-        #             "room_name":  room.name,
-        #         }
-        #     emit('users in group', context, to=room.id)
-
-        users_in_list = []
-        for user_id in user_ids:
-            user = User.query.get(user_id)
-            if user:
-                users_in_list.append({
-                    "user_name":  user.name,
-                    "room_name":  room.name,
-                })
-
-        jsonified_users = json.dumps(users_in_list)
-        print(jsonified_users)
-        # print(f"What's the context? {context}")
-        emit('users in group', jsonified_users, to=room.id)
-
-        msgs = []
-        for message in room.messages:
-            msgs.append({
-                "author_name": message.author.name,
-                "content": message.content,
-                "timestamp": message.timestamp,
-            })
-        jsonified_messages = json.dumps(msgs)
-        emit('load chat', jsonified_messages, to=room.id)
-
-    def chat_group(self, json, methods=['GET', 'POST']):
-        if self.current_room:
-            leave_room(self.current_room)
-        print(f"group name in overlay: {json}")
-        room = Room.query.filter_by(name=json['room_name']).first()
-
-        self.chat(room)
-
-    def chat_with(self, json, methods=['GET', 'POST']):
-        if self.current_room:
-            leave_room(self.current_room)
-        print(f"chat name in overlay: {json}")
-        other_user = User.query.filter_by(name=json['other_user']).first()
-
-        if other_user:
-            other_user_name = other_user.name
-            chat_room_name = self.create_room_name(
-                current_user.name, other_user_name)
-            room = Room.query.filter_by(name=chat_room_name).first()
-            if room is None:
-                room = Room(id=id(), name=self.create_room_name(current_user.name,
-                                                                other_user_name))
-                db.session.add(room)
-                db.session.commit()
-                print(f"room {room.id} did not exist, it is now created:")
-                print(f"room name: {room.name}")
-
-            chat_room_id = room.id
-            user_room = UserRoom.query.filter_by(
-                room_id=chat_room_id, user_id=current_user.id).first()
-            other_user_room = UserRoom.query.filter_by(
-                room_id=chat_room_id, user_id=other_user.id).first()
-
-            if user_room is None:
-                self.make_user_room_link(chat_room_id, current_user.id)
-                print(
-                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {current_user.name} did not exist, it is now created:")
-
-            if other_user_room is None:
-                self.make_user_room_link(chat_room_id, other_user.id)
-                print(
-                    f"User-room link for room id: {chat_room_id} room name: {chat_room_name} and user {other_user.name} did not exist, it is now created:")
-
-            self.chat(room)
+messenger_blueprint = Blueprint(
+    "messenger_blueprint", __name__, url_prefix="/messenger"
+)
 
 
-messenger_blueprint = Blueprint('messenger_blueprint', __name__,
-                                url_prefix="/messenger")
-
-
-
-
-def init_app(app, socketio):
+def init_app(socketio):
     messenger = Messenger(socketio)
 
-    @messenger_blueprint.route("/")
-    @login_required
-    def chat_list():
-        # TODO get user's company members
-        # For now, get all users except current user
-        co_workers = User.query.filter(User.id != current_user.id)
-
-        def user_data(user):
-            return {
-                "name": user.name,
-            }
-
-        co_workers = list(map(user_data, co_workers))
-        return render_template("messenger/chat_list.html", users=co_workers)
-
-    socketio.on_event("connect", messenger.connection_handler)
     socketio.on_event("save_message", messenger.save_message)
     socketio.on_event("disconnect", messenger.disconnect_handler)
-    socketio.on_event("message sent", messenger.process_message)
-    socketio.on_event("user selected", messenger.chat_with)
-    socketio.on_event("room selected", messenger.chat_group)
+    socketio.on_event("join_room", messenger.on_join)
 
 
 if __name__ == "__main__":
@@ -253,6 +127,6 @@ if __name__ == "__main__":
 
     socketio = SocketIO(app, debug=True)
 
-    init_app(app, socketio)
+    init_app(socketio)
 
     socketio.run(app, port=3000)
