@@ -132,27 +132,33 @@ def create_app():
     # 	chat_available = True
 
     def filtered_chat_users():
-    # TODO get user's company members
-    # For now, get all users except current user
+        # TODO get user's company members
+        # For now, get all users except current user
         if current_user.is_authenticated:
             co_workers = model.User.query.filter(model.User.id != current_user.id)
 
             def user_data(user):
-                return user.name
-            co_workers = list(map(user_data, co_workers))
-        else:
-            co_workers = []
+                return {
+                    "id": user.id,
+                    "name": user.name,
+                }
 
-        return {'chat_users': tuple(co_workers)}
-    
+            co_workers = tuple(map(user_data, co_workers))
+        else:
+            co_workers = ()
+
+        return {"chat_users": co_workers}
+
     def filtered_chat_rooms():
         if current_user.is_authenticated:
-            user_rooms = model.UserRoom.query.filter(model.UserRoom.user_id == current_user.id)
-            def room_data(user_room):
-                room = model.Room.query.filter(model.Room.id == user_room.room_id).first()
-                return room.name
-             
-            rooms = list(map(room_data, user_rooms))
+
+            def room_data(room):
+                return {
+                    "id": room.id,
+                    "name": room.name,
+                }
+
+            rooms = tuple(map(room_data, current_user.rooms))
         else:
             rooms = ()
         return {"groups": rooms}
