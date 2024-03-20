@@ -31,9 +31,9 @@ User.customer = db.relationship("Customer")
 User.tickets = db.relationship("TicketForum")
 User.ticket_comments = db.relationship("TicketComment")
 User.messages = db.relationship("Message", back_populates="author")
-User.rooms = db.relationship('Room', secondary='user_room')
-User.jobs = db.relationship('Job')
-User.applications = db.relationship('Application')
+User.rooms = db.relationship("Room", secondary="user_room", back_populates="members")
+User.jobs = db.relationship("Job")
+User.applications = db.relationship("Application")
 
 # Job
 Job.user_id = db.Column(db.String(36), db.ForeignKey("user.id", ondelete="CASCADE"))
@@ -155,7 +155,10 @@ Message.room_id = db.Column(
 Message.room = db.relationship("Room", back_populates="messages")
 
 # Room
-Room.messages = db.relationship("Message", back_populates="room", order_by='Message.timestamp')
+Room.messages = db.relationship(
+    "Message", back_populates="room", order_by="Message.timestamp"
+)
+Room.members = db.relationship("User", secondary="user_room", back_populates="rooms")
 
 # User Room
 UserRoom.user_id = db.Column(db.String(36), db.ForeignKey("user.id"))
