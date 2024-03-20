@@ -9,6 +9,8 @@ import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
 from app.db import config,db
+
+# import the needs from the security module
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
@@ -17,6 +19,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
                                my_applications_need)
+
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -63,6 +66,7 @@ def create_app():
         # use it in the query for the user
         return model.User.query.get(user_id)
 
+    # sets all the needs a particular user needs. user is attached to 'identity', which keeps track of which user is logged in and what permissions they have
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function
@@ -86,6 +90,9 @@ def create_app():
                     identity.provides.add(delete_comment_need(comment.id))
             if hasattr(current_user, 'tickets'):
                 for ticket in current_user.tickets:
+                    # gives the user permission to delete or edit their OWN tickets
+                    # this is because we have the relationship set up as User.tickets = db.relationship('TicketForum')) in models init
+                    # loops through all of the users' tickets and adds in the permissions for each one
                     identity.provides.add(delete_ticket_need(ticket.id))
                     identity.provides.add(edit_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):

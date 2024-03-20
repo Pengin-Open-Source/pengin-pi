@@ -9,6 +9,8 @@ from app.db.models import TicketComment, TicketForum, User, Orders, OrdersList
 from app.db.models.orders import OrderChangeRequest, OrderHistory
 from app.db.models.product import Product
 from app.db.util import paginate
+
+# import the permissions related to tickets
 from app.util.security import (admin_permission,
                                delete_ticket_comment_permission,
                                delete_ticket_permission,
@@ -104,6 +106,7 @@ def ticket(ticket_id):
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
 def delete_ticket(id):
+    # this is the older way of establishing tickets; we should use a decorator instead: @decorated_with_permission.require()
     permission = delete_ticket_permission(id)
     if permission.can() or admin_permission.can():
         ticket = TicketForum.query.filter_by(id=id).first()
