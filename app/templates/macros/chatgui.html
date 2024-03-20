@@ -1,0 +1,112 @@
+{% macro chatgui() %}
+{# empty div to send flask_login.current_user name and id to javascript #}
+{# optionally, can use fetch from JS instead #}
+<div id="current-user" data-name="{{ current_user.name }}"></div>
+<div id="message-display" class="full-page-message">
+    <div class="full-page-scroll-container">
+        <div class="top-bar">
+            <h2 class="section-title"></h2>
+            <div class="main-nav-links"></div>
+            <div class="right-nav-container">
+                <button onclick="closeMessage()" id="close-message-btn">
+                    <strong> X </strong>
+                </button>
+            </div>
+        </div>
+        <div class="full-page-scroll-content">
+            <div class="content-section">
+                <div class="content-section-div-1">
+                    <div class="content-section-p" class="full-page-scroll-container" id="user-section">
+                        <div class="message-top-bar">
+                            <p id="user-list-head" class="top-bar-title">USERS</p>
+                            <div class="main-nav-links"></div>
+                            <div class="right-nav-container">
+                                <button onclick="displayUser()" id="user-btn">_</button>
+                            </div>
+                        </div>
+                        <div class="message-grid-container" id="user-container">
+                            {% for user in chat_users %}
+                                <div class="message-grid-item">
+                                    <input type="submit" value="{{user}}" class="other-chat-user" />
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="message-top-bar">
+                            <p id="users-per-chat-head" class="top-bar-title"> </p>
+                            <div class="main-nav-links"></div>
+                            <div class="right-nav-container">
+                            </div>
+                        </div>
+                        <div class="message-grid-container" id="users-in-chat">
+
+                        </div>
+                    </div>
+                    <div class="content-section-p full-page-scroll-container" id="group-section">
+                        <div class="message-top-bar">
+                            <p id="group-list-head" class="top-bar-title">GROUPS</p>
+                            <div class="main-nav-links"></div>
+                            <div class="right-nav-container">
+                                <button onclick="displayGroup()" id="group-btn">
+                                    _
+                                </button>
+                            </div>
+                        </div>
+                        <div class="message-grid-container" id="group-container">
+                            <form id="chat-with-group" method="POST" action="">
+                                {% for group in groups %}
+                                <div class="message-grid-item">
+                                    <input type="submit" value="{{group}}" class="chat-group" />
+                                </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-section-div-2">
+                    <div class="message-display">
+                        <div class="message-display-sender" class="full-page-scroll-container">
+                            <!-- Content Now Dynamically Filled in by JS SCRIPT-->
+                            {% if messages %}
+                            {% for text in messages['sender'] %}
+                            <div class="text-section">
+                                <div class="text-section-s">{{text}}</div>
+                                <div class="text-section-s"></div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="message-display-receiver">
+                            {% if messages %}
+                            {% for text in messages['receiver'] %}
+                            <div class="text-section">
+                                <div class="text-section-r"></div>
+                                <div class="text-section-r">{{text}}</div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <form id="chat-form" class="message-form" method="POST" action="">
+                        <div class="message-form-section">
+                            <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
+                                placeholder="Text your message..."> </textarea>
+                            <input type="submit" value="Send" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for ('static', filename = 'javascript/jquery/1.12.4/jquery.min.js')}}"></script>
+<script src="{{ url_for ('static', filename = 'javascript/socket.io/4.0.1/socket.io.js')}}"></script>
+<script src="{{ url_for ('static', filename = 'javascript/chat.js')}}"></script>
+
+{% endmacro %}
+
+{% macro chatbutton() %}
+<div>
+    <button onclick="displayBtn()" id="message-btn">Chat</button>
+</div>
+{% endmacro %}

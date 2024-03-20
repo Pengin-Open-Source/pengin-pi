@@ -10,11 +10,17 @@ load_dotenv()
     
         
 class Message(Mailer):        
-    def __init__(self, RECIPIENT, TOKEN, TYPE, URL=os.getenv('URL')):
+    def __init__(self, RECIPIENT, TOKEN, TYPE, user_name=None, job_title=None, accept_subject=None, accept_body=None,reject_subject=None, reject_body=None, URL=os.getenv('URL')):
         Mailer.__init__(self)
         self.RECIPIENT=RECIPIENT
         self.TOKEN=TOKEN
         self.URL=URL
+        self.user_name = user_name
+        self.job_title = job_title
+        self.accept_subject = accept_subject
+        self.accept_body = accept_body
+        self.reject_subject = reject_subject
+        self.reject_body = reject_body
         
         if TYPE == "user_validation":
             # The email body for recipients with non-HTML email clients.
@@ -53,12 +59,70 @@ class Message(Mailer):
             </body>
             </html>
             """
+        elif TYPE == "application_confirmation":
+            self.SUBJECT="Application Confirmation"
+            BODY_TEXT = ("Thank you for your application\r\n"
+                        "This email is an automated message."
+                        "We will be in touch soon."
+                        )
+            BODY_HTML = f"""<html>
+            <head></head>
+            <body>
+            <h1>Application Confirmation</h1>
+            <p>This email is an automated message. We will be in touch soon.</p>
+            </body>
+            </html>
+            """
+        elif TYPE == "application_notification":
+            self.SUBJECT="New Application"
+            BODY_TEXT = ("New Application Recieved\r\n"
+                         "User {self.user_name} applied for the position of {self.job_title}.") 
+            BODY_HTML = f"""<html>
+                <head></head>
+                <body>
+                <h1>New Application Recieved</h1>
+                <p>User {self.user_name} applied for the position of {self.job_title}.</p>
+                </body>
+                </html>
+            """
+        elif TYPE == "accept_notification":
+            self.SUBJECT = self.accept_subject
+            BODY_TEXT = self.accept_body
+            BODY_HTML = f"""<html>
+                <head></head>
+                <body>
+                <h1>Thank you for your application!</h1>
+                <p>{ self.accept_body }</p>
+                </body>
+                </html>
+            """
+        elif TYPE == "reject_notification":
+            self.SUBJECT = self.reject_subject
+            BODY_TEXT = self.reject_body
+            BODY_HTML = f"""<html>
+                <head></head>
+                <body>
+                <h1>Thank you for your application</h1>
+                <p>{ self.reject_body }</p>
+                </body>
+                </html>
+            """
 
         # Create message container - the correct MIME type is multipart/alternative.
         self.msg = MIMEMultipart('alternative')
         self.msg['Subject'] = self.SUBJECT
-        self.msg['From'] = email.utils.formataddr((self.SENDER_NAME, self.SENDER))
+        
+        if TYPE == "application_confirmation" or TYPE == "application_notification" or TYPE == 'reject_notification':
+            self.msg['From'] = email.utils.formataddr(('Tobu Pengin', 'no-reply@tobupengin.com'))
+            
+        elif TYPE == 'accept_notification':
+            self.msg['From'] = email.utils.formataddr(('Tobu Pengin', os.getenv('HIRING_EMAIL')))
+
+        else:
+            self.msg['From'] = email.utils.formataddr((self.SENDER_NAME, self.SENDER))
+
         self.msg['To'] = RECIPIENT
+
         # Record the MIME types of both parts - text/plain and text/html.
         self.part1 = MIMEText(BODY_TEXT, 'plain')
         self.part2 = MIMEText(BODY_HTML, 'html')

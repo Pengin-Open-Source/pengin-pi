@@ -1,0 +1,37 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+  {% if is_admin %}
+    <a href="/applications/{{ job.id }}/{{ application.id }}/edit-status">Edit Status</a>
+  {% else %}
+    <a href="/applications/my-applications">My Applications</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
+  {% if application %}
+    <h1>Application for {{ job.job_title }}</h1>
+    {% if is_admin %}
+    <p>Status: 
+      {% for status_code in status_codes %}
+          {% if status_code.id == application.status_code %}
+              {{ status_code.code }}
+          {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+    <p>Applied on  {{ application.date_applied.strftime('%B %d, %Y') }}</p>
+    <p>Resume: <a href="{{ resume_url }}" target="_blank"> Download</a></p>
+    <p> Cover Letter:
+      {% if not application.cover_letter_path %}
+        None provided
+      {% else %}
+        <a href="{{ cover_letter_url }}" target="_blank"> Download</a>
+      {% endif %}
+    <p>Message: {{ application.message }}</p>
+    <p>Location: {{ application.location }}</p>
+  {% else %}
+    <h1>Application Not Found</h1>
+    <p>Sorry, we could not find the application you are looking for.</p>
+  {% endif %}
+{% endblock %}

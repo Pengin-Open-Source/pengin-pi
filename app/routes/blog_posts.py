@@ -1,14 +1,12 @@
 from flask import Blueprint, redirect, render_template, request, url_for
-from flask_login import current_user, login_required
+from flask_login import login_required
 from flask_principal import Permission, RoleNeed
-
 from app.db import db
 from app.db.models import BlogPost
 from app.db.util import paginate
 
 blogPosts = Blueprint('blogPosts', __name__)
 admin_permission = Permission(RoleNeed('admin'))
-
 
 def get_links():
     return []
@@ -33,7 +31,7 @@ def display_post(post_id):
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
-
+    
     posts = paginate(BlogPost, page=page, key="title", pages=10)
     author_date = post.date  # TODO blogPost model has no author attribute.
 
@@ -52,7 +50,7 @@ def edit_post(post_id):
         post.title = request.form.get('title')
         post.content = request.form.get('content')
         post.tags = request.form.get('tags')
-
+        
         db.session.commit()
 
         return redirect(url_for("blogPosts.display_post", post_id=post.id))
@@ -61,8 +59,7 @@ def edit_post(post_id):
     else:
         page = 1
 
-    posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/edit.html', post=post, posts=posts)
+    return render_template('blog/edit.html', post=post)
 
 
 @blogPosts.route('/blog/create', methods=['GET', 'POST'])
@@ -83,5 +80,4 @@ def create_post():
     else:
         page = 1
 
-    posts = paginate(BlogPost, page=page, key="title", pages=10)
-    return render_template('blog/create.html', newPost=1, posts=posts)
+    return render_template('blog/create.html', newPost=1)

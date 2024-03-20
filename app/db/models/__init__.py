@@ -8,13 +8,15 @@ from app.db.models.ticket import TicketComment, TicketForum, Resolution
 from app.db.models.calendar import Event
 from app.db.models.home import Home
 from app.db.models.about import About
+from app.db.models.message import Message, Room, UserRoom
+from app.db.models.job import Job
+from app.db.models.application import Application, StatusCode
 from sqlalchemy.orm import with_polymorphic
 from sqlalchemy import schema
 
-
-#Company
+# Company
 Company.customer = db.relationship('Customer')
-#User
+# User
 User.roles = db.relationship('Role', secondary='user_roles')
 User.posts = db.relationship('ForumPost')
 User.comments = db.relationship('ForumComment')
@@ -22,81 +24,113 @@ User.companies = db.relationship('Company', secondary='company_members')
 User.customer = db.relationship('Customer')
 User.tickets = db.relationship('TicketForum')
 User.ticket_comments = db.relationship('TicketComment')
+User.messages = db.relationship("Message", back_populates="author")
+User.rooms = db.relationship('Room', secondary='user_room')
+User.jobs = db.relationship('Job')
+User.applications = db.relationship('Application')
+
+#Job
+Job.user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'))
+Job.applications = db.relationship('Application', back_populates="job")
+
+#Application
+Application.user = db.relationship('User', back_populates='applications')
+Application.job = db.relationship('Job', back_populates='applications')
+Application.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
+                                                   ondelete='CASCADE'))
+Application.job_id = db.Column(db.String(36), db.ForeignKey('job.id',
+                                                ondelete='CASCADE'))
+Application.status_code_id = db.Column(db.String(36), db.ForeignKey('status_code.id'))
+
 #User Roles
 UserRoles.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                   ondelete='CASCADE'))
+                                                           ondelete='CASCADE'))
 UserRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
                                                 ondelete='CASCADE'))
-#Companmy Members
+#Company Members
 CompanyMembers.company_id = db.Column(db.String(36), db.ForeignKey('company.id',
-                        ondelete='CASCADE'))
+                                                                   ondelete='CASCADE'))
 CompanyMembers.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                    ondelete='CASCADE'))
+                                                                ondelete='CASCADE'))
 CompanyMembers.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
-                    ondelete='CASCADE'))
-#Role
+                                                                ondelete='CASCADE'))
+# Role
 Role.event_info = db.relationship('Event', back_populates="role_info", lazy=True)
-#Customer
+
+# Customer
 Customer.__table_args__ = (
-        schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
-    )
+    schema.CheckConstraint('NOT(user_id IS NULL AND company_id IS NULL)'),
+)
 Customer.user_id = db.Column(db.String(36),
-                    db.ForeignKey('user.id', ondelete='CASCADE'),
-                    nullable=False)
+                             db.ForeignKey('user.id', ondelete='CASCADE'),
+                             nullable=False)
 Customer.company_id = db.Column(db.String(36),
-                        db.ForeignKey('company.id', ondelete='CASCADE'),
-                        nullable=False)
+                                db.ForeignKey('company.id', ondelete='CASCADE'),
+                                nullable=False)
 Customer.orders = db.relationship('Orders')
 Customer.contracts = db.relationship('Contracts')
 Customer.shipping_address = db.relationship('ShippingAddress')
 
-#ShippingAddress
+# ShippingAddress
 ShippingAddress.customer_id = db.Column(db.String(36),
-                        db.ForeignKey('customer.id', ondelete='CASCADE'),
-                        nullable=False)
-#Orders
+                                        db.ForeignKey('customer.id', ondelete='CASCADE'),
+                                        nullable=False)
+# Orders
 Orders.orders_list = db.relationship('OrdersList')
 Orders.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
-                                                ondelete='CASCADE'))
-#Contracts
+                                                            ondelete='CASCADE'))
+# Contracts
 Contracts.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
-                                                ondelete='CASCADE'))
-#Thread
+                                                               ondelete='CASCADE'))
+# Thread
 Thread.roles = db.relationship('Role', secondary='thread_roles')
-#ThreadRoles
+# ThreadRoles
 ThreadRoles.thread_id = db.Column(db.String(36), db.ForeignKey('thread.id',
-                                                ondelete='CASCADE'))
+                                                          ondelete='CASCADE'))
 ThreadRoles.role_id = db.Column(db.String(36), db.ForeignKey('roles.id',
-                                                ondelete='CASCADE'))
-#ForumPost
+                                                             ondelete='CASCADE'))
+# ForumPost
 ForumPost.comments = db.relationship('ForumComment')
 ForumPost.thread_id = db.Column(db.String(36), db.ForeignKey('thread.id',
-                                                ondelete='CASCADE'))
+                                                             ondelete='CASCADE'))
 ForumPost.author = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
-#ForumComment
+                                                          ondelete='CASCADE'))
+# ForumComment
 ForumComment.author = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
+                                                             ondelete='CASCADE'))
 ForumComment.post_id = db.Column(db.String(36), db.ForeignKey('forum_post.id',
-                                                ondelete='CASCADE'))
-#Event
+                                                              ondelete='CASCADE'))
+# Event
 Event.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
+                                                       ondelete='CASCADE'))
 Event.organizer = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
+                                                         ondelete='CASCADE'))
 Event.role = db.Column(db.String(36), db.ForeignKey('roles.id',
-                                                ondelete='CASCADE'))
+                                                    ondelete='CASCADE'))
 Event.role_info = db.relationship("Role", back_populates="event_info", lazy=True)
-#TicketForum
+# TicketForum
 TicketForum.user_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
+                                                             ondelete='CASCADE'))
 TicketForum.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',
-                                                ondelete='CASCADE'))
-#TicketComment
+                                                                 ondelete='CASCADE'))
+# TicketComment
 TicketComment.ticket_id = db.Column(db.String(36), db.ForeignKey('ticket_forum.id',
-                                                ondelete='CASCADE'))
+                                                                 ondelete='CASCADE'))
 TicketComment.author_id = db.Column(db.String(36), db.ForeignKey('user.id',
-                                                ondelete='CASCADE'))
-#OrdersList
+                                                                 ondelete='CASCADE'))
+# OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
+
+# Message
+Message.author_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+Message.author = db.relationship("User", back_populates="messages")
+Message.room_id = db.Column(db.String(36), db.ForeignKey('room.id', ondelete="CASCADE"), nullable=False)
+Message.room = db.relationship("Room", back_populates="messages")
+
+# Room
+Room.messages = db.relationship("Message", back_populates="room", order_by='Message.timestamp')
+
+# User Room
+UserRoom.user_id = db.Column(db.String(36), db.ForeignKey('user.id'))
+UserRoom.room_id = db.Column(db.String(36), db.ForeignKey('room.id'))
