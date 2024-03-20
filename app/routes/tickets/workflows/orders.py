@@ -137,22 +137,20 @@ def edit_order(order_id):
 
         ticket_summary = f"Order Change Request - Order ID: {order_id}"
         ticket_content = f"Changes to Order ID {order_id} pending approval. Please review and approve or reject the changes."
-        ticket.resolution_status = 'open'
 
         ticket = TicketForum(
             summary=ticket_summary,
             content=ticket_content,
             date=datetime.now(),
             user_id=current_user.id,
+            resolution_status = 'open',
             tags="order-change-request"
         )
 
         db.session.add(ticket)
         db.session.commit()
 
-        flash('Your order change request has been submitted for review.', 'success')
-        return redirect(url_for("order_info.display_order_info",
-                                order_id=order.id))
+        return render_template('tickets/workflows/customer_order_success.html', primary_title='Request Submitted', order=order, ticket=ticket)
 
     products = Product.query.all()
     customers = Customer.query.all()

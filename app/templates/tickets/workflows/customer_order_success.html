@@ -1,0 +1,16 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns%}
+{% if not is_admin %}
+  <a href="/orders">My Orders</a>
+  {% endif %}{% endblock %}
+
+{% block pageContent %}
+    <h1>Request Submitted!</h1>
+    {% if ticket.tags == 'order-change-request' %}
+    <p>Your request for changes to your order has been submitted.</p>
+    {% elif ticket.tags == 'order-cancel-request' %}
+    <p>Your request for changes to your order has been submitted.</p>
+    {% endif %}
+  <p><a href="/orders/{{order.id}}">Back to Order</a></p>
+    {% endblock %}
