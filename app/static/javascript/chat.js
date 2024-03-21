@@ -93,9 +93,13 @@ function fetchMessage(room_id) {
         },
     })
         .then(response => response.json())
-        .then(data => {
-            // Update the status on the page
-            for (const message of data) {
+        .then(messages => {
+            if (messages.length > 0) {
+                addLoadMoreButton();
+            } else {
+                noMessages();
+            }
+            for (const message of messages) {
                 // Trigger function to add message in page
                 createMessage({
                     author_name: message.author_name,
@@ -112,8 +116,63 @@ function fetchMessage(room_id) {
         });
 }
 
+function get_more_messages() {
+    const messageHolder = $('.message-holder')[0];
+    const messagesLoaded = messageHolder.childElementCount;
+    fetch(`/chat/get_more_messages/${room_id}/${messagesLoaded}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => response.json())
+        .then(messages => {
+            if (messages.length > 0) {
+                for (const message of messages) {
+                    // Trigger function to add messages in page
+                    createMessage({
+                        author_name: message.author_name,
+                        content: message.content,
+                        timestamp: message.timestamp
+                    }, true);
+                }
+            } else {
+                noMoreMessages();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+}
+
+// Add button to load more messages
+function addLoadMoreButton() {
+    const loadMoreButton = document.createElement('button');
+    loadMoreButton.classList.add("load-more-messages");
+    loadMoreButton.innerText = "Load more messages";
+    loadMoreButton.addEventListener('click', function () {
+        get_more_messages()
+    });
+    $('div.message-load-button-container').empty().append(loadMoreButton)
+}
+
+function noMessages() {
+    const noMessages = document.createElement('p');
+    noMessages.classList.add("no-messages");
+    noMessages.innerText = "No messages yet. \nSend a message to start the conversation.";
+    $('div.message-load-button-container').empty().append(noMessages)
+
+}
+function noMoreMessages() {
+    const noMoreMessages = document.createElement('p');
+    noMoreMessages.classList.add("no-more-messages");
+    noMoreMessages.innerText = "You've loaded all the messages.";
+    $('div.message-load-button-container').empty().append(noMoreMessages)
+}
+
 // Add new message in the page
-function createMessage(message) {
+function createMessage(message, before=false) {
 
     const currentUserName = document.getElementById('current-user').dataset.name;
     const isSender = message.author_name === currentUserName;
@@ -141,7 +200,12 @@ function createMessage(message) {
 
     msgSection.appendChild(metadata);
     msgSection.appendChild(content);
-    $('div.message-display')[0].appendChild(msgSection)
+    if (before) {
+        $('div.message-holder')[0].prepend(msgSection)
+
+    } else {
+        $('div.message-holder')[0].append(msgSection)
+    }
 }
 
 // Send message to the server

@@ -10,20 +10,42 @@ chat_blueprint = Blueprint("chat_blueprint", __name__, url_prefix="/chat")
 DEFAULT_MESSAGES_TO_LOAD = 15
 
 
+# Helper function to serialize a message
+def serialize_message(message):
+    return {
+        "author_name": message.author.name,
+        "content": message.content,
+        "timestamp": message.timestamp,
+    }
+
+
 @chat_blueprint.route("/get_past_messages/<room_id>/")
 @login_required
 def get_past_messages(room_id):
     room = Room.query.get_or_404(room_id)
 
-    def serialize_message(message):
-        return {
-            "author_name": message.author.name,
-            "content": message.content,
-            "timestamp": message.timestamp,
-        }
-
     past_messages = room.messages[-DEFAULT_MESSAGES_TO_LOAD:]
     past_messages = tuple(map(serialize_message, past_messages))
+
+    return jsonify(past_messages)
+
+
+@chat_blueprint.route("/get_more_messages/<room_id>/<int:messages_loaded>/")
+@login_required
+def get_more_messages(room_id, messages_loaded):
+    room = Room.query.get_or_404(room_id)
+    message_loaded = int(messages_loaded)
+
+    # Get messages before the messages already loaded
+    filtered_messages = room.messages[
+        -(DEFAULT_MESSAGES_TO_LOAD + message_loaded) : -messages_loaded
+    ]
+    # Change order of messages to prepend them in the page
+    sorted_messages = sorted(
+        filtered_messages, key=lambda msg: msg.timestamp, reverse=True
+    )
+
+    past_messages = tuple(map(serialize_message, sorted_messages))
 
     return jsonify(past_messages)
 
