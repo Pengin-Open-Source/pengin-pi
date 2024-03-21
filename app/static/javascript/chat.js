@@ -30,7 +30,6 @@ const selectUserButtons = $(".btn-select-user");
 for (const button of selectUserButtons) {
     button.addEventListener("click", function () {
         const user_id = this.dataset.userId;
-        selectRoom("user_id", user_id)
         fetch(`/chat/get_room_id/${user_id}/`, {
             method: 'GET',
             headers: {

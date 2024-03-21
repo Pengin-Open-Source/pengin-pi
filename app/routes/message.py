@@ -47,8 +47,6 @@ def get_room_id(user_id):
         )
         db.session.add(room)
         db.session.commit()
-        print(f"room {room.id} did not exist, it is now created:")
-        print(f"room name: {room.name}")
 
     def user_rooms_serialize(room_to_serialize):
         serialized_name = room_to_serialize.name
