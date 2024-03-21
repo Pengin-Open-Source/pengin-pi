@@ -129,6 +129,7 @@ button:hover {
 
 .section-title {
   font-size: 2rem;
+  width: 100%;
 }
 
 .dropdown:hover .dropdown-content {
@@ -746,12 +747,22 @@ th {
 
 .message-grid-item {
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 10px 30px;
+  border-top: 0;
+  padding: 5px 10px;
   text-align: center;
+  font-size: 12px;
 }
 
 .message-grid-item:nth-child(even) {
   background-color: #dddddd;
+}
+
+.btn-select-user, .btn-select-group {
+  cursor: pointer;
+}
+
+.btn-select-user:hover, .btn-select-group:hover {
+  background-color: var(--hover-blue);
 }
 
 .text-section {
@@ -829,13 +840,6 @@ th {
   padding: 8rem 2rem;
 }
 
-#user-btn,
-#group-btn {
-  border: none;
-  background-color: var(--main-blue);
-  color: #dddddd;
-}
-
 .message-top-bar {
   background-color: #1a6b99;
   color: white;
@@ -845,4 +849,28 @@ th {
 
 .top-bar-title {
   font-size: 12px;
+}
+
+.top-bar-title.collapsible {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  padding: 10px 10px 6px 10px;
+}
+
+.top-bar-title.collapsible:hover {
+  background-color: var(--hover-blue);
+}
+
+.top-bar-title.collapsible:after {
+  content: '\002B'; /* Unicode character for "plus" sign (+) */
+  font-size: 15px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+.top-bar-title.collapsible.active:after {
+  content: "\2212"; /* Unicode character for "minus" sign (-) */
 }
