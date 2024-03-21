@@ -32,6 +32,7 @@ class Messenger:
         self.current_room = None
         # apply optional configs
 
+    @login_required
     def on_join(self, data):
         print(f"on_join data: {data}")
         if "room_id" in data:
@@ -70,6 +71,7 @@ class Messenger:
             {"room_id": room.id},
         )
 
+    @login_required
     def save_message(self, data):
         with db.session.no_autoflush:
             message = Message(
@@ -82,6 +84,7 @@ class Messenger:
             db.session.commit()
         self.send_message(message)
 
+    @login_required
     def send_message(self, message):
         context = {
             "author_name": message.author.name,
@@ -90,9 +93,11 @@ class Messenger:
         }
         emit("saved_message", context, to=message.room_id)
 
+    @login_required
     def disconnect_handler(self):
         pass
 
+    @login_required
     def create_room_name(self, user1, user2):
         attendees = [user1, user2]
         attendees.sort()
