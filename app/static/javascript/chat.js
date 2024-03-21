@@ -31,6 +31,20 @@ for (const button of selectUserButtons) {
     button.addEventListener("click", function () {
         const user_id = this.dataset.userId;
         selectRoom("user_id", user_id)
+        fetch(`/chat/get_room_id/${user_id}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                updateRoomList(data.rooms)
+                selectRoom(data.new_room_id)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
     });
 }
 
