@@ -1,6 +1,4 @@
 const socketio = io();
-const sent_messages = document.querySelector(".message-display-sender");
-const received_messages = document.querySelector(".message-display-receiver");
 let room_id = "";
 
 // Add event listener to the user buttons (to open chat with another user)
