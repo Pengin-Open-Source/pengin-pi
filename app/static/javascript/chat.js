@@ -2,23 +2,23 @@
 
 // Open chat window
 function displayBtn() {
-  const messageModal = document.getElementById('message-display')
-  messageModal.classList.add("show")
+    const messageModal = document.getElementById('message-display')
+    messageModal.classList.add("show")
 }
 
 // Close chat window
 function closeMessage() {
-  const messageModal = document.getElementById('message-display')
-  messageModal.classList.remove("show")
+    const messageModal = document.getElementById('message-display')
+    messageModal.classList.remove("show")
 }
 
 const collapseButtons = $('.collapsible');
 for (const button of collapseButtons) {
-    button.addEventListener('click', function() {
-    this.classList.toggle('active');
-    const content = this.nextElementSibling;
-    content.classList.toggle('hide');
-  });
+    button.addEventListener('click', function () {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        content.classList.toggle('hide');
+    });
 }
 
 /// >>>>>>>>>>>>>>>>>>>>> SOCKET IO CHAT FUNCTIONS AND EVENT LISTENERS <<<<<<<<<<<<<<<<<<<<<
@@ -79,7 +79,7 @@ function scrollToLastMessage() {
 // Fetch all messages from the server DB
 function fetchMessage(room_id) {
     console.log("fetching messages for " + room_id)
-    // Send AJAX request to update instance status
+    // Send AJAX request to server
     fetch(`/chat/get_past_messages/${room_id}/`, {
         method: 'GET',
         headers: {
@@ -91,7 +91,11 @@ function fetchMessage(room_id) {
             // Update the status on the page
             for (const message of data) {
                 // Trigger function to add message in page
-                createMessage({author_name: message.author_name, content: message.content, timestamp: message.timestamp});
+                createMessage({
+                    author_name: message.author_name,
+                    content: message.content,
+                    timestamp: message.timestamp
+                });
             }
         })
         .then(() => {
