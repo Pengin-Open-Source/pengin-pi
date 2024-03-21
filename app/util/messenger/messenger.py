@@ -18,7 +18,6 @@ from flask_login import current_user, login_required
 import os
 import datetime
 from app.db import db
-from app.util.uuid import id
 from app.db.models import Message, User, Room
 
 
@@ -38,28 +37,7 @@ class Messenger:
         if "room_id" in data:
             room_id = data["room_id"]
             room = Room.query.get_or_404(room_id)
-        elif "user_id" in data:
-            user_id = data["user_id"]
-            user = User.query.get_or_404(user_id)
 
-            # Get room from DB if it both users are members
-            # For now, look for a room with both users
-            # TODO: add attribute to Room model to indicate room is a default 2-user room or a room created by a user
-            room = Room.query.filter(
-                Room.members.any(User.id == current_user.id),
-                Room.members.any(User.id == user.id),
-            ).first()
-            if room is None:
-                room = Room(
-                    id=id(),
-                    name=self.create_room_name(current_user.name, user.name),
-                )
-                current_user.rooms.append(room)
-                user.rooms.append(room)
-                db.session.add(room)
-                db.session.commit()
-                print(f"room {room.id} did not exist, it is now created:")
-                print(f"room name: {room.name}")
         else:
             print("No room_id or user_id in data")
             return
@@ -96,12 +74,6 @@ class Messenger:
     @login_required
     def disconnect_handler(self):
         pass
-
-    @login_required
-    def create_room_name(self, user1, user2):
-        attendees = [user1, user2]
-        attendees.sort()
-        return f"{attendees[0]}_{attendees[1]}"
 
 
 messenger_blueprint = Blueprint(
