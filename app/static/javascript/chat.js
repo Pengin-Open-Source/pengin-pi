@@ -79,7 +79,9 @@ function selectRoom(room_id) {
 function scrollToLastMessage() {
     const messageHolder = $('.message-display')[0];
     const lastMessage = messageHolder.lastElementChild;
-    lastMessage.scrollIntoView();
+    if (lastMessage) {
+        lastMessage.scrollIntoView();
+    }
 }
 
 // Fetch all messages from the server DB
