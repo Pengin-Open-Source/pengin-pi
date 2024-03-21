@@ -79,8 +79,11 @@
   {% if ticket.resolution_status == 'resolved' %}
   <p>Request has been resolved.</p>
   {% else %}
-  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-changes" method="POST">
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve?action=approve" method="POST">
     <button type="submit">Approve Changes</button>
+  </form>
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve?action=reject" method="POST">
+    <button type="submit">Reject Changes</button>
   </form>
   {% endif %}
 {% endif %}

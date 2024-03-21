@@ -81,8 +81,6 @@ def ticket(ticket_id):
                                 ticket_id=ticket_id))
 
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
-    print('ticket.resolution_status: ', ticket.resolution_status)
-    print('ticket.tags: ', ticket.tags)
     author = User.query.filter_by(id=ticket.user_id).first().name
     comments = TicketComment.query.filter_by(ticket_id=ticket_id).all()
     comment_authors = {j: User.query.filter_by(id=j).first().name
@@ -209,7 +207,6 @@ def review_order(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
-    print('ticket.resolution_status: ', ticket.resolution_status)
 
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
     order_change_request_products = {}
@@ -219,20 +216,28 @@ def review_order(ticket_id, order_id):
 
     return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products, request_type=request_type, ticket=ticket)
 
-@ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve-order-changes', methods=['GET', 'POST'])
+@ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require()
 def approve_order_changes(ticket_id, order_id):
+    action = request.args.get('action')
     order = Orders.query.get_or_404(order_id)
     order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
 
     if request.method == 'POST':
-        if order_change_request:
+        if action == 'approve':
             order.order_date = order_change_request.order_date
             order.customer_id = order_change_request.customer_id
             order.orders_list = order_change_request.orders_list
 
+            db.session.delete(order_change_request)
+            ticket.resolution_status = 'resolved'
+            ticket.resolution_date = date.today()
+            db.session.commit()
+
+            return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
+        elif action == 'reject':
             db.session.delete(order_change_request)
             ticket.resolution_status = 'resolved'
             ticket.resolution_date = date.today()
