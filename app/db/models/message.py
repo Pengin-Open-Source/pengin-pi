@@ -19,19 +19,6 @@ class Room(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     name = db.Column(db.String(100))
 
-    def __init__(self, name=None, members=None):
-        self.name = name or self.generate_default_name(members)
-        if members:
-            self.members.extend(members)
-
-    @staticmethod
-    def generate_default_name(members):
-        if members:
-            members_dict = {member.id: member.name for member in members}
-            return json.dumps(members_dict)
-        else:
-            return None  # No members, so no default name
-
 
 class UserRoom(db.Model):
     __tablename__ = "user_room"

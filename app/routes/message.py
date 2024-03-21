@@ -51,9 +51,19 @@ def get_room_id(user_id):
         print(f"room name: {room.name}")
 
     def user_rooms_serialize(room_to_serialize):
+        serialized_name = room_to_serialize.name
+        if serialized_name is None:
+            members_names = [
+                member.name
+                for member in room_to_serialize.members
+                if member != current_user
+            ]
+            members_names.sort()
+            serialized_name = ", ".join(members_names)
+
         return {
             "id": room_to_serialize.id,
-            "name": room_to_serialize.name,
+            "name": serialized_name,
         }
 
     return jsonify(
