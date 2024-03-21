@@ -37,12 +37,12 @@ const adminHamburgerToggle = () => {
 /// >>>>>>>>>>>>>>>>>>>>> CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
 function displayBtn() {
   const messageModal = document.getElementById('message-display')
-  messageModal.style.display = "block"
+  messageModal.classList.add("show")
 }
 
 function closeMessage() {
   const messageModal = document.getElementById('message-display')
-  messageModal.style.display = "none";
+  messageModal.classList.remove("show")
 }
 
 let display_user = false
