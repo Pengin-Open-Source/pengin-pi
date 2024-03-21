@@ -712,7 +712,12 @@ th {
   flex: 2;
 }
 
-.message-display {
+.message-container {
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+  background-color: #dddddd;
+  margin: 4px;
   overflow: auto;
 }
 
@@ -726,13 +731,6 @@ th {
   height: 100%;
 }
 
-.message-display {
-  flex: 8;
-  display: flex;
-  flex-direction: column;
-  background-color: #dddddd;
-  margin: 4px;
-}
 
 .message-grid-container {
   display: block;

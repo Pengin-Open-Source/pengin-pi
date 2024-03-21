@@ -71,13 +71,14 @@ function updateRoomList(rooms) {
 
 // Join current user to room with selected room
 function selectRoom(room_id) {
-    $('div.message-display').empty();
+    $('div.message-holder').empty();
+    $('div.message-load-button-container').empty();
     socketio.emit("join_room", {room_id: room_id});
 }
 
 // Scroll to last message
 function scrollToLastMessage() {
-    const messageHolder = $('.message-display')[0];
+    const messageHolder = $('.message-holder')[0];
     const lastMessage = messageHolder.lastElementChild;
     if (lastMessage) {
         lastMessage.scrollIntoView();
