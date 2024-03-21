@@ -57,6 +57,19 @@ for (const button of selectRoomButtons) {
     });
 }
 
+// Update room list in the page
+function updateRoomList(rooms) {
+    const roomList = $('#group-container')[0];
+    roomList.innerHTML = "";
+    for (const room of rooms) {
+        const roomButton = document.createElement('div');
+        roomButton.classList.add("message-grid-item", "btn-select-room");
+        roomButton.dataset.roomId = room.id;
+        roomButton.innerText = room.name;
+        roomList.appendChild(roomButton);
+    }
+}
+
 // Join current user to room with selected room
 function selectRoom(room_id) {
     $('div.message-display').empty();
