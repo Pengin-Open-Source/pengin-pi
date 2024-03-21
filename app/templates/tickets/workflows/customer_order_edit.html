@@ -55,9 +55,11 @@
       <button type="submit" class="primary-button">Request update to order</button>
   </form>
   <br>
+  {% if not order.is_cancelled %}
   <form class="form" method="POST" action="/orders/{{order.id}}/cancel">
     <button type="submit">Request to Cancel Order</button>
   </form>
+  {% endif %}
 
 {% endblock %}
 

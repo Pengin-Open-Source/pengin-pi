@@ -2,7 +2,9 @@
 
 {% block pageDropDowns %}
 {% if not is_admin %}
+  {% if not order.is_cancelled %}
   <a href="/orders/{{order.id}}/edit">Edit</a>
+  {% endif %}
   <a href="/orders">My Orders</a>
   {% endif %}
 {% endblock %}
