@@ -719,7 +719,7 @@ th {
 .message-display {
   flex: 8;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: #dddddd;
   margin: 4px;
 }
@@ -740,36 +740,65 @@ th {
   background-color: #dddddd;
 }
 
-.message-display-sender,
-.message-display-receiver {
-  flex: 1;
-  height: 100%;
+.text-section {
+  margin-top: 5px;
+  /*margin-left: auto;*/
+  min-width: 70%;
+  max-width: 80%;
 }
 
-.text-section {
-  color: black;
+.sender {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.receiver {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+.message-metadata {
+  font-size: .7rem;
+  /*margin-left: auto;*/
+}
+
+.sender .message-timestamp {
+  float: left;
+}
+
+.sender .message-author {
+  float: right;
+}
+
+.receiver .message-timestamp {
+  float: right;
+}
+
+.receiver .message-author {
+  float: left;
+}
+
+.message-content {
   display: flex;
   flex-direction: column;
   text-align: left;
-}
-
-.text-section-s,
-.text-section-r {
   flex: 1;
   padding: 6px 10px;
-  margin: 12px 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: #dddddd;
+  min-width: 50%;
 }
 
-.text-section-s:nth-child(odd) {
-  border-radius: 4px;
+.sender > .message-content {
   background-color: black;
-  color: #dddddd;
+  margin-left: auto;
+  text-align: end;
 }
 
-.text-section-r:nth-child(even) {
-  border-radius: 4px;
+.receiver > .message-content {
   background-color: var(--main-blue);
-  color: #dddddd;
+  margin-right: auto;
 }
 
 #close-message-btn {

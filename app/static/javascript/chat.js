@@ -63,66 +63,30 @@ function createMessage(message) {
     const isSender = message.author_name === currentUserName;
 
     const msgSection = document.createElement('div');
-    const newMessage = document.createElement('div');
-    const msgSpace = document.createElement('div');
-    msgSection.className = "text-section";
-    newMessage.innerHTML = `
-    <p>
-        <strong>${message.author_name}</strong>:
-    </p>
-    <p> ${message.content} </p>
-    <p>
-       <i> ${message.timestamp} </i>
-    </p>`;
+    msgSection.classList.add("text-section");
+    msgSection.classList.add(isSender ? "sender" : "receiver");
 
-    if (isSender) {
-        newMessage.className = "text-section-s"
-        msgSpace.className = "text-section-s";
+    const metadata = document.createElement('div');
+    metadata.classList.add("message-metadata");
 
-        msgSection.appendChild(newMessage)
-        msgSection.appendChild(msgSpace)
-        sent_messages.appendChild(msgSection)
-    } else {
-        newMessage.className = "text-section-r"
-        msgSpace.className = "text-section-r";
+    const author = document.createElement('span');
+    author.classList.add("message-author");
+    author.innerText = message.author_name;
+    const timestamp = document.createElement('span');
+    timestamp.classList.add("message-timestamp");
+    timestamp.innerText = message.timestamp;
 
-        msgSection.appendChild(msgSpace)
-        msgSection.appendChild(newMessage)
-        received_messages.appendChild(msgSection)
-    }
+    metadata.appendChild(author);
+    metadata.appendChild(timestamp);
+
+    const content = document.createElement('p');
+    content.classList.add("message-content");
+    content.innerText = message.content;
+
+    msgSection.appendChild(metadata);
+    msgSection.appendChild(content);
+    $('div.message-display')[0].appendChild(msgSection)
 }
-
-socket.on('load chat', function (messages) {
-
-    sent_messages.innerHTML = "";
-    received_messages.innerHTML = "";
-    const msgList = JSON.parse(messages);
-
-    msgList.forEach(message => {
-        createMessage(message)
-    });
-
-});
-
-socket.on('users in group', function (data) {
-    const chatting = JSON.parse(data);
-    inChatUserHeader.innerHTML = "In Chat Room:  " + chatting[0].room_name
-    inChatUsers.innerHTML = ""
-    roomSelected()
-    chatting.forEach(item => {
-        const userName = item.user_name;
-        const chatUser = document.createElement('div');
-        chatUser.className = "message-grid-item";
-        chatUser.innerHTML = item.user_name
-        inChatUsers.appendChild(chatUser)
-    });
-
-});
-
-socket.on('update chat', function (data) {
-    createMessage(data)
-});
-
 
 // Send message to the server
 function sendMessage() {

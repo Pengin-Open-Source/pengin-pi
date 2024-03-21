@@ -27,7 +27,7 @@
                         <div class="message-grid-container" id="user-container">
                             {% for user in chat_users %}
                                 <div class="message-grid-item">
-                                    <input type="submit" value="{{user}}" class="other-chat-user" />
+                                    <input type="submit" value="{{ user.name }}" data-user-id="{{ user.id }}" class="btn-select-user" />
                                 </div>
                             {% endfor %}
                         </div>
@@ -52,41 +52,19 @@
                             </div>
                         </div>
                         <div class="message-grid-container" id="group-container">
-                            <form id="chat-with-group" method="POST" action="">
                                 {% for group in groups %}
                                 <div class="message-grid-item">
-                                    <input type="submit" value="{{group}}" class="chat-group" />
+                                    <input type="submit" value="{{group.name}}" data-room-id="{{ group.id }}" class="btn-select-room" />
                                 </div>
                                 {% endfor %}
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="content-section-div-2">
                     <div class="message-display">
-                        <div class="message-display-sender" class="full-page-scroll-container">
-                            <!-- Content Now Dynamically Filled in by JS SCRIPT-->
-                            {% if messages %}
-                            {% for text in messages['sender'] %}
-                            <div class="text-section">
-                                <div class="text-section-s">{{text}}</div>
-                                <div class="text-section-s"></div>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
-                        </div>
-                        <div class="message-display-receiver">
-                            {% if messages %}
-                            {% for text in messages['receiver'] %}
-                            <div class="text-section">
-                                <div class="text-section-r"></div>
-                                <div class="text-section-r">{{text}}</div>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
-                        </div>
+                    <!-- Content Now Dynamically Filled in by JS SCRIPT-->
                     </div>
-                    <form id="chat-form" class="message-form" method="POST" action="">
+                    <form id="chat-form" class="message-form" onsubmit="sendMessage();return false">
                         <div class="message-form-section">
                             <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
                                 placeholder="Text your message..."> </textarea>
