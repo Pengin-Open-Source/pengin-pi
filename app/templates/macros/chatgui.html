@@ -17,7 +17,7 @@
             <div class="content-section">
                 <div class="content-section-div-1">
                     <div class="content-section-p" id="user-section">
-                        <button type="button" class="top-bar-title collapsible">USERS</button>
+                        <button type="button" class="top-bar-title collapsible">Users</button>
                         <div class="message-grid-container" id="user-container">
                             {% for user in chat_users %}
                                 <div type="submit" class="message-grid-item btn-select-user" data-user-id="{{ user.id }}">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="content-section-p" id="group-section">
-                        <button type="button" class="top-bar-title collapsible">GROUPS</button>
+                        <button type="button" class="top-bar-title collapsible">Chats</button>
                         <div class="message-grid-container" id="group-container">
                             {% for group in groups %}
                                 <div type="submit" class="message-grid-item btn-select-room" data-room-id="{{ group.id }}">
