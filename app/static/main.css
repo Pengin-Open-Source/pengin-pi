@@ -668,6 +668,10 @@ th {
   justify-items: center;
 }
 
+#message-display.show {
+  display: block;
+}
+
 #users-per-chat-head {
   display: none;
 }
@@ -693,6 +697,11 @@ th {
 
 .content-section-p {
   flex: 1;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  overflow-y: clip;
+  margin-bottom: 10px;
 }
 
 .content-section-div-2 {
@@ -726,8 +735,13 @@ th {
 
 .message-grid-container {
   display: block;
-  overflow-y: auto;
-  max-height: 120px;
+  overflow-y: scroll;
+  /*max-height: 120px;*/
+  max-height: 100%;
+}
+
+.message-grid-container.hide {
+  display: none;
 }
 
 .message-grid-item {
