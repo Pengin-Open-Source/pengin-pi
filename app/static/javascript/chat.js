@@ -53,20 +53,14 @@ const selectRoomButtons = $(".btn-select-room");
 for (const button of selectRoomButtons) {
     button.addEventListener("click", function () {
         const room_id = this.dataset.roomId;
-        selectRoom("room_id", room_id)
+        selectRoom(room_id)
     });
 }
 
 // Join current user to room with selected room
-function selectRoom(type_of_id, id) {
+function selectRoom(room_id) {
     $('div.message-display').empty();
-    let data = {};
-    if (type_of_id === "user_id") {
-        data = { user_id: id }
-    } else if (type_of_id === "room_id") {
-        data = { room_id: id }
-    }
-    socketio.emit("join_room", data);
+    socketio.emit("join_room", {room_id: room_id});
 }
 
 // Scroll to last message
