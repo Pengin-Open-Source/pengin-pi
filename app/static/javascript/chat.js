@@ -31,6 +31,13 @@ function selectRoom(type_of_id, id) {
     socketio.emit("join_room", data);
 }
 
+// Scroll to last message
+function scrollToLastMessage() {
+    const messageHolder = $('.message-display')[0];
+    const lastMessage = messageHolder.lastElementChild;
+    lastMessage.scrollIntoView();
+}
+
 // Fetch all messages from the server DB
 function fetchMessage(room_id) {
     console.log("fetching messages for " + room_id)
@@ -48,6 +55,9 @@ function fetchMessage(room_id) {
                 // Trigger function to add message in page
                 createMessage({author_name: message.author_name, content: message.content, timestamp: message.timestamp});
             }
+        })
+        .then(() => {
+            scrollToLastMessage();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -98,6 +108,7 @@ function sendMessage() {
 socketio.on('saved_message', (message) => {
     // Trigger function to add message in page
     createMessage({author_name: message.author_name, content: message.content, timestamp: message.timestamp});
+    scrollToLastMessage();
 });
 
 // Adding room_id to the client
