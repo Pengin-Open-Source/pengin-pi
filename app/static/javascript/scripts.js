@@ -61,48 +61,27 @@ function displayGroup() {
 function displayGroupsAndUsers() {
   const userDiv = document.getElementById('user-container')
   const groupDiv = document.getElementById('group-container')
-  const inChatUserHeader = document.getElementById("users-per-chat-head")
-  const inChatUsers = document.getElementById("users-in-chat")
 
-  // In case you want a different message when lists are collapsed
-  //const userHeader = document.getElementById('user-list-head')
-  //const groupHeader = document.getElementById('group-list-head')
-
-  if ((display_group === true) && (display_user === false)) {
-    userDiv.style.maxHeight = '0px'
-    groupDiv.style.maxHeight = '200px'
-    groupDiv.style.margin = '8px 0px'
-    if (in_room_now) {
-      inChatUserHeader.style.display = "flex"
-      inChatUsers.style.display = "flex"
-    }
-  }
-  else if ((display_group === false) && (display_user === true)) {
-    groupDiv.style.maxHeight = '0px'
-    userDiv.style.maxHeight = '200px'
-    userDiv.style.margin = '8px 0px'
-    if (in_room_now) {
-      inChatUserHeader.style.display = "none"
-      inChatUsers.style.display = "none"
-    }
-
-
-  } else if ((display_group === false) && (display_user === false)) {
-    groupDiv.style.maxHeight = '0px'
-    userDiv.style.maxHeight = '0px'
-    if (in_room_now) {
-      inChatUserHeader.style.display = "flex"
-      inChatUsers.style.display = "flex"
-    }
-  }
-
-  else {
-    groupDiv.style.maxHeight = '120px'
-    userDiv.style.maxHeight = '120px'
-    if (in_room_now) {
-      inChatUserHeader.style.display = "none"
-      inChatUsers.style.display = "none"
-    }
+  if (display_group && !display_user) {
+    userDiv.classList.add('hide')
+    groupDiv.classList.remove('hide')
+    // userDiv.style.maxHeight = '0px'
+    // groupDiv.style.maxHeight = '200px'
+  } else if (!display_group && display_user) {
+    userDiv.classList.remove('hide')
+    groupDiv.classList.add('hide')
+    // groupDiv.style.maxHeight = '0px'
+    // userDiv.style.maxHeight = '200px'
+  } else if (!display_group && !display_user) {
+    userDiv.classList.add('hide')
+    groupDiv.classList.add('hide')
+    // groupDiv.style.maxHeight = '0px'
+    // userDiv.style.maxHeight = '0px'
+  } else {
+    userDiv.classList.remove('hide')
+    groupDiv.classList.remove('hide')
+    // groupDiv.style.maxHeight = '120px'
+    // userDiv.style.maxHeight = '120px'
   }
 }
 
