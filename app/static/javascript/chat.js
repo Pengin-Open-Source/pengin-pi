@@ -1,3 +1,27 @@
+/// >>>>>>>>>>>>>>>>>>>>> CHAT DISPLAY FUNCTIONS <<<<<<<<<<<<<<<<<<<<<
+
+// Open chat window
+function displayBtn() {
+  const messageModal = document.getElementById('message-display')
+  messageModal.classList.add("show")
+}
+
+// Close chat window
+function closeMessage() {
+  const messageModal = document.getElementById('message-display')
+  messageModal.classList.remove("show")
+}
+
+const collapseButtons = $('.collapsible');
+for (const button of collapseButtons) {
+    button.addEventListener('click', function() {
+    this.classList.toggle('active');
+    const content = this.nextElementSibling;
+    content.classList.toggle('hide');
+  });
+}
+
+/// >>>>>>>>>>>>>>>>>>>>> SOCKET IO CHAT FUNCTIONS AND EVENT LISTENERS <<<<<<<<<<<<<<<<<<<<<
 const socketio = io();
 let room_id = "";
 
@@ -64,7 +88,7 @@ function fetchMessage(room_id) {
         });
 }
 
-// Create new message in the page
+// Add new message in the page
 function createMessage(message) {
 
     const currentUserName = document.getElementById('current-user').dataset.name;
