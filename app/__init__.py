@@ -35,6 +35,7 @@ principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
 admin_permission = Permission(RoleNeed('admin'))
+user_permission = Permission(RoleNeed('user'))
 commonmark = Commonmark()
 
 
@@ -63,7 +64,7 @@ def create_app():
     def inject_globals():
         company = model.Home.query.first() or default.Home()
         name = company.company_name
-        return dict(company_name=name, is_admin=admin_permission.can())
+        return dict(company_name=name, is_admin=admin_permission.can(), has_user_role=user_permission.can())
 
     @login_manager.user_loader
     def load_user(user_id):

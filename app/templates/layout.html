@@ -30,11 +30,11 @@
         <div class="main-nav-links">
           <a class="header-link" href="/about">About Us </a>
           <a class="header-link" href="/products">Products</a>
-          {% if current_user.is_authenticated %}
+          {% if current_user.is_authenticated and has_user_role %}
           <a class="header-link" href="/forums">Forums</a>
           {% endif %}
           <a class="header-link" href="/blog">Blog</a>
-          {% if current_user.is_authenticated %}
+          {% if current_user.is_authenticated and has_user_role %}
           <a class="header-link" href="/tickets?status=all">Tickets</a>
           <a class="header-link" href="/calendar">Calendar</a>
           {% endif %}
@@ -69,14 +69,17 @@
 
     {% block content %}{% endblock %}
     <div id="message-layout">
+      {% if current_user.is_authenticated and has_user_role %}
       {% include "chat_overlay/overlay.html" %}
+      {% endif %}
     </div>
   </main>
   <footer>
     <p>Tobu Pengin {{copyright|e}}</p>
     {# if chat_bool #}
+    {% if current_user.is_authenticated and has_user_role %}
     {% include "chat_overlay/chatbutton.html" %}
-    {# endif #}
+    {% endif %}
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
