@@ -8,7 +8,7 @@ const selectUserButtons = $(".btn-select-user");
 for (const button of selectUserButtons) {
     button.addEventListener("click", function () {
         const user_id = this.dataset.userId;
-        selectRoom("user", user_id)
+        selectRoom("user_id", user_id)
     });
 }
 
@@ -17,17 +17,17 @@ const selectRoomButtons = $(".btn-select-room");
 for (const button of selectRoomButtons) {
     button.addEventListener("click", function () {
         const room_id = this.dataset.roomId;
-        selectRoom("room", room_id)
+        selectRoom("room_id", room_id)
     });
 }
 
 // Join current user to room with selected room
 function selectRoom(type_of_id, id) {
     $('div.message-display').empty();
-
-    if (type_of_id === "user") {
+    let data = {};
+    if (type_of_id === "user_id") {
         data = { user_id: id }
-    } else if (type_of_id === "room") {
+    } else if (type_of_id === "room_id") {
         data = { room_id: id }
     }
     socketio.emit("join_room", data);
@@ -103,7 +103,6 @@ socketio.on('saved_message', (message) => {
 });
 
 // Adding room_id to the client
-// TODO find alternative to avoid having the room id saved in the javascript
 socketio.on('joined_message', data => {
     room_id = data.room_id;
     fetchMessage(data.room_id)
