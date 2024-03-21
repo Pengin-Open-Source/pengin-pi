@@ -35,17 +35,7 @@ const adminHamburgerToggle = () => {
 }
 
 /// >>>>>>>>>>>>>>>>>>>>> CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
-let display_user = true
-let display_group = true
-let display_chosen_group = false
-let display_group_users = false
-let in_room_now = false
-
-
-
 function displayBtn() {
-  messageBtn = document.getElementById("message-btn")
-  // let messageDisplay = false;
   const messageModal = document.getElementById('message-display')
   messageModal.style.display = "block"
 }
@@ -55,20 +45,17 @@ function closeMessage() {
   messageModal.style.display = "none";
 }
 
+let display_user = false
+let display_group = true
 
 function displayUser() {
-  // const userBtn = document.getElementById('user-btn')
-  // const groupBtn = document.getElementById('group-btn')
   display_user = !display_user
   displayGroupsAndUsers()
-
 }
-
 
 function displayGroup() {
   display_group = !display_group
   displayGroupsAndUsers()
-
 }
 
 function displayGroupsAndUsers() {
@@ -119,31 +106,7 @@ function displayGroupsAndUsers() {
   }
 }
 
-function closeLists() {
-  display_group = false
-  display_user = false
-  displayGroupsAndUsers()
-}
 
-// In case this is needed...
-function openLists() {
-  display_group = true
-  display_user = true
-  displayGroupsAndUsers()
-
-}
-
-function roomSelected() {
-  in_room_now = true
-  closeLists()
-}
-
-//In case this is needed later... Leave chat without opening a new one
-//Reverse of displayRoomSelected.  Just in case you want a Leave Chat button at some point
-function leaveChatRoom() {
-  in_room_now = false
-  openLists()
-}
 
 
 ///  >>>>>>>>>>>>>>>>>>>>>>>> END CHAT MESSAGE SECTION <<<<<<<<<<<<<<<<<<<<<
