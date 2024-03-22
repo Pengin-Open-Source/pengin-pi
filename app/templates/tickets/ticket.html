@@ -26,10 +26,24 @@
 {% endblock %}
 
 {% block tableContent %}
-{{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/tickets/delete/ticket-comment/" ~ comment.id, "/tickets/edit/ticket-comment/" ~ ticket.id ~ "/" ~ comment.id) }}
+  {{ comments_render.render_comments(comments, comment_authors, current_user, can_delete_comment, can_edit_comment, "/tickets/delete/ticket-comment/{{comment.id}}", "/tickets/edit/ticket-comment/{{ticket.id}}/{{comment.id}}") }}
+
+  {% if ticket.tags == 'order-change-request'%}
+    {% if ticket.resolution_status == 'resolved' %}
+    <p>Request has been resolved.</p>
+    <a href="/tickets/{{ticket.id}}/orders/{{order.id}}/review?type=order-change-request"><button>View Order</button></a>
+    {% else %}
+    <a href="/tickets/{{ticket.id}}/orders/{{order.id}}/review?type=order-change-request"><button>Review Changes</button></a>
+    {% endif %}
+  {% elif ticket.tags == 'order-cancel-request' %}
+    {% if order.is_cancelled == True %}
+    <p>Order has been cancelled.</p>
+    {% endif %}
+    <a href="/tickets/{{ticket.id}}/orders/{{order.id}}/review?type=order-cancel-request"><button>Review Order</button></a>
+  {% endif %}
 {% endblock %}
 
-{% block postTableContent %}
-{{ comment_form.render_comment_form("ticket", "/tickets/" ~ ticket.id) }}
 
+{% block postTableContent %}
+  {{ comment_form.render_comment_form("ticket", "/tickets/{{ticket.id}}") }}
 {% endblock %}

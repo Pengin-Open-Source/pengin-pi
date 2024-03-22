@@ -16,22 +16,18 @@ from flask_commonmark import Commonmark
 import app.db.models as model
 import app.routes as route
 from app.admin import admin, admin_blueprint
-from app.db import config, db
-from app.util.security import (
-    delete_comment_need,
-    delete_post_need,
-    delete_ticket_comment_need,
-    delete_ticket_need,
-    edit_comment_need,
-    edit_post_need,
-    edit_ticket_comment_need,
-    edit_ticket_need,
-    edit_status_need,
-    accept_applicant_need,
-    reject_applicant_need,
-    delete_applicant_need,
-    my_applications_need,
-)
+from app.db import config,db
+
+# import the needs from the security module
+from app.util.security import (delete_comment_need, delete_post_need,
+                               delete_ticket_comment_need, delete_ticket_need,
+                               edit_comment_need, edit_post_need,
+                               edit_ticket_comment_need, edit_ticket_need,
+                               edit_status_need,
+                               accept_applicant_need,
+                               reject_applicant_need, delete_applicant_need,
+                               my_application_need)
+
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -47,15 +43,15 @@ chat_available = False
 principals = Principal()
 login_manager = LoginManager()
 migrate = Migrate()
-admin_permission = Permission(RoleNeed("admin"))
+admin_permission = Permission(RoleNeed('admin'))
 commonmark = Commonmark()
 
 
 def create_app():
-    app = Flask(__name__, static_folder="static")
+    app = Flask(__name__, static_folder='static')
 
     # SQLAlchemy Config
-    app.config["SECRET_KEY"] = id()
+    app.config['SECRET_KEY'] = id()
     app.config.update(config)
     markup.init_app(app)
     limiter.init_app(app)
@@ -71,7 +67,6 @@ def create_app():
     # socketio.run(app)
 
     # Inject global variables to templates
-
     @app.context_processor
     def inject_globals():
         company = model.Home.query.first() or default.Home()
@@ -84,6 +79,7 @@ def create_app():
         # use it in the query for the user
         return model.User.query.get(user_id)
 
+    # sets all the needs a particular user needs. user is attached to 'identity', which keeps track of which user is logged in and what permissions they have
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         """Permissions loader function
@@ -92,38 +88,49 @@ def create_app():
         """
         if not isinstance(identity, AnonymousIdentity):
             identity.user = current_user
-            if hasattr(current_user, "id"):
+            if hasattr(current_user, 'id'):
                 identity.provides.add(UserNeed(current_user.id))
-            if hasattr(current_user, "roles"):
+            if hasattr(current_user, 'roles'):
                 for role in current_user.roles:
                     identity.provides.add(RoleNeed(role.name))
-            if hasattr(current_user, "posts"):
+            if hasattr(current_user, 'posts'):
                 for post in current_user.posts:
                     identity.provides.add(edit_post_need(post.id))
                     identity.provides.add(delete_post_need(post.id))
-            if hasattr(current_user, "comments"):
+            if hasattr(current_user, 'comments'):
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
                     identity.provides.add(delete_comment_need(comment.id))
-            if hasattr(current_user, "tickets"):
+            if hasattr(current_user, 'tickets'):
                 for ticket in current_user.tickets:
+                    # gives the user permission to delete or edit their OWN tickets
+                    # this is because we have the relationship set up as User.tickets = db.relationship('TicketForum')) in models init
+                    # loops through all of the users' tickets and adds in the permissions for each one
                     identity.provides.add(delete_ticket_need(ticket.id))
                     identity.provides.add(edit_ticket_need(ticket.id))
-            if hasattr(current_user, "ticket_comments"):
+            if hasattr(current_user, 'ticket_comments'):
                 for comment in current_user.ticket_comments:
-                    identity.provides.add(delete_ticket_comment_need(comment.id))
-                    identity.provides.add(edit_ticket_comment_need(comment.id))
-
-            if hasattr(current_user, "applications"):
-                identity.provides.add(my_applications_need(current_user.id))
+                    identity.provides.add(
+                        delete_ticket_comment_need(comment.id)
+                    )
+                    identity.provides.add(
+                        edit_ticket_comment_need(comment.id)
+                    )
+            if hasattr(current_user, 'applications'):
                 for application in current_user.applications:
-                    identity.provides.add(edit_status_need(application.id))
-                    identity.provides.add(accept_applicant_need(application.id))
-                    identity.provides.add(reject_applicant_need(application.id))
-                    identity.provides.add(delete_applicant_need(application.id))
-
-    # def bool_test():
-    # 	return {'chat_bool': chat_available}
+                    identity.provides.add(my_application_need(application.id))
+                    identity.provides.add(
+                        edit_status_need(application.id)
+                    )
+                    identity.provides.add(
+                        accept_applicant_need(application.id)
+                    )
+                    identity.provides.add(
+                        reject_applicant_need(application.id)
+                    )
+                    identity.provides.add(
+                        delete_applicant_need(application.id)
+                    )
 
     # @app.before_request
     # @login_required
