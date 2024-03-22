@@ -1,0 +1,75 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+  <form class="form" method="POST" action="/jobs/{{job.id}}/edit">
+    <input type="hidden" name="id" value="{{job.id}}">
+
+    <div class="job-edit-container">
+      <div class="form-section">
+        <label for="job_title">Job Title</label>
+        <input
+        class="form-input"
+        type="text"
+        name="job_title"
+        id="job_title"
+        value="{{job.job_title|e}}">
+      </div>
+      <div class="form-section">
+        <label for="short_description">Short Description</label>
+        <input
+        class="form-input"
+        type="text"
+        name="short_description"
+        id="short_description"
+        value="{{job.short_description|e}}">
+      </div>
+      <div class="form-section">
+        <label for="long_description">Long Description</label>
+        <input
+        class="form-input"
+        type="text"
+        name="long_description"
+        id="long_description"
+        value="{{job.long_description|e}}">
+      </div>
+      <div class="form-section">
+        <label for="department">Department</label>
+        <input
+        class="form-input"
+        type="text"
+        name="department"
+        id="department"
+        value="{{job.department|e}}">
+      </div>
+      <div class="form-section">
+        <label for="salary">Salary</label>
+        <input
+        class="form-input"
+        type="text"
+        name="salary"
+        id="salary"
+        value="{{job.salary|e}}">
+      </div>
+      <div class="form-section">
+        <label for="location">Location</label>
+        <input
+        class="form-input"
+        type="text"
+        name="location"
+        id="location"
+        value="{{job.location|e}}">
+      </div>
+      <div class="form-section">
+        <label for="hiring_manager">Hiring Manager</label>
+        <input
+        class="form-input"
+        type="text"
+        name="hiring_manager"
+        id="hiring_manager"
+        value="{{job.hiring_manager|e}}">
+      </div>
+    </div>
+
+      <button class="primary-button">Update</button>
+  </form>
+{% endblock %}

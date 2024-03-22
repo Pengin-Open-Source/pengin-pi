@@ -1,0 +1,104 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns %}
+
+{% endblock %}
+
+{% block pageContent %}
+
+{% if request_type == 'order-cancel-request' %}
+<p>The customer is requesting to cancel the following order:</p>
+{% elif request_type == 'order-change-request' %}
+{% if order_change_request %}
+  <p>The customer is requesting the following changes to the order:</p>
+{% endif %}
+{% endif %}
+
+<div class="post-container">
+  <h2>Order</h2>
+  <h4>Order ID: {{order.id|e}}</h4>
+  <p>Customer ID: {{order.customer_id|e}}</p>
+  <p>Order Date: {{order.order_date.strftime('%B %d, %Y')|e }}</p>
+  
+  {% if order.orders_list %}
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.orders_list %}
+        <tr>
+          {% set product = products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+</div>
+
+{% if request_type == 'order-change-request' and order_change_request%}
+<div class="post-container">
+  <h2>Requested Changes</h2>
+  <h4>Order Change Request ID: {{order_change_request.id|e}}</h4>
+  <p>Customer ID: {{order_change_request.customer_id|e}}</p>
+  <p>User Requesting Change: {{order_change_request.user_id|e}}</p>
+  <p>Request Date: {{order_change_request.timestamp.strftime('%B %d, %Y')|e }}</p>
+  
+  {% if order_change_request.orders_list %}
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order_change_request.orders_list %}
+        <tr>
+          {% set product = order_change_request_products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if request_type == 'order-change-request' %}
+  {% if ticket.resolution_status == 'resolved' %}
+  <p>Request has been resolved.</p>
+  {% else %}
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve?action=approve" method="POST">
+    <button type="submit">Approve Changes</button>
+  </form>
+  <br>
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve?action=reject" method="POST">
+    <button type="submit">Reject Changes</button>
+  </form>
+  {% endif %}
+{% endif %}
+
+{% if request_type == 'order-cancel-request' %}
+  {% if ticket.resolution_status == 'resolved' %}
+  <p>Order has been cancelled.</p>
+  {% else %}
+  <form class="form" action="/tickets/{{ticket.id}}/orders/{{order.id}}/approve-order-cancel" method="POST">
+    <button type="submit">Cancel Order</button>
+  </form>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

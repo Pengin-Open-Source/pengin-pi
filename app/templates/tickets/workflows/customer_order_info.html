@@ -1,0 +1,43 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageDropDowns %}
+{% if not is_admin %}
+  {% if not order.is_cancelled %}
+  <a href="/orders/{{order.id}}/edit">Edit</a>
+  {% endif %}
+  <a href="/orders">My Orders</a>
+  {% endif %}
+{% endblock %}
+
+{% block pageContent %}
+<div class="post-container">
+  <h2>Order ID: {{order.id|e}}</h2>
+  <p>Customer ID: {{order.customer_id|e}}</p>
+  <p>Order Date: {{order.order_date.strftime('%B %d, %Y')|e }}</p>
+  
+  {% if order.orders_list %}
+  <div class="company-info-table">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.orders_list %}
+        <tr>
+          {% set product = products.get(item.product_id) %}
+          <td><a href="/products/{{item.product_id}}">{{product.name | e}}</a></td>
+          <td>{{item.quantity | e}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}

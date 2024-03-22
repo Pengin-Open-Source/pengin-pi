@@ -1,12 +1,17 @@
-from datetime import date
+from datetime import date, datetime
+import re
 
-from flask import Blueprint, abort, redirect, render_template, request, url_for, current_app
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 
 from app.db import db
-from app.db.models import TicketComment, TicketForum, User
+from app.db.models import TicketComment, TicketForum, User, Orders, OrdersList
+from app.db.models.orders import OrderChangeRequest, OrderHistory
+from app.db.models.product import Product
 from app.db.util import paginate
+
+# import the permissions related to tickets
 from app.util.security import (admin_permission,
                                delete_ticket_comment_permission,
                                delete_ticket_permission,
@@ -83,7 +88,11 @@ def ticket(ticket_id):
     comment_authors = {j: User.query.filter_by(id=j).first().name
                        for j in tuple(set([comment.author_id
                                            for comment in comments]))}
-
+    
+    order_id_match = re.search(r'Order ID: ([\w-]+)', ticket.summary)
+    order_id = order_id_match.group(1) if order_id_match else None
+    order = Orders.query.filter_by(id=order_id).first()
+    
     return render_template('tickets/ticket.html',
                            is_admin=admin_permission.can(), author=author,
                            can_delete_ticket=delete_ticket_permission,
@@ -91,7 +100,9 @@ def ticket(ticket_id):
                            can_edit_ticket=edit_ticket_permission,
                            can_edit_comment=edit_ticket_comment_permission,
                            comment_authors=comment_authors, ticket=ticket,
-                           comments=comments, primary_title='Ticket')
+                           comments=comments,
+                           order=order,
+                           primary_title='Ticket')
 
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
@@ -189,3 +200,78 @@ def edit_ticket_status(ticket_id):
         abort(403)
 
     return render_template('tickets/edit_status.html', ticket_id=ticket_id)
+
+@ticket_blueprint.route('/<ticket_id>/orders/<order_id>/review')
+@login_required
+@admin_permission.require()
+def review_order(ticket_id, order_id):
+    request_type = request.args.get('type')
+    order = Orders.query.get_or_404(order_id)
+    products = {item.product_id: Product.query.get(item.product_id) for item in order.orders_list}
+    ticket = TicketForum.query.filter_by(id=ticket_id).first()
+
+    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
+    order_change_request_products = {}
+
+    if order_change_request:
+        order_change_request_products = {item.product_id: Product.query.get(item.product_id) for item in order_change_request.orders_list}
+
+    return render_template('tickets/workflows/admin_order_review.html', order=order, products=products, order_change_request=order_change_request, order_change_request_products=order_change_request_products, request_type=request_type, ticket=ticket)
+
+@ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def approve_order_changes(ticket_id, order_id):
+    action = request.args.get('action')
+    order = Orders.query.get_or_404(order_id)
+    order_change_request = OrderChangeRequest.query.filter_by(order_id=order_id).first()
+    ticket = TicketForum.query.filter_by(id=ticket_id).first()
+
+    if request.method == 'POST':
+        if action == 'approve':
+            order.order_date = order_change_request.order_date
+            order.customer_id = order_change_request.customer_id
+            order.orders_list = order_change_request.orders_list
+
+            db.session.delete(order_change_request)
+            ticket.resolution_status = 'resolved'
+            ticket.resolution_date = date.today()
+            db.session.commit()
+
+            return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
+        elif action == 'reject':
+            db.session.delete(order_change_request)
+            ticket.resolution_status = 'resolved'
+            ticket.resolution_date = date.today()
+            db.session.commit()
+
+            return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
+
+    return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order, order_change_request=order_change_request)
+
+
+
+@ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve-order-cancel', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require()
+def approve_order_cancel(ticket_id, order_id):
+    order = Orders.query.get_or_404(order_id)
+    ticket = TicketForum.query.filter_by(id=ticket_id).first()
+
+    if request.method == 'POST':        
+
+        new_order_history = OrderHistory(
+            order_id=order.id,
+            timestamp=datetime.now(),
+            user_id=current_user.id
+        )
+
+        db.session.add(new_order_history)
+        ticket.resolution_status = 'resolved'
+        ticket.resolution_date = date.today()
+        order.is_cancelled = True
+        db.session.commit()
+
+        return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
+
+    return render_template('tickets/workflows/customer_order_edit.html', primary_title='Edit Order', order=order)

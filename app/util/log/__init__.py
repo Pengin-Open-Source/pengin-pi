@@ -2,7 +2,7 @@ from app.util.log.config import logger as _logger
 from flask import request
 
 
-def log():
+def log(func):
     """Logging Wrapper
     By: Stuart Anderson
     Copyright: Tobu Pengin, LLC. 2023
