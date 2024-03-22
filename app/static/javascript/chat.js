@@ -1,15 +1,23 @@
 /// >>>>>>>>>>>>>>>>>>>>> CHAT DISPLAY FUNCTIONS <<<<<<<<<<<<<<<<<<<<<
 
+// Define the modal
+const messageModal = document.getElementById('message-display');
+// Define the chat conversation section
+const chatConversationSection = document.getElementById('chat-conversation-section');
+
+
 // Open chat window
-function displayBtn() {
-    const messageModal = document.getElementById('message-display')
-    messageModal.classList.add("show")
+function openMessageModal() {
+    messageModal.classList.add("show");
 }
 
 // Close chat window
-function closeMessage() {
-    const messageModal = document.getElementById('message-display')
+function closeMessageModal() {
     messageModal.classList.remove("show")
+}
+
+function closeChatConversation() {
+    chatConversationSection.classList.add("hide");
 }
 
 const collapseButtons = $('.collapsible');
@@ -228,10 +236,10 @@ socketio.on('saved_message', (message) => {
 
 // Adding room_id to the client
 socketio.on('joined_message', data => {
-    console.log(data.room_members);
     if (data.room_members) {
-        $('.list-chat-members')[0].innerText = "Now chatting with " + data.room_members;
+        $('.chat-list-members')[0].innerText = "Now chatting with " + data.room_members;
     }
     room_id = data.room_id;
+    chatConversationSection.classList.remove("hide");
     fetchMessage(data.room_id)
 });
