@@ -43,10 +43,23 @@ class Messenger:
             return
         join_room(room.id)
 
-        print(f"{current_user.name} joined room {room.name}, id: {room.id}")
+        def room_serializer(room_to_serialize):
+            members_names = [
+                member.name
+                for member in room_to_serialize.members
+                if member != current_user
+            ]
+            members_names.sort()
+            serialized_members = ", ".join(members_names)
+
+            return {
+                "room_id": room_to_serialize.id,
+                "room_members": serialized_members,
+            }
+
         emit(
             "joined_message",
-            {"room_id": room.id},
+            room_serializer(room),
         )
 
     @login_required

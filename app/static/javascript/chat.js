@@ -228,6 +228,10 @@ socketio.on('saved_message', (message) => {
 
 // Adding room_id to the client
 socketio.on('joined_message', data => {
+    console.log(data.room_members);
+    if (data.room_members) {
+        $('.list-chat-members')[0].innerText = "Now chatting with " + data.room_members;
+    }
     room_id = data.room_id;
     fetchMessage(data.room_id)
 });
