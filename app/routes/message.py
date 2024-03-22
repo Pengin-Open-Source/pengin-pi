@@ -70,7 +70,7 @@ def get_room_id(user_id):
         db.session.add(room)
         db.session.commit()
 
-    def user_rooms_serialize(room_to_serialize):
+    def room_serializer(room_to_serialize):
         serialized_name = room_to_serialize.name
         if serialized_name is None:
             members_names = [
@@ -88,7 +88,7 @@ def get_room_id(user_id):
 
     return jsonify(
         {
-            "rooms": tuple(map(user_rooms_serialize, current_user.rooms)),
+            "rooms": tuple(map(room_serializer, current_user.rooms)),
             "new_room_id": room.id,
         }
     )
