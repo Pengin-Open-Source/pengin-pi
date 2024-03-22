@@ -66,61 +66,75 @@ def display_company_info(company_id:str) -> render_template:
                            company=company, members=members, is_admin=admin_permission.can())
 
 
-
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
 def create_company():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        address1 = request.form.get('address1')
-        address2 = request.form.get('address2')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        zipcode = request.form.get('zipcode')
-        country = request.form.get('country')
-        phone = request.form.get('phone')
-        email = request.form.get('email')
-        new_company = Company(name=name, address1=address1, address2=address2,
-                              city=city, state=state, zipcode=zipcode,
-                              country=country, phone=phone, email=email)
-        db.session.add(new_company)
-        db.session.commit()
-        new_members_company = CompanyMembers(id=new_company.id,
-                                             user_id=current_user.id)
-        db.session.add(new_members_company)
-        db.session.commit()
+    def handle_admin_workflow():
+        if request.method == 'POST':
+            name = request.form.get('name')
+            address1 = request.form.get('address1')
+            address2 = request.form.get('address2')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            zipcode = request.form.get('zipcode')
+            country = request.form.get('country')
+            phone = request.form.get('phone')
+            email = request.form.get('email')
+            new_company = Company(name=name, address1=address1, address2=address2,
+                                city=city, state=state, zipcode=zipcode,
+                                country=country, phone=phone, email=email)
+            db.session.add(new_company)
+            db.session.commit()
+            new_members_company = CompanyMembers(id=new_company.id,
+                                                user_id=current_user.id)
+            db.session.add(new_members_company)
+            db.session.commit()
 
-        return redirect(url_for("company_info.display_company_info",
-                                company_id=new_company.id))
+            return redirect(url_for("company_info.display_company_info",
+                                    company_id=new_company.id))
 
-    return render_template('company_info/company_info_create.html', primary_title='Create New Company')
+        return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
+    def handle_user_workflow():
+        return redirect(url_for("ticket_blueprint.create_ticket", reason="company_request"))
+
+    if admin_permission.can():
+        return handle_admin_workflow()
+    else:
+        return handle_user_workflow()
 
 
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
 def edit_company_info_post(company_id):
-    company = Company.query.filter_by(id=company_id).first()
+    def handle_admin_workflow():
+        company = Company.query.filter_by(id=company_id).first()
 
-    if request.method == 'POST':
-        company.name = request.form.get('name')
-        company.address1 = request.form.get('address1')
-        company.address2 = request.form.get('address2')
-        company.city = request.form.get('city')
-        company.state = request.form.get('state')
-        company.zipcode = request.form.get('zipcode')
-        company.country = request.form.get('country')
-        company.phone = request.form.get('phone')
-        company.email = request.form.get('email')
-        db.session.commit()
+        if request.method == 'POST':
+            company.name = request.form.get('name')
+            company.address1 = request.form.get('address1')
+            company.address2 = request.form.get('address2')
+            company.city = request.form.get('city')
+            company.state = request.form.get('state')
+            company.zipcode = request.form.get('zipcode')
+            company.country = request.form.get('country')
+            company.phone = request.form.get('phone')
+            company.email = request.form.get('email')
+            db.session.commit()
 
-        return redirect(url_for('company_info.display_company_info',
-                                company_id=company.id))
+            return redirect(url_for('company_info.display_company_info',
+                                    company_id=company.id))
 
-    return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
+        return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
 
+    def handle_user_workflow():
+        return redirect(url_for("ticket_blueprint.create_ticket", reason="edit_company_request"))
+    
+    if admin_permission.can():
+        return handle_admin_workflow()
+    else:
+        return handle_user_workflow()
+    
 
 @company_info.route('/<company_id>/members', methods=['GET', 'POST'])
 @login_required
@@ -139,22 +153,30 @@ def display_company_members(company_id):
     return render_template('company_info/display_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
 
 
-
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
 def edit_company_members(company_id):
-    company = Company.query.filter_by(id=company_id).first()
-    if request.method == "POST":
-        page = int(request.form.get('page_number', 1))
+    def handle_admin_workflow():
+        company = Company.query.filter_by(id=company_id).first()
+        if request.method == "POST":
+            page = int(request.form.get('page_number', 1))
+        else:
+            page = 1
+
+        users = paginate(User, page=page, pages=10)
+        members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
+        members_ids_list = [i for i in members_ids for i in i]
+
+        return render_template('company_info/edit_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
+    
+    def handle_user_workflow():
+        return redirect(url_for("ticket_blueprint.create_ticket", reason="edit_members_request"))
+
+
+    if admin_permission.can():
+        return handle_admin_workflow()
     else:
-        page = 1
-
-    users = paginate(User, page=page, pages=10)
-    members_ids = CompanyMembers.query.with_entities(CompanyMembers.user_id).filter_by(company_id=company.id).all()
-    members_ids_list = [i for i in members_ids for i in i]
-
-    return render_template('company_info/edit_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
+        return handle_user_workflow()
 
 
 @limiter.limit("10 per minute")

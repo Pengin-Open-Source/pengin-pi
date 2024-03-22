@@ -1,7 +1,8 @@
 from datetime import date
 
-from flask import Blueprint, abort, redirect, render_template, request, url_for
+from flask import Blueprint, abort, redirect, render_template, request, url_for, current_app
 from flask_login import current_user, login_required
+from flask_principal import Permission, RoleNeed
 
 from app.db import db
 from app.db.models import TicketComment, TicketForum, User
@@ -15,6 +16,7 @@ from app.util.security import (admin_permission,
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
 
+admin_permission = Permission(RoleNeed('admin'))
 
 @ticket_blueprint.route("/", methods=["GET", "POST"])
 @login_required
@@ -38,8 +40,8 @@ def tickets():
 
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
-@user_permission.require()
 def create_ticket():
+        
     if request.method == 'POST':
         summary = request.form.get('summary')
         content = request.form.get('content')
@@ -61,7 +63,7 @@ def create_ticket():
 
 @ticket_blueprint.route("/<ticket_id>", methods=['GET', 'POST'])
 @login_required
-@user_permission.require()
+@admin_permission.require()
 def ticket(ticket_id):
     if request.method == 'POST':
         content = request.form.get('content')
