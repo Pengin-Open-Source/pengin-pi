@@ -8,8 +8,8 @@
             <h2 class="section-title">Chat</h2>
             <div class="main-nav-links"></div>
             <div class="right-nav-container">
-                <button onclick="closeMessage()" id="close-message-btn">
-                    <strong> X </strong>
+                <button id="close-message-btn" onclick="closeMessageModal()">
+                    <strong>&times;</strong>
                 </button>
             </div>
         </div>
@@ -37,8 +37,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="content-section-div-2">
-                    <div class="list-chat-members"></div>
+                <div id="chat-conversation-section" class="content-section-div-2 hide">
+                    <div class="chat-header">
+                        <div class="chat-list-members">
+                        </div>
+                        <button class="chat-close-button" type="button" onclick="closeChatConversation()">
+                            <span>&times;</span>
+                        </button>
+                    </div>
                     <div class="message-container">
                         <div class="message-load-button-container"></div>
                         <div class="message-holder">
@@ -66,6 +72,6 @@
 
 {% macro chatbutton() %}
 <div>
-    <button onclick="displayBtn()" id="message-btn">Chat</button>
+    <button id="open-message-btn" onclick="openMessageModal()">Chat</button>
 </div>
 {% endmacro %}
