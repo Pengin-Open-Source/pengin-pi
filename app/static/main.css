@@ -767,6 +767,25 @@ th {
   background-color: var(--hover-blue);
 }
 
+.message-load-text {
+  text-align: center;
+  font-size: 12px;
+  margin: 10px 0;
+  cursor: default;
+}
+
+.message-load-button {
+  text-decoration: underline;
+  color: var(--main-blue);
+  cursor: pointer;
+}
+
+.message-load-button:hover {
+  text-decoration: underline;
+  color: var(--hover-blue);
+}
+
+
 .text-section {
   margin-top: 5px;
   min-width: 70%;

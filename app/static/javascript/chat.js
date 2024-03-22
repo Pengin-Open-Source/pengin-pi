@@ -159,8 +159,8 @@ function get_more_messages() {
 
 // Add button to load more messages
 function addLoadMoreButton() {
-    const loadMoreButton = document.createElement('button');
-    loadMoreButton.classList.add("load-more-messages");
+    const loadMoreButton = document.createElement('p');
+    loadMoreButton.classList.add("message-load-text", "message-load-button", "load-more-messages");
     loadMoreButton.innerText = "Load more messages";
     loadMoreButton.addEventListener('click', function () {
         get_more_messages()
@@ -170,14 +170,14 @@ function addLoadMoreButton() {
 
 function noMessages() {
     const noMessages = document.createElement('p');
-    noMessages.classList.add("no-messages");
+    noMessages.classList.add("message-load-text", "no-messages");
     noMessages.innerText = "No messages yet. \nSend a message to start the conversation.";
     $('div.message-load-button-container').empty().append(noMessages)
 
 }
 function noMoreMessages() {
     const noMoreMessages = document.createElement('p');
-    noMoreMessages.classList.add("no-more-messages");
+    noMoreMessages.classList.add("message-load-text", "no-more-messages");
     noMoreMessages.innerText = "You've loaded all the messages.";
     $('div.message-load-button-container').empty().append(noMoreMessages)
 }
