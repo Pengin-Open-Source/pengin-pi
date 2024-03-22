@@ -48,7 +48,7 @@ for (const button of selectUserButtons) {
 }
 
 // Add event listener to the room buttons (to open a room already created)
-const selectRoomButtons = $(".btn-select-room");
+const selectRoomButtons = $(".btn-select-chat");
 for (const button of selectRoomButtons) {
     button.addEventListener("click", function () {
         const room_id = this.dataset.roomId;
