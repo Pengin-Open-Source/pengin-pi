@@ -863,12 +863,12 @@ th {
 }
 
 .top-bar-title.collapsible:after {
-  content: '\002B'; /* Unicode character for "plus" sign (+) */
+  content: "\2212"; /* Unicode character for "minus" sign (-) */
   font-size: 15px;
   color: white;
   float: right;
   margin-left: 5px;
 }
 .top-bar-title.collapsible.active:after {
-  content: "\2212"; /* Unicode character for "minus" sign (-) */
+  content: '\002B'; /* Unicode character for "plus" sign (+) */
 }
