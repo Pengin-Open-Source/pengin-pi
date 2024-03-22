@@ -30,7 +30,7 @@
                         <button type="button" class="top-bar-title collapsible">Chats</button>
                         <div class="message-grid-container" id="group-container">
                             {% for group in groups %}
-                                <div type="submit" class="message-grid-item btn-select-room" data-room-id="{{ group.id }}">
+                                <div type="submit" class="message-grid-item btn-select-chat" data-room-id="{{ group.id }}">
                                     {{ group.name }}
                                 </div>
                             {% endfor %}

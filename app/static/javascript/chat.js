@@ -62,7 +62,7 @@ function updateRoomList(rooms) {
     roomList.innerHTML = "";
     for (const room of rooms) {
         const roomButton = document.createElement('div');
-        roomButton.classList.add("message-grid-item", "btn-select-room");
+        roomButton.classList.add("message-grid-item", "btn-select-chat");
         roomButton.dataset.roomId = room.id;
         roomButton.innerText = room.name;
         roomList.appendChild(roomButton);
