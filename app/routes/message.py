@@ -11,7 +11,7 @@ DEFAULT_MESSAGES_TO_LOAD = 15
 
 
 # Helper function to serialize a message
-def serialize_message(message):
+def message_serializer(message):
     return {
         "author_name": message.author.name,
         "content": message.content,
@@ -19,15 +19,57 @@ def serialize_message(message):
     }
 
 
+def room_serializer(room_to_serialize):
+    serialized_name = room_to_serialize.name
+    if serialized_name is None:
+        members_names = [
+            member.name
+            for member in room_to_serialize.members
+            if member != current_user
+        ]
+        members_names.sort()
+        serialized_name = ", ".join(members_names)
+
+    last_updated = (
+        room_to_serialize.messages[-1].timestamp
+        if room_to_serialize.messages
+        else room_to_serialize.date_created
+    )
+
+    return {
+        "id": room_to_serialize.id,
+        "name": serialized_name,
+        "last_updated": last_updated,
+    }
+
+
+# Function to order rooms by their latest update, with the newest updated rooms first
+def room_order_by_last_update(rooms):
+    return sorted(
+        rooms,
+        key=lambda room: room["last_updated"],
+        reverse=True,
+    )
+
+
+# Get messages when opening a room and send updated list of rooms
 @chat_blueprint.route("/get_past_messages/<room_id>/")
 @login_required
 def get_past_messages(room_id):
     room = Room.query.get_or_404(room_id)
 
     past_messages = room.messages[-DEFAULT_MESSAGES_TO_LOAD:]
-    past_messages = tuple(map(serialize_message, past_messages))
+    past_messages = tuple(map(message_serializer, past_messages))
 
-    return jsonify(past_messages)
+    rooms = list(map(room_serializer, current_user.rooms))
+    ordered_rooms = tuple(room_order_by_last_update(rooms))
+
+    return jsonify(
+        {
+            "rooms": ordered_rooms,
+            "past_messages": past_messages,
+        }
+    )
 
 
 @chat_blueprint.route("/get_more_messages/<room_id>/<int:messages_loaded>/")
@@ -45,11 +87,12 @@ def get_more_messages(room_id, messages_loaded):
         filtered_messages, key=lambda msg: msg.timestamp, reverse=True
     )
 
-    past_messages = tuple(map(serialize_message, sorted_messages))
+    past_messages = tuple(map(message_serializer, sorted_messages))
 
     return jsonify(past_messages)
 
 
+# Create room if needed and return room with other user
 @chat_blueprint.route("/get_room_id/<user_id>/")
 @login_required
 def get_room_id(user_id):
@@ -70,25 +113,4 @@ def get_room_id(user_id):
         db.session.add(room)
         db.session.commit()
 
-    def room_serializer(room_to_serialize):
-        serialized_name = room_to_serialize.name
-        if serialized_name is None:
-            members_names = [
-                member.name
-                for member in room_to_serialize.members
-                if member != current_user
-            ]
-            members_names.sort()
-            serialized_name = ", ".join(members_names)
-
-        return {
-            "id": room_to_serialize.id,
-            "name": serialized_name,
-        }
-
-    return jsonify(
-        {
-            "rooms": tuple(map(room_serializer, current_user.rooms)),
-            "new_room_id": room.id,
-        }
-    )
+    return jsonify(room.id)

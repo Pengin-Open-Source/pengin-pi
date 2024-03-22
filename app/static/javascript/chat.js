@@ -38,6 +38,7 @@ const selectUserButtons = $(".btn-select-user");
 for (const button of selectUserButtons) {
     button.addEventListener("click", function () {
         const user_id = this.dataset.userId;
+        // Call route to create room if needed and get room id
         fetch(`/chat/get_room_id/${user_id}/`, {
             method: 'GET',
             headers: {
@@ -45,9 +46,8 @@ for (const button of selectUserButtons) {
             },
         })
             .then(response => response.json())
-            .then(data => {
-                updateRoomList(data.rooms)
-                selectRoom(data.new_room_id)
+            .then(room_id => {
+                selectRoom(room_id)
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -93,10 +93,9 @@ function scrollToLastMessage() {
     }
 }
 
-// Fetch all messages from the server DB
+// Fetch messages when opening the chat conversation window
 function fetchMessage(room_id) {
     console.log("fetching messages for " + room_id)
-    // Send AJAX request to server
     fetch(`/chat/get_past_messages/${room_id}/`, {
         method: 'GET',
         headers: {
@@ -104,13 +103,14 @@ function fetchMessage(room_id) {
         },
     })
         .then(response => response.json())
-        .then(messages => {
-            if (messages.length > 0) {
+        .then(data => {
+            updateRoomList(data.rooms)
+            if (data.messages.length > 0) {
                 addLoadMoreButton();
             } else {
                 noMessages();
             }
-            for (const message of messages) {
+            for (const message of data.messages) {
                 // Trigger function to add message in page
                 createMessage({
                     author_name: message.author_name,
@@ -127,6 +127,7 @@ function fetchMessage(room_id) {
         });
 }
 
+// Fetch previous messages to load
 function get_more_messages() {
     const messageHolder = $('.message-holder')[0];
     const messagesLoaded = messageHolder.childElementCount;
