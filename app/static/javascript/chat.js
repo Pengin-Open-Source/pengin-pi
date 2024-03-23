@@ -240,11 +240,11 @@ socketio.on('saved_message', (message) => {
 });
 
 // Adding room_id to the client
-socketio.on('joined_message', data => {
-    if (data.room_members) {
-        $('.chat-list-members')[0].innerText = "Now chatting with " + data.room_members;
+socketio.on('joined_message', room => {
+    if (room.members) {
+        $('.chat-list-members')[0].innerText = "Now chatting with " + room.members;
     }
-    room_id = data.room_id;
+    room_id = room.id;
     chatConversationSection.classList.remove("hide");
-    fetchMessage(data.room_id)
+    fetchMessage(room.id)
 });
