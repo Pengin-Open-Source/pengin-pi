@@ -29,9 +29,9 @@
                     <div class="content-section-p" id="group-section">
                         <button type="button" class="top-bar-title collapsible">Chats</button>
                         <div class="message-grid-container" id="group-container">
-                            {% for group in groups %}
-                                <div type="submit" class="message-grid-item btn-select-chat" data-room-id="{{ group.id }}">
-                                    {{ group.name }}
+                            {% for chat in chats %}
+                                <div type="submit" class="message-grid-item btn-select-chat" data-room-id="{{ chat.id }}">
+                                    {{ chat.name }}
                                 </div>
                             {% endfor %}
                         </div>
