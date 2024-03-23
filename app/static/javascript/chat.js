@@ -143,7 +143,7 @@ function get_more_messages() {
     })
         .then(response => response.json())
         .then(messages => {
-            if (messages.length > 0) {
+            if (messages && messages.length > 0) {
                 for (const message of messages) {
                     // Trigger function to add messages in page
                     createMessage({
