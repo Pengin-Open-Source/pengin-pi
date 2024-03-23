@@ -109,18 +109,18 @@ function fetchMessage(room_id) {
         .then(response => response.json())
         .then(data => {
             updateRoomList(data.rooms)
-            if (data.messages.length > 0) {
+            if (data.past_messages && data.past_messages.length > 0) {
                 addLoadMoreButton();
+                for (const message of data.past_messages) {
+                    // Trigger function to add message in page
+                    createMessage({
+                        author_name: message.author_name,
+                        content: message.content,
+                        timestamp: message.timestamp
+                    });
+                }
             } else {
                 noMessages();
-            }
-            for (const message of data.messages) {
-                // Trigger function to add message in page
-                createMessage({
-                    author_name: message.author_name,
-                    content: message.content,
-                    timestamp: message.timestamp
-                });
             }
         })
         .then(() => {
