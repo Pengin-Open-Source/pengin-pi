@@ -19,6 +19,7 @@ import os
 import datetime
 from app.db import db
 from app.db.models import Message, User, Room
+from .serializer import message_serializer, room_serializer, room_order_by_last_update
 
 
 # import config.object
@@ -28,7 +29,6 @@ class Messenger:
     def __init__(self, socketio, config=None):
         # create messenger properties
         self.socketio = socketio
-        self.current_room = None
         # apply optional configs
 
     @login_required
@@ -42,20 +42,6 @@ class Messenger:
             print("No room_id or user_id in data")
             return
         join_room(room.id)
-
-        def room_serializer(room_to_serialize):
-            members_names = [
-                member.name
-                for member in room_to_serialize.members
-                if member != current_user
-            ]
-            members_names.sort()
-            serialized_members = ", ".join(members_names)
-
-            return {
-                "room_id": room_to_serialize.id,
-                "room_members": serialized_members,
-            }
 
         emit(
             "joined_message",
@@ -77,12 +63,7 @@ class Messenger:
 
     @login_required
     def send_message(self, message):
-        context = {
-            "author_name": message.author.name,
-            "content": message.content,
-            "timestamp": message.timestamp,
-        }
-        emit("saved_message", context, to=message.room_id)
+        emit("saved_message", message_serializer(message), to=message.room_id)
 
     @login_required
     def disconnect_handler(self):

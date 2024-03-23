@@ -4,52 +4,16 @@ from flask_login import login_required, current_user
 from app.db import db
 from app.db.models import Room, User
 
+from app.util.messenger.serializer import (
+    message_serializer,
+    room_serializer,
+    room_order_by_last_update,
+)
+
 
 chat_blueprint = Blueprint("chat_blueprint", __name__, url_prefix="/chat")
 
 DEFAULT_MESSAGES_TO_LOAD = 15
-
-
-# Helper function to serialize a message
-def message_serializer(message):
-    return {
-        "author_name": message.author.name,
-        "content": message.content,
-        "timestamp": message.timestamp,
-    }
-
-
-def room_serializer(room_to_serialize):
-    serialized_name = room_to_serialize.name
-    if serialized_name is None:
-        members_names = [
-            member.name
-            for member in room_to_serialize.members
-            if member != current_user
-        ]
-        members_names.sort()
-        serialized_name = ", ".join(members_names)
-
-    last_updated = (
-        room_to_serialize.messages[-1].timestamp
-        if room_to_serialize.messages
-        else room_to_serialize.date_created
-    )
-
-    return {
-        "id": room_to_serialize.id,
-        "name": serialized_name,
-        "last_updated": last_updated,
-    }
-
-
-# Function to order rooms by their latest update, with the newest updated rooms first
-def room_order_by_last_update(rooms):
-    return sorted(
-        rooms,
-        key=lambda room: room["last_updated"],
-        reverse=True,
-    )
 
 
 # Get messages when opening a room and send updated list of rooms
