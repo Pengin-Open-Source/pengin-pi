@@ -9,6 +9,7 @@ const chatConversationSection = document.getElementById('chat-conversation-secti
 // Open chat window
 function openMessageModal() {
     messageModal.classList.add("show");
+    addEventListenersToRoomButtons();
 }
 
 // Close chat window
@@ -56,12 +57,14 @@ for (const button of selectUserButtons) {
 }
 
 // Add event listener to the room buttons (to open a room already created)
-const selectRoomButtons = $(".btn-select-chat");
-for (const button of selectRoomButtons) {
-    button.addEventListener("click", function () {
-        const room_id = this.dataset.roomId;
-        selectRoom(room_id)
-    });
+function addEventListenersToRoomButtons() {
+    const selectRoomButtons = $(".btn-select-chat");
+    for (const button of selectRoomButtons) {
+        button.addEventListener("click", function () {
+            const room_id = this.dataset.roomId;
+            selectRoom(room_id)
+        });
+    }
 }
 
 // Update room list in the page
@@ -75,6 +78,7 @@ function updateRoomList(rooms) {
         roomButton.innerText = room.name;
         roomList.appendChild(roomButton);
     }
+    addEventListenersToRoomButtons();
 }
 
 // Join current user to room with selected room
