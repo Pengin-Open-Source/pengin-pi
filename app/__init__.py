@@ -1,5 +1,5 @@
 from flask import Flask, request, send_from_directory
-from flask_socketio import SocketIO, emit, send, join_room
+from flask_socketio import SocketIO
 
 from flask_login import LoginManager, current_user, login_required
 from flask_principal import (
@@ -34,6 +34,11 @@ from app.util.security.limit import limiter
 from app.util.markup import markup
 from app.util.defaults import default
 from app.util.messenger import messenger
+from app.util.messenger.serializer import (
+    message_serializer,
+    room_serializer,
+    room_order_by_last_update,
+)
 from flask_commonmark import Commonmark
 
 from app.util.uuid import id
@@ -158,17 +163,11 @@ def create_app():
 
     def filtered_chat_rooms():
         if current_user.is_authenticated:
-
-            def room_data(room):
-                return {
-                    "id": room.id,
-                    "name": room.name,
-                }
-
-            rooms = tuple(map(room_data, current_user.rooms))
+            rooms = list(map(room_serializer, current_user.rooms))
+            rooms = tuple(room_order_by_last_update(rooms))
         else:
             rooms = ()
-        return {"groups": rooms}
+        return {"chats": rooms}
 
     @app.route("/robots.txt")
     @app.route("/sitemap.xml")
