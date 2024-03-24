@@ -7,11 +7,16 @@
   {% endblock %}
 
 {% block pageContent %}
+{% if ticket %}
     <h1>Request Submitted!</h1>
     {% if ticket.tags == 'order-change-request' %}
     <p>Your request for changes to your order has been submitted.</p>
     {% elif ticket.tags == 'order-cancel-request' %}
     <p>Your request for changes to your order has been submitted.</p>
     {% endif %}
+  {% else %}
+    <h1>Order Recieved!</h1>
+    <p>Thank you for your order.</p>
+  {% endif %}
   <p><a href="/orders/{{order.id}}">Back to Order</a></p>
     {% endblock %}

@@ -77,7 +77,7 @@ def create_order():
             order_id=order_id,
             timestamp=datetime.now(),
             user_id=current_user.id,
-            type='new order'
+            # type='new order'
         )
         db.session.add(order_history)
 
@@ -238,3 +238,56 @@ def cancel_order(order_id):
                            customers_with_names=customers_with_names, order=order,
                            order_list=order_list, customer_name=customer_name, product_names_by_id=product_names_by_id)
 
+
+@order_info.route('/<order_id>/reorder', methods=['GET', 'POST'])
+@login_required
+@user_permission.require()
+def reorder(order_id):
+    original_order = Orders.query.get_or_404(order_id)
+    customer = Customer.query.filter_by(id=original_order.customer_id).first()
+    original_orders_list = original_order.orders_list
+
+    if request.method == 'POST':
+        # create a new Order object with the same data as the original order
+        new_order = Orders(
+            order_date=datetime.now(),
+            customer_id=original_order.customer_id,
+            user_id=current_user.id
+            )
+        db.session.add(new_order)
+        db.session.commit()
+
+        # create a new OrderHistory object
+        order_history = OrderHistory(
+            order_id=new_order.id,
+            timestamp=datetime.now(),
+            user_id=current_user.id,
+            # type='reorder'
+        )
+        db.session.add(order_history)
+
+        for original_order_item in original_orders_list:
+            new_order_list = OrdersList(
+                quantity=original_order_item.quantity, 
+                orders_id=new_order.id, 
+                product_id=original_order_item.product_id
+                )
+            db.session.add(new_order_list)
+
+        db.session.commit()
+
+        return render_template('tickets/workflows/customer_order_success.html', primary_title='Request Submitted', order=new_order)
+
+    products = Product.query.all()
+    customers = Customer.query.all()
+    customers_with_names = []
+
+    for customer in customers:
+        if customer.company_id:
+            name = Company.query.filter_by(id=customer.company_id).first().name
+            customers_with_names.append({'customer': customer, 'name': name})
+        elif customer.user_id:
+            name = User.query.filter_by(id=customer.user_id).first().name
+            customers_with_names.append({customer: customer, name: name})
+
+        return render_template('tickets/workflows/customer_order_create.html', primary_title='Create Order', products=products, customers_with_names=customers_with_names)

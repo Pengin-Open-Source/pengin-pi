@@ -65,7 +65,6 @@ def init_on_load(self):
     self._original_data = {}
 
 def after_update_listener(mapper, connection, target):
-    print('after_update_listener')
     if hasattr(target, '_original_data'):
         new_data = {column.name: getattr(target, column.name) for column in mapper.columns}
         old_data = target._original_data

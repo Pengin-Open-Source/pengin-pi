@@ -36,8 +36,9 @@
       </tbody>
     </table>
   </div>
-
   {% endif %}
-
+  <form class="form" method="POST" action="/orders/{{order.id}}/reorder">
+    <button type="submit">Order Again</button>
+  </form>
 </div>
 {% endblock %}
