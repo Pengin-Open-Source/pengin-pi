@@ -1,3 +1,4 @@
+import datetime
 from app.db import db
 from app.util.uuid import id as ID
 
@@ -17,6 +18,9 @@ class Room(db.Model):
     id = db.Column(db.String(36), default=ID, primary_key=True)
     name = db.Column(db.String(100))
     # members must be linked in __init__.py
+    date_created = db.Column(
+        db.DateTime, default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
 
 
 class UserRoom(db.Model):

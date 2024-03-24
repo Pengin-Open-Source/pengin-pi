@@ -227,20 +227,37 @@ def approve_order_changes(ticket_id, order_id):
 
     if request.method == 'POST':
         if action == 'approve':
+            # apply the changes from the OrderChangeRequest to the Order
             order.order_date = order_change_request.order_date
             order.customer_id = order_change_request.customer_id
             order.orders_list = order_change_request.orders_list
 
+            # delete the OrderChangeRequest from the database. The original order information has already been saved to OrderHistory when the order was created; another copy will be saved now using the after_update_listener on the model
             db.session.delete(order_change_request)
+
             ticket.resolution_status = 'resolved'
             ticket.resolution_date = date.today()
+
             db.session.commit()
 
             return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
+        
         elif action == 'reject':
+            # save copy of the OrderChangeRequest to OrderHistory table; even though the changes are rejected, we may need to refer to them later 
+            order_history = OrderHistory(
+                order_id=order_change_request.id,
+                timestamp=datetime.now(),
+                user_id=current_user.id,
+                # type='rejected order change request'
+            )
+            db.session.add(order_history)
+
+            # delete the OrderChangeRequest from the database
             db.session.delete(order_change_request)
+
             ticket.resolution_status = 'resolved'
             ticket.resolution_date = date.today()
+
             db.session.commit()
 
             return redirect(url_for("ticket_blueprint.ticket", ticket_id=ticket_id))
@@ -261,7 +278,8 @@ def approve_order_cancel(ticket_id, order_id):
         new_order_history = OrderHistory(
             order_id=order.id,
             timestamp=datetime.now(),
-            user_id=current_user.id
+            user_id=current_user.id,
+            # type='cancelled order'
         )
 
         db.session.add(new_order_history)

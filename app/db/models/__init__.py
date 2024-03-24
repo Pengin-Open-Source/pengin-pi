@@ -92,11 +92,11 @@ OrderChangeRequest.orders_list = db.relationship('OrdersList')
 #OrdersList
 OrdersList.orders_id = db.Column(db.String(36), db.ForeignKey('orders.id'))
 OrdersList.order_change_request_id = db.Column(db.String(36), db.ForeignKey('order_change_request.id'))
+OrdersList.order_history_id = db.Column(db.String(36), db.ForeignKey('order_history.id'))
 OrdersList.product_id = db.Column(db.String(36), db.ForeignKey('product.id'))
 
 #OrderHistory
 OrderHistory.order = db.relationship('Orders', back_populates='order_history')
-
 
 #Contracts
 Contracts.customer_id = db.Column(db.String(36), db.ForeignKey('customer.id',

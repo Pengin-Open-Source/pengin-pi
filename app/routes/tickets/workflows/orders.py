@@ -63,6 +63,7 @@ def create_order():
         orders = [{'product': product, 'qty': qty} for product, qty in dict(zip(product_id, quantity)).items()]
         order_id = ID()
 
+        # create a new Order object
         new_order = Orders(
             id=order_id, 
             order_date=order_date, 
@@ -71,9 +72,19 @@ def create_order():
             )
         db.session.add(new_order)
 
+        # create a new OrderHistory object to store the order information in the case that it is updated or cancelled in the future
+        order_history = OrderHistory(
+            order_id=order_id,
+            timestamp=datetime.now(),
+            user_id=current_user.id,
+            type='new order'
+        )
+        db.session.add(order_history)
+
         for order in orders:
             new_order_list = OrdersList(quantity=order['qty'], orders_id=order_id, product_id=order['product'])
             db.session.add(new_order_list)
+
         db.session.commit()
 
         return redirect(url_for("order_info.display_order_info",
@@ -113,28 +124,31 @@ def edit_order(order_id):
         new_product_ids = request.form.getlist('product_id')
         new_quantities = request.form.getlist('quantity')
 
-        change_request = OrderChangeRequest(
+        # create a new OrderChangeRequest object with the order information submitted with the form
+        order_change_request = OrderChangeRequest(
             order_id=order_id,
             order_date=new_order_date,
             customer_id=new_customer_id,
             timestamp=datetime.now(),
-            user_id=current_user.id
+            user_id=current_user.id,
+            status='pending'
         )
 
-        db.session.add(change_request)
+        db.session.add(order_change_request)
         db.session.commit()
 
+        # create a new OrdersList object for each product
         for product_id, quantity in zip(new_product_ids, new_quantities):
-            # create a new OrdersList object for each product
             new_order_list = OrdersList(
                 quantity=quantity,
                 product_id=product_id,
-                order_change_request_id=change_request.id  # associate with the new OrderChangeRequest
+                order_change_request_id=order_change_request.id # associate the new OrdersList with the new OrderChangeRequest object
             )
             db.session.add(new_order_list)
         
         db.session.commit()
 
+        # create a new support ticket for the order change request
         ticket_summary = f"Order Change Request - Order ID: {order_id}"
         ticket_content = f"Changes to Order ID {order_id} pending approval. Please review and approve or reject the changes."
 
