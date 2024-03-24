@@ -66,7 +66,7 @@ def home_edit():
 
             db.session.commit()
 
-        return redirect(url_for("home_blueprint.home"))
+            return redirect(url_for("home_blueprint.home"))
 
         return render_template(
             "home/edit.html",
