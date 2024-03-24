@@ -40,5 +40,7 @@
   <form class="form" method="POST" action="/orders/{{order.id}}/reorder">
     <button type="submit">Order Again</button>
   </form>
+  <br>
+  <p>Need help? <a href="/tickets/create?order={{order.id}}">Create Support Ticket</a></p>
 </div>
 {% endblock %}

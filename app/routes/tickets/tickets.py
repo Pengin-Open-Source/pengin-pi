@@ -45,13 +45,20 @@ def tickets():
 @login_required
 @user_permission.require()
 def create_ticket():
+    order_id = request.args.get('order_id')
+    print('Order ID:', order_id)
     if request.method == 'POST':
-        summary = request.form.get('summary')
         content = request.form.get('content')
         tags = request.form.get('tags')
         today = date.today()
         user_id = current_user.id
         resolution_status = 'open'
+        if order_id:
+            summary = f"Order ID: {order_id} - {request.form.get('summary')}"
+            print('summary', summary)
+        else:
+            summary = request.form.get('summary')
+            print('summary', summary)
         new_ticket = TicketForum(summary=summary,
                                  content=content, tags=tags,
                                  user_id=user_id, date=today,
