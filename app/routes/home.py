@@ -14,7 +14,6 @@ home_blueprint = Blueprint("home_blueprint", __name__)
 section_title = "Home"
 
 
-
 @home_blueprint.route("/")
 @home_blueprint.route("/index")
 @home_blueprint.route("/home")
@@ -66,7 +65,7 @@ def home_edit():
 
             db.session.commit()
 
-        return redirect(url_for("home_blueprint.home"))
+            return redirect(url_for("home_blueprint.home"))
 
         return render_template(
             "home/edit.html",
