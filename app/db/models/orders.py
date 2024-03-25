@@ -28,7 +28,6 @@ class OrderChangeRequest(db.Model):
     customer_id = db.Column(db.String(36), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
     user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-
 class OrdersList(db.Model):
     __tablename__ = 'orders_list'
     id = db.Column(db.String(36), default=ID, primary_key=True)
@@ -41,7 +40,7 @@ class OrderHistory(db.Model):
     order_id = db.Column(db.String(36), db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True))
     user_id = db.Column(db.String(36), db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-
+    # type = db.Column(db.String(36)) # stores a note on what each record is: 'new order', 'updated order', 'cancelled order'
 
 class ShippingAddress(db.Model):
     __tablename__ = 'shipping_address'
@@ -66,7 +65,6 @@ def init_on_load(self):
     self._original_data = {}
 
 def after_update_listener(mapper, connection, target):
-    print('after_update_listener')
     if hasattr(target, '_original_data'):
         new_data = {column.name: getattr(target, column.name) for column in mapper.columns}
         old_data = target._original_data
@@ -77,7 +75,9 @@ def after_update_listener(mapper, connection, target):
                 order_id=target.id,
                 timestamp=datetime.now(timezone.utc),
                 old_data=str(old_data),
-                new_data=str(new_data)
+                new_data=str(new_data),
+                # type='updated order',
+                user_id=target.user_id
             )
             db.session.add(order_history)
             db.session.commit()

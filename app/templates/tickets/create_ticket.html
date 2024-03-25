@@ -1,7 +1,7 @@
 {% extends "layout/fullPageScroll.html" %}
 
 {% block pageContent %}
-    <form class="form" method="POST" action="/tickets/create">
+    <form class="form" method="POST" action="/tickets/create?order_id={{order_id}}">
         <div class="form-section">
             <label for="summary" >Summary</label>
             <input

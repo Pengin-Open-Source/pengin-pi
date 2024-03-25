@@ -44,7 +44,7 @@
                     {% endfor %}
                   </select>
                 </td>
-                <td><input type="number" name="quantity" placeholder="quantity" value="{{order_item.quantity}}"></td>
+                <td><input type="number" name="quantity" placeholder="quantity" value="{{order_item.quantity}}" min="0"></td>
                 <td style="border:none;"><button type="button" class="circle-button" onclick="removeOrderRow(this)" >-</button></td>
               </tr>     
               {% endfor %}
