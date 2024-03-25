@@ -1,11 +1,27 @@
 from collections import namedtuple
-from functools import partial
+from functools import partial, wraps
 
+
+from flask import abort
 from flask_principal import Permission, RoleNeed
 
 admin_permission = Permission(RoleNeed('admin'))
 user_permission = Permission(RoleNeed('user'))
 hiring_permission = Permission(RoleNeed('hiring_manager'))
+
+# Google Gemini code for wrapping a Permission:
+# Using this so we can make decorators out of Permissions that need to check ids
+
+
+def permission_required(permission):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not permission.can():
+                abort(403)  # HTTP Forbidden
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
 
 
 def set_need(func_str):
@@ -29,22 +45,65 @@ delete_applicant_need = set_need('delete_applicant')
 
 my_applications_need = set_need('my_applications')
 
-# TODO put into proper functions do not assign lamda expressions
-delete_comment_permission = lambda post_id:RoutePermission(delete_comment_need,post_id) 
-edit_comment_permission = lambda post_id:RoutePermission(edit_comment_need,post_id)
-delete_post_permission = lambda post_id:RoutePermission(delete_post_need,post_id) 
-edit_post_permission = lambda post_id:RoutePermission(edit_post_need,post_id)
-delete_ticket_permission = lambda ticket_id:RoutePermission(delete_ticket_need,ticket_id) 
-delete_ticket_comment_permission = lambda ticket_id:RoutePermission(delete_ticket_comment_need,ticket_id) 
-edit_ticket_permission = lambda ticket_id:RoutePermission(edit_ticket_need,ticket_id) 
-edit_ticket_comment_permission = lambda ticket_id:RoutePermission(edit_ticket_comment_need,ticket_id) 
 
-edit_status_permission = lambda application_id:RoutePermission(edit_status_need,application_id)
-accept_applicant_permission = lambda application_id:RoutePermission(accept_applicant_need,application_id)
-reject_applicant_permission = lambda application_id:RoutePermission(reject_applicant_need,application_id)
-delete_applicant_permission = lambda application_id:RoutePermission(delete_applicant_need,application_id)
+view_company_need = set_need('view_company')
 
-my_applications_permission = lambda user_id:RoutePermission(my_applications_need, user_id)
+
+def delete_comment_permission(post_id): return RoutePermission(
+    delete_comment_need, post_id)
+
+
+def edit_comment_permission(post_id): return RoutePermission(
+    edit_comment_need, post_id)
+
+
+def delete_post_permission(post_id): return RoutePermission(
+    delete_post_need, post_id)
+
+
+def edit_post_permission(post_id): return RoutePermission(
+    edit_post_need, post_id)
+
+
+def delete_ticket_permission(ticket_id): return RoutePermission(
+    delete_ticket_need, ticket_id)
+
+
+def delete_ticket_comment_permission(ticket_id): return RoutePermission(
+    delete_ticket_comment_need, ticket_id)
+
+
+def edit_ticket_permission(ticket_id): return RoutePermission(
+    edit_ticket_need, ticket_id)
+
+
+def edit_ticket_comment_permission(ticket_id): return RoutePermission(
+    edit_ticket_comment_need, ticket_id)
+
+
+def edit_status_permission(application_id): return RoutePermission(
+    edit_status_need, application_id)
+
+
+def accept_applicant_permission(application_id): return RoutePermission(
+    accept_applicant_need, application_id)
+
+
+def reject_applicant_permission(application_id): return RoutePermission(
+    reject_applicant_need, application_id)
+
+
+def delete_applicant_permission(application_id): return RoutePermission(
+    delete_applicant_need, application_id)
+
+
+def my_applications_permission(user_id): return RoutePermission(
+    my_applications_need, user_id)
+
+
+def view_company_permission(company_id): return RoutePermission(
+    my_applications_need, company_id)
+
 
 class RoutePermission(Permission):
     def __init__(self, func, id):

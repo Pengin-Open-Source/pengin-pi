@@ -19,7 +19,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_status_need, 
                                accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
-                               my_applications_need)
+                               my_applications_need, view_company_need)
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -89,6 +89,9 @@ def create_app():
                 for post in current_user.posts:
                     identity.provides.add(edit_post_need(post.id))
                     identity.provides.add(delete_post_need(post.id))
+            if hasattr(current_user, 'companies' or admin_permission.can()):
+                for company in current_user.roles:
+                    identity.provides.add(view_company_need(company.company_id)))
             if hasattr(current_user, 'comments'):
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
