@@ -46,20 +46,25 @@ def tickets():
 @user_permission.require()
 def create_ticket():
     order_id = request.args.get('order_id')
-    
+    print('order_id at create ticket:', order_id)
+
     if request.method == 'POST':
-        order_id = request.args.get('order_id')
+        # order_id_post = request.args.get('order_id').strip()
+        order_id_post = request.form.get('order_id')
+        print('order_id_post at POST request:', order_id_post)
         content = request.form.get('content')
         tags = request.form.get('tags')
         today = date.today()
         user_id = current_user.id
         resolution_status = 'open'
 
-        if order_id:
-            summary = f"Order ID: {order_id} - {request.form.get('summary')}"
+        if order_id_post:
+            summary = f"Order ID: {order_id_post} - {request.form.get('summary')}"
+            print('summary:', summary)
             
         else:
             summary = request.form.get('summary')
+            print('summary:', summary)
 
         new_ticket = TicketForum(summary=summary,
                                  content=content, tags=tags,
@@ -69,7 +74,7 @@ def create_ticket():
         db.session.commit()
 
         return redirect(url_for("ticket_blueprint.tickets"))
-
+    
     return render_template('tickets/create_ticket.html', order_id=order_id)
 
 

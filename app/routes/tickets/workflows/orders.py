@@ -56,7 +56,6 @@ def display_order_info(order_id):
 @user_permission.require()
 def create_order():
     if request.method == 'POST':
-        order_date = request.form.get('order_date')
         customer_id = request.form.get('customer_id')
         product_id = request.form.getlist('product_id')
         quantity = request.form.getlist('quantity')
@@ -66,7 +65,7 @@ def create_order():
         # create a new Order object
         new_order = Orders(
             id=order_id, 
-            order_date=order_date, 
+            order_date=datetime.now(), 
             customer_id=customer_id,
             user_id=current_user.id
             )
