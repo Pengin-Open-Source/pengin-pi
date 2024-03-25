@@ -4,6 +4,7 @@ from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
+from app.util.security import reviewer_permission
 
 company_info = Blueprint('company_info', __name__, url_prefix="/company")
 admin_permission = Permission(RoleNeed('admin'))
@@ -33,7 +34,7 @@ def display_companies_home():
         return handle_admin_view()
     else:
         return handle_user_view()
-
+    
 
 @company_info.route('/<company_id>', methods=['POST','GET'])
 @login_required

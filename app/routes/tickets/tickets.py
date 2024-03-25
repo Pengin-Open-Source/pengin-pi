@@ -21,7 +21,6 @@ from app.util.security import (admin_permission,
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
 
-admin_permission = Permission(RoleNeed('admin'))
 
 @ticket_blueprint.route("/", methods=["GET", "POST"])
 @login_required
@@ -46,13 +45,9 @@ def tickets():
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_ticket():
-<<<<<<< HEAD
-        
-=======
     order_id = request.args.get('order_id')
     print('order_id at create ticket:', order_id)
 
->>>>>>> 431-order-workflow-abigail
     if request.method == 'POST':
         # order_id_post = request.args.get('order_id').strip()
         order_id_post = request.form.get('order_id')
