@@ -8,7 +8,6 @@ user_permission = Permission(RoleNeed('user'))
 hiring_permission = Permission(RoleNeed('hiring_manager'))
 reviewer_permission = Permission(RoleNeed('reviewer'))
 
-
 # helper function to help set up needs
 def set_need(func_str):
     nt = namedtuple(func_str, ['method', 'value'])
