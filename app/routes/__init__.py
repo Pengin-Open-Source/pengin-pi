@@ -12,6 +12,7 @@ from app.routes.calendar import calendar_blueprint
 from app.routes.products import product_blueprint
 from app.routes.about import about_blueprint
 from app.routes.tickets.workflows.orders import order_info as order_blueprint
+from app.routes.tickets.workflows.company import company_ticket as company_ticket_blueprint
 from app.routes.jobs import job_blueprint
 from app.routes.applications import applications as application_blueprint
 

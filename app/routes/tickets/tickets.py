@@ -19,11 +19,14 @@ from app.util.security import (admin_permission,
                                edit_ticket_comment_permission,
                                edit_ticket_permission, user_permission)
 
+from app.routes.tickets.workflows.company import handle_company_creation_ticket
+
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
 
 
 @ticket_blueprint.route("/", methods=["GET", "POST"])
+@user_permission.require()
 @login_required
 def tickets():
     status = request.args.get('status')
@@ -45,63 +48,45 @@ def tickets():
 
 @ticket_blueprint.route('/create', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def create_ticket():
     order_id = request.args.get('order_id')
     request_type = request.args.get('request_type', 'general')  # Default to 'general'
 
     if request.method == 'POST':
-        tags = request.form.get('tags', '')
-        today = date.today()
-        user_id = current_user.id
-        resolution_status = 'open'
-        
+        form_data = request.form
         if request_type == 'company_creation':
-            # Handle company creation specific fields
-            company_name = request.form.get('company_name')
-            address1 = request.form.get('address1')
-            address2 = request.form.get('address2', '')
-            city = request.form.get('city')
-            state = request.form.get('state')
-            zipcode = request.form.get('zipcode')
-            country = request.form.get('country')
-            phone = request.form.get('phone', '')
-            email = request.form.get('email')
-            summary = request.form.get('summary', f'Company Creation Request: {company_name}')
-            additional_info = request.form.get('additional_info', '')
-
-            content = (f"Summary: {summary}\n"
-                       f"Company Name: {company_name}\n"
-                       f"Address: {address1} {address2}, {city}, {state}, {zipcode}, {country}\n"
-                       f"Phone: {phone}\n"
-                       f"Email: {email}\n"
-                       f"Additional Information: {additional_info}")
+            # Call the separate logic for company creation
+            handle_company_creation_ticket(form_data)
         else:
-            # Handle general ticket submission
-            summary = request.form.get('summary', 'General Ticket')
-            content = request.form.get('content')
+            tags = form_data.get('tags', '')
+            today = date.today()
+            user_id = current_user.id
+            resolution_status = 'open'
+            content = form_data.get('content')
+            summary = form_data.get('summary', 'General Ticket')
             if order_id:
                 summary = f"Order ID: {order_id} - {summary}"
 
-        new_ticket = TicketForum(summary=summary,
-                                 content=content, tags=tags,
-                                 user_id=user_id, date=today,
-                                 resolution_status=resolution_status)
-        db.session.add(new_ticket)
-        db.session.commit()
-
-        return redirect(url_for("ticket_blueprint.tickets"))
+            new_ticket = TicketForum(summary=summary,
+                                     content=content, tags=tags,
+                                     user_id=user_id, date=today,
+                                     resolution_status=resolution_status)
+            db.session.add(new_ticket)
+            db.session.commit()
         
-    # Render specific template for company creation
-    if request_type == 'company_creation':
-        return render_template('tickets/workflows/customer_company_create.html', order_id=order_id, request_type=request_type)
+        return redirect(url_for("ticket_blueprint.tickets"))
     
-    # Render general ticket creation template
+    if request_type == 'company_creation':
+       return render_template('tickets/workflows/customer_company_create.html', order_id=order_id, request_type=request_type)    
+    
     return render_template('tickets/create_ticket.html', order_id=order_id)
+
 
 
 @ticket_blueprint.route("/<ticket_id>", methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
+@user_permission.require()
 def ticket(ticket_id):
     if request.method == 'POST':
         content = request.form.get('content')
