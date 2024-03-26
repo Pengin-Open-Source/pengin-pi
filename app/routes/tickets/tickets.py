@@ -12,6 +12,7 @@ from app.db.util import paginate
 
 # import the permissions related to tickets
 from app.util.security import (admin_permission,
+                               reviewer_permission,
                                delete_ticket_comment_permission,
                                delete_ticket_permission,
                                edit_ticket_comment_permission,
@@ -214,7 +215,7 @@ def edit_ticket_status(ticket_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/review')
 @login_required
-@admin_permission.require()
+@reviewer_permission.require()
 def review_order(ticket_id, order_id):
     request_type = request.args.get('type')
     order = Orders.query.get_or_404(order_id)
@@ -231,7 +232,7 @@ def review_order(ticket_id, order_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
+@reviewer_permission.require()
 def approve_order_changes(ticket_id, order_id):
     action = request.args.get('action')
     order = Orders.query.get_or_404(order_id)
@@ -281,7 +282,7 @@ def approve_order_changes(ticket_id, order_id):
 
 @ticket_blueprint.route('/<ticket_id>/orders/<order_id>/approve-order-cancel', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require()
+@reviewer_permission.require()
 def approve_order_cancel(ticket_id, order_id):
     order = Orders.query.get_or_404(order_id)
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
