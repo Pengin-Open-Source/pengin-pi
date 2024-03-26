@@ -95,7 +95,7 @@ def create_company():
         return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
     def handle_user_workflow():
-        return redirect(url_for("ticket_blueprint.create_ticket", reason="company_request"))
+        return redirect(url_for("ticket_blueprint.create_ticket", request_type="company_creation"))
 
     if approver_permission.can():
         return handle_approver_workflow()

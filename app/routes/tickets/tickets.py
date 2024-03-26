@@ -46,25 +46,40 @@ def tickets():
 @login_required
 def create_ticket():
     order_id = request.args.get('order_id')
-    print('order_id at create ticket:', order_id)
+    request_type = request.args.get('request_type', 'general')  # Default to 'general'
 
     if request.method == 'POST':
-        # order_id_post = request.args.get('order_id').strip()
-        order_id_post = request.form.get('order_id')
-        print('order_id_post at POST request:', order_id_post)
-        content = request.form.get('content')
-        tags = request.form.get('tags')
+        tags = request.form.get('tags', '')
         today = date.today()
         user_id = current_user.id
         resolution_status = 'open'
+        
+        if request_type == 'company_creation':
+            # Handle company creation specific fields
+            company_name = request.form.get('company_name')
+            address1 = request.form.get('address1')
+            address2 = request.form.get('address2', '')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            zipcode = request.form.get('zipcode')
+            country = request.form.get('country')
+            phone = request.form.get('phone', '')
+            email = request.form.get('email')
+            summary = request.form.get('summary', f'Company Creation Request: {company_name}')
+            additional_info = request.form.get('additional_info', '')
 
-        if order_id_post:
-            summary = f"Order ID: {order_id_post} - {request.form.get('summary')}"
-            print('summary:', summary)
-            
+            content = (f"Summary: {summary}\n"
+                       f"Company Name: {company_name}\n"
+                       f"Address: {address1} {address2}, {city}, {state}, {zipcode}, {country}\n"
+                       f"Phone: {phone}\n"
+                       f"Email: {email}\n"
+                       f"Additional Information: {additional_info}")
         else:
-            summary = request.form.get('summary')
-            print('summary:', summary)
+            # Handle general ticket submission
+            summary = request.form.get('summary', 'General Ticket')
+            content = request.form.get('content')
+            if order_id:
+                summary = f"Order ID: {order_id} - {summary}"
 
         new_ticket = TicketForum(summary=summary,
                                  content=content, tags=tags,
@@ -74,7 +89,12 @@ def create_ticket():
         db.session.commit()
 
         return redirect(url_for("ticket_blueprint.tickets"))
+        
+    # Render specific template for company creation
+    if request_type == 'company_creation':
+        return render_template('tickets/workflows/customer_company_create.html', order_id=order_id, request_type=request_type)
     
+    # Render general ticket creation template
     return render_template('tickets/create_ticket.html', order_id=order_id)
 
 

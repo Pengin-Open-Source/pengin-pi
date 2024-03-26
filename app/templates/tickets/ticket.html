@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block beforeTableContent %}
-  {{ content.render_content(ticket.summary, author, ticket.date, ticket.content, ticket.resolution_status, ticket.resolution_date ) }}
+  {{ content.render_content(ticket.summary, author, ticket.date, ticket.content|replace('\n', '<br>'), ticket.resolution_status, ticket.resolution_date)|safe }}
 {% endblock %}
 
 {% block tableContent %}
