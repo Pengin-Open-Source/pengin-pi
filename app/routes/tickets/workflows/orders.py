@@ -76,7 +76,7 @@ def create_order():
             order_id=order_id,
             timestamp=datetime.now(),
             user_id=current_user.id,
-            # type='new order'
+            type='new order'
         )
         db.session.add(order_history)
 
@@ -261,7 +261,7 @@ def reorder(order_id):
             order_id=new_order.id,
             timestamp=datetime.now(),
             user_id=current_user.id,
-            # type='reorder'
+            type='reorder'
         )
         db.session.add(order_history)
 

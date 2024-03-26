@@ -49,7 +49,6 @@ def create_ticket():
     print('order_id at create ticket:', order_id)
 
     if request.method == 'POST':
-        # order_id_post = request.args.get('order_id').strip()
         order_id_post = request.form.get('order_id')
         print('order_id_post at POST request:', order_id_post)
         content = request.form.get('content')
@@ -293,7 +292,7 @@ def approve_order_cancel(ticket_id, order_id):
             order_id=order.id,
             timestamp=datetime.now(),
             user_id=current_user.id,
-            # type='cancelled order'
+            type='cancelled order'
         )
 
         db.session.add(new_order_history)
