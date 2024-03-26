@@ -4,16 +4,15 @@ from flask_principal import Permission, RoleNeed
 from app.db import db, paginate, paginate_join
 from app.db.models import Company, CompanyMembers, User
 from app.util.security.limit import limiter
-from app.util.security import reviewer_permission
+from app.util.security import reviewer_permission, admin_permission
 
-company_info = Blueprint('company_info', __name__, url_prefix="/company")
-admin_permission = Permission(RoleNeed('admin'))
-        
+company_info = Blueprint('company_info', __name__, url_prefix="/company")        
+approver_permission = reviewer_permission.union(admin_permission)
 
 @company_info.route("/", methods=['GET', 'POST'])
 @login_required
 def display_companies_home():
-    def handle_admin_view():
+    def handle_approver_view():
         if request.method == "POST":
             page = int(request.form.get('page_number', 1))
         else:
@@ -28,10 +27,9 @@ def display_companies_home():
             return redirect(url_for('company_info.display_company_info', company_id=member_company.company_id))
         return render_template('company_info/no_company.html')
 
-    is_admin = admin_permission.can()
 
-    if is_admin:
-        return handle_admin_view()
+    if approver_permission.can():
+        return handle_approver_view()
     else:
         return handle_user_view()
     
@@ -70,7 +68,7 @@ def display_company_info(company_id:str) -> render_template:
 @company_info.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_company():
-    def handle_admin_workflow():
+    def handle_approver_workflow():
         if request.method == 'POST':
             name = request.form.get('name')
             address1 = request.form.get('address1')
@@ -99,8 +97,8 @@ def create_company():
     def handle_user_workflow():
         return redirect(url_for("ticket_blueprint.create_ticket", reason="company_request"))
 
-    if admin_permission.can():
-        return handle_admin_workflow()
+    if approver_permission.can():
+        return handle_approver_workflow()
     else:
         return handle_user_workflow()
 
@@ -108,7 +106,7 @@ def create_company():
 @company_info.route('/<company_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_company_info_post(company_id):
-    def handle_admin_workflow():
+    def handle_approver_workflow():
         company = Company.query.filter_by(id=company_id).first()
 
         if request.method == 'POST':
@@ -131,8 +129,8 @@ def edit_company_info_post(company_id):
     def handle_user_workflow():
         return redirect(url_for("ticket_blueprint.create_ticket", reason="edit_company_request"))
     
-    if admin_permission.can():
-        return handle_admin_workflow()
+    if approver_permission.can():
+        return handle_approver_workflow()
     else:
         return handle_user_workflow()
     
@@ -157,7 +155,7 @@ def display_company_members(company_id):
 @company_info.route('/<company_id>/members/edit', methods=['GET', 'POST'])
 @login_required
 def edit_company_members(company_id):
-    def handle_admin_workflow():
+    def handle_approver_workflow():
         company = Company.query.filter_by(id=company_id).first()
         if request.method == "POST":
             page = int(request.form.get('page_number', 1))
@@ -174,8 +172,8 @@ def edit_company_members(company_id):
         return redirect(url_for("ticket_blueprint.create_ticket", reason="edit_members_request"))
 
 
-    if admin_permission.can():
-        return handle_admin_workflow()
+    if approver_permission.can():
+        return handle_approver_workflow()
     else:
         return handle_user_workflow()
 
@@ -183,7 +181,7 @@ def edit_company_members(company_id):
 @limiter.limit("10 per minute")
 @company_info.route('/<company_id>/members/edit/save', methods=['POST'])
 @login_required
-@admin_permission.require()
+@approver_permission.require()
 def edit_company_members_post(company_id):
     if request.method == 'POST':
         company = Company.query.filter_by(id=company_id).first()
