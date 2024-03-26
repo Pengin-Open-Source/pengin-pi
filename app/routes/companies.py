@@ -42,6 +42,7 @@ def display_companies_home():
 @company_info.route('/<company_id>', methods=['POST', 'GET'])
 @login_required
 @user_permission.require()
+@permission_required(view_company_permission, 'company_id')
 def display_company_info(company_id: str) -> render_template:
     """display company info method
     This method handles the company/company_id route and returns a company information view.
@@ -130,7 +131,7 @@ def edit_company_info_post(company_id):
 @company_info.route('/<company_id>/members', methods=['GET', 'POST'])
 @login_required
 @user_permission.require()
-@permission_required(view_company_permission(company_id))
+@permission_required(view_company_permission, 'company_id')
 def display_company_members(company_id):
     company = Company.query.get_or_404(company_id)
 

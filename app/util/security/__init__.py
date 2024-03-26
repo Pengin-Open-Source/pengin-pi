@@ -2,22 +2,28 @@ from collections import namedtuple
 from functools import partial, wraps
 
 
-from flask import abort
+from flask import abort, request
 from flask_principal import Permission, RoleNeed
+
 
 admin_permission = Permission(RoleNeed('admin'))
 user_permission = Permission(RoleNeed('user'))
 hiring_permission = Permission(RoleNeed('hiring_manager'))
 
-# Google Gemini code for wrapping a Permission:
+# Wrapping a Permission function that uses an id (orders, posts, companies, etc)
 # Using this so we can make decorators out of Permissions that need to check ids
+# Apparently Google Gemini found a function from github.com/Gibson-Gichuru/Memy.
+# I reworked it with Gemini to accept any kinds of ids.
 
 
-def permission_required(permission):
+def permission_required(permission, id_kind):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not permission.can():
+            id_used = request.view_args.get(id_kind)
+            if not id_used:
+                abort(404)  # HTTP NOT Found if id_kind is not found in URL
+            if not permission(id_used).can():
                 abort(403)  # HTTP Forbidden
             return f(*args, **kwargs)
         return decorated_function
@@ -102,7 +108,7 @@ def my_applications_permission(user_id): return RoutePermission(
 
 
 def view_company_permission(company_id): return RoutePermission(
-    my_applications_need, company_id)
+    view_company_need, company_id)
 
 
 class RoutePermission(Permission):

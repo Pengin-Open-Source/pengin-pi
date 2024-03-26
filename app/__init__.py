@@ -90,8 +90,8 @@ def create_app():
                     identity.provides.add(edit_post_need(post.id))
                     identity.provides.add(delete_post_need(post.id))
             if hasattr(current_user, 'companies' or admin_permission.can()):
-                for company in current_user.roles:
-                    identity.provides.add(view_company_need(company.company_id)))
+                for company in current_user.companies:
+                    identity.provides.add(view_company_need(company.id))
             if hasattr(current_user, 'comments'):
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
