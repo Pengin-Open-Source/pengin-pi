@@ -5,6 +5,8 @@ from app.db import db
 from app.db.models import Event, Role, User
 from app.db.util import paginate
 from sqlalchemy import asc
+from app.util.security import user_permission, access_event_permission,  permission_required
+
 
 calendar_blueprint = Blueprint('calendar_blueprint', __name__,
                                url_prefix="/calendar")
@@ -12,6 +14,7 @@ calendar_blueprint = Blueprint('calendar_blueprint', __name__,
 
 @calendar_blueprint.route("/", methods=["GET", "POST"])
 @login_required
+@user_permission.require()
 def calendar():
     if request.method == "POST":
         page = int(request.form.get('page_number', 1))
@@ -19,12 +22,13 @@ def calendar():
         page = 1
 
     user = User.query.filter_by(id=current_user.id).first()
-    events = paginate(Event, page=page, pages=10, order=asc, key="start_datetime")
+    events = paginate(Event, page=page, pages=10,
+                      order=asc, key="start_datetime")
 
     user_roles = set()
     for role in user.roles:
         user_roles.add(role.id)
-    
+
     # group events by start_date (for UI/display purpose)
     events_by_start_date = {}
     for event in events:
@@ -45,6 +49,7 @@ def calendar():
 
 @calendar_blueprint.route("/create", methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def calendar_create():
     if request.method == 'POST':
         title = request.form.get('title').strip()
@@ -67,7 +72,7 @@ def calendar_create():
 
         return redirect(url_for("calendar_blueprint.calendar"))
 
-    # query all roles to see who can view the event 
+    # query all roles to see who can view the event
     roles = Role.query.all()
     # query all users to select the organizer of a new upcoming event
     users = User.query.all()
@@ -77,6 +82,8 @@ def calendar_create():
 
 @calendar_blueprint.route("/<event_id>")
 @login_required
+@user_permission.require()
+@permission_required(access_event_permission, 'event_id')
 def calendar_event(event_id):
     event = Event.query.filter_by(id=event_id).first()
     event.add_date()

@@ -19,7 +19,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_status_need, 
                                accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
-                               my_applications_need, view_company_need)
+                               my_applications_need, view_company_need, access_event_need)
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -83,15 +83,26 @@ def create_app():
             if hasattr(current_user, 'id'):
                 identity.provides.add(UserNeed(current_user.id))
             if hasattr(current_user, 'roles'):
+                user_roles = set()
                 for role in current_user.roles:
                     identity.provides.add(RoleNeed(role.name))
+                    user_roles.add(role.id)
+                events = model.Event.query.all()
+                for event in events:
+                    if event.role in user_roles or admin_permission.can():
+                        identity.provides.add(access_event_need(event.id))
             if hasattr(current_user, 'posts'):
                 for post in current_user.posts:
                     identity.provides.add(edit_post_need(post.id))
                     identity.provides.add(delete_post_need(post.id))
-            if hasattr(current_user, 'companies' or admin_permission.can()):
+            if admin_permission.can():
+                companies = model.Company.query.all()
+                for company in companies:
+                    identity.provides.add(view_company_need(company.id))
+            elif hasattr(current_user, 'companies'):
                 for company in current_user.companies:
                     identity.provides.add(view_company_need(company.id))
+            
             if hasattr(current_user, 'comments'):
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))

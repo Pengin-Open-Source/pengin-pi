@@ -53,6 +53,7 @@ my_applications_need = set_need('my_applications')
 
 
 view_company_need = set_need('view_company')
+access_event_need = set_need('access_event')
 
 
 def delete_comment_permission(post_id): return RoutePermission(
@@ -109,6 +110,10 @@ def my_applications_permission(user_id): return RoutePermission(
 
 def view_company_permission(company_id): return RoutePermission(
     view_company_need, company_id)
+
+
+def access_event_permission(event_id): return RoutePermission(
+    access_event_need, event_id)
 
 
 class RoutePermission(Permission):
