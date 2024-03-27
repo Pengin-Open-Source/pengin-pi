@@ -33,11 +33,9 @@ class Messenger:
 
     @login_required
     def on_join(self, data):
-        print(f"on_join data: {data}")
         if "room_id" in data:
             room_id = data["room_id"]
             room = Room.query.get_or_404(room_id)
-
         else:
             print("No room_id or user_id in data")
             return

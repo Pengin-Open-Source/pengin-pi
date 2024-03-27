@@ -99,7 +99,6 @@ function scrollToLastMessage() {
 
 // Fetch messages when opening the chat conversation window
 function fetchMessage(room_id) {
-    console.log("fetching messages for " + room_id)
     fetch(`/chat/get_past_messages/${room_id}/`, {
         method: 'GET',
         headers: {
