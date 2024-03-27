@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% block tags %}{% endblock %}
   <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'main.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename = 'styles/calendar.css')}}">
   {% if title %}
   <title>{{company_name|e}} - {{ title|e }} </title>
   {% else %}
@@ -76,6 +77,10 @@
   </footer>
 
   <script src="{{ url_for ('static', filename = 'javascript/scripts.js')}}"></script>
+  <script src="{{ url_for ('static', filename = 'javascript/dayjs/1.11.10/dayjs.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='javascript/dayjs/plugin/weekday.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/dayjs/plugin/weekOfYear.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/calendar.js') }}"></script>
 
   {% block captchaScript %} {% endblock %}
 </body>
