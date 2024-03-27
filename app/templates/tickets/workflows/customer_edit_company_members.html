@@ -1,0 +1,30 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+<form class="form" method="POST" action="{{ url_for('ticket_blueprint.create_ticket', request_type='edit_company_members') }}">
+    <div class="form-section">
+        <h2>Edit Members for {{ company.name }}</h2>
+        <input type="hidden" name="company_id" value="{{ company.id }}">
+        <input type="hidden" name="all_member_ids" value="{{ all_member_ids|join(',') }}">
+        <div class="user-list">
+            {% for user in users.items %}
+            <div class="user-item">
+                <input type="checkbox" name="member_ids[]" value="{{ user.id }}" {% if user.id in members_ids_list %} checked {% endif %}>
+                <label>{{ user.name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        {% if users.has_prev or users.has_next %}
+        <div class="pagination">
+            {% if users.has_prev %}
+            <a href="{{ url_for('ticket_blueprint.create_ticket', request_type=request_type, company_id=company_id, page=users.prev_num) }}">&laquo; Previous</a>
+            {% endif %}
+            {% if users.has_next %}
+            <a href="{{ url_for('ticket_blueprint.create_ticket', request_type=request_type, company_id=company_id, page=users.next_num) }}">Next &raquo;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        <button type="submit">Submit Changes</button>
+    </div>
+</form>
+{% endblock %}

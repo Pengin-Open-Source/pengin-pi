@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, send_from_directory
 from flask_login import LoginManager, current_user
 from flask_principal import (AnonymousIdentity, Principal, Permission, RoleNeed, UserNeed,
@@ -41,6 +42,9 @@ class DummyHome():
 def create_app():
     app = Flask(__name__, static_folder='static')
     
+    debug_mode = os.environ.get('FLASK_DEBUG', 'True') == 'True'
+    app.debug = debug_mode
+
     # SQLAlchemy Config
     app.config['SECRET_KEY'] = id()
     app.config.update(config)

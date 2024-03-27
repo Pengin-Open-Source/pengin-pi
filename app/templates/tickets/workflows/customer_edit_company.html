@@ -1,0 +1,55 @@
+{% extends "layout/fullPageScroll.html" %}
+
+{% block pageContent %}
+<form class="form" method="POST" action="/tickets/create?request_type=edit_company">
+    <input type="hidden" name="request_type" value="edit_company">
+    <input type="hidden" name="company_id" value="{{ company_id }}">
+
+    <div class="form-section">
+        <label for="company_name">Company Name*</label>
+        <input class="form-input" type="text" name="company_name" id="company_name" placeholder="Company Name" required>
+    </div>
+    <div class="form-section">
+        <label for="address1">Address 1*</label>
+        <input class="form-input" type="text" name="address1" id="address1" placeholder="Address 1" required>
+    </div>
+    <div class="form-section">
+        <label for="address2">Address 2</label>
+        <input class="form-input" type="text" name="address2" id="address2" placeholder="Address 2">
+    </div>
+    <div class="form-section">
+        <label for="city">City*</label>
+        <input class="form-input" type="text" name="city" id="city" placeholder="City" required>
+    </div>
+    <div class="form-section">
+        <label for="state">State*</label>
+        <input class="form-input" type="text" name="state" id="state" placeholder="State" required>
+    </div>
+    <div class="form-section">
+        <label for="zipcode">ZIP Code*</label>
+        <input class="form-input" type="text" name="zipcode" id="zipcode" placeholder="ZIP Code" required>
+    </div>
+    <div class="form-section">
+        <label for="country">Country*</label>
+        <input class="form-input" type="text" name="country" id="country" placeholder="Country" required>
+    </div>
+    <div class="form-section">
+        <label for="phone">Phone</label>
+        <input class="form-input" type="text" name="phone" id="phone" placeholder="Phone">
+    </div>
+    <div class="form-section">
+        <label for="email">Email</label>
+        <input class="form-input" type="email" name="email" id="email" placeholder="Email">
+    </div>
+    <div class="form-section">
+        <label for="summary">Summary</label>
+        <input class="form-input" type="text" name="summary" id="summary" placeholder="Brief summary of the request">
+    </div>
+    <div class="form-section">
+        <label for="additional_info">Additional Information</label>
+        <textarea class="form-input" name="additional_info" id="additional_info" placeholder="Any additional information..."></textarea>
+    </div>
+
+    <button class="primary-button" type="submit">Submit Request</button>
+</form>
+{% endblock %}

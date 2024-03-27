@@ -6,9 +6,10 @@ from flask_login import current_user, login_required
 from flask_principal import Permission, RoleNeed
 
 from app.db import db
-from app.db.models import TicketComment, TicketForum, User, Orders, OrdersList
+from app.db.models import TicketComment, TicketForum, User, Orders, OrdersList, Company, CompanyMembers
 from app.db.models.orders import OrderChangeRequest, OrderHistory
 from app.db.models.product import Product
+
 from app.db.util import paginate
 
 # import the permissions related to tickets
@@ -19,7 +20,9 @@ from app.util.security import (admin_permission,
                                edit_ticket_comment_permission,
                                edit_ticket_permission, user_permission)
 
-from app.routes.tickets.workflows.company import handle_company_creation_ticket
+from app.routes.tickets.workflows.company import (handle_create_company_ticket,
+                                                  handle_edit_company_ticket,
+                                                  handle_edit_company_members_ticket)
 
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
@@ -50,36 +53,63 @@ def tickets():
 @login_required
 @user_permission.require()
 def create_ticket():
+    print(request.form)
     order_id = request.args.get('order_id')
     request_type = request.args.get('request_type', 'general')  # Default to 'general'
+    company_id = request.args.get('company_id', None)
 
     if request.method == 'POST':
         form_data = request.form
+
         if request_type == 'company_creation':
             # Call the separate logic for company creation
-            handle_company_creation_ticket(form_data)
+            handle_create_company_ticket(form_data)
+        elif request_type == 'edit_company':
+            handle_edit_company_ticket(form_data)
+        elif request_type == 'edit_company_members' and company_id:
+            handle_edit_company_members_ticket(form_data, company_id)
+
         else:
-            tags = form_data.get('tags', '')
-            today = date.today()
-            user_id = current_user.id
-            resolution_status = 'open'
-            content = form_data.get('content')
+            # General ticket creation logic
             summary = form_data.get('summary', 'General Ticket')
             if order_id:
                 summary = f"Order ID: {order_id} - {summary}"
-
-            new_ticket = TicketForum(summary=summary,
-                                     content=content, tags=tags,
-                                     user_id=user_id, date=today,
-                                     resolution_status=resolution_status)
+            new_ticket = TicketForum(
+                summary=summary,
+                content=form_data.get('content'),
+                tags=form_data.get('tags', ''),
+                user_id=current_user.id,
+                date=date.today(),
+                resolution_status='open',
+            )
             db.session.add(new_ticket)
             db.session.commit()
+
         
         return redirect(url_for("ticket_blueprint.tickets"))
     
-    if request_type == 'company_creation':
-       return render_template('tickets/workflows/customer_company_create.html', order_id=order_id, request_type=request_type)    
-    
+    # Handling rendering templates based on request type
+    if request_type == 'edit_company_members' and company_id:
+        company = Company.query.get_or_404(company_id)  # Fetch the company based on company_id
+        page = request.args.get('page', 1, type=int)
+        
+        # Directly passing the filtered query to the pagination function
+        users = paginate(User, page=page, pages=10)
+
+        # Gathering member IDs
+        members_ids_list = [member.user_id for member in CompanyMembers.query.filter_by(company_id=company_id).all()]
+        
+        return render_template('tickets/workflows/customer_edit_company_members.html',
+                       company=company, users=users, members_ids_list=members_ids_list,
+                       request_type=request_type, company_id=company_id,
+                       all_member_ids=[member.user_id for member in CompanyMembers.query.filter_by(company_id=company_id).all()])
+
+    elif request_type == 'edit_company':
+        return render_template('tickets/workflows/customer_edit_company.html', request_type=request_type)
+
+    elif request_type == 'company_creation':
+        return render_template('tickets/workflows/customer_company_create.html', order_id=order_id, request_type=request_type)
+
     return render_template('tickets/create_ticket.html', order_id=order_id)
 
 
