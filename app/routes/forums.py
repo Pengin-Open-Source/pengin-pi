@@ -16,6 +16,7 @@ forums_blueprint = Blueprint('forums_blueprint', __name__,
 
 @forums_blueprint.route("/", methods=["GET", "POST"])
 @login_required
+@user_permission.require()
 def forums():
     """/forums/
     Default route for forum.
@@ -24,32 +25,57 @@ def forums():
         _type_: forums/threads.html
     """
     threads = []
-    thread_ids = []
+    thread_ids = []  # no longer used.
     is_admin = admin_permission.can()
     if request.method == "POST":
         page = int(request.form.get('page_number', 1))
     else:
         page = 1
 
-    # TODO: could've got all unique threads whose role is in current_user's roles with a complex query alone
+    # mvetom (Michele) -> Unless I'm reading this wrong, this block of code was having no effect
+    # # TODO: could've got all unique threads whose role is in current_user's roles with a complex query alone
+    # if is_admin:
+    #     threads = Thread.query.all()
+    # else:
+    #     for role in current_user.roles:
+    #         role_thread_ids = (
+    #             ThreadRoles.query
+    #             .with_entities(ThreadRoles.thread_id)
+    #             .filter_by(role_id=role.id).all()
+    #         )
+    #         thread_ids.extend(role_thread_ids)
+
+    #     # Removes duplicates. TODO: return in ordered list
+    #     unique_thread_ids = tuple(set(thread_ids))
+    #     for thread_id_tuple in unique_thread_ids:
+    #         thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
+    #         threads.append(thread)
+
+   # (mvetom continued) This line was all that was having an effect....
+   # threads = paginate(Thread, page=page, key="name", pages=10)
+
+    pages = 10
+
     if is_admin:
-        threads = Thread.query.all()
+        threads = paginate(Thread, page=page, key="name", pages=10)
     else:
         for role in current_user.roles:
+            print(f" The role name is: {role.name}")
             role_thread_ids = (
                 ThreadRoles.query
                 .with_entities(ThreadRoles.thread_id)
                 .filter_by(role_id=role.id).all()
             )
+            # I get something back here:
+            print(f"Role ids are: {role_thread_ids}")
             thread_ids.extend(role_thread_ids)
 
-        # Removes duplicates. TODO: return in ordered list
-        unique_thread_ids = tuple(set(thread_ids))
-        for thread_id_tuple in unique_thread_ids:
-            thread = Thread.query.filter_by(id=thread_id_tuple[0]).first()
-            threads.append(thread)
-
-    threads = paginate(Thread, page=page, key="name", pages=10)
+        print(role)
+        query = Thread.query.filter(Thread.id.in_(thread_ids))
+        for item in query:
+            # I'm not getting anything here....
+            print(f"Role Threads are: {item}")
+        threads = query.paginate(page=page, per_page=pages)
 
     return render_template('forums/threads.html', primary_title='Forum',
                            threads=threads)
@@ -85,6 +111,7 @@ def create_thread():
 
 @forums_blueprint.route("/<thread_id>")
 @login_required
+@user_permission.require()
 def thread(thread_id):
     """/forums/<thread_id>
     Route for forum thread.
@@ -176,6 +203,7 @@ def post(post_id, thread_id):
 @forums_blueprint.route('/delete/thread/<id>', methods=['POST'])
 @login_required
 @admin_permission.require()
+@user_permission.require()
 def delete_thread(id):
     """/forums/delete/thread/<id>
     Route for authenticated thread deletion
