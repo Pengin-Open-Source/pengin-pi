@@ -15,7 +15,7 @@ from app.db import config, db
 from app.util.security import (delete_comment_need, delete_post_need,
                                delete_ticket_comment_need, delete_ticket_need,
                                edit_comment_need, edit_post_need,
-                               edit_ticket_comment_need, edit_ticket_need,
+                               edit_ticket_comment_need, edit_ticket_need,  view_ticket_need,
                                edit_status_need, 
                                accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
@@ -99,18 +99,21 @@ def create_app():
                 companies = model.Company.query.all()
                 for company in companies:
                     identity.provides.add(view_company_need(company.id))
-            elif hasattr(current_user, 'companies'):
+                tickets = model.TicketForum.query.all()
+                for ticket in tickets:
+                    identity.provides.add(view_ticket_need(ticket.id))
+            if hasattr(current_user, 'companies') and not admin_permission.can():
                 for company in current_user.companies:
                     identity.provides.add(view_company_need(company.id))
-            
             if hasattr(current_user, 'comments'):
                 for comment in current_user.comments:
                     identity.provides.add(edit_comment_need(comment.id))
                     identity.provides.add(delete_comment_need(comment.id))
-            if hasattr(current_user, 'tickets'):
+            if hasattr(current_user, 'tickets') and not admin_permission.can():
                 for ticket in current_user.tickets:
                     identity.provides.add(delete_ticket_need(ticket.id))
                     identity.provides.add(edit_ticket_need(ticket.id))
+                    identity.provides.add(view_ticket_need(ticket.id))
             if hasattr(current_user, 'ticket_comments'):
                 for comment in current_user.ticket_comments:
                     identity.provides.add(

@@ -43,6 +43,8 @@ delete_ticket_need = set_need("delete_ticket")
 delete_ticket_comment_need = set_need("delete_ticket_comment")
 edit_ticket_need = set_need("edit_ticket_comment")
 edit_ticket_comment_need = set_need("edit_ticket")
+view_ticket_need = set_need("view_ticket")
+
 
 edit_status_need = set_need('edit_status')
 accept_applicant_need = set_need('accept_applicant')
@@ -82,6 +84,10 @@ def delete_ticket_comment_permission(ticket_id): return RoutePermission(
 
 def edit_ticket_permission(ticket_id): return RoutePermission(
     edit_ticket_need, ticket_id)
+
+
+def view_ticket_permission(ticket_id): return RoutePermission(
+    view_ticket_need, ticket_id)
 
 
 def edit_ticket_comment_permission(ticket_id): return RoutePermission(

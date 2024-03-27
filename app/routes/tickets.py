@@ -9,8 +9,9 @@ from app.db.util import paginate
 from app.util.security import (admin_permission,
                                delete_ticket_comment_permission,
                                delete_ticket_permission,
+                               view_ticket_permission,
                                edit_ticket_comment_permission,
-                               edit_ticket_permission, user_permission)
+                               edit_ticket_permission, user_permission, permission_required)
 
 ticket_blueprint = Blueprint('ticket_blueprint', __name__,
                              url_prefix="/tickets")
@@ -18,6 +19,7 @@ ticket_blueprint = Blueprint('ticket_blueprint', __name__,
 
 @ticket_blueprint.route("/", methods=["GET", "POST"])
 @login_required
+@user_permission.require()
 def tickets():
     status = request.args.get('status')
     if request.method == "POST":
@@ -25,12 +27,26 @@ def tickets():
     else:
         page = 1
 
-    if status == 'all':
-        tickets = paginate(TicketForum, page=page, pages=20)
-        # filter by company once company/customer model fixed
+    # Right now,  we are using two options:  Either and Admin can see all tickets,
+    # OR a user can see their own tickets (optionally filtered by status in either case)
+    # However,  we may soon add another case where a Reviewer can see some or all of the tickets
+    # In that case,  instead of putting an elif statement here, an alternate approach might be
+    # to filter all the tickets based on view_ticket_need,  and than set the need for specific tickets
+    # in app/__init__.py
+    if admin_permission.can():
+        if status == 'all':
+            tickets = paginate(TicketForum, page=page, pages=20)
+            # filter by company once company/customer model fixed
+        else:
+            tickets = paginate(TicketForum, page=page, pages=20,
+                               filters={"resolution_status": status})
     else:
-        tickets = paginate(TicketForum, page=page, pages=20,
-                           filters={"resolution_status": status})
+        if status == 'all':
+            tickets = paginate(TicketForum, page=page, pages=20,
+                               filters={"user_id": current_user.id})
+        else:
+            tickets = paginate(TicketForum, page=page, pages=20,
+                               filters={"user_id": current_user.id, "resolution_status": status})
 
     return render_template('tickets/ticket_list.html',
                            title="Tickets", tickets=tickets,
@@ -63,6 +79,7 @@ def create_ticket():
 @ticket_blueprint.route("/<ticket_id>", methods=['GET', 'POST'])
 @login_required
 @user_permission.require()
+@permission_required(view_ticket_permission, 'ticket_id')
 def ticket(ticket_id):
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
     if request.method == 'POST':
@@ -77,7 +94,6 @@ def ticket(ticket_id):
         return redirect(url_for("ticket_blueprint.ticket",
                                 ticket_id=ticket_id))
 
-    
     author = User.query.filter_by(id=ticket.user_id).first().name
     comments = TicketComment.query.filter_by(ticket_id=ticket_id).all()
     comment_authors = {j: User.query.filter_by(id=j).first().name
@@ -95,6 +111,7 @@ def ticket(ticket_id):
 
 @ticket_blueprint.route('/delete/ticket/<id>', methods=['POST'])
 @login_required
+@user_permission.require()
 def delete_ticket(id):
     permission = delete_ticket_permission(id)
     if permission.can() or admin_permission.can():
@@ -109,6 +126,7 @@ def delete_ticket(id):
 
 @ticket_blueprint.route('/delete/ticket-comment/<id>', methods=['POST'])
 @login_required
+@user_permission.require()
 def delete_ticket_comment(id):
     permission = delete_ticket_comment_permission(id)
     if permission.can() or admin_permission.can():
@@ -124,6 +142,7 @@ def delete_ticket_comment(id):
 
 @ticket_blueprint.route('/edit/ticket/<id>', methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def edit_ticket(id):
     ticket = TicketForum.query.filter_by(id=id).first()
 
@@ -146,6 +165,7 @@ def edit_ticket(id):
 @ticket_blueprint.route('/edit/ticket-comment/<ticket_id>/<comment_id>',
                         methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def edit_ticket_comment(ticket_id, comment_id):
     comment = TicketComment.query.filter_by(id=comment_id).first()
 
@@ -167,6 +187,7 @@ def edit_ticket_comment(ticket_id, comment_id):
 @ticket_blueprint.route('/edit-status/<ticket_id>',
                         methods=['GET', 'POST'])
 @login_required
+@user_permission.require()
 def edit_ticket_status(ticket_id):
     ticket = TicketForum.query.filter_by(id=ticket_id).first()
 
