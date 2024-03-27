@@ -5,90 +5,55 @@
 <div id="message-display" class="full-page-message">
     <div class="full-page-scroll-container">
         <div class="top-bar">
-            <h2 class="section-title"></h2>
+            <h2 class="section-title">Chat</h2>
             <div class="main-nav-links"></div>
             <div class="right-nav-container">
-                <button onclick="closeMessage()" id="close-message-btn">
-                    <strong> X </strong>
+                <button id="close-message-btn" onclick="closeMessageModal()">
+                    <strong>&times;</strong>
                 </button>
             </div>
         </div>
         <div class="full-page-scroll-content">
             <div class="content-section">
                 <div class="content-section-div-1">
-                    <div class="content-section-p" class="full-page-scroll-container" id="user-section">
-                        <div class="message-top-bar">
-                            <p id="user-list-head" class="top-bar-title">USERS</p>
-                            <div class="main-nav-links"></div>
-                            <div class="right-nav-container">
-                                <button onclick="displayUser()" id="user-btn">_</button>
-                            </div>
-                        </div>
+                    <div class="content-section-p" id="user-section">
+                        <button type="button" class="top-bar-title collapsible">Users</button>
                         <div class="message-grid-container" id="user-container">
                             {% for user in chat_users %}
-                                <div class="message-grid-item">
-                                    <input type="submit" value="{{user}}" class="other-chat-user" />
+                                <div type="submit" class="message-grid-item btn-select-user" data-user-id="{{ user.id }}">
+                                {{ user.name }}
                                 </div>
                             {% endfor %}
                         </div>
-                        <div class="message-top-bar">
-                            <p id="users-per-chat-head" class="top-bar-title"> </p>
-                            <div class="main-nav-links"></div>
-                            <div class="right-nav-container">
-                            </div>
-                        </div>
-                        <div class="message-grid-container" id="users-in-chat">
-
-                        </div>
                     </div>
-                    <div class="content-section-p full-page-scroll-container" id="group-section">
-                        <div class="message-top-bar">
-                            <p id="group-list-head" class="top-bar-title">GROUPS</p>
-                            <div class="main-nav-links"></div>
-                            <div class="right-nav-container">
-                                <button onclick="displayGroup()" id="group-btn">
-                                    _
-                                </button>
-                            </div>
-                        </div>
+                    <div class="content-section-p" id="group-section">
+                        <button type="button" class="top-bar-title collapsible">Chats</button>
                         <div class="message-grid-container" id="group-container">
-                            <form id="chat-with-group" method="POST" action="">
-                                {% for group in groups %}
-                                <div class="message-grid-item">
-                                    <input type="submit" value="{{group}}" class="chat-group" />
+                            {% for chat in chats %}
+                                <div type="submit" class="message-grid-item btn-select-chat" data-room-id="{{ chat.id }}">
+                                    {{ chat.name }}
                                 </div>
-                                {% endfor %}
-                            </form>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
-                <div class="content-section-div-2">
-                    <div class="message-display">
-                        <div class="message-display-sender" class="full-page-scroll-container">
-                            <!-- Content Now Dynamically Filled in by JS SCRIPT-->
-                            {% if messages %}
-                            {% for text in messages['sender'] %}
-                            <div class="text-section">
-                                <div class="text-section-s">{{text}}</div>
-                                <div class="text-section-s"></div>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                <div id="chat-conversation-section" class="content-section-div-2 hide">
+                    <div class="chat-header">
+                        <div class="chat-list-members">
                         </div>
-                        <div class="message-display-receiver">
-                            {% if messages %}
-                            {% for text in messages['receiver'] %}
-                            <div class="text-section">
-                                <div class="text-section-r"></div>
-                                <div class="text-section-r">{{text}}</div>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
+                        <button class="chat-close-button" type="button" onclick="closeChatConversation()">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="message-container">
+                        <div class="message-load-button-container"></div>
+                        <div class="message-holder">
+                            <!-- Content Now Dynamically Filled in by JS SCRIPT-->
                         </div>
                     </div>
-                    <form id="chat-form" class="message-form" method="POST" action="">
+                    <form id="chat-form" class="message-form" onsubmit="sendMessage();return false">
                         <div class="message-form-section">
-                            <textarea rows="6" class="message_text" name="chat_message" id="chat_message"
+                            <textarea rows="3" class="message_text" name="chat_message" id="chat_message"
                                 placeholder="Text your message..."> </textarea>
                             <input type="submit" value="Send" />
                         </div>
@@ -107,6 +72,6 @@
 
 {% macro chatbutton() %}
 <div>
-    <button onclick="displayBtn()" id="message-btn">Chat</button>
+    <button id="open-message-btn" onclick="openMessageModal()">Chat</button>
 </div>
 {% endmacro %}

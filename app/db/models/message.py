@@ -1,6 +1,10 @@
 from app.db import db
 from app.util.uuid import id as ID
 
+import datetime
+
+import json
+
 
 class Message(db.Model):
     __tablename__ = "message"
@@ -16,7 +20,9 @@ class Room(db.Model):
     __tablename__ = "room"
     id = db.Column(db.String(36), default=ID, primary_key=True)
     name = db.Column(db.String(100))
-    # members must be linked in __init__.py
+    date_created = db.Column(
+        db.DateTime, default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
 
 
 class UserRoom(db.Model):

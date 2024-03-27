@@ -1,7 +1,7 @@
 #398-application-route
 from flask import Blueprint, render_template, redirect, url_for, request, abort, flash
 from flask_login import current_user, login_required
-from app.util.security import (admin_permission, edit_status_permission, accept_applicant_permission, reject_applicant_permission, delete_applicant_permission, user_permission, my_applications_permission)
+from app.util.security import (admin_permission, edit_status_permission, accept_applicant_permission, reject_applicant_permission, delete_applicant_permission, my_application_permission, user_permission)
 from app.db import db
 from app.db.models import Application, Job, User
 from app.db.models.application import StatusCode
@@ -16,6 +16,7 @@ applications = Blueprint('applications', __name__, url_prefix='/applications')
 
 @applications.route('/<job_id>/application', methods=['GET'])
 @login_required
+@user_permission.require()
 def application(job_id):
     is_admin = admin_permission.can()
     application = Application.query.filter_by(job_id=job_id).first()
@@ -24,8 +25,8 @@ def application(job_id):
 
 @applications.route('/<job_id>/application/create', methods=['POST'])
 @login_required
+@user_permission.require()
 def create_application(job_id):
-
 
     ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
 
@@ -41,10 +42,10 @@ def create_application(job_id):
         if not resume:
             flash('Resume is required')
             return redirect(url_for('applications.application', job_id=job_id))
-        
+
         if not cover_letter:
             cover_letter_path = None
-                
+
         if allowed_extension(resume.filename) == True:
             resume.filename = secure_filename(resume.filename)
             resume_path = conn.create(resume)
@@ -52,7 +53,7 @@ def create_application(job_id):
         elif allowed_extension(resume.filename) == False:
             flash('Invalid file type. Allowed formats: .pdf, .doc, .docx')
             return redirect(url_for('applications.application', job_id=job_id))
-        
+
         if allowed_extension(cover_letter.filename) == True:
             cover_letter.filename = secure_filename(cover_letter.filename)
             cover_letter_path = conn.create(cover_letter)
@@ -98,6 +99,7 @@ def create_application(job_id):
 
 @applications.route('/<job_id>/application/<application_id>/success', methods=['GET'])
 @login_required
+@user_permission.require()
 def application_success(job_id, application_id):
     return render_template(
         'applications/application_success.html', 
@@ -108,6 +110,7 @@ def application_success(job_id, application_id):
 
 @applications.route('/<job_id>/application/<application_id>', methods=['GET'])
 @login_required
+@user_permission.require()
 def application_view(job_id, application_id):
     application = Application.query.filter_by(id=application_id).first()
     job = Job.query.filter_by(id=job_id).first()
@@ -123,16 +126,14 @@ def application_view(job_id, application_id):
 
 @applications.route('/my-applications', methods=['GET'])
 @login_required
+@user_permission.require()
 def my_applications():
-    permission = my_applications_permission(current_user.id)
-    if permission.can():
-        applications_per_page = 9
-        page = 1
-        applications = paginate(Application, page=page, key="date_applied", filters={"user_id": current_user.id}, pages=applications_per_page)
+    applications_per_page = 9
+    page = 1
+    applications = paginate(Application, page=page, key="date_applied", filters={"user_id": current_user.id}, pages=applications_per_page)
 
-        return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
-    
-    abort(403)
+    return render_template('applications/my_applications.html', applications=applications, page=page, primary_title='My Applications')
+
 
 @applications.route('/<job_id>/job-applications', methods=['GET'])
 @login_required
@@ -158,8 +159,8 @@ def job_applications(job_id):
         # retrieve applications with all status codes except 'deleted'
         applications = paginate(
             Application,
-            page=page, 
-            pages=20, 
+            page=page,
+            pages=20,
             filters={"status_code.code": not_('deleted')}
             )
 
@@ -171,7 +172,7 @@ def job_applications(job_id):
 def edit_status(job_id, application_id):
     job = Job.query.filter_by(id=job_id).first()
     application = Application.query.filter_by(id=application_id).first()
-    
+
     if request.method == 'POST':
         form_status_code = request.form.get('status_code')
         new_status_code = StatusCode.query.filter_by(code=form_status_code).first()
@@ -226,7 +227,7 @@ def reject_applicant(job_id, application_id):
 
     try:
         send_reject_mail(application.user.email, application.id, application.user.name, application.job.job_title, reject_subject, reject_body)
-        
+
         # check whether 'rejected' code exists in db; if not, create it
         new_status_code = StatusCode.query.filter_by(code='rejected').first()
         if not new_status_code:
