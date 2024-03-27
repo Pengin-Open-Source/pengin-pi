@@ -10,6 +10,15 @@ calendar_blueprint = Blueprint('calendar_blueprint', __name__,
                                url_prefix="/calendar")
 
 
+@calendar_blueprint.route("/month", methods=["GET", "POST"])
+def calendar_month():
+    return render_template(
+        "calendar/calendar_month.html",
+        current_user=current_user,
+        primary_title="Calendar",
+    )
+
+
 @calendar_blueprint.route("/", methods=["GET", "POST"])
 @login_required
 def calendar():
