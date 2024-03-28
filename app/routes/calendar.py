@@ -5,7 +5,7 @@ from app.db import db
 from app.db.models import Event, Role, User
 from app.db.util import paginate
 from sqlalchemy import asc
-from app.util.security import user_permission, access_event_permission,  permission_required
+from app.util.security import admin_permission, user_permission, access_event_permission,  permission_required
 
 
 calendar_blueprint = Blueprint('calendar_blueprint', __name__,
@@ -73,8 +73,17 @@ def calendar_create():
         return redirect(url_for("calendar_blueprint.calendar"))
 
     # query all roles to see who can view the event
-    roles = Role.query.all()
+    # an admin user can pick any role for an event
+    # Any other user can only pick one of their own roles for an event
+    # Theorectically, this could be expanded to allow for certain higher-level,  non-admin users to
+    # pick certain roles that they don't posses,  but that they oversee.
+    if admin_permission.can():
+        roles = Role.query.all()
+    else:
+        roles = current_user.roles()
+
     # query all users to select the organizer of a new upcoming event
+    # maybe some users should be prevented from seeing certain other users in some cases?
     users = User.query.all()
     return render_template('calendar/create_event.html',
                            current_user=current_user, roles=roles, users=users)

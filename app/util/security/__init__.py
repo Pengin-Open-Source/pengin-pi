@@ -54,8 +54,9 @@ delete_applicant_need = set_need('delete_applicant')
 my_applications_need = set_need('my_applications')
 
 
-view_company_need = set_need('view_company')
-access_event_need = set_need('access_event')
+view_company_need = set_need("view_company")
+access_event_need = set_need("access_event")
+view_thread_need = set_need("view_thread")
 
 
 def delete_comment_permission(post_id): return RoutePermission(
@@ -120,6 +121,10 @@ def view_company_permission(company_id): return RoutePermission(
 
 def access_event_permission(event_id): return RoutePermission(
     access_event_need, event_id)
+
+
+def view_thread_permission(thread_id): return RoutePermission(
+    view_thread_need, thread_id)
 
 
 class RoutePermission(Permission):

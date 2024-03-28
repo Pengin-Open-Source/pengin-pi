@@ -19,7 +19,7 @@ from app.util.security import (delete_comment_need, delete_post_need,
                                edit_status_need, 
                                accept_applicant_need,
                                reject_applicant_need, delete_applicant_need,
-                               my_applications_need, view_company_need, access_event_need)
+                               my_applications_need, view_company_need, access_event_need, view_thread_need)
 from app.util.time.time import copyright, time_zone
 from app.util.uuid import id
 from app.util.security.limit import limiter
@@ -91,6 +91,10 @@ def create_app():
                 for event in events:
                     if event.role in user_roles or admin_permission.can():
                         identity.provides.add(access_event_need(event.id))
+                threadRoles = model.ThreadRoles.query.all()
+                for threadRole in threadRoles:
+                    if threadRole.role_id in user_roles or admin_permission.can():
+                        identity.provides.add(view_thread_need(threadRole.thread_id))
             if hasattr(current_user, 'posts'):
                 for post in current_user.posts:
                     identity.provides.add(edit_post_need(post.id))

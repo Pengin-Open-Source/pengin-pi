@@ -8,7 +8,7 @@ from app.db.models import ForumComment, ForumPost, Thread, ThreadRoles, User, Ro
 from app.db.util import paginate
 from app.util.security import (admin_permission, delete_comment_permission,
                                delete_post_permission, edit_comment_permission,
-                               edit_post_permission, user_permission)
+                               edit_post_permission, user_permission, permission_required, view_thread_permission)
 
 forums_blueprint = Blueprint('forums_blueprint', __name__,
                              url_prefix="/forums")
@@ -53,6 +53,7 @@ def forums():
 @forums_blueprint.route('/create', methods=['GET', 'POST'])
 @admin_permission.require()
 @login_required
+@user_permission.require()
 def create_thread():
     """/forums/create
     Route for creating a thread.
@@ -81,6 +82,7 @@ def create_thread():
 @forums_blueprint.route("/<thread_id>")
 @login_required
 @user_permission.require()
+@permission_required(view_thread_permission, 'thread_id')
 def thread(thread_id):
     """/forums/<thread_id>
     Route for forum thread.
@@ -101,6 +103,7 @@ def thread(thread_id):
 @forums_blueprint.route('/<thread_id>/create', methods=['GET', 'POST'])
 @login_required
 @user_permission.require()
+@permission_required(view_thread_permission, 'thread_id')
 def create_post(thread_id):
     """/forums/<thread_id>/create
     Route for create forum post.
@@ -131,6 +134,7 @@ def create_post(thread_id):
 @forums_blueprint.route("/<thread_id>/<post_id>", methods=['GET', 'POST'])
 @login_required
 @user_permission.require()
+@permission_required(view_thread_permission, 'thread_id')
 def post(post_id, thread_id):
     """/forums/<thread_id>/<post_id>
     Route for authenticated post creation OR forum post.
@@ -240,6 +244,7 @@ def delete_comment(id):
 @forums_blueprint.route('/<thread_id>/<post_id>/edit', methods=['POST', 'GET'])
 @login_required
 @user_permission.require()
+@permission_required(view_thread_permission, 'thread_id')
 def edit_post(thread_id, post_id):
     """/forums//<thread_id>/<post_id>/edit
     Route for authenticated forum post editing
@@ -276,6 +281,7 @@ def edit_post(thread_id, post_id):
                         methods=['POST', 'GET'])
 @login_required
 @user_permission.require()
+@permission_required(view_thread_permission, 'thread_id')
 def edit_comment(thread_id, post_id, comment_id):
     """/forums/<comment_id>/edit
     Route for authenticated forum comment editing
