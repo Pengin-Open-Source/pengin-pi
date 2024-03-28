@@ -95,7 +95,7 @@ def create_company():
         return render_template('company_info/company_info_create.html', primary_title='Create New Company')
 
     def handle_user_workflow():
-        return redirect(url_for("ticket_blueprint.create_ticket", request_type="company_creation"))
+        return redirect(url_for('company_ticket.handle_create_company_ticket'))
 
     if approver_permission.can():
         return handle_approver_workflow()
@@ -127,7 +127,7 @@ def edit_company_info_post(company_id):
         return render_template('company_info/company_edit.html', company=company, primary_title='Edit Company')
 
     def handle_user_workflow():
-        return redirect(url_for("ticket_blueprint.create_ticket", request_type="edit_company"))
+       return redirect(url_for("company_ticket.handle_edit_company_ticket"))
     
     if approver_permission.can():
         return handle_approver_workflow()
@@ -169,7 +169,7 @@ def edit_company_members(company_id):
         return render_template('company_info/edit_members.html', users=users, company=company, page=page, members_ids_list=members_ids_list)
     
     def handle_user_workflow():
-        return redirect(url_for("ticket_blueprint.create_ticket", request_type="edit_company_members", company_id=company_id))
+        return redirect(url_for("company_ticket.handle_edit_company_members_ticket", company_id=company_id))
 
     if approver_permission.can():
         return handle_approver_workflow()

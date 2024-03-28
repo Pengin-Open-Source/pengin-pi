@@ -2,8 +2,8 @@
 
 {% block pageContent %}
 <div class="container">
-    <h2>Edit Company Ticket</h2>
-    <form method="POST" action="{{ url_for('company_ticket.handle_edit_company_ticket') }}">
+    <h2>Create Company Ticket</h2>
+    <form method="POST" action="{{ url_for('company_ticket.handle_create_company_ticket') }}">
         <div class="form-section">
             <label for="company_name">Company Name</label>
             <input type="text" class="form-control" id="company_name" name="company_name" required>
@@ -42,7 +42,7 @@
         </div>
         <div class="form-section">
             <label for="summary">Summary</label>
-            <textarea class="form-control" id="summary" name="summary" rows="3" required>Edit Company Request</textarea>
+            <textarea class="form-control" id="summary" name="summary" rows="3" required>Create Company Request</textarea>
         </div>
         <div class="form-section">
             <label for="additional_info">Additional Information</label>
